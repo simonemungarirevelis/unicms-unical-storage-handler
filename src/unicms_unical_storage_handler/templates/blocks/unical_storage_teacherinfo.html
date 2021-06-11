@@ -11,18 +11,22 @@
             <tbody>
                 <tr v-for="(value, name) in item">
                     <td>[[ labels[name] ]]</td>
-                    <td v-if="typeof value !== 'object'">
-                        <span style="white-space: pre-line;">
-                            [[ value ]]
-                        </span>
-                    </td>
-                    <td v-else-if="value.length > 0"  v-for="v in value">
+                    <td v-if="typeof value == 'object'"  v-for="v in value">
                         <span style="white-space: pre-line;">
                             [[ v ]]
                         </span>
                     </td>
+                    <td v-else-if="typeof value == 'array'">
+                        <ul>
+                            <li v-for="subvalue in value">
+                                [[ subvalue ]]
+                            </li>
+                        </ul>
+                    </td>
                     <td v-else>
-
+                        <span style="white-space: pre-line;">
+                            [[ value ]]
+                        </span>
                     </td>
                 </tr>
             </tbody>

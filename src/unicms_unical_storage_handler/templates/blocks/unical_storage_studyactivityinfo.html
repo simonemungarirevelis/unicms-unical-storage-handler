@@ -10,12 +10,7 @@
             <tbody>
                 <tr v-for="(value, name) in item">
                     <td class="col-3">[[ labels[name] ]]</td>
-                    <td v-if="typeof value !== 'object'" class="col-9">
-                        <span style="white-space: pre-line;">
-                            [[ value ]]
-                        </span>
-                    </td>
-                    <td v-else class="col-9">
+                    <td v-if="typeof value == 'object'" class="col-9">
                         <ul v-for="(valueProfile, nameProfile) in value">
                             <ul v-for="(valueProfileInstance, nameProfileInstance) in valueProfile" v-model="labels">
                                 <li>
@@ -27,6 +22,20 @@
                             </ul>
                         </ul>
                     </td>
+                    <td v-else-if="typeof value == 'array'" class="col-9">
+                        <ul>
+                            <li v-for="subvalue in value">
+                                [[ subvalue ]]
+                            </li>
+                        </ul>
+                    </td>
+                    <td v-else class="col-9">
+                        <span style="white-space: pre-line;">
+                            [[ value ]]
+                        </span>
+                    </td>
+
+
                 </tr>
             </tbody>
         </table>
