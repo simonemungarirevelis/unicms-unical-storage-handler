@@ -17,6 +17,7 @@ class BaseStorageHandler(BaseContentHandler):
 
     def __init__(self, **kwargs):
         super(BaseStorageHandler, self).__init__(**kwargs)
+        self.lang = self.request.LANGUAGE_CODE
         self.match_dict = self.match.groupdict()
         self.webpath = WebPath.objects.filter(site=self.website,
                                               parent=None,
@@ -51,7 +52,7 @@ class CdSListViewHandler(BaseStorageHandler):
     template = "storage_cdslist.html"
 
     def as_view(self):
-        self.data['url'] = f'{settings.CMS_STORAGE_CDS_API}/'
+        self.data['url'] = f'{settings.CMS_STORAGE_CDS_API}?lang={self.lang}'
         return super().as_view()
 
     @property
@@ -70,7 +71,7 @@ class CdSInfoViewHandler(BaseStorageHandler):
         self.code = self.match_dict.get('code', '')
 
     def as_view(self):
-        self.data['url'] = f'{settings.CMS_STORAGE_CDS_API}/{self.code}/'
+        self.data['url'] = f'{settings.CMS_STORAGE_CDS_API}{self.code}/?lang={self.lang}'
         return super().as_view()
 
     @property
