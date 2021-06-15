@@ -46,27 +46,29 @@
                          :aria-labelledby="'heading-{{ id }}-' + index + index2 + '-lft'">
                         <div class="collapse-body">
                             <div class="it-list-wrapper">
-                                <table class="table table-responsive">
-                                    <thead>
-                                        <tr>
-                                            <th scope="col">[[ items.labels.StudyActivityName ]]</th>
-                                            <th scope="col">[[ items.labels.StudyActivitySemester ]]</th>
-                                            <th scope="col">[[ items.labels.StudyActivityECTS ]]</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr v-for="activity in value">
-                                            <td>
-                                                <a href="#">
-                                                    [[ activity.StudyActivityName ]]
-                                                    <span v-if="items.labels.StudyActivityCompulsory == 1">*</span>
-                                                </a>
-                                            </td>
-                                            <td>[[ activity.StudyActivitySemester ]]</td>
-                                            <td>[[ activity.StudyActivityECTS ]]</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
+                                <div class="table-responsive">
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col">[[ items.labels.StudyActivityName ]]</th>
+                                                <th scope="col">[[ items.labels.StudyActivitySemester ]]</th>
+                                                <th scope="col">[[ items.labels.StudyActivityECTS ]]</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr v-for="activity in value">
+                                                <td>
+                                                    <a href="#">
+                                                        [[ activity.StudyActivityName ]]
+                                                        <span v-if="items.labels.StudyActivityCompulsory == 1">*</span>
+                                                    </a>
+                                                </td>
+                                                <td>[[ activity.StudyActivitySemester ]]</td>
+                                                <td>[[ activity.StudyActivityECTS ]]</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                         </div>
                     </div>
