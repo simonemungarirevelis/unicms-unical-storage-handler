@@ -6,14 +6,48 @@
 
 <div id="{{ id }}">
     <template v-model="item">
-        <h3>{% trans "Laurea in" %} [[ item.CdSName ]]</h3>
+        <h3>{% trans "Laurea" %} [[ item.CdSName ]]</h3>
         <p>
             {% trans "Classe di laurea" %} [[ item.CourseClassId ]]
             <br>
             [[ item.CourseClassName ]]
         </p>
+        <div class="card-wrapper pb-0">
+            <div class="card no-after" style="border:1px solid #b71918">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-12 col-md-auto">
+                            <small>
+                                [[ labels['CourseType'] ]] >
+                                <b>[[ item.CourseType ]]</b>
+                            </small>
+                        </div>
+                        <div class="col-12 col-md-auto">
+                            <small>
+                                [[ labels['AcademicYear'] ]] >
+                                <b>[[ item.AcademicYear ]]</b>
+                            </small>
+                        </div>
+                        <div class="col-12 col-md-auto">
+                            <small>
+                                [[ labels['CdSDuration'] ]] >
+                                <b>[[ item.CdSDuration ]] {% trans "anni" %}</b>
+                            </small>
+                        </div>
+                        <div class="col-12 col-md-auto">
+                            <small>
+                                [[ labels['CdSLanguage'] ]] >
+                                <b>[[ item.CdSLanguage ]]</b>
+                            </small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-        {% include "blocks/italia_link_iframe.html" with ratio="21by9" url="https://www.youtube.com/embed/KkxtyJKKyfI" %}
+        <div class="my-4">
+            {% include "blocks/italia_link_iframe.html" with ratio="21by9" url="https://www.youtube.com/embed/KkxtyJKKyfI" %}
+        </div>
 
         <p>
             <span style="white-space: pre-line;">
@@ -21,8 +55,11 @@
             </span>
         </p>
 
-        <div id="collapseDiv1-lft" class="collapse-div collapse-left-icon" role="tablist">
-            <div v-for="(value, name) in item">
+        <div id="collapseDiv1-lft"
+             class="collapse-div collapse-left-icon"
+             style="border-bottom: 0"
+             role="tablist">
+            <div v-for="name in fields_to_show">
                 <div class="collapse-header" :id="'heading-' + name +'-lft'">
                     <button data-toggle="collapse" :data-target="'#collapse-' + name +'-lft'" aria-expanded="false" :aria-controls="'collapse-' + name +'-lft'">
                         [[ labels[name] ]]
@@ -30,37 +67,32 @@
                 </div>
                 <div :id="'collapse-' + name +'-lft'" class="collapse" role="tabpanel" :aria-labelledby="'heading-' + name +'-lft'">
                     <div class="collapse-body">
-                        <span v-if="typeof value == 'object'" class="col-9">
-                            <ul v-for="(valueProfile, nameProfile) in value">
+                        <span v-if="typeof item[name] == 'object'" class="col-9">
+                            <ul v-for="(valueProfile, nameProfile) in item[name]">
                                 <li>
                                     [[ nameProfile ]]
                                     <ul v-for="(valueProfileInstance, nameProfileInstance) in valueProfile">
                                         <li>
-                                            <span v-if="nameProfile in labels && nameProfileInstance in labels[nameProfile]">
-                                                [[ labels[nameProfile][nameProfileInstance] ]]
+                                            <span v-if="nameProfile in labels && nameProfileInstance in labels[nameProfile]"
+                                                  v-html="labels[nameProfile][nameProfileInstance]">
                                             </span>
                                             <span v-else>
                                                 [[ nameProfileInstance ]]
                                             </span> :
-                                            <span style="white-space: pre-line;">
-                                                [[ valueProfileInstance ]]
-                                            </span>
+                                            <span v-html="valueProfileInstance"></span>
                                         </li>
                                     </ul>
                                 </li>
                             </ul>
                         </span>
-                        <span v-else-if="typeof value == 'array'" class="col-9">
+                        <span v-else-if="typeof item[name] == 'array'" class="col-9">
                             <ul>
-                                <li v-for="subvalue in value">
-                                    [[ subvalue ]]
+                                <li v-for="subvalue in item[name]" v-html="subvalue">
                                 </li>
                             </ul>
                         </span>
                         <span v-else>
-                            <span style="white-space: pre-line;">
-                                [[ value ]]
-                            </span>
+                            <span v-html="item[name]"></span>
                         </span>
                     </div>
                 </div>
@@ -68,14 +100,35 @@
         </div>
     </template>
 </div>
+
+<div id="collapseDiv2-lft" class="collapse-div collapse-left-icon" role="tablist">
+    <div class="collapse-header" id="heading-studyplans-lft">
+        <button data-toggle="collapse" data-target="#collapse-studyplans-lft" aria-expanded="false" aria-controls="collapse-studyplans-lft">
+            {% trans "Manifesto degli studi" %}
+        </button>
+    </div>
+    <div id="collapse-studyplans-lft" class="collapse" role="tabpanel" aria-labelledby="heading-studyplans-lft">
+        <div class="px-md-5 mt-1">
+            {% clean_url url as cleaned_url %}
+            {% with cleaned_url|add:"studyplans/" as studyplans_url %}
+            {% include "blocks/unical_storage_cdsstudyplans.html" with url=studyplans_url %}
+            {% endwith %}
+        </div>
+    </div>
+</div>
+
 <script>
 var {{ id }} = new Vue({
-    el: '[id="{{ id }}"]',
+    el: '#{{ id }}',
     data() {
         return {
             item: {},
             labels: {},
-            url: '{{ url }}'
+            url: '{{ url }}',
+            fields_to_show:
+                ['CdSGoals', 'CdSAccess', 'CdSAdmission',
+                 'CdSProfiles', 'CdSFinalTest', 'CdSFinalTestMode',
+                 'CdSSatisfactionSurvey']
         }
     },
     mounted() {

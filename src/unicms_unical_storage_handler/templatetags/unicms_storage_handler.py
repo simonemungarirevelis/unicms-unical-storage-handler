@@ -14,3 +14,8 @@ def random_id():
     # printing lowercase
     letters = string.ascii_lowercase
     return ''.join(random.choice(letters) for i in range(10))
+
+
+@register.simple_tag
+def clean_url(url):
+    return url[:url.find('?')]
