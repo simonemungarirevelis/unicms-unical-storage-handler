@@ -110,7 +110,9 @@
     <div id="collapse-studyplans-lft" class="collapse" role="tabpanel" aria-labelledby="heading-studyplans-lft">
         <div class="px-md-5 mt-1">
             {% clean_url url as cleaned_url %}
-            {% with cleaned_url|add:"studyplans/" as studyplans_url %}
+            {% get_current_language as LANGUAGE_CODE %}
+
+            {% with cleaned_url|add:"studyplans/?lang=LANGUAGE_CODE" as studyplans_url %}
             {% include "blocks/unical_storage_cdsstudyplans.html" with url=studyplans_url %}
             {% endwith %}
         </div>
