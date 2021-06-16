@@ -1,44 +1,56 @@
 {% load static %}
 {% load unicms_storage_handler %}
+{% load unicms_templates %}
 
 {% random_id as id %}
 
 <div id="{{ id }}">
     <template v-model="item">
-        <h5 class="card-title">[[ item.StudyActivityName ]]</h5>
-        <table class="table">
-            <tbody>
-                <tr v-for="(value, name) in item">
-                    <td class="col-3">[[ labels[name] ]]</td>
-                    <td v-if="typeof value == 'object'" class="col-9">
-                        <ul v-for="(valueProfile, nameProfile) in value">
-                            <ul v-for="(valueProfileInstance, nameProfileInstance) in valueProfile" v-model="labels">
-                                <li>
-                                    [[ nameProfileInstance ]] :
-                                    <span style="white-space: pre-line;">
-                                        [[ valueProfileInstance ]]
-                                    </span>
+        <h3 class="lighter">[[ item.StudyActivityName ]]</h3>
+        <h5 class="lighter">[[ item.StudyActivityCdSName ]]</h5>
+        <hr class="my-4 bordeaux-unical-bg">
+        <div class="table-responsive">
+            <table class="table table-sm">
+                <tbody>
+                    <tr v-for="(value, name) in item">
+                        <td class="col-3">[[ labels[name] ]]</td>
+                        <td v-if="typeof value == 'object'" class="col-9">
+                            <ul v-for="(valueProfile, nameProfile) in value">
+                                <ul v-for="(valueProfileInstance, nameProfileInstance) in valueProfile" v-model="labels">
+                                    <li>
+                                        [[ nameProfileInstance ]] :
+                                        <span style="white-space: pre-line;">
+                                            [[ valueProfileInstance ]]
+                                        </span>
+                                    </li>
+                                </ul>
+                            </ul>
+                        </td>
+                        <td v-else-if="typeof value == 'array'" class="col-9">
+                            <ul>
+                                <li v-for="subvalue in value">
+                                    [[ subvalue ]]
                                 </li>
                             </ul>
-                        </ul>
-                    </td>
-                    <td v-else-if="typeof value == 'array'" class="col-9">
-                        <ul>
-                            <li v-for="subvalue in value">
-                                [[ subvalue ]]
-                            </li>
-                        </ul>
-                    </td>
-                    <td v-else class="col-9">
-                        <span style="white-space: pre-line;">
-                            [[ value ]]
-                        </span>
-                    </td>
+                        </td>
+                        <td v-else class="col-9">
+                            {% settings_value "CMS_PATH_PREFIX" as cms_path_prefix %}
+                            {% settings_value "CMS_STORAGE_BASE_PATH" as base_prefix %}
+                            {% settings_value "CMS_STORAGE_THEACHER_VIEW_PREFIX_PATH" as teacher_prefix %}
+                            <a v-if="name === 'StudyActivityTeacherName'"
+                               :href="'/{{ cms_path_prefix }}{{ base_prefix }}/{{ teacher_prefix }}/' + [[ item.StudyActivityTeacherID ]] +'/'">
+                                [[ item[name] ]]
+                            </a>
+                            <span v-else style="white-space: pre-line;">
+                                [[ value ]]
+                            </span>
+                        </td>
 
 
-                </tr>
-            </tbody>
-        </table>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </template>
 </div>
 <script>

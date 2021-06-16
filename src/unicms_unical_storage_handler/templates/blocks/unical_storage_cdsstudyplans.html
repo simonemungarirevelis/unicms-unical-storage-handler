@@ -1,8 +1,11 @@
 {% load i18n %}
 {% load static %}
 {% load unicms_storage_handler %}
+{% load unicms_templates %}
 
+{% get_current_language as LANGUAGE_CODE %}
 {% random_id as id %}
+{% settings_value "CMS_PATH_PREFIX" as cms_path_prefix %}
 
 <div id="{{ id }}">
     <div class="bd-example-tabs">
@@ -37,7 +40,7 @@
                                 :data-target="'#collapse-{{ id }}-' + index + index2 +'-lft'"
                                 aria-expanded="false"
                                 :aria-controls="'collapse-{{ id }}-' + index + index2 +'-lft'">
-                        {% trans "Anno di corso" %}: [[ label ]]
+                        [[ label ]] {% trans "anno" %}
                         </button>
                     </div>
                     <div :id="'collapse-{{ id }}-' + index + index2 +'-lft'"
@@ -47,7 +50,7 @@
                         <div class="collapse-body">
                             <div class="it-list-wrapper">
                                 <div class="table-responsive">
-                                    <table class="table">
+                                    <table class="table table-sm">
                                         <thead>
                                             <tr>
                                                 <th scope="col">[[ items.labels.StudyActivityName ]]</th>
@@ -58,7 +61,10 @@
                                         <tbody>
                                             <tr v-for="activity in value">
                                                 <td>
-                                                    <a href="#">
+                                                    {% settings_value "CMS_STORAGE_BASE_PATH" as base_prefix %}
+                                                    {% settings_value "CMS_STORAGE_CDS_VIEW_PREFIX_PATH" as cds_prefix %}
+                                                    {% settings_value "CMS_STORAGE_ACTIVITY_VIEW_PREFIX_PATH" as activity_prefix %}
+                                                    <a :href="'/{{ cms_path_prefix }}{{ base_prefix }}/{{ cds_prefix }}/' + [[ activity.StudyActivityRegDidId ]] + '/{{ activity_prefix }}/' + [[ activity.StudyActivityID ]] +'/'">
                                                         [[ activity.StudyActivityName ]]
                                                         <span v-if="items.labels.StudyActivityCompulsory == 1">*</span>
                                                     </a>

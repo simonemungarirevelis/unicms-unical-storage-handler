@@ -1,8 +1,13 @@
 {% load i18n %}
 {% load static %}
 {% load unicms_storage_handler %}
+{% load unicms_templates %}
 
+{% get_cdsid_from_url url as cdsid %}
+{% get_current_language as LANGUAGE_CODE %}
 {% random_id as id %}
+{% settings_value "CMS_STORAGE_BASE_API" as base_api %}
+
 
 <div id="{{ id }}">
     <template v-model="item">
@@ -74,12 +79,15 @@
                                     <ul v-for="(valueProfileInstance, nameProfileInstance) in valueProfile">
                                         <li>
                                             <span v-if="nameProfile in labels && nameProfileInstance in labels[nameProfile]"
-                                                  v-html="labels[nameProfile][nameProfileInstance]">
+                                                  style="white-space: pre-line;">
+                                                [[ labels[nameProfile][nameProfileInstance] ]]
                                             </span>
                                             <span v-else>
                                                 [[ nameProfileInstance ]]
                                             </span> :
-                                            <span v-html="valueProfileInstance"></span>
+                                            <span style="white-space: pre-line;">
+                                                [[ valueProfileInstance ]]
+                                            </span>
                                         </li>
                                     </ul>
                                 </li>
@@ -87,12 +95,15 @@
                         </span>
                         <span v-else-if="typeof item[name] == 'array'" class="col-9">
                             <ul>
-                                <li v-for="subvalue in item[name]" v-html="subvalue">
+                                <li v-for="subvalue in item[name]">
+                                    [[ subvalue ]]
                                 </li>
                             </ul>
                         </span>
                         <span v-else>
-                            <span v-html="item[name]"></span>
+                            <span style="white-space: pre-line;">
+                                [[ item[name] ]]
+                            </span>
                         </span>
                     </div>
                 </div>
@@ -101,18 +112,46 @@
     </template>
 </div>
 
+<!-- studyplans block import -->
 <div id="collapseDiv2-lft" class="collapse-div collapse-left-icon" role="tablist">
     <div class="collapse-header" id="heading-studyplans-lft">
-        <button data-toggle="collapse" data-target="#collapse-studyplans-lft" aria-expanded="false" aria-controls="collapse-studyplans-lft">
+        <button data-toggle="collapse"
+                data-target="#collapse-studyplans-lft"
+                aria-expanded="false"
+                aria-controls="collapse-studyplans-lft">
             {% trans "Manifesto degli studi" %}
         </button>
     </div>
-    <div id="collapse-studyplans-lft" class="collapse" role="tabpanel" aria-labelledby="heading-studyplans-lft">
-        <div class="px-md-5 mt-1">
+    <div id="collapse-studyplans-lft"
+         class="collapse"
+         role="tabpanel"
+         aria-labelledby="heading-studyplans-lft">
+        <div class="px-md-5 mt-3">
             {% clean_url url as cleaned_url %}
-            {% get_current_language as LANGUAGE_CODE %}
             {% with cleaned_url|add:"studyplans/?lang="|add:LANGUAGE_CODE as studyplans_url %}
             {% include "blocks/unical_storage_cdsstudyplans.html" with url=studyplans_url %}
+            {% endwith %}
+        </div>
+    </div>
+</div>
+
+<!-- teachers block import -->
+<div id="collapseDiv3-lft" class="collapse-div collapse-left-icon" role="tablist">
+    <div class="collapse-header" id="heading-teachers-lft">
+        <button data-toggle="collapse"
+                data-target="#collapse-teachers-lft"
+                aria-expanded="false"
+                aria-controls="collapse-teachers-lft">
+            {% trans "Docenti" %}
+        </button>
+    </div>
+    <div id="collapse-teachers-lft"
+         class="collapse"
+         role="tabpanel"
+         aria-labelledby="heading-teachers-lft">
+        <div class="px-md-5 mt-3">
+            {% with base_api|add:"teachers/?cdsid="|add:cdsid|add:"&lang="|add:LANGUAGE_CODE as teachers_url %}
+            {% include "blocks/unical_storage_teacherslist_without_filters.html" with url=teachers_url %}
             {% endwith %}
         </div>
     </div>

@@ -13,7 +13,7 @@ from . settings import *
 
 
 class BaseStorageHandler(BaseContentHandler):
-    template = "example.html"
+    template = "storage_base.html"
 
     def __init__(self, **kwargs):
         super(BaseStorageHandler, self).__init__(**kwargs)
@@ -47,6 +47,16 @@ class BaseStorageHandler(BaseContentHandler):
         context = Context(self.data)
         return HttpResponse(template.render(context), status=200)
 
+    @property
+    def get_base_url(self):
+        url = f'{self.webpath.get_full_path()}/{settings.CMS_STORAGE_BASE_PATH}/'
+        return sanitize_path(url)
+
+    @property
+    def breadcrumbs(self):
+        leaf = ('#', settings.CMS_STORAGE_ROOT_LABEL)
+        return (leaf,)
+
 
 class CdSListViewHandler(BaseStorageHandler):
     template = "storage_cdslist.html"
@@ -58,8 +68,8 @@ class CdSListViewHandler(BaseStorageHandler):
     @property
     def breadcrumbs(self):
         # leaf = (self.pub_context.url, getattr(self.pub_context.publication, 'title'))
-        leaf = ('#', settings.CMS_STORAGE_CDSLIST_LABEL)
-        parent = ('#', settings.CMS_STORAGE_ROOT_LABEL)
+        leaf = ('#', settings.CMS_STORAGE_CDS_LIST_LABEL)
+        parent = (self.get_base_url, settings.CMS_STORAGE_ROOT_LABEL)
         return (parent, leaf)
 
 
@@ -76,13 +86,91 @@ class CdSInfoViewHandler(BaseStorageHandler):
 
     @property
     def parent_url(self):
-        url = f'{self.webpath.get_full_path()}/{settings.CMS_STORAGE_CDS_VIEW_PREFIX_PATH}/'
+        url = f'{self.webpath.get_full_path()}/{settings.CMS_STORAGE_BASE_PATH}/{settings.CMS_STORAGE_CDS_VIEW_PREFIX_PATH}/'
         return sanitize_path(url)
 
     @property
     def breadcrumbs(self):
         # leaf = (self.pub_context.url, getattr(self.pub_context.publication, 'title'))
-        root = ('#', settings.CMS_STORAGE_ROOT_LABEL)
-        parent = (self.parent_url, settings.CMS_STORAGE_CDSLIST_LABEL)
+        root = (self.get_base_url, settings.CMS_STORAGE_ROOT_LABEL)
+        parent = (self.parent_url, settings.CMS_STORAGE_CDS_LIST_LABEL)
+        leaf = ('#', self.code)
+        return (root, parent, leaf)
+
+
+class ActivityViewHandler(BaseStorageHandler):
+    template = "storage_activity.html"
+
+    def __init__(self, **kwargs):
+        super(ActivityViewHandler, self).__init__(**kwargs)
+        self.cdsid = self.match_dict.get('cdsid', '')
+        self.code = self.match_dict.get('code', '')
+
+    def as_view(self):
+        self.data['url'] = f'{settings.CMS_STORAGE_ACTIVITY_API}{self.code}/?lang={self.lang}'
+        return super().as_view()
+
+    @property
+    def cdslist_url(self):
+        url = f'{self.webpath.get_full_path()}/{settings.CMS_STORAGE_BASE_PATH}/{settings.CMS_STORAGE_CDS_VIEW_PREFIX_PATH}/'
+        return sanitize_path(url)
+
+    @property
+    def cdsid_url(self):
+        url = f'{self.webpath.get_full_path()}/{settings.CMS_STORAGE_BASE_PATH}/{settings.CMS_STORAGE_CDS_VIEW_PREFIX_PATH}/{self.cdsid}/'
+        return sanitize_path(url)
+
+    @property
+    def breadcrumbs(self):
+        root = (self.get_base_url, settings.CMS_STORAGE_ROOT_LABEL)
+        cdslist = (self.cdslist_url, settings.CMS_STORAGE_CDS_LIST_LABEL)
+        cdsid = (self.cdsid_url, self.cdsid)
+        activities = (self.cdsid_url, settings.CMS_STORAGE_ACTIVITIES_LABEL)
+        leaf = ('#', self.code)
+        return (root, cdslist, cdsid, activities, leaf)
+
+
+class TeacherListViewHandler(BaseStorageHandler):
+    template = "storage_teachers_list.html"
+
+    def __init__(self, **kwargs):
+        super(TeacherListViewHandler, self).__init__(**kwargs)
+
+    def as_view(self):
+        self.data['url'] = f'{settings.CMS_STORAGE_TEACHER_API}?lang={self.lang}'
+        return super().as_view()
+
+    # @property
+    # def parent_url(self):
+        # url = f'{self.webpath.get_full_path()}/{settings.CMS_STORAGE_BASE_PATH}/{settings.CMS_STORAGE_CDS_VIEW_PREFIX_PATH}/'
+        # return sanitize_path(url)
+
+    @property
+    def breadcrumbs(self):
+        root = (self.get_base_url, settings.CMS_STORAGE_ROOT_LABEL)
+        leaf = ('#', settings.CMS_STORAGE_TEACHERS_LABEL)
+        return (root, leaf)
+
+
+class TeacherInfoViewHandler(BaseStorageHandler):
+    template = "storage_teachers_info.html"
+
+    def __init__(self, **kwargs):
+        super(TeacherInfoViewHandler, self).__init__(**kwargs)
+        self.code = self.match_dict.get('code', '')
+
+    def as_view(self):
+        self.data['url'] = f'{settings.CMS_STORAGE_TEACHER_API}{self.code}/?lang={self.lang}'
+        return super().as_view()
+
+    @property
+    def parent_url(self):
+        url = f'{self.webpath.get_full_path()}/{settings.CMS_STORAGE_BASE_PATH}/{settings.CMS_STORAGE_THEACHER_VIEW_PREFIX_PATH}/'
+        return sanitize_path(url)
+
+    @property
+    def breadcrumbs(self):
+        root = (self.get_base_url, settings.CMS_STORAGE_ROOT_LABEL)
+        parent = (self.parent_url, settings.CMS_STORAGE_TEACHERS_LABEL)
         leaf = ('#', self.code)
         return (root, parent, leaf)

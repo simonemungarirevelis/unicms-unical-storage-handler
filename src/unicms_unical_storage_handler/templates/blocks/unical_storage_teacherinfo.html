@@ -5,32 +5,44 @@
 {% random_id as id %}
 
 <div id="{{ id }}">
-    <template v-model="item">
-        <h5 class="card-title">[[ item.TeacherLastName ]] [[ item.TeacherFirstName ]]</h5>
-        <table class="table">
-            <tbody>
-                <tr v-for="(value, name) in item">
-                    <td>[[ labels[name] ]]</td>
-                    <td v-if="typeof value == 'object'"  v-for="v in value">
-                        <span style="white-space: pre-line;">
-                            [[ v ]]
-                        </span>
-                    </td>
-                    <td v-else-if="typeof value == 'array'">
-                        <ul>
-                            <li v-for="subvalue in value">
-                                [[ subvalue ]]
-                            </li>
-                        </ul>
-                    </td>
-                    <td v-else>
-                        <span style="white-space: pre-line;">
-                            [[ value ]]
-                        </span>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+    <template>
+        <h3 class="lighter">
+            [[ item.TeacherLastName ]] [[ item.TeacherFirstName ]]
+        </h3>
+        <h5 class="lighter">
+            [[ item.TeacherRole ]]
+        </h5>
+        <hr class="my-4 bordeaux-unical-bg">
+        <div class="table-responsive">
+            <table class="table table-sm">
+                <tbody>
+                    <tr v-for="(value, name) in item">
+                        <td>[[ labels[name] ]]</td>
+                        <td v-if="typeof value === 'object'">
+                            <ul>
+                                <li v-for="v in value">
+                                    <span style="white-space: pre-line;">
+                                        [[ v ]]
+                                    </span>
+                                </li>
+                            </ul>
+                        </td>
+                        <td v-else-if="typeof value === 'array'">
+                            <ul>
+                                <li v-for="subvalue in value">
+                                    [[ subvalue ]]
+                                </li>
+                            </ul>
+                        </td>
+                        <td v-else>
+                            <span style="white-space: pre-line;">
+                                [[ value ]]
+                            </span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </template>
 </div>
 <script>
