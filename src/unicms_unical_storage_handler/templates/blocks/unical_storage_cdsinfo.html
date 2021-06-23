@@ -11,6 +11,12 @@
 
 <div id="{{ id }}">
     <template v-model="item">
+        <div class="alert alert-info" role="alert" v-if="item.RegDidState === 'C'">
+            {% trans "Questo regolamento didattico <b>non è attivo</b>" %}
+        </div>
+        <div class="alert alert-success" role="alert" v-else-if="item.RegDidState === 'A'">
+            {% trans "Questo regolamento didattico <b>è attivo</b>" %}
+        </div>
         <h3>{% trans "Laurea in" %} [[ item.CdSName ]]</h3>
         <p>
             {% trans "Classe di laurea" %} [[ item.CourseClassId ]]
@@ -126,7 +132,7 @@
          class="collapse"
          role="tabpanel"
          aria-labelledby="heading-studyplans-lft">
-        <div class="px-md-5 mt-3">
+        <div class="mt-3">
             {% clean_url url as cleaned_url %}
             {% with cleaned_url|add:"studyplans/?lang="|add:LANGUAGE_CODE as studyplans_url %}
             {% include "blocks/unical_storage_cdsstudyplans.html" with url=studyplans_url %}
@@ -149,7 +155,7 @@
          class="collapse"
          role="tabpanel"
          aria-labelledby="heading-teachers-lft">
-        <div class="px-md-5 mt-3">
+        <div class="mt-3">
             {% with base_api|add:"teachers/?cdsid="|add:cdsid|add:"&lang="|add:LANGUAGE_CODE as teachers_url %}
             {% include "blocks/unical_storage_teacherslist_without_filters.html" with url=teachers_url %}
             {% endwith %}

@@ -5,7 +5,6 @@
 
 {% get_current_language as LANGUAGE_CODE %}
 {% random_id as id %}
-{% settings_value "CMS_PATH_PREFIX" as cms_path_prefix %}
 
 <div id="{{ id }}">
     <div class="bd-example-tabs">
@@ -61,12 +60,13 @@
                                         <tbody>
                                             <tr v-for="activity in value">
                                                 <td>
+                                                    {% settings_value "CMS_PATH_PREFIX" as cms_path_prefix %}
                                                     {% settings_value "CMS_STORAGE_BASE_PATH" as base_prefix %}
                                                     {% settings_value "CMS_STORAGE_CDS_VIEW_PREFIX_PATH" as cds_prefix %}
                                                     {% settings_value "CMS_STORAGE_ACTIVITY_VIEW_PREFIX_PATH" as activity_prefix %}
                                                     <a :href="'/{{ cms_path_prefix }}{{ base_prefix }}/{{ cds_prefix }}/' + [[ activity.StudyActivityRegDidId ]] + '/{{ activity_prefix }}/' + [[ activity.StudyActivityID ]] +'/'">
                                                         [[ activity.StudyActivityName ]]
-                                                        <span v-if="items.labels.StudyActivityCompulsory == 1">*</span>
+                                                        <span v-if="items.StudyActivityCompulsory == 1">*</span>
                                                     </a>
                                                 </td>
                                                 <td>[[ activity.StudyActivitySemester ]]</td>
