@@ -6,162 +6,178 @@
 {% get_current_language as LANGUAGE_CODE %}
 {% random_id as id %}
 
+{% include "includes/unical_storage_loading.html" %}
+
 <div id="{{ id }}">
-    {% block filters_coursetype %}
-    <div class="row mt-3">
-        <div class="col">
-            <span v-for="degree in degree_types"
-                  class="badge badge-grey-unical square-corners my-1 mr-3 ml-0 pr-5 p-2">
-                <a href="javascript:void(0)" @click="{{ id }}.search('coursetype', [[ degree.CourseType ]])">
-                    <h5>
-                        <b v-if="degree.CourseType == active_degree">
-                            [[ degree.CourseTypeDescription ]]
-                        </b>
-                        <span v-else>
-                            [[ degree.CourseTypeDescription ]]
-                        </span>
-                    </h5>
-                </a>
-            </span>
-            <span class="badge badge-grey-unical square-corners my-1 mr-3 ml-0 pr-5 p-2"
-                  style="font-size: 100%">
-                <a href="javascript:void(0)" @click="{{ id }}.search('coursetype', '')">
-                    <h5>
-                        {% trans "Tutti" %}
-                    </h5>
-                </a>
-            </span>
+
+    <loading-icon
+        v-if="is_loading"
+        :loader_source="loader_source">
+    </loading-icon>
+
+    <div v-else>
+        {% block filters_coursetype %}
+
+        <loading-icon
+            v-if="is_loading_2"
+            :loader_source="loader_source_2">
+        </loading-icon>
+
+        <div class="row mt-3" v-else>
+            <div class="col">
+                <span v-for="degree in degree_types"
+                      class="badge badge-grey-unical square-corners my-1 mr-3 ml-0 pr-5 p-2">
+                    <a href="javascript:void(0)" @click="{{ id }}.search('coursetype', [[ degree.CourseType ]])">
+                        <h5>
+                            <b v-if="degree.CourseType == active_degree">
+                                [[ degree.CourseTypeDescription ]]
+                            </b>
+                            <span v-else>
+                                [[ degree.CourseTypeDescription ]]
+                            </span>
+                        </h5>
+                    </a>
+                </span>
+                <span class="badge badge-grey-unical square-corners my-1 mr-3 ml-0 pr-5 p-2"
+                      style="font-size: 100%">
+                    <a href="javascript:void(0)" @click="{{ id }}.search('coursetype', '')">
+                        <h5>
+                            {% trans "Tutti" %}
+                        </h5>
+                    </a>
+                </span>
+            </div>
         </div>
-    </div>
-    <hr class="my-4 bordeaux-unical-bg">
-    {% endblock filters_coursetype %}
+        <hr class="my-4 bordeaux-unical-bg">
+        {% endblock filters_coursetype %}
 
-    {% block filters_cdslist %}
-    <div class="row">
-        <div class="col-12">
-            <div class="card-wrapper card-space">
-                <div class="card card-bg no-after">
-                    <br>
-                    <div class="card-body">
-                        <div class="row form-group">
-                            <div class="input-group">
-                                <label for="search"></label>
-                                <input type="text" class="form-control" id="keywords" name="keywords">
-                                <div class="input-group-append">
-                                    <div class="input-group-text">
-                                        <svg class="icon icon-sm icon-muted">
-                                            <use xlink:href="/static/svg/sprite.svg#it-search"></use>
-                                        </svg>
-                                    </div>
-                                    <button class="btn btn-primary" type="button" id="search-button"
-                                        v-on:click="search()">{% trans "Cerca" %}</button>
-                                </div>
-                            </div>
-                        </div>
-
-
-                        <div class="collapse-header" id="heading1">
-                            <button style="padding: 0px; color: #19191a;" data-toggle="collapse"
-                                data-target="#collapse1" aria-expanded="false" aria-controls="collapse1">
-                                {% trans "Ricerca Avanzata" %}
-                            </button>
-                        </div>
-
-                        <div id="collapse1" class="collapse" role="tabpanel" aria-labelledby="heading1">
-                            <!-- Academic year & Department Id & Department Name -->
-                            <div class="form-group">
-                                <div class="row">
-                                    <div class="col-sm">
-                                        <div class="bootstrap-select-wrapper">
-                                            <label for="academic_year_input">{% trans "Anno Accademico" %}</label>
-                                            <div class="w-30 mt-5">
-                                                <span class="input-number">
-                                                    <input type="number" id="academic_year_input"
-                                                        name="academic_year_input">
-                                                    <button class="input-number-add">
-                                                        <span class="sr-only">Aumenta valore</span>
-                                                    </button>
-                                                    <button class="input-number-sub">
-                                                        <span class="sr-only">Diminuisci valore</span>
-                                                    </button>
-                                                </span>
-                                            </div>
+        {% block filters_cdslist %}
+        <div class="row">
+            <div class="col-12">
+                <div class="card-wrapper card-space">
+                    <div class="card card-bg no-after">
+                        <br>
+                        <div class="card-body">
+                            <div class="row form-group">
+                                <div class="input-group">
+                                    <label for="search"></label>
+                                    <input type="text" class="form-control" id="keywords" name="keywords">
+                                    <div class="input-group-append">
+                                        <div class="input-group-text">
+                                            <svg class="icon icon-sm icon-muted">
+                                                <use xlink:href="/static/svg/sprite.svg#it-search"></use>
+                                            </svg>
                                         </div>
-                                    </div>
-                                    <div class="col-sm">
-                                        <div class="bootstrap-select-wrapper">
-                                            <label for="department_id_input">{% trans "ID Dipartimento" %}</label>
-                                            <div class="w-30 mt-5">
-                                                <input type="text" id="department_id_input" name="department_id_input"
-                                                    class="form-control">
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm">
-                                        <div class="bootstrap-select-wrapper">
-                                            <label for="department_name_input">{% trans "Nome Dipartimento" %}</label>
-                                            <div class="w-30 mt-5">
-                                                <input type="text" id="department_name_input"
-                                                    name="department_name_input" class="form-control">
-                                            </div>
-                                        </div>
+                                        <button class="btn btn-primary" type="button" id="search-button"
+                                            v-on:click="search()">{% trans "Cerca" %}</button>
                                     </div>
                                 </div>
                             </div>
 
-                            <!-- Course Type & Course Class Id & Course Class Name -->
-                            <div class="form-group">
-                                <div class="row">
-                                    <!--
-                                    <div class="col-sm">
-                                        <div class="bootstrap-select-wrapper">
-                                            <label for="course_type_input">{% trans "Tipologia Corso" %}</label>
-                                            <div class="w-30 mt-5">
-                                                <input type="text" id="course_type_input" name="course_type_input"
-                                                    class="form-control">
+
+                            <div class="collapse-header" id="heading1">
+                                <button style="padding: 0px; color: #19191a;" data-toggle="collapse"
+                                    data-target="#collapse1" aria-expanded="false" aria-controls="collapse1">
+                                    {% trans "Ricerca Avanzata" %}
+                                </button>
+                            </div>
+
+                            <div id="collapse1" class="collapse" role="tabpanel" aria-labelledby="heading1">
+                                <!-- Academic year & Department Id & Department Name -->
+                                <div class="form-group">
+                                    <div class="row">
+                                        <div class="col-sm">
+                                            <div class="bootstrap-select-wrapper">
+                                                <label for="academic_year_input">{% trans "Anno Accademico" %}</label>
+                                                <div class="w-30 mt-5">
+                                                    <span class="input-number">
+                                                        <input type="number" id="academic_year_input"
+                                                            name="academic_year_input">
+                                                        <button class="input-number-add">
+                                                            <span class="sr-only">Aumenta valore</span>
+                                                        </button>
+                                                        <button class="input-number-sub">
+                                                            <span class="sr-only">Diminuisci valore</span>
+                                                        </button>
+                                                    </span>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    -->
-                                    <div class="col-sm">
-                                        <div class="bootstrap-select-wrapper">
-                                            <label for="course_class_id_input">{% trans "ID Classe Corso" %}</label>
-                                            <div class="w-30 mt-5">
-                                                <input type="text" id="course_class_id_input"
-                                                    name="course_class_id_input" class="form-control">
+                                        <div class="col-sm">
+                                            <div class="bootstrap-select-wrapper">
+                                                <label for="department_id_input">{% trans "ID Dipartimento" %}</label>
+                                                <div class="w-30 mt-5">
+                                                    <input type="text" id="department_id_input" name="department_id_input"
+                                                        class="form-control">
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="col-sm">
-                                        <div class="bootstrap-select-wrapper">
-                                            <label for="course_class_name_input"> {% trans "Nome Classe Corso" %} </label>
-                                            <div class="w-30 mt-5">
-                                                <input type="text" id="course_class_name_input"
-                                                    name="course_class_name_input" class="form-control">
+                                        <div class="col-sm">
+                                            <div class="bootstrap-select-wrapper">
+                                                <label for="department_name_input">{% trans "Nome Dipartimento" %}</label>
+                                                <div class="w-30 mt-5">
+                                                    <input type="text" id="department_name_input"
+                                                        name="department_name_input" class="form-control">
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
 
-                            <!-- Cds Language & Joint Degree -->
-                            <div class="form-group">
-                                <div class="row">
-                                    <div class="col-sm">
-                                        <div class="bootstrap-select-wrapper">
-                                            <label for="cds_language_input"> {% trans "Lingua Corso di Studi" %} </label>
-                                            <div class="w-30 mt-5">
-                                                <input type="text" id="cds_language_input" name="cds_language_input"
-                                                    class="form-control">
+                                <!-- Course Type & Course Class Id & Course Class Name -->
+                                <div class="form-group">
+                                    <div class="row">
+                                        <!--
+                                        <div class="col-sm">
+                                            <div class="bootstrap-select-wrapper">
+                                                <label for="course_type_input">{% trans "Tipologia Corso" %}</label>
+                                                <div class="w-30 mt-5">
+                                                    <input type="text" id="course_type_input" name="course_type_input"
+                                                        class="form-control">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        -->
+                                        <div class="col-sm">
+                                            <div class="bootstrap-select-wrapper">
+                                                <label for="course_class_id_input">{% trans "ID Classe Corso" %}</label>
+                                                <div class="w-30 mt-5">
+                                                    <input type="text" id="course_class_id_input"
+                                                        name="course_class_id_input" class="form-control">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm">
+                                            <div class="bootstrap-select-wrapper">
+                                                <label for="course_class_name_input"> {% trans "Nome Classe Corso" %} </label>
+                                                <div class="w-30 mt-5">
+                                                    <input type="text" id="course_class_name_input"
+                                                        name="course_class_name_input" class="form-control">
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-sm">
-                                        <div class="bootstrap-select-wrapper">
-                                            <label for="joint_degree_input">{% trans "Joint Degree" %}</label>
-                                            <div class="w-30 mt-5">
-                                                <input type="text" id="joint_degree_input" name="joint_degree_input"
-                                                    class="form-control">
+                                </div>
+
+                                <!-- Cds Language & Joint Degree -->
+                                <div class="form-group">
+                                    <div class="row">
+                                        <div class="col-sm">
+                                            <div class="bootstrap-select-wrapper">
+                                                <label for="cds_language_input"> {% trans "Lingua Corso di Studi" %} </label>
+                                                <div class="w-30 mt-5">
+                                                    <input type="text" id="cds_language_input" name="cds_language_input"
+                                                        class="form-control">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm">
+                                            <div class="bootstrap-select-wrapper">
+                                                <label for="joint_degree_input">{% trans "Joint Degree" %}</label>
+                                                <div class="w-30 mt-5">
+                                                    <input type="text" id="joint_degree_input" name="joint_degree_input"
+                                                        class="form-control">
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -172,66 +188,66 @@
                 </div>
             </div>
         </div>
-    </div>
-    {% endblock filters_cdslist %}
+        {% endblock filters_cdslist %}
 
-    <list-panel v-bind:data="items" v-if="items.results"></list-panel>
+        <list-panel v-bind:data="items" v-if="items.results"></list-panel>
 
-    <div class="row mb-3" v-for="item in items.results">
-        <div class="col-12" >
-            <!--start card-->
-            <div class="card-wrapper pb-0">
-                <div class="card no-after" style="border:1px solid #b71918">
-                    <div class="card-body">
-                        <h4>
-                            {% settings_value "CMS_PATH_PREFIX" as cms_path_prefix %}
-                            {% settings_value "CMS_STORAGE_BASE_PATH" as base_prefix %}
-                            {% settings_value "CMS_STORAGE_CDS_VIEW_PREFIX_PATH" as cds_prefix %}
-                            <a :href="'/{{ cms_path_prefix }}{{ base_prefix }}/{{ cds_prefix }}/' + [[ item.RegDidId ]] +'/'">
-                                [[ item.CdSName ]]
-                            </a>
-                        </h4>
-                        <div class="row">
-                            <div class="col-12 col-md-auto">
-                                <small>
-                                    [[ labels['CourseType'] ]] >
-                                    <b>[[ item.CourseType ]]</b>
-                                </small>
-                            </div>
-                            <div class="col-12 col-md-auto">
-                                <small>
-                                    [[ labels['AcademicYear'] ]] >
-                                    <b>[[ item.AcademicYear ]]</b>
-                                </small>
-                            </div>
-                            <div class="col-12 col-md-auto">
-                                <small>
-                                    [[ labels['CdSDuration'] ]] >
-                                    <b>[[ item.CdSDuration ]] {% trans "anni" %}</b>
-                                </small>
-                            </div>
-                            <div class="col-12 col-md-auto">
-                                <small>
-                                    [[ labels['CdSLanguage'] ]] >
-                                    <b>[[ item.CdSLanguage ]]</b>
-                                </small>
-                            </div>
-                            <div class="col text-right">
-                                <small>
-                                    <a href="#" style="color: #b71918">
-                                        <b>{% trans "Sito web" %} >></b>
-                                    </a>
-                                </small>
+        <div class="row mb-3" v-for="item in items.results">
+            <div class="col-12" >
+                <!--start card-->
+                <div class="card-wrapper pb-0">
+                    <div class="card no-after" style="border:1px solid #b71918">
+                        <div class="card-body">
+                            <h4>
+                                {% settings_value "CMS_PATH_PREFIX" as cms_path_prefix %}
+                                {% settings_value "CMS_STORAGE_BASE_PATH" as base_prefix %}
+                                {% settings_value "CMS_STORAGE_CDS_VIEW_PREFIX_PATH" as cds_prefix %}
+                                <a :href="'/{{ cms_path_prefix }}{{ base_prefix }}/{{ cds_prefix }}/' + [[ item.RegDidId ]] +'/'">
+                                    [[ item.CdSName ]]
+                                </a>
+                            </h4>
+                            <div class="row">
+                                <div class="col-12 col-md-auto">
+                                    <small>
+                                        [[ labels['CourseType'] ]] >
+                                        <b>[[ item.CourseType ]]</b>
+                                    </small>
+                                </div>
+                                <div class="col-12 col-md-auto">
+                                    <small>
+                                        [[ labels['AcademicYear'] ]] >
+                                        <b>[[ item.AcademicYear ]]</b>
+                                    </small>
+                                </div>
+                                <div class="col-12 col-md-auto">
+                                    <small>
+                                        [[ labels['CdSDuration'] ]] >
+                                        <b>[[ item.CdSDuration ]] {% trans "anni" %}</b>
+                                    </small>
+                                </div>
+                                <div class="col-12 col-md-auto">
+                                    <small>
+                                        [[ labels['CdSLanguage'] ]] >
+                                        <b>[[ item.CdSLanguage ]]</b>
+                                    </small>
+                                </div>
+                                <div class="col text-right">
+                                    <small>
+                                        <a href="#" style="color: #b71918">
+                                            <b>{% trans "Sito web" %} >></b>
+                                        </a>
+                                    </small>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
+                <!--end card-->
             </div>
-            <!--end card-->
         </div>
-    </div>
 
-    <list-panel v-bind:data="items" v-if="items.results"></list-panel>
+        <list-panel v-bind:data="items" v-if="items.results"></list-panel>
+    </div>
 </div>
 <script>
 function get_form_paramenters(dict={}, keyword=null, value=null) {
@@ -332,19 +348,26 @@ var {{ id }} = new Vue({
     el: '[id="{{ id }}"]',
     data() {
         return {
-            active_degree: "",
             parameters: "",
             items: [],
-            degree_types: [],
             labels: [],
             url: '{{ url }}',
             next_page: "",
             previous_page: "",
             args_input: false,
-            search_dict: {}
+            is_loading: true,
+            loader_source: '',
+
+            // custom data
+            search_dict: {},
+            active_degree: "",
+            degree_types: [],
+            is_loading_2: true,
+            loader_source_2: 'https://storage.portale.unical.it/api/ricerca/degreetypes/?lang={{ LANGUAGE_CODE }}'
         }
     },
     mounted() {
+        this.loader_source = this.url + this.parameters
         this.callDegreeTypes();
         this.CallURL(this.url + this.parameters);
         let url_splitted = this.url.split("?");
@@ -368,14 +391,15 @@ var {{ id }} = new Vue({
                     this.next_page = response.data.next;
                     this.previous_page = response.data.previous;
                     this.labels = response.data.labels;
+                    this.is_loading = false
                 })
         },
         callDegreeTypes() {
-            let source = '//storage.portale.unical.it/api/ricerca/degreetypes/?lang={{ LANGUAGE_CODE }}'
             axios
-                .get(source)
+                .get(this.loader_source_2)
                 .then(response => {
                     this.degree_types = response.data.results;
+                    this.is_loading_2 = false
                 })
         },
     }

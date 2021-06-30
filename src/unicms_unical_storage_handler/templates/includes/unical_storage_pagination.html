@@ -2,6 +2,18 @@
 {% load static %}
 
 <script>
+function encodeQueryData(data, args_input) {
+    const ret = [];
+    for (let d in data)
+        ret.push(encodeURIComponent(d) + '=' + encodeURIComponent(data[d]));
+
+    if (args_input)
+        return '&' + ret.join('&')
+    return '?' + ret.join('&');
+}
+</script>
+
+<script>
 Vue.component('list-panel', {
     props: {
         data: Array,
@@ -51,16 +63,17 @@ var {{ id }} = new Vue({
             next_page: "",
             previous_page: "",
             args_input: false,
+            is_loading: true,
+            loader_source: '',
         }
     },
     mounted() {
+        this.loader_source = this.url + this.parameters
         this.CallURL(this.url + this.parameters);
 
         let url_splitted = this.url.split("?");
-        if (url_splitted == this.url)
-            this.args_input = false
-        else
-            this.args_input = true
+        if (url_splitted == this.url) this.args_input = false
+        else this.args_input = true
     },
     methods: {
         search() {
@@ -75,6 +88,7 @@ var {{ id }} = new Vue({
                     this.next_page = response.data.next;
                     this.previous_page = response.data.previous;
                     this.labels = response.data.labels;
+                    this.is_loading = false
                 })
         },
     }

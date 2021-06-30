@@ -1,0 +1,32 @@
+{% extends this_string_will_be_replaced %}
+
+{% load i18n %}
+{% load static %}
+
+{% block container %}
+
+<div class="container">
+    <div class="col-12 py-5 bd-content">
+        {% block centered_container %}
+
+            <div class="container">
+                <div class="row">
+
+                    <div class="col-12">
+                        <div class="row">
+                            <div class="col-12 col-md-8">
+                                {% block unical_storage_main %}{% endblock %}
+                            </div>
+                            <div class="col-12 col-md-3 offset-md-1">
+                                {% block unical_storage_right %}{% endblock %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endblock %}
+    </div>
+</div>
+
+{% endblock container %}
+
