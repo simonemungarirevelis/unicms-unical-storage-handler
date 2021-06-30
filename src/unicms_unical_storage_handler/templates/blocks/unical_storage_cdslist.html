@@ -1,13 +1,11 @@
+{% extends "bases/unical_storage_list.html" %}
+
 {% load i18n %}
 {% load static %}
 {% load unicms_storage_handler %}
 {% load unicms_templates %}
 
-{% get_current_language as LANGUAGE_CODE %}
-{% random_id as id %}
-
-{% include "includes/unical_storage_loading.html" %}
-
+{% block pagination_content %}
 <div id="{{ id }}">
 
     <loading-icon
@@ -249,6 +247,9 @@
         <list-panel v-bind:data="items" v-if="items.results"></list-panel>
     </div>
 </div>
+{% endblock pagination_content %}
+
+{% block pagination_extra_scripts %}
 <script>
 function get_form_paramenters(dict={}, keyword=null, value=null) {
 
@@ -293,115 +294,39 @@ function get_form_paramenters(dict={}, keyword=null, value=null) {
 
     return dict
 }
-
-function encodeQueryData(data, args_input) {
-    const ret = [];
-    for (let d in data)
-        ret.push(encodeURIComponent(d) + '=' + encodeURIComponent(data[d]));
-
-    if (args_input)
-        return '&' + ret.join('&')
-    return '?' + ret.join('&');
-}
 </script>
+{% endblock pagination_extra_scripts %}
 
-<script>
-Vue.component('list-panel', {
-    props: {
-        data: Array,
-    },
-    template: `
-        <div class="card-wrapper card-space" >
-            <div class="card card-bg no-after">
-              <div class="card-body py-1">
 
-                <div class="row">
-                    <div class="col w-50">
-                        <span style="color:#050b12;">
-                            <b>[[ data.count || 0]] {% trans "risultati" %}</b> in <b>[[ data.total_pages || 0 ]] {% trans "pagine" %}</b>
-                        </span>
-                    </div>
+{% block pagination_extra_data %}
+search_dict: {},
+active_degree: "",
+degree_types: [],
+is_loading_2: true,
+loader_source_2: 'https://storage.portale.unical.it/api/ricerca/degreetypes/?lang={{ LANGUAGE_CODE }}'
+{% endblock pagination_extra_data %}
 
-                    <div class="col w-50 ">
-                        <div class="float-right">
-                            <span>
-                                <a class="" style="color:#050b12;" v-if="data.page_number > 1" @click="{{ id }}.CallURL({{ id }}.previous_page)">
-                                    <span class="sr-only"> {% trans "pagina" %} </span> &lt; <small>{% trans "precedente" %}</small>
-                                </a>
-                            </span>
+{% block pagination_extra_mounted %}
+this.callDegreeTypes();
+{% endblock pagination_extra_mounted %}
 
-                            <span class="mr-2 ml-2" >[[ data.page_number ]] / <b>[[ data.total_pages ]]</b></span>
-                            <a class="" style="color:#050b12;" @click="{{ id }}.CallURL({{ id }}.next_page)" v-if="data.page_number < data.total_pages">
-                                <span class="sr-only"><small>{% trans "pagina" %} </span>{% trans "prossimo" %} &gt;</small>
-                            </a>
-                        </div>
-                    </div>
-                </div>
+{% block pagination_method_search %}
+search(keyword=null, value=null) {
+    if(keyword=='coursetype')
+        this.active_degree = value;
+    this.parameters = encodeQueryData(get_form_paramenters(this.search_dict, keyword, value), this.args_input);
+    this.CallURL(this.url + this.parameters);
+},
+{% endblock pagination_method_search %}
 
-              </div>
-            </div>
-        </div>
-    `
-});
-
-var {{ id }} = new Vue({
-    el: '[id="{{ id }}"]',
-    data() {
-        return {
-            parameters: "",
-            items: [],
-            labels: [],
-            url: '{{ url }}',
-            next_page: "",
-            previous_page: "",
-            args_input: false,
-            is_loading: true,
-            loader_source: '',
-
-            // custom data
-            search_dict: {},
-            active_degree: "",
-            degree_types: [],
-            is_loading_2: true,
-            loader_source_2: 'https://storage.portale.unical.it/api/ricerca/degreetypes/?lang={{ LANGUAGE_CODE }}'
-        }
-    },
-    mounted() {
-        this.loader_source = this.url + this.parameters
-        this.callDegreeTypes();
-        this.CallURL(this.url + this.parameters);
-        let url_splitted = this.url.split("?");
-        if (url_splitted == this.url)
-            this.args_input = false
-        else
-            this.args_input = true
-    },
-    methods: {
-        search(keyword=null, value=null) {
-            if(keyword=='coursetype')
-                this.active_degree = value;
-            this.parameters = encodeQueryData(get_form_paramenters(this.search_dict, keyword, value), this.args_input);
-            this.CallURL(this.url + this.parameters);
-        },
-        CallURL(url) {
-            axios
-                .get(url)
-                .then(response => {
-                    this.items = response.data;
-                    this.next_page = response.data.next;
-                    this.previous_page = response.data.previous;
-                    this.labels = response.data.labels;
-                    this.is_loading = false
-                })
-        },
-        callDegreeTypes() {
-            axios
-                .get(this.loader_source_2)
-                .then(response => {
-                    this.degree_types = response.data.results;
-                    this.is_loading_2 = false
-                })
-        },
-    }
-})
+{% block pagination_extra_methods %}
+callDegreeTypes() {
+    axios
+        .get(this.loader_source_2)
+        .then(response => {
+            this.degree_types = response.data.results;
+            this.is_loading_2 = false
+        })
+},
+{% endblock pagination_extra_methods %}
 </script>

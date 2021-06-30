@@ -1,10 +1,6 @@
-{% load i18n %}
-{% load static %}
+{% extends "bases/unical_storage_list.html" %}
 
-{% load unicms_storage_handler %}
-
-{% random_id as id %}
-
+{% block pagination_content %}
 <div id="{{ id }}">
 
     <loading-icon
@@ -37,6 +33,4 @@
         <list-panel v-bind:data="items" v-if="items.results"></list-panel>
     </div>
 </div>
-
-{% include "includes/unical_storage_loading.html" %}
-{% include "includes/unical_storage_pagination.html" with id=id %}
+{% endblock pagination_content %}
