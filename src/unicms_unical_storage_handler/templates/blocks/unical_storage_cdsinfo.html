@@ -88,7 +88,7 @@
                     </div>
                     <div :id="'collapse-' + name +'-lft'" class="collapse" role="tabpanel" :aria-labelledby="'heading-' + name +'-lft'">
                         <div class="collapse-body">
-                            <span v-if="typeof item[name] == 'object'" class="col-9">
+                            <span v-if="typeof item[name] === 'object'" class="col-9">
                                 <ul v-for="(valueProfile, nameProfile) in item[name]">
                                     <li>
                                         [[ nameProfile ]]
@@ -109,7 +109,7 @@
                                     </li>
                                 </ul>
                             </span>
-                            <span v-else-if="typeof item[name] == 'array'" class="col-9">
+                            <span v-else-if="typeof item[name] === 'array'" class="col-9">
                                 <ul>
                                     <li v-for="subvalue in item[name]">
                                         [[ subvalue ]]

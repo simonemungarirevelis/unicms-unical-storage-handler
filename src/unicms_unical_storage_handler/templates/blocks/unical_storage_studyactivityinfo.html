@@ -6,6 +6,13 @@
 {% include "includes/unical_storage_loading.html" %}
 
 
+{% settings_value "CMS_PATH_PREFIX" as cms_path_prefix %}
+{% settings_value "CMS_STORAGE_BASE_PATH" as base_prefix %}
+{% settings_value "CMS_STORAGE_CDS_VIEW_PREFIX_PATH" as cds_prefix %}
+{% settings_value "CMS_STORAGE_ACTIVITY_VIEW_PREFIX_PATH" as activity_prefix %}
+{% settings_value "CMS_STORAGE_THEACHER_VIEW_PREFIX_PATH" as teacher_prefix %}
+
+
 <div id="{{ id }}">
 
     <loading-icon
@@ -23,19 +30,52 @@
                     <tbody>
                         <tr v-for="(value, name) in item">
                             <td class="col-3">[[ labels[name] ]]</td>
-                            <td v-if="typeof value == 'object'" class="col-9">
-                                <ul v-for="(valueProfile, nameProfile) in value">
-                                    <ul v-for="(valueProfileInstance, nameProfileInstance) in valueProfile" v-model="labels">
-                                        <li>
-                                            [[ nameProfileInstance ]] :
-                                            <span style="white-space: pre-line;">
-                                                [[ valueProfileInstance ]]
-                                            </span>
-                                        </li>
-                                    </ul>
+
+                            <!-- Root activity -->
+                            <td v-if="name === 'StudyActivityRoot' && item.StudyActivityRoot">
+                                <a :href="'/{{ cms_path_prefix }}{{ base_prefix }}/{{ cds_prefix }}/' + [[ item.StudyActivityRegDidId ]] +'/{{ activity_prefix }}/' + [[ item.StudyActivityRoot.StudyActivityID ]] +'/'">
+                                    [[ item.StudyActivityRoot.StudyActivityName ]]
+                                </a>
+                            </td>
+
+                            <!-- Modules activities -->
+                            <td v-else-if="name === 'StudyActivitiesModules' && item.StudyActivitiesModules">
+                                <ul v-for="(valueProfile, nameProfile) in value" v-model="labels">
+                                    <li>
+                                        <a :href="'/{{ cms_path_prefix }}{{ base_prefix }}/{{ cds_prefix }}/' + [[ item.StudyActivityRegDidId ]] +'/{{ activity_prefix }}/' + [[ valueProfile.StudyActivityID ]] +'/'">
+                                            [[ valueProfile.StudyActivityName ]]
+                                        </a>
+                                    </li>
                                 </ul>
                             </td>
-                            <td v-else-if="typeof value == 'array'" class="col-9">
+
+                            <td v-else-if="typeof value === 'object'" class="col-9">
+                                <ul v-for="(valueProfile, nameProfile) in value">
+                                    <div v-if="typeof valueProfile === 'object'">
+                                        <ul v-for="(valueProfileInstance, nameProfileInstance) in valueProfile" v-model="labels">
+                                            <li>
+                                                [[ nameProfileInstance ]] :
+                                                <span style="white-space: pre-line;">
+                                                    [[ valueProfileInstance ]]
+                                                </span>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <li v-else>
+                                        <span v-if="nameProfile in labels">
+                                            [[ labels[nameProfile] ]]
+                                        </span>
+                                        <span v-else>
+                                            [[ nameProfile ]]
+                                        </span>
+                                        :
+                                        <span style="white-space: pre-line;">
+                                            [[ valueProfile ]]
+                                        </span>
+                                    </li>
+                                </ul>
+                            </td>
+                            <td v-else-if="typeof value === 'array'" class="col-9">
                                 <ul>
                                     <li v-for="subvalue in value">
                                         [[ subvalue ]]
@@ -43,9 +83,6 @@
                                 </ul>
                             </td>
                             <td v-else class="col-9">
-                                {% settings_value "CMS_PATH_PREFIX" as cms_path_prefix %}
-                                {% settings_value "CMS_STORAGE_BASE_PATH" as base_prefix %}
-                                {% settings_value "CMS_STORAGE_THEACHER_VIEW_PREFIX_PATH" as teacher_prefix %}
                                 <a v-if="name === 'StudyActivityTeacherName'"
                                    :href="'/{{ cms_path_prefix }}{{ base_prefix }}/{{ teacher_prefix }}/' + [[ item.StudyActivityTeacherID ]] +'/'">
                                     [[ item[name] ]]
