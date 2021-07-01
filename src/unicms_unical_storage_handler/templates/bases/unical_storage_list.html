@@ -101,7 +101,7 @@ var {{ id }} = new Vue({
     methods: {
         {% block pagination_method_search %}
         search() {
-            this.parameters = encodeQueryData(get_form_paramenters(), this.args_input);
+            this.parameters = encodeQueryData({{ id }}_get_form_paramenters(), this.args_input);
             this.CallURL(this.url + this.parameters);
 
         },
