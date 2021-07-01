@@ -314,7 +314,7 @@ this.callDegreeTypes();
 search(keyword=null, value=null) {
     if(keyword=='coursetype')
         this.active_degree = value;
-    this.parameters = encodeQueryData(get_form_paramenters(this.search_dict, keyword, value), this.args_input);
+    this.parameters = encodeQueryData({{ id }}_get_form_paramenters(this.search_dict, keyword, value), this.args_input);
     this.CallURL(this.url + this.parameters);
 },
 {% endblock pagination_method_search %}
