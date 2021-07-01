@@ -25,7 +25,7 @@
             <div class="table-responsive">
                 <table class="table table-sm">
                     <tbody>
-                        <tr v-for="(value, name) in item">
+                        <tr v-for="(value, name) in item" v-if="value">
                             <td>[[ labels[name] ]]</td>
                             <td v-if="typeof value === 'object'">
                                 <ul>
