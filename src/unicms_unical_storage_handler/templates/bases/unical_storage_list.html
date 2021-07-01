@@ -32,6 +32,7 @@ function encodeQueryData(data, args_input) {
 Vue.component('list-panel', {
     props: {
         data: Array,
+        id: String
     },
     template: `
         <div class="card-wrapper card-space" >
@@ -48,13 +49,13 @@ Vue.component('list-panel', {
                     <div class="col w-50 ">
                         <div class="float-right">
                             <span>
-                                <a class="" style="color:#050b12;" v-if="data.page_number > 1" @click="{{ id }}.CallURL({{ id }}.previous_page)">
+                                <a class="" style="color:#050b12;" v-if="data.page_number > 1" :onclick="[[ id ]] + '.CallURL(' + [[ id ]] + '.previous_page)'">
                                     <span class="sr-only"> {% trans "pagina" %} </span> &lt; <small>{% trans "precedente" %}</small>
                                 </a>
                             </span>
 
                             <span class="mr-2 ml-2" >[[ data.page_number ]] / <b>[[ data.total_pages ]]</b></span>
-                            <a class="" style="color:#050b12;" @click="{{ id }}.CallURL({{ id }}.next_page)" v-if="data.page_number < data.total_pages">
+                            <a class="" style="color:#050b12;" :onclick="[[ id ]] + '.CallURL(' + [[ id ]] + '.next_page)'" v-if="data.page_number < data.total_pages">
                                 <span class="sr-only"><small>{% trans "pagina" %} </span>{% trans "prossimo" %} &gt;</small>
                             </a>
                         </div>
@@ -87,7 +88,6 @@ var {{ id }} = new Vue({
         }
     },
     mounted() {
-
         {% block pagination_extra_mounted %}
         {% endblock pagination_extra_mounted %}
 
