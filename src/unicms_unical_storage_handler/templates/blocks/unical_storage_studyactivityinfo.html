@@ -28,7 +28,7 @@
             <div class="table-responsive">
                 <table class="table table-sm">
                     <tbody>
-                        <tr v-for="(value, name) in item">
+                        <tr v-for="(value, name) in item" v-if="value">
                             <td class="col-3">[[ labels[name] ]]</td>
 
                             <!-- Root activity -->
@@ -40,7 +40,7 @@
 
                             <!-- Modules activities -->
                             <td v-else-if="name === 'StudyActivitiesModules' && item.StudyActivitiesModules">
-                                <ul v-for="(valueProfile, nameProfile) in value" v-model="labels">
+                                <ul v-for="(valueProfile, nameProfile) in value">
                                     <li>
                                         <a :href="'/{{ cms_path_prefix }}{{ base_prefix }}/{{ cds_prefix }}/' + [[ item.StudyActivityRegDidId ]] +'/{{ activity_prefix }}/' + [[ valueProfile.StudyActivityID ]] +'/'">
                                             [[ valueProfile.StudyActivityName ]]
@@ -49,10 +49,28 @@
                                 </ul>
                             </td>
 
+                            <!-- StudyActivitiesBorrowedFromThis activity -->
+                            <td v-else-if="name === 'StudyActivityBorrowedFrom' && item.StudyActivityBorrowedFrom">
+                                <a :href="'/{{ cms_path_prefix }}{{ base_prefix }}/{{ cds_prefix }}/' + [[ item.StudyActivityBorrowedFrom.StudyActivityRegDidId ]] +'/{{ activity_prefix }}/' + [[ item.StudyActivityBorrowedFrom.StudyActivityID ]] +'/'">
+                                    [[ item.StudyActivityBorrowedFrom.StudyActivityName ]]
+                                </a>
+                            </td>
+
+                            <!-- Modules activities -->
+                            <td v-else-if="name === 'StudyActivitiesBorrowedFromThis' && item.StudyActivitiesBorrowedFromThis">
+                                <ul>
+                                    <li v-for="borrow in item.StudyActivitiesBorrowedFromThis">
+                                        <a :href="'/{{ cms_path_prefix }}{{ base_prefix }}/{{ cds_prefix }}/' + [[ borrow.StudyActivityRegDidId ]] +'/{{ activity_prefix }}/' + [[ borrow.StudyActivityID ]] +'/'">
+                                            [[ borrow.StudyActivityName ]]
+                                        </a>
+                                    </li>
+                                </ul>
+                            </td>
+
                             <td v-else-if="typeof value === 'object'" class="col-9">
                                 <ul v-for="(valueProfile, nameProfile) in value">
                                     <div v-if="typeof valueProfile === 'object'">
-                                        <ul v-for="(valueProfileInstance, nameProfileInstance) in valueProfile" v-model="labels">
+                                        <ul v-for="(valueProfileInstance, nameProfileInstance) in valueProfile">
                                             <li>
                                                 [[ nameProfileInstance ]] :
                                                 <span style="white-space: pre-line;">
