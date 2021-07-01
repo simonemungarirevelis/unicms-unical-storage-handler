@@ -27,10 +27,10 @@
                                 <div class="row">
                                     <div class="col-sm">
                                         <div class="bootstrap-select-wrapper ml-5 mr-5">
-                                            <label for="year_input">{% trans "Anno" %}</label>
+                                            <label for="{{ id }}_year_input">{% trans "Anno" %}</label>
                                             <div class="w-30 mt-5">
                                                 <span class="input-number">
-                                                    <input type="number" id="year_input" name="year_input">
+                                                    <input type="number" id="{{ id }}_year_input" name="{{ id }}_year_input">
                                                     <button class="input-number-add">
                                                         <span class="sr-only">{% trans "Aumenta valore" %}</span>
                                                     </button>
@@ -43,10 +43,10 @@
                                     </div>
                                     <div class="col-sm">
                                         <div class="bootstrap-select-wrapper ml-5 mr-5">
-                                            <label for="year_from_input">{% trans "Da Anno" %}</label>
+                                            <label for="{{ id }}_year_from_input">{% trans "Da Anno" %}</label>
                                             <div class="w-30 mt-5">
                                                 <span class="input-number">
-                                                    <input type="number" id="year_from_input" name="year_from_input">
+                                                    <input type="number" id="{{ id }}_year_from_input" name="{{ id }}_year_from_input">
                                                     <button class="input-number-add">
                                                         <span class="sr-only">{% trans "Aumenta valore" %}</span>
                                                     </button>
@@ -59,10 +59,10 @@
                                     </div>
                                     <div class="col-sm">
                                         <div class="bootstrap-select-wrapper ml-5 mr-5">
-                                            <label for="role_input">{% trans "Fino ad Anno" %}</label>
+                                            <label for="{{ id }}_year_to_input">{% trans "Fino ad Anno" %}</label>
                                             <div class="w-30 mt-5">
                                                 <span class="input-number">
-                                                    <input type="number" id="year_to_input" name="year_to_input">
+                                                    <input type="number" id="{{ id }}_year_to_input" name="{{ id }}_year_to_input">
                                                     <button class="input-number-add">
                                                         <span class="sr-only">{% trans "Aumenta valore" %}</span>
                                                     </button>
@@ -76,7 +76,7 @@
                                     <div class="col-sm">
                                         <div class="w-20 mt-5 ml-5 mr-5">
                                             <button class="btn btn-primary" type="button" id="search-button"
-                                                v-on:click="search()">{% trans "Cerca" %}</button>
+                                                @click="{{ id }}.search()">{% trans "Cerca" %}</button>
                                         </div>
                                     </div>
                                 </div>
@@ -89,7 +89,7 @@
         {% endblock filters_teacherstudyactivities %}
 
 
-        <list-panel v-bind:data="items" v-if="items.results"></list-panel>
+        <list-panel v-bind:data="items" v-if="items.results" id="{{ id }}"></list-panel>
 
         <div class="row">
             <div class="table-responsive">
@@ -127,7 +127,7 @@
 
         </div>
 
-        <list-panel v-bind:data="items" v-if="items.results"></list-panel>
+        <list-panel v-bind:data="items" v-if="items.results" id="{{ id }}"></list-panel>
 
     </div>
 </div>
@@ -135,19 +135,19 @@
 
 {% block pagination_extra_scripts %}
 <script>
-function get_form_paramenters() {
+function {{ id }}_get_form_paramenters() {
     let dict = {};
 
     // year
-    let year = document.getElementById('year_input').value
+    let year = document.getElementById('{{ id }}_year_input').value
     if (year) dict['year'] = year
 
     // year_to
-    let year_to = document.getElementById('year_to_input').value
+    let year_to = document.getElementById('{{ id }}_year_to_input').value
     if (year_to) dict['yearTo'] = year_to
 
     // year_from
-    let year_from = document.getElementById('year_from_input').value
+    let year_from = document.getElementById('{{ id }}_year_from_input').value
     if (year_from) dict['yearFrom'] = year_from
 
     return dict

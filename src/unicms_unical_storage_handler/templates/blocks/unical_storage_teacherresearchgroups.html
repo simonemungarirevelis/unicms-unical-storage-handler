@@ -10,7 +10,7 @@
 
     <div v-else>
 
-        <list-panel v-bind:data="items" v-if="items.results"></list-panel>
+        <list-panel v-bind:data="items" v-if="items.results" id="{{ id }}"></list-panel>
 
         <div class="row">
             <div class="col-12 col-lg-6" v-for="item in items.results">
@@ -34,7 +34,7 @@
             </div>
         </div>
 
-        <list-panel v-bind:data="items" v-if="items.results"></list-panel>
+        <list-panel v-bind:data="items" v-if="items.results" id="{{ id }}"></list-panel>
     </div>
 </div>
 {% endblock pagination_content %}

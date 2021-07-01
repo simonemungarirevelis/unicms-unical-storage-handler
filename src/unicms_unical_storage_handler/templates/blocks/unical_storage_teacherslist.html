@@ -26,42 +26,42 @@
                                 <div class="row">
                                     <div class="col-sm">
                                         <div class="bootstrap-select-wrapper ml-5 mr-5">
-                                            <label for="cdsid_input">
+                                            <label for="{{ id }}_cdsid_input">
                                                 {% trans "ID Corso di Studi" %}
                                             </label>
                                             <div class="w-30 mt-5">
                                                 <input type="text"
-                                                       id="cdsid_input"
-                                                       name="cdsid_input"
+                                                       id="{{ id }}_cdsid_input"
+                                                       name="{{ id }}_cdsid_input"
                                                        class="form-control">
                                             </div>
                                         </div>
                                     </div>
                                     <div class="col-sm">
                                         <div class="bootstrap-select-wrapper ml-5 mr-5">
-                                            <label for="department_id_input">
+                                            <label for="{{ id }}_department_id_input">
                                                 {% trans "ID Dipartimento" %}
                                             </label>
                                             <div class="w-30 mt-5">
-                                                <input type="text" id="department_id_input" name="department_id_input"
+                                                <input type="text" id="{{ id }}_department_id_input" name="{{ id }}_department_id_input"
                                                     class="form-control">
                                             </div>
                                         </div>
                                     </div>
                                     <div class="col-sm">
                                         <div class="bootstrap-select-wrapper ml-5 mr-5">
-                                            <label for="role_input">
+                                            <label for="{{ id }}_role_input">
                                                 {% trans "Ruolo" %}
                                             </label>
                                             <div class="w-30 mt-5">
-                                                <input type="text" id="role_input" name="role_input" class="form-control">
+                                                <input type="text" id="{{ id }}_role_input" name="{{ id }}_role_input" class="form-control">
                                             </div>
                                         </div>
                                     </div>
                                     <div class="col-sm">
                                         <div class="w-20 mt-5 ml-5 mr-5">
                                             <button class="btn btn-primary" type="button" id="search-button"
-                                                v-on:click="search()">{% trans "Cerca" %}</button>
+                                                @click="{{ id }}.search()">{% trans "Cerca" %}</button>
                                         </div>
                                     </div>
                                 </div>
@@ -74,7 +74,7 @@
         {% endblock filters_teacherslist %}
 
 
-        <list-panel v-bind:data="items" v-if="items.results"></list-panel>
+        <list-panel v-bind:data="items" v-if="items.results" id="{{ id }}"></list-panel>
 
         <div class="table-responsive">
             <table class="table table-sm">
@@ -102,26 +102,26 @@
             </table>
         </div>
 
-        <list-panel v-bind:data="items" v-if="items.results"></list-panel>
+        <list-panel v-bind:data="items" v-if="items.results" id="{{ id }}"></list-panel>
     </div>
 </div>
 {% endblock pagination_content %}
 
 {% block pagination_extra_scripts %}
 <script>
-function get_form_paramenters() {
+function {{ id }}_get_form_paramenters() {
     let dict = {};
 
     // cdsid
-    let cdsid = document.getElementById('cdsid_input').value
+    let cdsid = document.getElementById('{{ id }}_cdsid_input').value
     if (cdsid) dict['cdsid'] = cdsid
 
     // role
-    let role = document.getElementById('role_input').value
+    let role = document.getElementById('{{ id }}_role_input').value
     if (role) dict['role'] = role
 
     // department id
-    let department_id = document.getElementById('department_id_input').value
+    let department_id = document.getElementById('{{ id }}_department_id_input').value
     if (department_id) dict['departmentid'] = department_id
 
     return dict
