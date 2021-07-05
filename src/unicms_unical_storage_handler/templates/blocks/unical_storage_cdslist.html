@@ -72,110 +72,56 @@
                                 </div>
                             </div>
 
-
-                            <div class="collapse-header" id="{{ id }}_heading1">
-                                <button style="padding: 0px; color: #19191a;" data-toggle="collapse"
-                                    data-target="#{{ id }}_collapse1" aria-expanded="false" aria-controls="{{ id }}_collapse1">
-                                    {% trans "Ricerca Avanzata" %}
-                                </button>
+                            <!-- Academic year & Department Id & Department Name -->
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-sm">
+                                        <div class="bootstrap-select-wrapper">
+                                            <label for="{{ id }}_academic_year_input">{% trans "Anno Accademico" %}</label>
+                                            <div class="w-30 mt-5">
+                                                <span class="input-number">
+                                                    <input type="number" id="{{ id }}_academic_year_input"
+                                                        name="{{ id }}_academic_year_input">
+                                                    <button class="input-number-add">
+                                                        <span class="sr-only">Aumenta valore</span>
+                                                    </button>
+                                                    <button class="input-number-sub">
+                                                        <span class="sr-only">Diminuisci valore</span>
+                                                    </button>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm">
+                                        <div class="bootstrap-select-wrapper">
+                                            <label for="{{ id }}_department_input">{% trans "Dipartimento" %}</label>
+                                            <div class="w-30 mt-5">
+                                                <input type="text" id="{{ id }}_department_input"
+                                                    name="{{ id }}_department_input" class="form-control">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
 
-                            <div id="{{ id }}_collapse1" class="collapse" role="tabpanel" aria-labelledby="{{ id }}_heading1">
-                                <!-- Academic year & Department Id & Department Name -->
-                                <div class="form-group">
-                                    <div class="row">
-                                        <div class="col-sm">
-                                            <div class="bootstrap-select-wrapper">
-                                                <label for="{{ id }}_academic_year_input">{% trans "Anno Accademico" %}</label>
-                                                <div class="w-30 mt-5">
-                                                    <span class="input-number">
-                                                        <input type="number" id="{{ id }}_academic_year_input"
-                                                            name="{{ id }}_academic_year_input">
-                                                        <button class="input-number-add">
-                                                            <span class="sr-only">Aumenta valore</span>
-                                                        </button>
-                                                        <button class="input-number-sub">
-                                                            <span class="sr-only">Diminuisci valore</span>
-                                                        </button>
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm">
-                                            <div class="bootstrap-select-wrapper">
-                                                <label for="{{ id }}_department_id_input">{% trans "ID Dipartimento" %}</label>
-                                                <div class="w-30 mt-5">
-                                                    <input type="text" id="{{ id }}_department_id_input" name="{{ id }}_department_id_input"
-                                                        class="form-control">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm">
-                                            <div class="bootstrap-select-wrapper">
-                                                <label for="{{ id }}_department_name_input">{% trans "Nome Dipartimento" %}</label>
-                                                <div class="w-30 mt-5">
-                                                    <input type="text" id="{{ id }}_department_name_input"
-                                                        name="{{ id }}_department_name_input" class="form-control">
-                                                </div>
+                            <!-- Cds Language & Joint Degree -->
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-sm">
+                                        <div class="bootstrap-select-wrapper">
+                                            <label for="{{ id }}_cds_language_input"> {% trans "Lingua Corso di Studi" %} </label>
+                                            <div class="w-30 mt-5">
+                                                <input type="text" id="{{ id }}_cds_language_input" name="{{ id }}_cds_language_input"
+                                                    class="form-control">
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-
-                                <!-- Course Type & Course Class Id & Course Class Name -->
-                                <div class="form-group">
-                                    <div class="row">
-                                        <!--
-                                        <div class="col-sm">
-                                            <div class="bootstrap-select-wrapper">
-                                                <label for="course_type_input">{% trans "Tipologia Corso" %}</label>
-                                                <div class="w-30 mt-5">
-                                                    <input type="text" id="course_type_input" name="course_type_input"
-                                                        class="form-control">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        -->
-                                        <div class="col-sm">
-                                            <div class="bootstrap-select-wrapper">
-                                                <label for="{{ id }}_course_class_id_input">{% trans "ID Classe Corso" %}</label>
-                                                <div class="w-30 mt-5">
-                                                    <input type="text" id="{{ id }}_course_class_id_input"
-                                                        name="{{ id }}_course_class_id_input" class="form-control">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm">
-                                            <div class="bootstrap-select-wrapper">
-                                                <label for="{{ id }}_course_class_name_input"> {% trans "Nome Classe Corso" %} </label>
-                                                <div class="w-30 mt-5">
-                                                    <input type="text" id="{{ id }}_course_class_name_input"
-                                                        name="{{ id }}_course_class_name_input" class="form-control">
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- Cds Language & Joint Degree -->
-                                <div class="form-group">
-                                    <div class="row">
-                                        <div class="col-sm">
-                                            <div class="bootstrap-select-wrapper">
-                                                <label for="{{ id }}_cds_language_input"> {% trans "Lingua Corso di Studi" %} </label>
-                                                <div class="w-30 mt-5">
-                                                    <input type="text" id="{{ id }}_cds_language_input" name="{{ id }}_cds_language_input"
-                                                        class="form-control">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm">
-                                            <div class="bootstrap-select-wrapper">
-                                                <label for="{{ id }}_joint_degree_input">{% trans "Joint Degree" %}</label>
-                                                <div class="w-30 mt-5">
-                                                    <input type="text" id="{{ id }}_joint_degree_input" name="{{ id }}_joint_degree_input"
-                                                        class="form-control">
-                                                </div>
+                                    <div class="col-sm">
+                                        <div class="bootstrap-select-wrapper">
+                                            <label for="{{ id }}_joint_degree_input">{% trans "Titolo Congiunto" %}</label>
+                                            <div class="w-30 mt-5">
+                                                <input type="text" id="{{ id }}_joint_degree_input" name="{{ id }}_joint_degree_input"
+                                                    class="form-control">
                                             </div>
                                         </div>
                                     </div>
@@ -265,24 +211,12 @@ function {{ id }}_get_form_paramenters(dict={}, keyword=null, value=null) {
     if (academic_year) dict['academicyear'] = academic_year
 
     // department id
-    let department_id = document.getElementById('{{ id }}_department_id_input').value
-    if (department_id) dict['departmentid'] = department_id
+    // let department_id = document.getElementById('{{ id }}_department_input').value
+    // if (department_id) dict['departmentid'] = department_id
 
     // department name
-    let department_name = document.getElementById('{{ id }}_department_name_input').value
-    if (department_name) dict['departmentname'] = department_name
-
-    // course type
-    //let course_type = document.getElementById('course_type_input').value
-    //if (course_type) dict['coursetype'] = course_type
-
-    // course class id
-    let course_class_id = document.getElementById('{{ id }}_course_class_id_input').value
-    if (course_class_id) dict['courseclassid'] = course_class_id
-
-    // course class name
-    let course_class_name = document.getElementById('{{ id }}_course_class_name_input').value
-    if (course_class_name) dict['courseclassname'] = course_class_name
+    let department_name = document.getElementById('{{ id }}_department_input').value
+    if (department_name) dict['departmentid'] = department_name
 
     // cds language
     let cds_language = document.getElementById('{{ id }}_cds_language_input').value
