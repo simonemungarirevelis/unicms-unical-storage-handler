@@ -21,12 +21,6 @@
 
     <div v-else>
         <template v-model="item">
-            <div class="alert alert-info" role="alert" v-if="item.RegDidState === 'C'">
-                {% trans "Questo regolamento didattico <b>non è attivo</b>" %}
-            </div>
-            <div class="alert alert-success" role="alert" v-else-if="item.RegDidState === 'A'">
-                {% trans "Questo regolamento didattico <b>è attivo</b>" %}
-            </div>
             <h3>{% trans "Laurea in" %} [[ item.CdSName ]]</h3>
             <p>
                 {% trans "Classe di laurea" %} [[ item.CourseClassId ]]

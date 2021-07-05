@@ -25,16 +25,18 @@
             <div class="col">
                 <span v-for="degree in degree_types"
                       class="badge badge-grey-unical square-corners my-1 mr-3 ml-0 pr-5 p-2">
-                    <a href="javascript:void(0)" @click="{{ id }}.search('coursetype', [[ degree.CourseType ]])">
-                        <h5>
-                            <b v-if="degree.CourseType == active_degree">
-                                [[ degree.CourseTypeDescription ]]
-                            </b>
-                            <span v-else>
-                                [[ degree.CourseTypeDescription ]]
-                            </span>
-                        </h5>
-                    </a>
+                    <div v-if="degree_types_allowed.includes(degree.CourseType)">
+                        <a href="javascript:void(0)" @click="{{ id }}.search('coursetype', [[ degree.CourseType ]])">
+                            <h5>
+                                <b v-if="degree.CourseType == active_degree">
+                                    [[ degree.CourseTypeDescription ]]
+                                </b>
+                                <span v-else>
+                                    [[ degree.CourseTypeDescription ]]
+                                </span>
+                            </h5>
+                        </a>
+                    </div>
                 </span>
                 <span class="badge badge-grey-unical square-corners my-1 mr-3 ml-0 pr-5 p-2"
                       style="font-size: 100%">
@@ -137,7 +139,7 @@
         <list-panel v-bind:data="items" v-if="items.results" id="{{ id }}"></list-panel>
 
         <div class="row mb-3" v-for="item in items.results">
-            <div class="col-12" >
+            <div class="col-12" v-if="degree_types_allowed.includes(item.CourseType)">
                 <!--start card-->
                 <div class="card-wrapper pb-0">
                     <div class="card no-after" style="border:1px solid #b71918">
@@ -147,7 +149,7 @@
                                 {% settings_value "CMS_STORAGE_BASE_PATH" as base_prefix %}
                                 {% settings_value "CMS_STORAGE_CDS_VIEW_PREFIX_PATH" as cds_prefix %}
                                 <a :href="'/{{ cms_path_prefix }}{{ base_prefix }}/{{ cds_prefix }}/' + [[ item.RegDidId ]] +'/'">
-                                    [[ item.CdSName ]]
+                                    [[ item.CdSName ]] - [[ item.CourseType ]]
                                 </a>
                             </h4>
                             <div class="row">
@@ -237,7 +239,8 @@ search_dict: {},
 active_degree: "",
 degree_types: [],
 is_loading_2: true,
-loader_source_2: 'https://storage.portale.unical.it/api/ricerca/degreetypes/?lang={{ LANGUAGE_CODE }}'
+loader_source_2: 'https://storage.portale.unical.it/api/ricerca/degreetypes/?lang={{ LANGUAGE_CODE }}',
+degree_types_allowed: ['L', 'LM', 'LM5', 'LM6', 'M1-270', 'M2-270'],
 {% endblock pagination_extra_data %}
 
 {% block pagination_extra_mounted %}
@@ -264,3 +267,4 @@ callDegreeTypes() {
 },
 {% endblock pagination_extra_methods %}
 </script>
+

@@ -28,7 +28,7 @@
             <div class="table-responsive">
                 <table class="table table-sm">
                     <tbody>
-                        <tr v-for="(value, name) in item" v-if="value">
+                        <tr v-for="(value, name) in item" v-if="value && !fields_to_not_show.includes(name)">
                             <td class="col-3">[[ labels[name] ]]</td>
 
                             <!-- Root activity -->
@@ -127,7 +127,8 @@
                 labels: {},
                 url: '{{ url }}',
                 is_loading: true,
-                loader_source: '{{ url }}'
+                loader_source: '{{ url }}',
+                fields_to_not_show: ['StudyActivityCdSID', 'StudyActivityRegDidId', 'StudyActivityTeacherID', 'StudyActivityID']
             }
         },
         mounted() {
