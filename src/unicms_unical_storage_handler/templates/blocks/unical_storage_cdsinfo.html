@@ -52,7 +52,7 @@
                             <div class="col-12 col-md-auto">
                                 <small>
                                     [[ labels['CdSLanguage'] ]] >
-                                    <b>[[ item.CdSLanguage ]]</b>
+                                    <b>[[ item.CdSLanguage.join(', ') ]] </b>
                                 </small>
                             </div>
                         </div>
@@ -74,7 +74,7 @@
                  class="collapse-div collapse-left-icon"
                  style="border-bottom: 0"
                  role="tablist">
-                <div v-for="name in fields_to_show">
+                <div v-for="name in fields_to_show" v-if="item[name] != null">
                     <div class="collapse-header" :id="'heading-' + name +'-lft'">
                         <button data-toggle="collapse" :data-target="'#collapse-' + name +'-lft'" aria-expanded="false" :aria-controls="'collapse-' + name +'-lft'">
                             [[ labels[name] ]]
@@ -112,7 +112,10 @@
                             </span>
                             <span v-else>
                                 <span style="white-space: pre-line;">
-                                    [[ item[name] ]]
+                                    <a v-if="name == 'CdSSatisfactionSurvey'" v-bind:href="link_almalaurea + item[name]">[[ link_almalaurea ]][[ item[name] ]]</a>
+                                    <div v-else>
+                                        [[ item[name] ]]
+                                    </div>
                                 </span>
                             </span>
                         </div>
@@ -179,9 +182,10 @@ var {{ id }} = new Vue({
             fields_to_show:
                 ['CdSGoals', 'CdSAccess', 'CdSAdmission',
                  'CdSProfiles', 'CdSFinalTest', 'CdSFinalTestMode',
-                 'CdSSatisfactionSurvey'],
+                'CdSSatisfactionSurvey'],
             is_loading: true,
             loader_source: '{{ url }}',
+            link_almalaurea: 'http://statistiche.almalaurea.it/universita/statistiche/trasparenza?codicione=',
         }
     },
     mounted() {

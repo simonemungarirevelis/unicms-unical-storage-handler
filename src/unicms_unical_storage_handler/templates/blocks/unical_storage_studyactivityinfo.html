@@ -28,7 +28,7 @@
             <div class="table-responsive">
                 <table class="table table-sm">
                     <tbody>
-                        <tr v-for="(value, name) in item" v-if="value && !fields_to_not_show.includes(name)">
+                        <tr v-for="(value, name) in item" v-if="value && !fields_to_not_show.includes(name) && value != ''">
                             <td class="col-3">[[ labels[name] ]]</td>
 
                             <!-- Root activity -->
