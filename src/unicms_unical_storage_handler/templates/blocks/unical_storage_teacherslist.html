@@ -15,7 +15,15 @@
 
     <div v-else>
         {% block filters_teacherslist %}
-        <div class="row">
+        <loading-icon
+            v-if="is_loading_departments"
+            :loader_source="loader_source_departments">
+        </loading-icon>
+        <loading-icon
+            v-else-if="is_loading_roles"
+            :loader_source="loader_source_roles">
+        </loading-icon>
+        <div class="row" v-else>
             <div class="col-12">
                 <div class="card-wrapper card-space">
                     <div class="card card-bg no-after">
@@ -24,12 +32,12 @@
                             <!-- CdsId & DepartmentID & Role -->
                             <div class="form-group">
                                 <div class="row">
-                                    <div class="col-sm">
+                                    <div class="col-sm-2">
                                         <div class="bootstrap-select-wrapper ml-5 mr-5">
                                             <label for="{{ id }}_cdsid_input">
-                                                {% trans "ID Corso di Studi" %}
+                                                {% trans "CdS" %}
                                             </label>
-                                            <div class="w-30 mt-5">
+                                            <div class="w-40 mt-5">
                                                 <input type="text"
                                                        id="{{ id }}_cdsid_input"
                                                        name="{{ id }}_cdsid_input"
@@ -37,28 +45,29 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-sm">
+                                    <div class="col-sm-4">
                                         <div class="bootstrap-select-wrapper ml-5 mr-5">
-                                            <label for="{{ id }}_department_id_input">
-                                                {% trans "ID Dipartimento" %}
-                                            </label>
-                                            <div class="w-30 mt-5">
-                                                <input type="text" id="{{ id }}_department_id_input" name="{{ id }}_department_id_input"
-                                                    class="form-control">
+                                            <label for="{{ id }}_department_input">{% trans "Dipartimento" %}</label>
+                                            <div class="w-40 mt-5">
+                                                <select id="{{ id }}_department_input" title="Scegli una opzione" name="{{ id }}_department_input" class="form-control">
+                                                  <option v-for="item in departments_filter" v-bind:value="item.DepartmentID">[[ item.DepartmentName ]]</option>
+                                                </select>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-sm">
+                                    <div class="col-sm-4">
                                         <div class="bootstrap-select-wrapper ml-5 mr-5">
                                             <label for="{{ id }}_role_input">
                                                 {% trans "Ruolo" %}
                                             </label>
-                                            <div class="w-30 mt-5">
-                                                <input type="text" id="{{ id }}_role_input" name="{{ id }}_role_input" class="form-control">
+                                            <div class="w-20 mt-5">
+                                                <select title="Scegli una opzione" id="{{ id }}_role_input" name="{{ id }}_role_input" class="form-control">
+                                                  <option v-for="item in roles_filter" v-bind:value="item.TeacherRole">[[ item.TeacherRoleDescription ]]</option>
+                                                </select>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-sm">
+                                    <div class="col-sm-1">
                                         <div class="w-20 mt-5 ml-5 mr-5">
                                             <button class="btn btn-primary" type="button" id="search-button"
                                                 @click="{{ id }}.search()">{% trans "Cerca" %}</button>
@@ -121,10 +130,45 @@ function {{ id }}_get_form_paramenters() {
     if (role) dict['role'] = role
 
     // department id
-    let department_id = document.getElementById('{{ id }}_department_id_input').value
-    if (department_id) dict['departmentid'] = department_id
+    let department = document.getElementById('{{ id }}_department_input').value
+    if (department) dict['departmentid'] = department
 
     return dict
 }
 </script>
 {% endblock pagination_extra_scripts %}
+
+{% block pagination_extra_data %}
+is_loading_departments: true,
+is_loading_roles: true,
+loader_source_departments: 'https://storage.portale.unical.it/api/ricerca/departments/?lang={{ LANGUAGE_CODE }}',
+loader_source_roles: 'https://storage.portale.unical.it/api/ricerca/roles/?lang={{ LANGUAGE_CODE }}',
+departments_filter: [],
+roles_filter: [],
+{% endblock pagination_extra_data %}
+
+{% block pagination_extra_mounted %}
+this.callDepartments();
+this.callRoles();
+{% endblock pagination_extra_mounted %}
+
+{% block pagination_extra_methods %}
+callDepartments() {
+    axios
+        .get(this.loader_source_departments)
+        .then(response => {
+            this.departments_filter = response.data.results;
+            this.departments_filter.unshift("");
+            this.is_loading_departments = false
+        })
+},
+callRoles() {
+    axios
+        .get(this.loader_source_roles)
+        .then(response => {
+            this.roles_filter = response.data.results;
+            this.roles_filter.unshift("");
+            this.is_loading_roles = false
+        })
+},
+{% endblock pagination_extra_methods %}
