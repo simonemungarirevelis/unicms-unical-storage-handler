@@ -90,17 +90,25 @@
                                     <div class="col-sm">
                                         <div class="bootstrap-select-wrapper">
                                             <label for="{{ id }}_academic_year_input">{% trans "Anno Accademico" %}</label>
-                                                <select id="{{ id }}_academic_year_input" title="Scegli una opzione" name="{{ id }}_academic_year_input" class="form-control">
-                                                  <option v-for="item in academic_years_filter" :value="item.AcademicYear">[[ item.AcademicYear ]]</option>
+                                            <div class="w-30 mt-5">
+                                                <select id="{{ id }}_academic_year_input" title="{% trans 'Scegli una opzione' %}" name="{{ id }}_academic_year_input" class="form-control">
+                                                  <option v-for="item in academic_years_filter" :value="item.AcademicYear">
+                                                      [[ item.AcademicYear ]]
+                                                    </option>
                                                 </select>
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="col-sm">
                                         <div class="bootstrap-select-wrapper">
                                             <label for="{{ id }}_department_input">{% trans "Dipartimento" %}</label>
-                                                <select id="{{ id }}_department_input" title="Scegli una opzione" name="{{ id }}_department_input" class="form-control">
-                                                  <option v-for="item in departments_filter" :value="item.DepartmentID">[[ item.DepartmentName ]]</option>
+                                            <div class="w-30 mt-5">
+                                                <select id="{{ id }}_department_input" title="{% trans 'Scegli una opzione' %}" name="{{ id }}_department_input" class="form-control">
+                                                  <option v-for="item in departments_filter" :value="item.DepartmentID">
+                                                      [[ item.DepartmentName ]]
+                                                    </option>
                                                 </select>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -111,18 +119,26 @@
                                 <div class="row">
                                     <div class="col-sm">
                                         <div class="bootstrap-select-wrapper">
-                                            <label for="{{ id }}_cds_language_input"> {% trans "Lingua Corso di Studi" %} </label>
-                                                <select id="{{ id }}_cds_language_input" title="Scegli una opzione" name="{{ id }}_cds_language_input" class="form-control">
-                                                  <option v-for="item in cds_languages_filter" :value="item">[[ item ]]</option>
+                                            <label for="{{ id }}_cds_language_input">{% trans "Lingua Corso di Studi" %}</label>
+                                            <div class="w-30 mt-5">
+                                                <select id="{{ id }}_cds_language_input" title="{% trans 'Scegli una opzione' %}" name="{{ id }}_cds_language_input" class="form-control">
+                                                  <option v-for="item in cds_languages_filter" :value="item">
+                                                      [[ item ]]
+                                                    </option>
                                                 </select>
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="col-sm">
                                         <div class="bootstrap-select-wrapper">
                                             <label for="{{ id }}_joint_degree_input">{% trans "Titolo Congiunto" %}</label>
-                                                <select id="{{ id }}_joint_degree_input" title="Scegli una opzione" name="{{ id }}_joint_degree_input" class="form-control">
-                                                  <option v-for="item in joint_degree_filter" :value="item">[[ item ]]</option>
+                                            <div class="w-30 mt-5">
+                                                <select id="{{ id }}_joint_degree_input" title="{% trans 'Scegli una opzione' %}" name="{{ id }}_joint_degree_input" class="form-control">
+                                                  <option v-for="item in joint_degree_filter" :value="item">
+                                                      [[ item ]]
+                                                    </option>
                                                 </select>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -294,4 +310,3 @@ callDepartments() {
 },
 {% endblock pagination_extra_methods %}
 </script>
-
