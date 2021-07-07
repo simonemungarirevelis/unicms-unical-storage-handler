@@ -25,16 +25,18 @@
             <div class="col">
                 <span v-for="degree in degree_types"
                       class="badge badge-grey-unical square-corners my-1 mr-3 ml-0 pr-5 p-2">
-                    <a href="javascript:void(0)" @click="{{ id }}.search('coursetype', [[ degree.CourseType ]])">
-                        <h5>
-                            <b v-if="degree.CourseType == active_degree">
-                                [[ degree.CourseTypeDescription ]]
-                            </b>
-                            <span v-else>
-                                [[ degree.CourseTypeDescription ]]
-                            </span>
-                        </h5>
-                    </a>
+                    <div v-if="degree_types_allowed.includes(degree.CourseType)">
+                        <a href="javascript:void(0)" @click="{{ id }}.search('coursetype', [[ degree.CourseType ]])">
+                            <h5>
+                                <b v-if="degree.CourseType == active_degree">
+                                    [[ degree.CourseTypeDescription ]]
+                                </b>
+                                <span v-else>
+                                    [[ degree.CourseTypeDescription ]]
+                                </span>
+                            </h5>
+                        </a>
+                    </div>
                 </span>
                 <span class="badge badge-grey-unical square-corners my-1 mr-3 ml-0 pr-5 p-2"
                       style="font-size: 100%">
@@ -50,7 +52,17 @@
         {% endblock filters_coursetype %}
 
         {% block filters_cdslist %}
-        <div class="row">
+        <loading-icon
+        v-if="is_loading_academicyears"
+        :loader_source="loader_source_2">
+        </loading-icon>
+
+        <loading-icon
+            v-else-if="is_loading_departments"
+            :loader_source="loader_source_2">
+        </loading-icon>
+
+        <div v-else class="row">
             <div class="col-12">
                 <div class="card-wrapper card-space">
                     <div class="card card-bg no-after">
@@ -72,110 +84,52 @@
                                 </div>
                             </div>
 
-
-                            <div class="collapse-header" id="{{ id }}_heading1">
-                                <button style="padding: 0px; color: #19191a;" data-toggle="collapse"
-                                    data-target="#{{ id }}_collapse1" aria-expanded="false" aria-controls="{{ id }}_collapse1">
-                                    {% trans "Ricerca Avanzata" %}
-                                </button>
+                            <!-- Academic year & Department Id & Department Name -->
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-sm">
+                                        <div class="bootstrap-select-wrapper">
+                                            <label for="{{ id }}_academic_year_input">{% trans "Anno Accademico" %}</label>
+                                            <div class="w-30 mt-5">
+                                                <select id="{{ id }}_academic_year_input" title="Scegli una opzione" name="{{ id }}_academic_year_input" class="form-control">
+                                                  <option v-for="item in academic_years_filter" v-bind:value="item.AcademicYear">[[ item.AcademicYear ]]</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm">
+                                        <div class="bootstrap-select-wrapper">
+                                            <label for="{{ id }}_department_input">{% trans "Dipartimento" %}</label>
+                                            <div class="w-30 mt-5">
+                                                <select id="{{ id }}_department_input" title="Scegli una opzione" name="{{ id }}_department_input" class="form-control">
+                                                  <option v-for="item in departments_filter" v-bind:value="item.DepartmentID">[[ item.DepartmentName ]]</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
 
-                            <div id="{{ id }}_collapse1" class="collapse" role="tabpanel" aria-labelledby="{{ id }}_heading1">
-                                <!-- Academic year & Department Id & Department Name -->
-                                <div class="form-group">
-                                    <div class="row">
-                                        <div class="col-sm">
-                                            <div class="bootstrap-select-wrapper">
-                                                <label for="{{ id }}_academic_year_input">{% trans "Anno Accademico" %}</label>
-                                                <div class="w-30 mt-5">
-                                                    <span class="input-number">
-                                                        <input type="number" id="{{ id }}_academic_year_input"
-                                                            name="{{ id }}_academic_year_input">
-                                                        <button class="input-number-add">
-                                                            <span class="sr-only">Aumenta valore</span>
-                                                        </button>
-                                                        <button class="input-number-sub">
-                                                            <span class="sr-only">Diminuisci valore</span>
-                                                        </button>
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm">
-                                            <div class="bootstrap-select-wrapper">
-                                                <label for="{{ id }}_department_id_input">{% trans "ID Dipartimento" %}</label>
-                                                <div class="w-30 mt-5">
-                                                    <input type="text" id="{{ id }}_department_id_input" name="{{ id }}_department_id_input"
-                                                        class="form-control">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm">
-                                            <div class="bootstrap-select-wrapper">
-                                                <label for="{{ id }}_department_name_input">{% trans "Nome Dipartimento" %}</label>
-                                                <div class="w-30 mt-5">
-                                                    <input type="text" id="{{ id }}_department_name_input"
-                                                        name="{{ id }}_department_name_input" class="form-control">
-                                                </div>
+                            <!-- Cds Language & Joint Degree -->
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-sm">
+                                        <div class="bootstrap-select-wrapper">
+                                            <label for="{{ id }}_cds_language_input"> {% trans "Lingua Corso di Studi" %} </label>
+                                            <div class="w-30 mt-5">
+                                                <select id="{{ id }}_cds_language_input" title="Scegli una opzione" name="{{ id }}_cds_language_input" class="form-control">
+                                                  <option v-for="item in cds_languages_filter" v-value="item">[[ item ]]</option>
+                                                </select>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-
-                                <!-- Course Type & Course Class Id & Course Class Name -->
-                                <div class="form-group">
-                                    <div class="row">
-                                        <!--
-                                        <div class="col-sm">
-                                            <div class="bootstrap-select-wrapper">
-                                                <label for="course_type_input">{% trans "Tipologia Corso" %}</label>
-                                                <div class="w-30 mt-5">
-                                                    <input type="text" id="course_type_input" name="course_type_input"
-                                                        class="form-control">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        -->
-                                        <div class="col-sm">
-                                            <div class="bootstrap-select-wrapper">
-                                                <label for="{{ id }}_course_class_id_input">{% trans "ID Classe Corso" %}</label>
-                                                <div class="w-30 mt-5">
-                                                    <input type="text" id="{{ id }}_course_class_id_input"
-                                                        name="{{ id }}_course_class_id_input" class="form-control">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm">
-                                            <div class="bootstrap-select-wrapper">
-                                                <label for="{{ id }}_course_class_name_input"> {% trans "Nome Classe Corso" %} </label>
-                                                <div class="w-30 mt-5">
-                                                    <input type="text" id="{{ id }}_course_class_name_input"
-                                                        name="{{ id }}_course_class_name_input" class="form-control">
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- Cds Language & Joint Degree -->
-                                <div class="form-group">
-                                    <div class="row">
-                                        <div class="col-sm">
-                                            <div class="bootstrap-select-wrapper">
-                                                <label for="{{ id }}_cds_language_input"> {% trans "Lingua Corso di Studi" %} </label>
-                                                <div class="w-30 mt-5">
-                                                    <input type="text" id="{{ id }}_cds_language_input" name="{{ id }}_cds_language_input"
-                                                        class="form-control">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm">
-                                            <div class="bootstrap-select-wrapper">
-                                                <label for="{{ id }}_joint_degree_input">{% trans "Joint Degree" %}</label>
-                                                <div class="w-30 mt-5">
-                                                    <input type="text" id="{{ id }}_joint_degree_input" name="{{ id }}_joint_degree_input"
-                                                        class="form-control">
-                                                </div>
+                                    <div class="col-sm">
+                                        <div class="bootstrap-select-wrapper">
+                                            <label for="{{ id }}_joint_degree_input">{% trans "Titolo Congiunto" %}</label>
+                                            <div class="w-30 mt-5">
+                                                <select id="{{ id }}_joint_degree_input" title="Scegli una opzione" name="{{ id }}_joint_degree_input" class="form-control">
+                                                  <option v-for="item in joint_degree_filter" v-value="item">[[ item ]]</option>
+                                                </select>
                                             </div>
                                         </div>
                                     </div>
@@ -191,7 +145,7 @@
         <list-panel v-bind:data="items" v-if="items.results" id="{{ id }}"></list-panel>
 
         <div class="row mb-3" v-for="item in items.results">
-            <div class="col-12" >
+            <div class="col-12">
                 <!--start card-->
                 <div class="card-wrapper pb-0">
                     <div class="card no-after" style="border:1px solid #b71918">
@@ -201,7 +155,7 @@
                                 {% settings_value "CMS_STORAGE_BASE_PATH" as base_prefix %}
                                 {% settings_value "CMS_STORAGE_CDS_VIEW_PREFIX_PATH" as cds_prefix %}
                                 <a :href="'/{{ cms_path_prefix }}{{ base_prefix }}/{{ cds_prefix }}/' + [[ item.RegDidId ]] +'/'">
-                                    [[ item.CdSName ]]
+                                    [[ item.CdSName ]] - [[ item.CourseType ]]
                                 </a>
                             </h4>
                             <div class="row">
@@ -226,7 +180,7 @@
                                 <div class="col-12 col-md-auto">
                                     <small>
                                         [[ labels['CdSLanguage'] ]] >
-                                        <b>[[ item.CdSLanguage ]]</b>
+                                        <b>[[ item.CdSLanguage.join(', ') ]] </b>
                                     </small>
                                 </div>
                                 <div class="col text-right">
@@ -265,24 +219,12 @@ function {{ id }}_get_form_paramenters(dict={}, keyword=null, value=null) {
     if (academic_year) dict['academicyear'] = academic_year
 
     // department id
-    let department_id = document.getElementById('{{ id }}_department_id_input').value
-    if (department_id) dict['departmentid'] = department_id
+    // let department_id = document.getElementById('{{ id }}_department_input').value
+    // if (department_id) dict['departmentid'] = department_id
 
     // department name
-    let department_name = document.getElementById('{{ id }}_department_name_input').value
-    if (department_name) dict['departmentname'] = department_name
-
-    // course type
-    //let course_type = document.getElementById('course_type_input').value
-    //if (course_type) dict['coursetype'] = course_type
-
-    // course class id
-    let course_class_id = document.getElementById('{{ id }}_course_class_id_input').value
-    if (course_class_id) dict['courseclassid'] = course_class_id
-
-    // course class name
-    let course_class_name = document.getElementById('{{ id }}_course_class_name_input').value
-    if (course_class_name) dict['courseclassname'] = course_class_name
+    let department = document.getElementById('{{ id }}_department_input').value
+    if (department) dict['departmentid'] = department
 
     // cds language
     let cds_language = document.getElementById('{{ id }}_cds_language_input').value
@@ -303,17 +245,29 @@ search_dict: {},
 active_degree: "",
 degree_types: [],
 is_loading_2: true,
-loader_source_2: 'https://storage.portale.unical.it/api/ricerca/degreetypes/?lang={{ LANGUAGE_CODE }}'
+is_loading_academicyears: true,
+is_loading_departments: true,
+loader_source_2: 'https://storage.portale.unical.it/api/ricerca/degreetypes/?lang={{ LANGUAGE_CODE }}',
+loader_source_academicyears: 'https://storage.portale.unical.it/api/ricerca/academicyears/?lang={{ LANGUAGE_CODE }}',
+loader_source_departments: 'https://storage.portale.unical.it/api/ricerca/departments/?lang={{ LANGUAGE_CODE }}',
+degree_types_allowed: ['L', 'LM', 'LM5', 'LM6', 'M1-270', 'M2-270'],
+academic_years_filter: [],
+departments_filter: [],
+cds_languages_filter: ['', 'ita', 'eng'],
+joint_degree_filter: ['', 'S', 'N', 'D'],
 {% endblock pagination_extra_data %}
 
 {% block pagination_extra_mounted %}
 this.callDegreeTypes();
+this.callAcademicYears();
+this.callDepartments();
 {% endblock pagination_extra_mounted %}
 
 {% block pagination_method_search %}
 search(keyword=null, value=null) {
     if(keyword=='coursetype')
         this.active_degree = value;
+    this.search_dict = {}
     this.parameters = encodeQueryData({{ id }}_get_form_paramenters(this.search_dict, keyword, value), this.args_input);
     this.CallURL(this.url + this.parameters);
 },
@@ -328,5 +282,24 @@ callDegreeTypes() {
             this.is_loading_2 = false
         })
 },
+callAcademicYears() {
+    axios
+        .get(this.loader_source_academicyears)
+        .then(response => {
+            this.academic_years_filter = response.data.results;
+            this.academic_years_filter.unshift("");
+            this.is_loading_academicyears = false
+        })
+},
+callDepartments() {
+    axios
+        .get(this.loader_source_departments)
+        .then(response => {
+            this.departments_filter = response.data.results;
+            this.departments_filter.unshift("");
+            this.is_loading_departments = false
+        })
+},
 {% endblock pagination_extra_methods %}
 </script>
+
