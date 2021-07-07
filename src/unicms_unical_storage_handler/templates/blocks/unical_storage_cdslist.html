@@ -90,11 +90,9 @@
                                     <div class="col-sm">
                                         <div class="bootstrap-select-wrapper">
                                             <label for="{{ id }}_academic_year_input">{% trans "Anno Accademico" %}</label>
-                                            <div class="w-30 mt-5">
                                                 <select id="{{ id }}_academic_year_input" title="Scegli una opzione" name="{{ id }}_academic_year_input" class="form-control">
                                                   <option v-for="item in academic_years_filter" v-bind:value="item.AcademicYear">[[ item.AcademicYear ]]</option>
                                                 </select>
-                                            </div>
                                         </div>
                                     </div>
                                     <div class="col-sm">
