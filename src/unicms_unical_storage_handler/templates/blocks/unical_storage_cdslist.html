@@ -54,12 +54,12 @@
         {% block filters_cdslist %}
         <loading-icon
         v-if="is_loading_academicyears"
-        :loader_source="loader_source_2">
+        :loader_source="loader_source_academicyears">
         </loading-icon>
 
         <loading-icon
             v-else-if="is_loading_departments"
-            :loader_source="loader_source_2">
+            :loader_source="loader_source_departments">
         </loading-icon>
 
         <div v-else class="row">
