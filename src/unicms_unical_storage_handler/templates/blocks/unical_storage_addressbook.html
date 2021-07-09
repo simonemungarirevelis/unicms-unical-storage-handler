@@ -157,9 +157,11 @@ function {{ id }}_get_form_paramenters(dict={}, keyword=null, value=null) {
     let search = document.getElementById('{{ id }}_keywords').value
     if (search) dict['keywords'] = search
 
+    {% block structure_filter_input %}
     // structure
     let structure = document.getElementById('{{ id }}_structure_input').value
     if (structure) dict['structureid'] = structure
+    {% endblock structure_filter_input %}
 
     // role
     let role = document.getElementById('{{ id }}_role_input').value
@@ -184,7 +186,9 @@ roles_allowed: ['AREAUOC', 'DIP', 'MCRA'],
 {% endblock pagination_extra_data %}
 
 {% block pagination_extra_mounted %}
+{% block call_structure_on_mounted %}
 this.callStructures();
+{% endblock call_structure_on_mounted %}
 this.callRoles();
 {% endblock pagination_extra_mounted %}
 
@@ -199,6 +203,7 @@ search(keyword=null, value=null) {
 {% endblock pagination_method_search %}
 
 {% block pagination_extra_methods %}
+{% block structure_call_method %}
 callStructures() {
     axios
         .get(this.loader_source_structures)
@@ -208,6 +213,7 @@ callStructures() {
             this.is_loading_structures = false
         })
 },
+{% endblock structure_call_method %}
 callRoles() {
     axios
         .get(this.loader_source_roles)
