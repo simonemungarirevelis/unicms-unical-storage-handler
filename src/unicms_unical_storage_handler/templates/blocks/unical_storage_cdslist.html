@@ -52,17 +52,8 @@
         {% endblock filters_coursetype %}
 
         {% block filters_cdslist %}
-        <loading-icon
-        v-if="is_loading_academicyears"
-        :loader_source="loader_source_academicyears">
-        </loading-icon>
 
-        <loading-icon
-            v-else-if="is_loading_departments"
-            :loader_source="loader_source_departments">
-        </loading-icon>
-
-        <div v-else class="row">
+        <div class="row">
             <div class="col-12">
                 <div class="card-wrapper card-space">
                     <div class="card card-bg no-after">
@@ -88,7 +79,13 @@
 
                                 <!-- Academic year & Department -->
                                 <div class="row">
-                                    <div class="col-sm">
+
+                                    <loading-icon
+                                        v-if="is_loading_academicyears"
+                                        :loader_source="loader_source_academicyears">
+                                    </loading-icon>
+
+                                    <div class="col-sm" v-else>
                                         <div class="bootstrap-select-wrapper">
                                             <label for="{{ id }}_academic_year_input">{% trans "Anno Accademico" %}</label>
                                             <div class="w-30 mt-5">
@@ -100,7 +97,13 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-sm">
+
+                                    <loading-icon
+                                        v-if="is_loading_departments"
+                                        :loader_source="loader_source_departments">
+                                    </loading-icon>
+
+                                    <div class="col-sm" v-else>
                                         <div class="bootstrap-select-wrapper">
                                             <label for="{{ id }}_department_input">{% trans "Dipartimento" %}</label>
                                             <div class="w-30 mt-5">

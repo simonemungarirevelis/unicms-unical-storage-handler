@@ -62,7 +62,9 @@
                                             </label>
                                             <div class="w-20 mt-5">
                                                 <select title="Scegli una opzione" id="{{ id }}_role_input" name="{{ id }}_role_input" class="form-control">
-                                                  <option v-for="item in roles_filter" v-bind:value="item.TeacherRole">[[ item.TeacherRoleDescription ]]</option>
+                                                    <option v-for="item in roles_filter" v-bind:value="item.Role">
+                                                      [[ item.RoleDescription ]]
+                                                    </option>
                                                 </select>
                                             </div>
                                         </div>
@@ -90,7 +92,7 @@
                 <thead>
                     <tr>
                         <th scope="col">[[ labels.TeacherName ]]</th>
-                        <th scope="col">[[ labels.TeacherRole ]]</th>
+                        <th scope="col">[[ labels.Role ]]</th>
                         <th scope="col">[[ labels.TeacherSSDCod ]]</th>
                     </tr>
                 </thead>
@@ -104,7 +106,7 @@
                                 [[ item.TeacherName ]]
                             </a>
                         </td>
-                        <td>[[ item.TeacherRole ]]</td>
+                        <td>[[ item.Role ]]</td>
                         <td>[[ item.TeacherSSDCod ]] - [[ item.TeacherSSDDescription ]]</td>
                     </tr>
                 </tbody>

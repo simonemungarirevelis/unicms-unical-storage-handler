@@ -174,3 +174,20 @@ class TeacherInfoViewHandler(BaseStorageHandler):
         parent = (self.parent_url, settings.CMS_STORAGE_TEACHERS_LABEL)
         leaf = ('#', self.code)
         return (root, parent, leaf)
+
+
+class AddressbookListViewHandler(BaseStorageHandler):
+    template = "storage_addressbook_list.html"
+
+    def __init__(self, **kwargs):
+        super(AddressbookListViewHandler, self).__init__(**kwargs)
+
+    def as_view(self):
+        self.data['url'] = f'{settings.CMS_STORAGE_ADDRESSBOOK_API}?lang={self.lang}'
+        return super().as_view()
+
+    @property
+    def breadcrumbs(self):
+        root = (self.get_base_url, settings.CMS_STORAGE_ROOT_LABEL)
+        leaf = ('#', settings.CMS_STORAGE_ADDRESSBOOK_LABEL)
+        return (root, leaf)
