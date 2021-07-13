@@ -59,7 +59,8 @@
                                                 <select id="{{ id }}_structure_input"
                                                         title="{% trans 'Scegli una opzione' %}"
                                                         name="{{ id }}_structure_input"
-                                                        class="form-control">
+                                                        class="form-control"
+                                                        @change="{{ id }}.search()">
                                                     <option v-for="item in structure_filter"
                                                             :value="item.StructureId">
                                                             <!-- v-if="allowed_structures.includes(item.StructureTypeCOD)"> -->
@@ -87,7 +88,8 @@
                                                 <select id="{{ id }}_role_input"
                                                         title="{% trans 'Scegli una opzione' %}"
                                                         name="{{ id }}_role_input"
-                                                        class="form-control">
+                                                        class="form-control"
+                                                        @change="{{ id }}.search()">
                                                     <option value=""></option>
                                                     <option v-for="item in roles_filter"
                                                             :value="item.Role"
