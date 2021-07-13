@@ -21,7 +21,10 @@
 
     <div v-else>
         <template v-model="item">
-            <h3>{% trans "Laurea in" %} [[ item.CdSName ]]</h3>
+            <h3 style="display: inline">[[ item.CdSName ]] -&nbsp;</h3>
+            <h3 style="display: inline" v-if="item.CourseType != 'M2-270' && item.CourseType != 'M1-270' ">[[ item.CourseType ]]</h3>
+            <h3 style="display: inline" v-else-if="item.CourseType == 'M1-270'">MS1</h3>
+            <h3 style="display: inline" v-else>MS2</h3>
             <p>
                 {% trans "Classe di laurea" %} [[ item.CourseClassId ]]
                 <br>
@@ -40,7 +43,7 @@
                             <div class="col-12 col-md-auto">
                                 <small>
                                     [[ labels['AcademicYear'] ]] >
-                                    <b>[[ item.AcademicYear ]]</b>
+                                    <b>[[ item.AcademicYear ]]/[[ item.AcademicYear + 1 ]]</b>
                                 </small>
                             </div>
                             <div class="col-12 col-md-auto">
@@ -67,6 +70,12 @@
             <p>
                 <span style="white-space: pre-line;">
                     [[ item.CdSIntro ]]
+                </span>
+            </p>
+
+            <p>
+                <span style="white-space: pre-line;">
+                    <a href="https://drive.google.com/file/d/1VVOJarXB30mPhwV7CPbPHrR6FVeOZKrT/view">Brochure</a>
                 </span>
             </p>
 
@@ -113,9 +122,8 @@
                             <span v-else>
                                 <span style="white-space: pre-line;">
                                     <a v-if="name == 'CdSSatisfactionSurvey'" v-bind:href="link_almalaurea + item[name]">[[ link_almalaurea ]][[ item[name] ]]</a>
-                                    <div v-else>
-                                        [[ item[name] ]]
-                                    </div>
+                                    <a v-else-if="name == 'CdSDoc'" v-bind:href="item[name]">[[ item[name] ]]</a>
+                                    <span v-else>[[ item[name] ]]</span>
                                 </span>
                             </span>
                         </div>
@@ -182,7 +190,7 @@ var {{ id }} = new Vue({
             fields_to_show:
                 ['CdSGoals', 'CdSAccess', 'CdSAdmission',
                  'CdSProfiles', 'CdSFinalTest', 'CdSFinalTestMode',
-                'CdSSatisfactionSurvey'],
+                'CdSSatisfactionSurvey', 'CdSDoc'],
             is_loading: true,
             loader_source: '{{ url }}',
             link_almalaurea: 'http://statistiche.almalaurea.it/universita/statistiche/trasparenza?codicione=',
