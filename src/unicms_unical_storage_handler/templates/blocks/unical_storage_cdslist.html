@@ -25,7 +25,7 @@
             <div class="col">
                 <span v-for="degree in degree_types"
                       class="badge badge-grey-unical square-corners my-1 mr-3 ml-0 pr-5 p-2">
-                    <div v-if="degree_types_allowed.includes(degree.CourseType)">
+                    <div v-if="allowed_degree_types.includes(degree.CourseType)">
                         <a href="javascript:void(0)" @click="{{ id }}.search('coursetype', [[ degree.CourseType ]])">
                             <h5>
                                 <b v-if="degree.CourseType == active_degree">
@@ -260,7 +260,7 @@ is_loading_departments: true,
 loader_source_2: 'https://storage.portale.unical.it/api/ricerca/degreetypes/?lang={{ LANGUAGE_CODE }}',
 loader_source_academicyears: 'https://storage.portale.unical.it/api/ricerca/academicyears/?lang={{ LANGUAGE_CODE }}',
 loader_source_departments: 'https://storage.portale.unical.it/api/ricerca/departments/?lang={{ LANGUAGE_CODE }}',
-degree_types_allowed: ['L', 'LM', 'LM5', 'LM6', 'M1-270', 'M2-270'],
+allowed_degree_types: ['L', 'LM', 'LM5', 'LM6', 'M1-270', 'M2-270'],
 academic_years_filter: [],
 departments_filter: [],
 cds_languages_filter: ['', 'ita', 'eng'],
