@@ -307,10 +307,8 @@ joint_degree_filter: {{ allowed_joint_degrees|safe }}
 {% endblock pagination_extra_data %}
 
 {% block pagination_extra_mounted %}
-
-
 // if url if pre-filtered with preferred coursetypes
-// get them. else take params from settings
+// get them, else show all
 let params = new URLSearchParams(this.url.split('?')[1]);
 let get_coursetype = params.get("coursetype")
 if (get_coursetype != null){
@@ -321,7 +319,6 @@ if (get_coursetype != null){
 this.callDegreeTypes();
 this.callAcademicYears();
 this.callDepartments();
-
 {% endblock pagination_extra_mounted %}
 
 {% block pagination_method_search %}
