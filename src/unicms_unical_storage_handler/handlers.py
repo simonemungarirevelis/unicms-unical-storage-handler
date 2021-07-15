@@ -14,6 +14,14 @@ from cms.pages.models import Page
 from . settings import *
 
 
+# settings params
+ALLOWED_UNICMS_SITES = getattr(settings, 'ALLOWED_UNICMS_SITES',
+                               ALLOWED_UNICMS_SITES)
+
+ALLOWED_CDS_COURSETYPES = getattr(settings, 'ALLOWED_CDS_COURSETYPES',
+                                  ALLOWED_CDS_COURSETYPES)
+# end settings params
+
 class BaseStorageHandler(BaseContentHandler):
     template = "storage_base.html"
 
@@ -58,10 +66,6 @@ class BaseStorageHandler(BaseContentHandler):
     def breadcrumbs(self):
         leaf = ('#', settings.CMS_STORAGE_ROOT_LABEL)
         return (leaf,)
-
-
-ALLOWED_CDS_COURSETYPES = getattr(settings, 'ALLOWED_CDS_COURSETYPES',
-                                  ALLOWED_CDS_COURSETYPES)
 
 
 class CdSListViewHandler(BaseStorageHandler):

@@ -41,8 +41,7 @@
                 </span>
                 <span class="badge badge-grey-unical square-corners my-1 mr-3 ml-0 pr-5 p-2"
                       style="font-size: 100%">
-                    {% settings_value "ALLOWED_CDS_COURSETYPES" as allowed_course_types %}
-                    <a href="javascript:void(0)" @click="{{ id }}.search('coursetype', {{ allowed_course_types }})">
+                    <a href="javascript:void(0)" @click="{{ id }}.search('coursetype', allowed_course_types)">
                         <h5>
                             {% trans "Tutti" %}
                         </h5>
@@ -54,7 +53,6 @@
         {% endblock filters_coursetype %}
 
         {% block filters_cdslist %}
-        {% settings_value "ALLOWED_CDS_COURSETYPES" as allowed_course_types %}
         <div class="row">
             <div class="col-12">
                 <div class="card-wrapper card-space">
@@ -291,14 +289,13 @@ function {{ id }}_get_form_paramenters(dict={}, keyword=null, value=null) {
 
 {% block pagination_extra_data %}
 
-{% settings_value "ALLOWED_CDS_COURSETYPES" as allowed_course_types %}
 {% settings_value "ALLOWED_CDS_LANGUAGES" as allowed_languages %}
 {% settings_value "ALLOWED_CDS_JOINT_DEGREES" as allowed_joint_degrees %}
 
 search_dict: {},
 active_degree: "",
-allowed_course_types: {{ allowed_course_types|safe }},
-course_types: {{ allowed_course_types|safe }},
+allowed_course_types: [],
+course_types: [],
 is_loading_2: true,
 is_loading_academicyears: true,
 is_loading_departments: true,
@@ -312,9 +309,21 @@ joint_degree_filter: {{ allowed_joint_degrees|safe }}
 {% endblock pagination_extra_data %}
 
 {% block pagination_extra_mounted %}
+
+
+// if url if pre-filtered with preferred coursetypes
+// get them. else take params from settings
+let params = new URLSearchParams(this.url.split('?')[1]);
+let get_coursetype = params.get("coursetype")
+if (get_coursetype != null){
+    get_coursetypes_list = get_coursetype.split(',')
+    this.allowed_course_types = get_coursetypes_list
+}
+
 this.callDegreeTypes();
 this.callAcademicYears();
 this.callDepartments();
+
 {% endblock pagination_extra_mounted %}
 
 {% block pagination_method_search %}
@@ -334,6 +343,10 @@ callDegreeTypes() {
         .then(response => {
             this.course_types = response.data.results;
             this.is_loading_2 = false
+            if (this.allowed_course_types.length == 0){
+                for(index in this.course_types)
+                    this.allowed_course_types.push(this.course_types[index].CourseType)
+            }
         })
 },
 callAcademicYears() {

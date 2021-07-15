@@ -7,7 +7,7 @@ logger = logging.getLogger(__name__)
 
 
 # list of website pks allowed to display the pages
-ALLOWED_UNICMS_SITES = [2]
+ALLOWED_UNICMS_SITES = [1]
 
 # base path
 CMS_STORAGE_BASE_PATH = 'storage'
