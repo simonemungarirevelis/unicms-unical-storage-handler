@@ -91,15 +91,15 @@
                                                 {% trans "Anno Accademico" %}
                                             </label>
                                             <div class="w-30 mt-5">
-                                                <select id="{{ id }}_academic_year_input"
-                                                        title="{% trans 'Scegli una opzione' %}"
-                                                        name="{{ id }}_academic_year_input"
-                                                        class="form-control"
+                                                <select id="{{ id }}_academic_year_input" 
+                                                        title="{% trans 'Scegli una opzione' %}" 
+                                                        name="{{ id }}_academic_year_input" 
+                                                        class="form-control" 
                                                         @change="{{ id }}.search()">
-                                                    <option v-for="item in academic_years_filter"
-                                                            :value="item.AcademicYear">
-                                                        [[ item.AcademicYear ]]
-                                                    </option>
+                                                  <option value=''>{% trans 'Scegli una opzione' %}</option>
+                                                  <option v-for="item in academic_years_filter" :value="item.AcademicYear">
+                                                      [[ item.AcademicYear ]]/[[ item.AcademicYear + 1 ]]
+                                                  </option>
                                                 </select>
                                             </div>
                                         </div>
@@ -158,14 +158,23 @@
                                                 {% trans "Titolo Congiunto" %}
                                             </label>
                                             <div class="w-30 mt-5">
-                                                <select id="{{ id }}_joint_degree_input"
-                                                        title="{% trans 'Scegli una opzione' %}"
-                                                        name="{{ id }}_joint_degree_input"
-                                                        class="form-control"
+                                                <select v-if="'{{ LANGUAGE_CODE }}' == 'it'" 
+                                                        id="{{ id }}_joint_degree_input" 
+                                                        title="{% trans 'Scegli una opzione' %}" 
+                                                        name="{{ id }}_joint_degree_input" 
+                                                        class="form-control" 
                                                         @change="{{ id }}.search()">
-                                                    <option v-for="item in joint_degree_filter"
-                                                          :value="item">
-                                                        [[ item ]]
+                                                    <option v-for="item in joint_degree_filter" :value="item.COD">
+                                                      [[ item.NameIT ]]
+                                                    </option>
+                                                </select>
+                                                <select v-else id="{{ id }}_joint_degree_input" 
+                                                        title="{% trans 'Scegli una opzione' %}" 
+                                                        name="{{ id }}_joint_degree_input" 
+                                                        class="form-control" 
+                                                        @change="{{ id }}.search()">
+                                                    <option v-for="item in joint_degree_filter" :value="item.COD">
+                                                      [[ item.NameEN ]]
                                                     </option>
                                                 </select>
                                             </div>
@@ -193,7 +202,15 @@
                                 {% settings_value "CMS_STORAGE_BASE_PATH" as base_prefix %}
                                 {% settings_value "CMS_STORAGE_CDS_VIEW_PREFIX_PATH" as cds_prefix %}
                                 <a :href="'/{{ cms_path_prefix }}{{ base_prefix }}/{{ cds_prefix }}/' + [[ item.RegDidId ]] +'/'">
-                                    [[ item.CdSName ]] - [[ item.CourseType ]]
+                                    <h4 style="display: inline">[[ item.CdSName ]] -&nbsp;</h4>
+                                    <h4 style="display: inline" v-if="item.CourseType != 'M2-270' && item.CourseType != 'M1-270' ">[[ item.CourseType ]]</h4>
+                                    <h4 style="display: inline" v-else-if="item.CourseType == 'M1-270'">MS1</h4>
+                                    <h4 style="display: inline" v-else>MS2</h4>
+                                    <template v-for="joint in joint_degree_filter">
+                                        <h5 v-if="item.JointDegree == joint.COD && '{{ LANGUAGE_CODE }}' == 'it' && (joint.COD == 'S' || joint.COD == 'D') ">[[ joint.NameIT ]]</h5>
+                                        <h5 v-else-if="item.JointDegree == joint.COD && '{{ LANGUAGE_CODE }}' != 'it' && (joint.COD == 'S' || joint.COD == 'D')">[[ joint.NameEN ]]</h5>
+                                    </template>
+
                                 </a>
                             </h4>
                             <div class="row">
@@ -206,7 +223,7 @@
                                 <div class="col-12 col-md-auto">
                                     <small>
                                         [[ labels['AcademicYear'] ]] >
-                                        <b>[[ item.AcademicYear ]]</b>
+                                        <b>[[ item.AcademicYear ]]/[[ item.AcademicYear + 1]]</b>
                                     </small>
                                 </div>
                                 <div class="col-12 col-md-auto">
@@ -292,7 +309,11 @@ allowed_degree_types: ['L', 'LM', 'LM5', 'LM6', 'M1-270', 'M2-270'],
 academic_years_filter: [],
 departments_filter: [],
 cds_languages_filter: ['', 'ita', 'eng'],
-joint_degree_filter: ['', 'S', 'N', 'D'],
+joint_degree_filter: [
+    {COD: '', NameIT: '', NameEN: ''},
+    {COD: 'S', NameIT: 'Titolo congiunto', NameEN: 'Joint degree'},
+    {COD: 'N', NameIT: 'No', NameEN: 'No'},
+    {COD: 'D', NameIT: 'Doppio titolo', NameEN: 'Double degree'}],
 {% endblock pagination_extra_data %}
 
 {% block pagination_extra_mounted %}
@@ -325,7 +346,7 @@ callAcademicYears() {
         .get(this.loader_source_academicyears)
         .then(response => {
             this.academic_years_filter = response.data.results;
-            this.academic_years_filter.unshift("");
+            //this.academic_years_filter.unshift("");
             this.is_loading_academicyears = false
         })
 },
