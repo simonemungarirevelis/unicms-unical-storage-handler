@@ -60,3 +60,12 @@ CMS_STORAGE_CDS_LIST_LABEL = _("Corsi di studio")
 CMS_STORAGE_ACTIVITIES_LABEL = _("Insegnamenti")
 CMS_STORAGE_TEACHERS_LABEL = _("Docenti")
 CMS_STORAGE_ADDRESSBOOK_LABEL = _("Persone")
+
+# API filters
+ALLOWED_CDS_COURSETYPES = []
+ALLOWED_CDS_LANGUAGES = ['ita', 'eng']
+ALLOWED_CDS_JOINT_DEGREES = [
+    {'COD': 'N', 'name': _("No")},
+    {'COD': 'S', 'name': _("Titolo congiunto")},
+    {'COD': 'D', 'name': _("Doppio titolo")}
+]

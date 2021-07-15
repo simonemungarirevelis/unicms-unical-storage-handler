@@ -76,7 +76,7 @@ var {{ id }} = new Vue({
             parameters: "",
             items: [],
             labels: [],
-            url: '{{ url }}',
+            url: '{{ url|safe }}',
             next_page: "",
             previous_page: "",
             args_input: false,
@@ -103,7 +103,6 @@ var {{ id }} = new Vue({
         search() {
             this.parameters = encodeQueryData({{ id }}_get_form_paramenters(), this.args_input);
             this.CallURL(this.url + this.parameters);
-
         },
         {% endblock pagination_method_search %}
 

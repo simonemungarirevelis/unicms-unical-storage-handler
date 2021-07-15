@@ -1,3 +1,5 @@
+import urllib
+
 from django.conf import settings
 from django.http import (HttpResponse,
                          Http404)
@@ -58,11 +60,24 @@ class BaseStorageHandler(BaseContentHandler):
         return (leaf,)
 
 
+ALLOWED_CDS_COURSETYPES = getattr(settings, 'ALLOWED_CDS_COURSETYPES',
+                                  ALLOWED_CDS_COURSETYPES)
+
+
 class CdSListViewHandler(BaseStorageHandler):
     template = "storage_cdslist.html"
 
     def as_view(self):
-        self.data['url'] = f'{settings.CMS_STORAGE_CDS_API}?lang={self.lang}'
+
+        data = {'lang': self.lang}
+
+        coursetype_filter = ''
+        if ALLOWED_CDS_COURSETYPES:
+            data['coursetype'] = ",".join(ALLOWED_CDS_COURSETYPES)
+
+        params = urllib.parse.urlencode(data)
+        self.data['url'] = f'{settings.CMS_STORAGE_CDS_API}?{params}'
+
         return super().as_view()
 
     @property

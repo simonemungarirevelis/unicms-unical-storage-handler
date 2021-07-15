@@ -5,6 +5,7 @@
 {% load unicms_storage_handler %}
 {% load unicms_templates %}
 
+
 {% block pagination_content %}
 <div id="{{ id }}">
 
@@ -23,9 +24,9 @@
 
         <div class="row mt-3" v-else>
             <div class="col">
-                <span v-for="degree in degree_types"
+                <span v-for="degree in course_types"
                       class="badge badge-grey-unical square-corners my-1 mr-3 ml-0 pr-5 p-2">
-                    <div v-if="allowed_degree_types.includes(degree.CourseType)">
+                    <div v-if="allowed_course_types.includes(degree.CourseType)">
                         <a href="javascript:void(0)" @click="{{ id }}.search('coursetype', [[ degree.CourseType ]])">
                             <h5>
                                 <b v-if="degree.CourseType == active_degree">
@@ -40,7 +41,8 @@
                 </span>
                 <span class="badge badge-grey-unical square-corners my-1 mr-3 ml-0 pr-5 p-2"
                       style="font-size: 100%">
-                    <a href="javascript:void(0)" @click="{{ id }}.search('coursetype', '')">
+                    {% settings_value "ALLOWED_CDS_COURSETYPES" as allowed_course_types %}
+                    <a href="javascript:void(0)" @click="{{ id }}.search('coursetype', {{ allowed_course_types }})">
                         <h5>
                             {% trans "Tutti" %}
                         </h5>
@@ -52,7 +54,7 @@
         {% endblock filters_coursetype %}
 
         {% block filters_cdslist %}
-
+        {% settings_value "ALLOWED_CDS_COURSETYPES" as allowed_course_types %}
         <div class="row">
             <div class="col-12">
                 <div class="card-wrapper card-space">
@@ -91,12 +93,12 @@
                                                 {% trans "Anno Accademico" %}
                                             </label>
                                             <div class="w-30 mt-5">
-                                                <select id="{{ id }}_academic_year_input" 
-                                                        title="{% trans 'Scegli una opzione' %}" 
-                                                        name="{{ id }}_academic_year_input" 
-                                                        class="form-control" 
-                                                        @change="{{ id }}.search()">
-                                                  <option value=''>{% trans 'Scegli una opzione' %}</option>
+                                                <select id="{{ id }}_academic_year_input"
+                                                        title="{% trans 'Scegli una opzione' %}"
+                                                        name="{{ id }}_academic_year_input"
+                                                        class="form-control"
+                                                        @change="{{ id }}.search('coursetype', active_degree)">
+                                                  <option value="">- {% trans 'Scegli una opzione' %} -</option>
                                                   <option v-for="item in academic_years_filter" :value="item.AcademicYear">
                                                       [[ item.AcademicYear ]]/[[ item.AcademicYear + 1 ]]
                                                   </option>
@@ -120,7 +122,8 @@
                                                         title="{% trans 'Scegli una opzione' %}"
                                                         name="{{ id }}_department_input"
                                                         class="form-control"
-                                                        @change="{{ id }}.search()">
+                                                        @change="{{ id }}.search('coursetype', active_degree)">
+                                                    <option value="">- {% trans 'Scegli una opzione' %} -</option>
                                                     <option v-for="item in departments_filter"
                                                             :value="item.DepartmentID">
                                                         [[ item.DepartmentName ]]
@@ -143,7 +146,8 @@
                                                         title="{% trans 'Scegli una opzione' %}"
                                                         name="{{ id }}_cds_language_input"
                                                         class="form-control"
-                                                        @change="{{ id }}.search()">
+                                                        @change="{{ id }}.search('coursetype', active_degree)">
+                                                    <option value="">- {% trans 'Scegli una opzione' %} -</option>
                                                     <option v-for="item in cds_languages_filter"
                                                             :value="item">
                                                         [[ item ]]
@@ -158,23 +162,14 @@
                                                 {% trans "Titolo Congiunto" %}
                                             </label>
                                             <div class="w-30 mt-5">
-                                                <select v-if="'{{ LANGUAGE_CODE }}' == 'it'" 
-                                                        id="{{ id }}_joint_degree_input" 
-                                                        title="{% trans 'Scegli una opzione' %}" 
-                                                        name="{{ id }}_joint_degree_input" 
-                                                        class="form-control" 
-                                                        @change="{{ id }}.search()">
+                                                <select id="{{ id }}_joint_degree_input"
+                                                        title="{% trans 'Scegli una opzione' %}"
+                                                        name="{{ id }}_joint_degree_input"
+                                                        class="form-control"
+                                                        @change="{{ id }}.search('coursetype', active_degree)">
+                                                    <option value="">- {% trans 'Scegli una opzione' %} -</option>
                                                     <option v-for="item in joint_degree_filter" :value="item.COD">
-                                                      [[ item.NameIT ]]
-                                                    </option>
-                                                </select>
-                                                <select v-else id="{{ id }}_joint_degree_input" 
-                                                        title="{% trans 'Scegli una opzione' %}" 
-                                                        name="{{ id }}_joint_degree_input" 
-                                                        class="form-control" 
-                                                        @change="{{ id }}.search()">
-                                                    <option v-for="item in joint_degree_filter" :value="item.COD">
-                                                      [[ item.NameEN ]]
+                                                      [[ item.name ]]
                                                     </option>
                                                 </select>
                                             </div>
@@ -294,26 +289,26 @@ function {{ id }}_get_form_paramenters(dict={}, keyword=null, value=null) {
 </script>
 {% endblock pagination_extra_scripts %}
 
-
 {% block pagination_extra_data %}
+
+{% settings_value "ALLOWED_CDS_COURSETYPES" as allowed_course_types %}
+{% settings_value "ALLOWED_CDS_LANGUAGES" as allowed_languages %}
+{% settings_value "ALLOWED_CDS_JOINT_DEGREES" as allowed_joint_degrees %}
+
 search_dict: {},
 active_degree: "",
-degree_types: [],
+allowed_course_types: {{ allowed_course_types|safe }},
+course_types: {{ allowed_course_types|safe }},
 is_loading_2: true,
 is_loading_academicyears: true,
 is_loading_departments: true,
 loader_source_2: 'https://storage.portale.unical.it/api/ricerca/degreetypes/?lang={{ LANGUAGE_CODE }}',
 loader_source_academicyears: 'https://storage.portale.unical.it/api/ricerca/academicyears/?lang={{ LANGUAGE_CODE }}',
 loader_source_departments: 'https://storage.portale.unical.it/api/ricerca/departments/?lang={{ LANGUAGE_CODE }}',
-allowed_degree_types: ['L', 'LM', 'LM5', 'LM6', 'M1-270', 'M2-270'],
 academic_years_filter: [],
 departments_filter: [],
-cds_languages_filter: ['', 'ita', 'eng'],
-joint_degree_filter: [
-    {COD: '', NameIT: '', NameEN: ''},
-    {COD: 'S', NameIT: 'Titolo congiunto', NameEN: 'Joint degree'},
-    {COD: 'N', NameIT: 'No', NameEN: 'No'},
-    {COD: 'D', NameIT: 'Doppio titolo', NameEN: 'Double degree'}],
+cds_languages_filter: {{ allowed_languages|safe }},
+joint_degree_filter: {{ allowed_joint_degrees|safe }}
 {% endblock pagination_extra_data %}
 
 {% block pagination_extra_mounted %}
@@ -337,7 +332,7 @@ callDegreeTypes() {
     axios
         .get(this.loader_source_2)
         .then(response => {
-            this.degree_types = response.data.results;
+            this.course_types = response.data.results;
             this.is_loading_2 = false
         })
 },
@@ -346,7 +341,6 @@ callAcademicYears() {
         .get(this.loader_source_academicyears)
         .then(response => {
             this.academic_years_filter = response.data.results;
-            //this.academic_years_filter.unshift("");
             this.is_loading_academicyears = false
         })
 },
@@ -355,7 +349,6 @@ callDepartments() {
         .get(this.loader_source_departments)
         .then(response => {
             this.departments_filter = response.data.results;
-            this.departments_filter.unshift("");
             this.is_loading_departments = false
         })
 },
