@@ -30,7 +30,7 @@
             {% settings_value "CMS_STORAGE_BASE_PATH" as base_prefix %}
 
             <div class="row">
-                <div class="col-12 col-lg-6">
+                <div class="col-12 col-lg-4">
                     <!--start card-->
                     <div class="card-wrapper card-space">
                         <div class="card card-bg card-big no-after">
@@ -38,12 +38,6 @@
                                 <h5 class="card-title">
                                     {% trans "Corsi di studio" %}
                                 </h5>
-                                <p class="card-text">
-                                    lorem iusmod tempor incididunt ut labore et dolore magna aliqua
-                                    lorem iusmod tempor incididunt ut labore et dolore magna aliqua
-                                    lorem iusmod tempor incididunt ut labore et dolore magna aliqua
-                                    lorem iusmod tempor incididunt ut labore et dolore magna aliqua.
-                                </p>
                                 {% settings_value "CMS_STORAGE_CDS_VIEW_PREFIX_PATH" as cds_prefix %}
                                 <a href="/{{ cms_path_prefix }}{{ base_prefix }}/{{ cds_prefix }}/" role="button" class="btn btn-outline-primary btn-sm">
                                     {% trans "Consulta l'elenco" %}
@@ -54,7 +48,25 @@
                     <!--end card-->
                 </div>
 
-                <div class="col-12 col-lg-6">
+                <div class="col-12 col-lg-4">
+                    <!--start card-->
+                    <div class="card-wrapper card-space">
+                        <div class="card card-bg card-big no-after">
+                            <div class="card-body">
+                                <h5 class="card-title">
+                                    {% trans "Personale" %}
+                                </h5>
+                                {% settings_value "CMS_STORAGE_ADDRESSBOOK_VIEW_PREFIX_PATH" as addressbook_prefix %}
+                                <a href="/{{ cms_path_prefix }}{{ base_prefix }}/{{ addressbook_prefix }}/" role="button" class="btn btn-outline-primary btn-sm">
+                                    {% trans "Consulta l'elenco" %}
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <!--end card-->
+                </div>
+
+                <div class="col-12 col-lg-4">
                     <!--start card-->
                     <div class="card-wrapper card-space">
                         <div class="card card-bg card-big no-after">
@@ -62,12 +74,6 @@
                                 <h5 class="card-title">
                                     {% trans "Docenti" %}
                                 </h5>
-                                <p class="card-text">
-                                    lorem iusmod tempor incididunt ut labore et dolore magna aliqua
-                                    lorem iusmod tempor incididunt ut labore et dolore magna aliqua
-                                    lorem iusmod tempor incididunt ut labore et dolore magna aliqua
-                                    lorem iusmod tempor incididunt ut labore et dolore magna aliqua.
-                                </p>
                                 {% settings_value "CMS_STORAGE_THEACHER_VIEW_PREFIX_PATH" as teacher_prefix %}
                                 <a href="/{{ cms_path_prefix }}{{ base_prefix }}/{{ teacher_prefix }}/" role="button" class="btn btn-outline-primary btn-sm">
                                     {% trans "Consulta l'elenco" %}

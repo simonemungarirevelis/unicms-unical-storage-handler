@@ -25,7 +25,7 @@
             <div class="col">
                 <span v-for="degree in degree_types"
                       class="badge badge-grey-unical square-corners my-1 mr-3 ml-0 pr-5 p-2">
-                    <div v-if="degree_types_allowed.includes(degree.CourseType)">
+                    <div v-if="allowed_degree_types.includes(degree.CourseType)">
                         <a href="javascript:void(0)" @click="{{ id }}.search('coursetype', [[ degree.CourseType ]])">
                             <h5>
                                 <b v-if="degree.CourseType == active_degree">
@@ -87,12 +87,16 @@
 
                                     <div class="col-sm" v-else>
                                         <div class="bootstrap-select-wrapper">
-                                            <label for="{{ id }}_academic_year_input">{% trans "Anno Accademico" %}</label>
+                                            <label for="{{ id }}_academic_year_input">
+                                                {% trans "Anno Accademico" %}
+                                            </label>
                                             <div class="w-30 mt-5">
-                                                <select id="{{ id }}_academic_year_input" title="{% trans 'Scegli una opzione' %}" name="{{ id }}_academic_year_input" class="form-control">
-                                                  <option v-for="item in ['']" :value="item.AcademicYear">
-                                                      [[ item.AcademicYear ]]
-                                                  </option>
+                                                <select id="{{ id }}_academic_year_input" 
+                                                        title="{% trans 'Scegli una opzione' %}" 
+                                                        name="{{ id }}_academic_year_input" 
+                                                        class="form-control" 
+                                                        @change="{{ id }}.search()">
+                                                  <option value=''>{% trans 'Scegli una opzione' %}</option>
                                                   <option v-for="item in academic_years_filter" :value="item.AcademicYear">
                                                       [[ item.AcademicYear ]]/[[ item.AcademicYear + 1 ]]
                                                   </option>
@@ -108,11 +112,18 @@
 
                                     <div class="col-sm" v-else>
                                         <div class="bootstrap-select-wrapper">
-                                            <label for="{{ id }}_department_input">{% trans "Dipartimento" %}</label>
+                                            <label for="{{ id }}_department_input">
+                                                {% trans "Dipartimento" %}
+                                            </label>
                                             <div class="w-30 mt-5">
-                                                <select id="{{ id }}_department_input" title="{% trans 'Scegli una opzione' %}" name="{{ id }}_department_input" class="form-control">
-                                                  <option v-for="item in departments_filter" :value="item.DepartmentID">
-                                                      [[ item.DepartmentName ]]
+                                                <select id="{{ id }}_department_input"
+                                                        title="{% trans 'Scegli una opzione' %}"
+                                                        name="{{ id }}_department_input"
+                                                        class="form-control"
+                                                        @change="{{ id }}.search()">
+                                                    <option v-for="item in departments_filter"
+                                                            :value="item.DepartmentID">
+                                                        [[ item.DepartmentName ]]
                                                     </option>
                                                 </select>
                                             </div>
@@ -124,11 +135,18 @@
                                 <div class="row">
                                     <div class="col-sm">
                                         <div class="bootstrap-select-wrapper">
-                                            <label for="{{ id }}_cds_language_input">{% trans "Lingua Corso di Studi" %}</label>
+                                            <label for="{{ id }}_cds_language_input">
+                                                {% trans "Lingua Corso di Studi" %}
+                                            </label>
                                             <div class="w-30 mt-5">
-                                                <select id="{{ id }}_cds_language_input" title="{% trans 'Scegli una opzione' %}" name="{{ id }}_cds_language_input" class="form-control">
-                                                  <option v-for="item in cds_languages_filter" :value="item">
-                                                      [[ item ]]
+                                                <select id="{{ id }}_cds_language_input"
+                                                        title="{% trans 'Scegli una opzione' %}"
+                                                        name="{{ id }}_cds_language_input"
+                                                        class="form-control"
+                                                        @change="{{ id }}.search()">
+                                                    <option v-for="item in cds_languages_filter"
+                                                            :value="item">
+                                                        [[ item ]]
                                                     </option>
                                                 </select>
                                             </div>
@@ -136,14 +154,25 @@
                                     </div>
                                     <div class="col-sm">
                                         <div class="bootstrap-select-wrapper">
-                                            <label for="{{ id }}_joint_degree_input">{% trans "Titolo Congiunto" %}</label>
+                                            <label for="{{ id }}_joint_degree_input">
+                                                {% trans "Titolo Congiunto" %}
+                                            </label>
                                             <div class="w-30 mt-5">
-                                                <select v-if="'{{ LANGUAGE_CODE }}' == 'it'" id="{{ id }}_joint_degree_input" title="{% trans 'Scegli una opzione' %}" name="{{ id }}_joint_degree_input" class="form-control">
+                                                <select v-if="'{{ LANGUAGE_CODE }}' == 'it'" 
+                                                        id="{{ id }}_joint_degree_input" 
+                                                        title="{% trans 'Scegli una opzione' %}" 
+                                                        name="{{ id }}_joint_degree_input" 
+                                                        class="form-control" 
+                                                        @change="{{ id }}.search()">
                                                     <option v-for="item in joint_degree_filter" :value="item.COD">
                                                       [[ item.NameIT ]]
                                                     </option>
                                                 </select>
-                                                <select v-else id="{{ id }}_joint_degree_input" title="{% trans 'Scegli una opzione' %}" name="{{ id }}_joint_degree_input" class="form-control">
+                                                <select v-else id="{{ id }}_joint_degree_input" 
+                                                        title="{% trans 'Scegli una opzione' %}" 
+                                                        name="{{ id }}_joint_degree_input" 
+                                                        class="form-control" 
+                                                        @change="{{ id }}.search()">
                                                     <option v-for="item in joint_degree_filter" :value="item.COD">
                                                       [[ item.NameEN ]]
                                                     </option>
@@ -276,7 +305,7 @@ is_loading_departments: true,
 loader_source_2: 'https://storage.portale.unical.it/api/ricerca/degreetypes/?lang={{ LANGUAGE_CODE }}',
 loader_source_academicyears: 'https://storage.portale.unical.it/api/ricerca/academicyears/?lang={{ LANGUAGE_CODE }}',
 loader_source_departments: 'https://storage.portale.unical.it/api/ricerca/departments/?lang={{ LANGUAGE_CODE }}',
-degree_types_allowed: ['L', 'LM', 'LM5', 'LM6', 'M1-270', 'M2-270'],
+allowed_degree_types: ['L', 'LM', 'LM5', 'LM6', 'M1-270', 'M2-270'],
 academic_years_filter: [],
 departments_filter: [],
 cds_languages_filter: ['', 'ita', 'eng'],

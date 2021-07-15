@@ -47,10 +47,19 @@
                                     </div>
                                     <div class="col-sm-4">
                                         <div class="bootstrap-select-wrapper ml-5 mr-5">
-                                            <label for="{{ id }}_department_input">{% trans "Dipartimento" %}</label>
+                                            <label for="{{ id }}_department_input">
+                                                {% trans "Dipartimento" %}
+                                            </label>
                                             <div class="w-40 mt-5">
-                                                <select id="{{ id }}_department_input" title="Scegli una opzione" name="{{ id }}_department_input" class="form-control">
-                                                  <option v-for="item in departments_filter" v-bind:value="item.DepartmentID">[[ item.DepartmentName ]]</option>
+                                                <select id="{{ id }}_department_input"
+                                                        title="Scegli una opzione"
+                                                        name="{{ id }}_department_input"
+                                                        class="form-control"
+                                                        @change="{{ id }}.search()">
+                                                    <option v-for="item in departments_filter"
+                                                          :value="item.DepartmentID">
+                                                        [[ item.DepartmentName ]]
+                                                    </option>
                                                 </select>
                                             </div>
                                         </div>
@@ -61,9 +70,14 @@
                                                 {% trans "Ruolo" %}
                                             </label>
                                             <div class="w-20 mt-5">
-                                                <select title="Scegli una opzione" id="{{ id }}_role_input" name="{{ id }}_role_input" class="form-control">
-                                                    <option v-for="item in roles_filter" v-bind:value="item.Role">
-                                                      [[ item.RoleDescription ]]
+                                                <select title="Scegli una opzione"
+                                                        id="{{ id }}_role_input"
+                                                        name="{{ id }}_role_input"
+                                                        class="form-control"
+                                                        @change="{{ id }}.search()">
+                                                    <option v-for="item in roles_filter"
+                                                            :value="item.Role">
+                                                        [[ item.RoleDescription ]]
                                                     </option>
                                                 </select>
                                             </div>
@@ -71,8 +85,12 @@
                                     </div>
                                     <div class="col-sm-1">
                                         <div class="w-20 mt-5 ml-5 mr-5">
-                                            <button class="btn btn-primary" type="button" id="search-button"
-                                                @click="{{ id }}.search()">{% trans "Cerca" %}</button>
+                                            <button class="btn btn-primary"
+                                                    type="button"
+                                                    id="search-button"
+                                                    @click="{{ id }}.search()">
+                                                {% trans "Cerca" %}
+                                            </button>
                                         </div>
                                     </div>
                                 </div>
@@ -92,7 +110,7 @@
                 <thead>
                     <tr>
                         <th scope="col">[[ labels.TeacherName ]]</th>
-                        <th scope="col">[[ labels.Role ]]</th>
+                        <th scope="col">[[ labels.TeacherRole ]]</th>
                         <th scope="col">[[ labels.TeacherSSDCod ]]</th>
                     </tr>
                 </thead>
@@ -106,7 +124,7 @@
                                 [[ item.TeacherName ]]
                             </a>
                         </td>
-                        <td>[[ item.Role ]]</td>
+                        <td>[[ item.TeacherRole ]]</td>
                         <td>[[ item.TeacherSSDCod ]] - [[ item.TeacherSSDDescription ]]</td>
                     </tr>
                 </tbody>
