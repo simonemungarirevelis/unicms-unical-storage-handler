@@ -195,13 +195,11 @@
                                 {% settings_value "CMS_STORAGE_BASE_PATH" as base_prefix %}
                                 {% settings_value "CMS_STORAGE_CDS_VIEW_PREFIX_PATH" as cds_prefix %}
                                 <a :href="'/{{ cms_path_prefix }}{{ base_prefix }}/{{ cds_prefix }}/' + [[ item.RegDidId ]] +'/'">
-                                    <h4 style="display: inline">[[ item.CdSName ]] -&nbsp;</h4>
-                                    <h4 style="display: inline" v-if="item.CourseType != 'M2-270' && item.CourseType != 'M1-270' ">[[ item.CourseType ]]</h4>
-                                    <h4 style="display: inline" v-else-if="item.CourseType == 'M1-270'">MS1</h4>
-                                    <h4 style="display: inline" v-else>MS2</h4>
+                                    <h4>[[ item.CdSName ]]</h4>
                                     <template v-for="joint in joint_degree_filter">
-                                        <h5 v-if="item.JointDegree == joint.COD && '{{ LANGUAGE_CODE }}' == 'it' && (joint.COD == 'S' || joint.COD == 'D') ">[[ joint.NameIT ]]</h5>
-                                        <h5 v-else-if="item.JointDegree == joint.COD && '{{ LANGUAGE_CODE }}' != 'it' && (joint.COD == 'S' || joint.COD == 'D')">[[ joint.NameEN ]]</h5>
+                                        <h5 v-if="item.JointDegree == joint.COD && item.JointDegree != 'N'">
+                                            [[ joint.name ]]
+                                        </h5>
                                     </template>
 
                                 </a>
@@ -210,7 +208,7 @@
                                 <div class="col-12 col-md-auto">
                                     <small>
                                         [[ labels['CourseType'] ]] >
-                                        <b>[[ item.CourseType ]]</b>
+                                        <b>[[ item.CourseTypeDescription ]]</b>
                                     </small>
                                 </div>
                                 <div class="col-12 col-md-auto">
