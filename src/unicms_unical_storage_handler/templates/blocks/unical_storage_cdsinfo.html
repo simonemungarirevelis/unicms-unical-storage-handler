@@ -5,9 +5,13 @@
 
 {% get_cdsid_from_url url as cdsid %}
 {% get_current_language as LANGUAGE_CODE %}
-{% random_id as id %}
-{% settings_value "CMS_STORAGE_BASE_API" as base_api %}
 
+{% random_id as id %}
+
+{% settings_value "CMS_STORAGE_BASE_API" as base_api %}
+{% settings_value "ALLOWED_CDS_JOINT_DEGREES" as allowed_joint_degrees %}
+{% settings_value "ALMALAUREA_LINK" as almalaurea_link %}
+{% settings_value "CDS_INFO_FIELDS" as fields_to_show %}
 
 {% include "includes/unical_storage_loading.html" %}
 
@@ -21,14 +25,16 @@
 
     <div v-else>
         <template v-model="item">
-            <h3 style="display: inline">[[ item.CdSName ]] -&nbsp;</h3>
-            <h3 style="display: inline" v-if="item.CourseType != 'M2-270' && item.CourseType != 'M1-270' ">[[ item.CourseType ]]</h3>
-            <h3 style="display: inline" v-else-if="item.CourseType == 'M1-270'">MS1</h3>
-            <h3 style="display: inline" v-else>MS2</h3>
-            <template v-for="joint in joint_degree_filter">
-                <h5 v-if="item.JointDegree == joint.COD && '{{ LANGUAGE_CODE }}' == 'it' && (joint.COD == 'S' || joint.COD == 'D') ">[[ joint.NameIT ]]</h5>
-                <h5 v-else-if="item.JointDegree == joint.COD && '{{ LANGUAGE_CODE }}' != 'it' && (joint.COD == 'S' || joint.COD == 'D')">[[ joint.NameEN ]]</h5>
-            </template>
+            <h1 class="lighter">[[ item.CdSName ]]</h1>
+            <div class="my-3">
+                <h3 class="lighter" style="display: inline">[[ item.CourseTypeDescription ]]</h3>
+                <h3 class="lighter"
+                    v-for="joint in joint_degree_filter"
+                    v-if="item.JointDegree == joint.COD && item.JointDegree != 'N'"
+                    style="display: inline">
+                    &nbsp;- [[ joint.name ]]
+                </h3>
+            </div>
             <p>
                 {% trans "Classe di laurea" %} [[ item.CourseClassId ]]
                 <br>
@@ -38,12 +44,6 @@
                 <div class="card no-after" style="border:1px solid #b71918">
                     <div class="card-body">
                         <div class="row">
-                            <div class="col-12 col-md-auto">
-                                <small>
-                                    [[ labels['CourseType'] ]] >
-                                    <b>[[ item.CourseType ]]</b>
-                                </small>
-                            </div>
                             <div class="col-12 col-md-auto">
                                 <small>
                                     [[ labels['AcademicYear'] ]] >
@@ -167,7 +167,8 @@
         <button data-toggle="collapse"
                 data-target="#collapse-teachers-lft"
                 aria-expanded="false"
-                aria-controls="collapse-teachers-lft">
+                aria-controls="collapse-teachers-lft"
+                style="border-top: 0">
             {% trans "Docenti" %}
         </button>
     </div>
@@ -191,18 +192,11 @@ var {{ id }} = new Vue({
             item: {},
             labels: {},
             url: '{{ url }}',
-            fields_to_show:
-                ['CdSGoals', 'CdSAccess', 'CdSAdmission',
-                 'CdSProfiles', 'CdSFinalTest', 'CdSFinalTestMode',
-                'CdSSatisfactionSurvey', 'CdSDoc'],
+            fields_to_show: {{ fields_to_show|safe }},
             is_loading: true,
             loader_source: '{{ url }}',
-            link_almalaurea: 'http://statistiche.almalaurea.it/universita/statistiche/trasparenza?codicione=',
-            joint_degree_filter:
-                [{COD: '', NameIT: '', NameEN: ''},
-                {COD: 'S', NameIT: 'Titolo congiunto', NameEN: 'Joint degree'},
-                {COD: 'N', NameIT: 'No', NameEN: 'No'},
-                {COD: 'D', NameIT: 'Doppio titolo', NameEN: 'Double degree'}],
+            link_almalaurea: '{{ almalaurea_link }}',
+            joint_degree_filter: {{ allowed_joint_degrees|safe }}
         }
     },
     mounted() {

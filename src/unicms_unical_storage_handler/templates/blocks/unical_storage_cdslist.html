@@ -197,12 +197,11 @@
                                 <a :href="'/{{ cms_path_prefix }}{{ base_prefix }}/{{ cds_prefix }}/' + [[ item.RegDidId ]] +'/'">
                                     <h4 class="mb-0">[[ item.CdSName ]]</h4>
                                     <h5 style="display: inline">[[ item.CourseTypeDescription ]]</h5>
-                                    <template v-for="joint in joint_degree_filter">
-                                        <h5 v-if="item.JointDegree == joint.COD && item.JointDegree != 'N'" style="display: inline">
-                                            &nbsp;- [[ joint.name ]]
-                                        </h5>
-                                    </template>
-
+                                    <h5 v-for="joint in joint_degree_filter"
+                                        v-if="item.JointDegree == joint.COD && item.JointDegree != 'N'"
+                                        style="display: inline">
+                                        &nbsp;- [[ joint.name ]]
+                                    </h5>
                                 </a>
                             </h4>
                             <div class="row">
