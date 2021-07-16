@@ -8,7 +8,6 @@
 
 {% block pagination_content %}
 <div id="{{ id }}">
-
     <loading-icon
         v-if="is_loading"
         :loader_source="loader_source">
@@ -191,10 +190,11 @@
                     <div class="card no-after" style="border:1px solid #b71918">
                         <div class="card-body">
                             <h4>
+                                {% get_allowed_website request.get_host as host %}
                                 {% settings_value "CMS_PATH_PREFIX" as cms_path_prefix %}
                                 {% settings_value "CMS_STORAGE_BASE_PATH" as base_prefix %}
                                 {% settings_value "CMS_STORAGE_CDS_VIEW_PREFIX_PATH" as cds_prefix %}
-                                <a :href="'/{{ cms_path_prefix }}{{ base_prefix }}/{{ cds_prefix }}/' + [[ item.RegDidId ]] +'/'">
+                                <a :href="'//{{ host }}/{{ cms_path_prefix }}{{ base_prefix }}/{{ cds_prefix }}/' + [[ item.RegDidId ]] +'/'">
                                     <h4 class="mb-0">[[ item.CdSName ]]</h4>
                                     <h5 style="display: inline">[[ item.CourseTypeDescription ]]</h5>
                                     <h5 v-for="joint in joint_degree_filter"
@@ -205,12 +205,6 @@
                                 </a>
                             </h4>
                             <div class="row">
-                                <div class="col-12 col-md-auto">
-                                    <small>
-                                        [[ labels['CourseType'] ]] >
-                                        <b>[[ item.CourseTypeDescription ]]</b>
-                                    </small>
-                                </div>
                                 <div class="col-12 col-md-auto">
                                     <small>
                                         [[ labels['AcademicYear'] ]] >
