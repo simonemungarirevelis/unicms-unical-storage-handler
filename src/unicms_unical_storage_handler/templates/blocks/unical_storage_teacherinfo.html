@@ -6,6 +6,9 @@
 {% random_id as id %}
 {% include "includes/unical_storage_loading.html" %}
 
+{% settings_value "TEACHER_INFO_NOT_SHOW" as fields_to_hide %}
+
+
 <div id="{{ id }}">
 
     <loading-icon
@@ -14,46 +17,52 @@
     </loading-icon>
 
     <div v-else>
-
-        <template>
-            <h1 class="lighter">
-                [[ item.TeacherLastName ]] [[ item.TeacherFirstName ]]
-            </h1>
-            <h3 class="lighter">
-                [[ item.Role ]]
-            </h3>
-            <hr class="my-4 bordeaux-unical-bg">
-            <div class="table-responsive">
-                <table class="table table-sm">
-                    <tbody>
-                        <tr v-for="(value, name) in item" v-if="value && !fields_to_not_show.includes(name) && value != ''">
-                            <td>[[ labels[name] ]]</td>
-                            <td v-if="typeof value === 'object'">
-                                <ul>
-                                    <li v-for="v in value">
-                                        <span style="white-space: pre-line;">
-                                            [[ v ]]
-                                        </span>
-                                    </li>
-                                </ul>
-                            </td>
-                            <td v-else-if="typeof value === 'array'">
-                                <ul>
-                                    <li v-for="subvalue in value">
-                                        [[ subvalue ]]
-                                    </li>
-                                </ul>
-                            </td>
-                            <td v-else>
-                                <span style="white-space: pre-line;">
-                                    [[ value ]]
-                                </span>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+        <div class="row">
+            <div class="col-12 col-lg-2 d-flex" style="background: #d3d2cf">
+                <svg class="m-auto icon icon-xl icon-muted">
+                    <use xlink:href="/static/svg/sprite.svg#it-user"></use>
+                </svg>
             </div>
-        </template>
+            <div class="col-12 col-lg-9 offset-lg-1 my-3 my-lg-0">
+                <h1 class="lighter">
+                    [[ item.TeacherLastName ]] [[ item.TeacherFirstName ]]
+                </h1>
+                <h3 class="lighter">
+                    [[ item.TeacherRoleDescription ]]
+                </h3>
+            </div>
+        </div>
+        <hr class="my-4 bordeaux-unical-bg">
+        <div class="table-responsive">
+            <table class="table table-sm">
+                <tbody>
+                    <tr v-for="(value, name) in item" v-if="value && !fields_to_not_show.includes(name) && value != ''">
+                        <td>[[ labels[name] ]]</td>
+                        <td v-if="typeof value === 'object'">
+                            <ul>
+                                <li v-for="v in value">
+                                    <span style="white-space: pre-line;">
+                                        [[ v ]]
+                                    </span>
+                                </li>
+                            </ul>
+                        </td>
+                        <td v-else-if="typeof value === 'array'">
+                            <ul>
+                                <li v-for="subvalue in value">
+                                    [[ subvalue ]]
+                                </li>
+                            </ul>
+                        </td>
+                        <td v-else>
+                            <span style="white-space: pre-line;">
+                                [[ value ]]
+                            </span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>
 <script>
@@ -66,7 +75,7 @@
                 url: '{{ url }}',
                 is_loading: true,
                 loader_source: '{{ url }}',
-                fields_to_not_show: ['TeacherID', 'TeacherDepartmentID', 'Role', 'TeacherSSDCod'],
+                fields_to_not_show: {{ fields_to_hide|safe }}
             }
         },
         mounted() {

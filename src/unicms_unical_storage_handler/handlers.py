@@ -221,6 +221,7 @@ class AddressbookInfoViewHandler(BaseStorageHandler):
 
     def as_view(self):
         self.data['url'] = f'{settings.CMS_STORAGE_ADDRESSBOOK_API}{self.code}/?lang={self.lang}'
+        print(self.data['url'])
         return super().as_view()
 
     @property

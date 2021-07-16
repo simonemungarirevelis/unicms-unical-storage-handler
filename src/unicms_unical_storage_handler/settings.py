@@ -75,5 +75,11 @@ CDS_INFO_FIELDS = ['CdSGoals', 'CdSAccess', 'CdSAdmission',
                    'CdSProfiles', 'CdSFinalTest', 'CdSFinalTestMode',
                    'CdSSatisfactionSurvey', 'CdSDoc']
 
+# FIELDS TO HIDE IN BLOCKS
+ADDRESSBOOK_INFO_NOT_SHOW = ['ID', 'Name', 'Role', 'RoleDescription',
+                             'StructureTypeCOD']
+TEACHER_INFO_NOT_SHOW = ['TeacherID', 'TeacherDepartmentID',
+                         'TeacherLastName', 'TeacherFirstName',
+                         'TeacherRole', 'TeacherRoleDescription']
 # ALMALAUREA Link
 ALMALAUREA_LINK = 'http://statistiche.almalaurea.it/universita/statistiche/trasparenza?codicione='
