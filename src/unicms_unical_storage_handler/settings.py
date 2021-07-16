@@ -15,6 +15,7 @@ CMS_STORAGE_CDS_VIEW_PREFIX_PATH = 'cds'
 CMS_STORAGE_ACTIVITY_VIEW_PREFIX_PATH = 'activities'
 CMS_STORAGE_THEACHER_VIEW_PREFIX_PATH = 'teachers'
 CMS_STORAGE_ADDRESSBOOK_VIEW_PREFIX_PATH = 'addressbook'
+CMS_STORAGE_STRUCTURES_VIEW_PREFIX_PATH = 'structures'
 
 # regexps
 CMS_STORAGE_BASE_URL_VIEW_REGEXP = f'^(?P<webpath>[\/a-zA-Z0-9\.\-\_]*)({CMS_STORAGE_BASE_PATH})(/)?$' # noqa
@@ -25,6 +26,7 @@ CMS_STORAGE_TEACHERLIST_URL_VIEW_REGEXP = f'^(?P<webpath>[\/a-zA-Z0-9\.\-\_]*)({
 CMS_STORAGE_TEACHERINFO_URL_VIEW_REGEXP = f'^(?P<webpath>[\/a-zA-Z0-9\.\-\_]*)({CMS_STORAGE_BASE_PATH})/({CMS_STORAGE_THEACHER_VIEW_PREFIX_PATH})/(?P<code>[a-z0-9\-]*)(/)?$' # noqa
 CMS_STORAGE_ADDRESSBOOK_URL_VIEW_REGEXP = f'^(?P<webpath>[\/a-zA-Z0-9\.\-\_]*)({CMS_STORAGE_BASE_PATH})/({CMS_STORAGE_ADDRESSBOOK_VIEW_PREFIX_PATH})(/)?$' # noqa
 CMS_STORAGE_ADDRESSBOOK_INFO_URL_VIEW_REGEXP = f'^(?P<webpath>[\/a-zA-Z0-9\.\-\_]*)({CMS_STORAGE_BASE_PATH})/({CMS_STORAGE_ADDRESSBOOK_VIEW_PREFIX_PATH})/(?P<code>[a-z0-9\-]*)(/)?$' # noqa
+CMS_STORAGE_STRUCTURES_URL_VIEW_REGEXP = f'^(?P<webpath>[\/a-zA-Z0-9\.\-\_]*)({CMS_STORAGE_BASE_PATH})/({CMS_STORAGE_STRUCTURES_VIEW_PREFIX_PATH})(/)?$' # noqa
 
 CMS_STORAGE_HANDLERS_PATHS = [CMS_STORAGE_BASE_URL_VIEW_REGEXP,
                               CMS_STORAGE_CDS_LIST_URL_VIEW_REGEXP,
@@ -33,7 +35,8 @@ CMS_STORAGE_HANDLERS_PATHS = [CMS_STORAGE_BASE_URL_VIEW_REGEXP,
                               CMS_STORAGE_TEACHERLIST_URL_VIEW_REGEXP,
                               CMS_STORAGE_TEACHERINFO_URL_VIEW_REGEXP,
                               CMS_STORAGE_ADDRESSBOOK_URL_VIEW_REGEXP,
-                              CMS_STORAGE_ADDRESSBOOK_INFO_URL_VIEW_REGEXP
+                              CMS_STORAGE_ADDRESSBOOK_INFO_URL_VIEW_REGEXP,
+                              CMS_STORAGE_STRUCTURES_URL_VIEW_REGEXP
                               ]
 
 CMS_STORAGE_APP_REGEXP_URLPATHS = {
@@ -45,6 +48,7 @@ CMS_STORAGE_APP_REGEXP_URLPATHS = {
     'unicms_unical_storage_handler.handlers.TeacherInfoViewHandler' : CMS_STORAGE_TEACHERINFO_URL_VIEW_REGEXP,
     'unicms_unical_storage_handler.handlers.AddressbookListViewHandler' : CMS_STORAGE_ADDRESSBOOK_URL_VIEW_REGEXP,
     'unicms_unical_storage_handler.handlers.AddressbookInfoViewHandler' : CMS_STORAGE_ADDRESSBOOK_INFO_URL_VIEW_REGEXP,
+    'unicms_unical_storage_handler.handlers.StructuresListViewHandler': CMS_STORAGE_STRUCTURES_URL_VIEW_REGEXP,
 }
 
 # cms_storage APIs (ref: https://storage.unical.it)
@@ -53,6 +57,7 @@ CMS_STORAGE_CDS_API = f'{CMS_STORAGE_BASE_API}cds/'
 CMS_STORAGE_ACTIVITY_API = f'{CMS_STORAGE_BASE_API}activities/'
 CMS_STORAGE_TEACHER_API = f'{CMS_STORAGE_BASE_API}teachers/'
 CMS_STORAGE_ADDRESSBOOK_API = f'{CMS_STORAGE_BASE_API}addressbook/'
+CMS_STORAGE_STRUCTURES_API = f'{CMS_STORAGE_BASE_API}structures/'
 
 # labels (for breadcrumbs and page title)
 CMS_STORAGE_ROOT_LABEL = _("Data storage")
@@ -60,6 +65,7 @@ CMS_STORAGE_CDS_LIST_LABEL = _("Corsi di studio")
 CMS_STORAGE_ACTIVITIES_LABEL = _("Insegnamenti")
 CMS_STORAGE_TEACHERS_LABEL = _("Docenti")
 CMS_STORAGE_ADDRESSBOOK_LABEL = _("Persone")
+CMS_STORAGE_STRUCTURES_LABEL = _("Strutture")
 
 # API filters
 ALLOWED_CDS_COURSETYPES = []
