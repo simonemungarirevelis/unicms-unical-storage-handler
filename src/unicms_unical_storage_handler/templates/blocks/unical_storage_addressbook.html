@@ -126,7 +126,7 @@
                                                         name="{{ id }}_role_input"
                                                         class="form-control"
                                                         @change="{{ id }}.search()">
-                                                    <option value="">- {% trans 'Scegli una opzione' %} -</option>
+                                                    <option value="">- {% trans 'Choose an option' %} -</option>
                                                     <option v-for="item in roles_filter"
                                                             :value="item.Role"
                                                             v-if="!allowed_roles || allowed_roles.includes(item.Role)">

@@ -64,19 +64,19 @@ CMS_STORAGE_STRUCTURE_API = f'{CMS_STORAGE_BASE_API}structures/'
 
 # labels (for breadcrumbs and page title)
 CMS_STORAGE_ROOT_LABEL = _("Data storage")
-CMS_STORAGE_CDS_LIST_LABEL = _("Corsi di studio")
-CMS_STORAGE_ACTIVITIES_LABEL = _("Insegnamenti")
-CMS_STORAGE_TEACHERS_LABEL = _("Docenti")
-CMS_STORAGE_ADDRESSBOOK_LABEL = _("Persone")
-CMS_STORAGE_STRUCTURE_LABEL = _("Strutture")
+CMS_STORAGE_CDS_LIST_LABEL = _("Study courses")
+CMS_STORAGE_ACTIVITIES_LABEL = _("Teachings")
+CMS_STORAGE_TEACHERS_LABEL = _("Teachers")
+CMS_STORAGE_ADDRESSBOOK_LABEL = _("Persons")
+CMS_STORAGE_STRUCTURE_LABEL = _("Structures")
 
 # API filters
 ALLOWED_CDS_COURSETYPES = []
 ALLOWED_CDS_LANGUAGES = ['ita', 'eng']
 ALLOWED_CDS_JOINT_DEGREES = [
     {'COD': 'N', 'name': _("No")},
-    {'COD': 'S', 'name': _("Titolo congiunto")},
-    {'COD': 'D', 'name': _("Doppio titolo")}
+    {'COD': 'S', 'name': _("Joint title")},
+    {'COD': 'D', 'name': _("Double title")}
 ]
 
 ALLOWED_ADDRESSBOOK_ROLES = []
