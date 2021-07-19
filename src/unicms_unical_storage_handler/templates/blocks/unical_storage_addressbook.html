@@ -87,15 +87,15 @@
 
                                         <div class="bootstrap-select-wrapper" v-else>
                                             <label for="{{ id }}_structure_input">
-                                                {% trans "Tipo Struttura" %}
+                                                {% trans "Structure type" %}
                                             </label>
                                             <div class="w-30 mt-5">
                                                 <select id="{{ id }}_structure_type_input"
-                                                        title="{% trans 'Scegli una opzione' %}"
+                                                        title="{% trans 'Choose an option' %}"
                                                         name="{{ id }}_structure_type_input"
                                                         class="form-control"
                                                         @change="{{ id }}.search()">
-                                                    <option value="">- {% trans 'Scegli una opzione' %} -</option>
+                                                    <option value="">- {% trans 'Choose an option' %} -</option>
                                                     <option v-for="item in structure_type_filter"
                                                             :value="item.StructureTypeCOD"
                                                             v-if="!allowed_structure_types || allowed_structure_types.includes(item.StructureTypeCOD)">
