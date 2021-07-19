@@ -25,7 +25,7 @@
                                         data-target="#collapse1"
                                         aria-expanded="false"
                                         aria-controls="collapse1">
-                                    {% trans "Filtri" %}
+                                    {% trans "Filters" %}
                                 </button>
                             </div>
 
@@ -35,15 +35,15 @@
                                     <div class="row">
                                         <div class="col-sm">
                                             <div class="bootstrap-select-wrapper">
-                                                <label for="year_input">{% trans "Anno" %}</label>
+                                                <label for="year_input">{% trans "Year" %}</label>
                                                 <div class="w-30 mt-5">
                                                     <span class="input-number">
                                                         <input type="number" id="year_input" name="year_input">
                                                         <button class="input-number-add">
-                                                            <span class="sr-only">{% trans "Aumenta valore" %}</span>
+                                                            <span class="sr-only">{% trans "Increase value" %}</span>
                                                         </button>
                                                         <button class="input-number-sub">
-                                                            <span class="sr-only">{% trans "Diminuisci valore" %}</span>
+                                                            <span class="sr-only">{% trans "Decrease value" %}</span>
                                                         </button>
                                                     </span>
                                                 </div>
@@ -51,15 +51,15 @@
                                         </div>
                                         <div class="col-sm">
                                             <div class="bootstrap-select-wrapper">
-                                                <label for="year_from_input">{% trans "Da Anno" %}</label>
+                                                <label for="year_from_input">{% trans "From" %}</label>
                                                 <div class="w-30 mt-5">
                                                     <span class="input-number">
                                                         <input type="number" id="year_from_input" name="year_from_input">
                                                         <button class="input-number-add">
-                                                            <span class="sr-only">{% trans "Aumenta valore" %}</span>
+                                                            <span class="sr-only">{% trans "Increase value" %}</span>
                                                         </button>
                                                         <button class="input-number-sub">
-                                                            <span class="sr-only">{% trans "Diminuisci valore" %}</span>
+                                                            <span class="sr-only">{% trans "Decrease value" %}</span>
                                                         </button>
                                                     </span>
                                                 </div>
@@ -67,15 +67,15 @@
                                         </div>
                                         <div class="col-sm">
                                             <div class="bootstrap-select-wrapper">
-                                                <label for="year_to_input">{% trans "Fino ad Anno" %}</label>
+                                                <label for="year_to_input">{% trans "To" %}</label>
                                                 <div class="w-30 mt-5">
                                                     <span class="input-number">
                                                         <input type="number" id="year_to_input" name="year_to_input">
                                                         <button class="input-number-add">
-                                                            <span class="sr-only">{% trans "Aumenta valore" %}</span>
+                                                            <span class="sr-only">{% trans "Increase value" %}</span>
                                                         </button>
                                                         <button class="input-number-sub">
-                                                            <span class="sr-only">{% trans "Diminuisci valore" %}</span>
+                                                            <span class="sr-only">{% trans "Decrease value" %}</span>
                                                         </button>
                                                     </span>
                                                 </div>
@@ -89,7 +89,7 @@
                                     <div class="row">
                                         <div class="col-sm">
                                             <div class="bootstrap-select-wrapper">
-                                                <label for="regdid_id_input">{% trans "ID Corso di Studi" %}</label>
+                                                <label for="regdid_id_input">{% trans "Course of study ID" %}</label>
                                                 <div class="w-30 mt-5">
                                                     <input type="text"
                                                            id="regdid_id_input"
@@ -100,7 +100,7 @@
                                         </div>
                                         <div class="col-sm">
                                             <div class="bootstrap-select-wrapper">
-                                                <label for="cds_cod_input">{% trans "Codice Corso di Studi" %}</label>
+                                                <label for="cds_cod_input">{% trans "Course of study code" %}</label>
                                                 <div class="w-30 mt-5">
                                                     <input type="text"
                                                            id="cds_cod_input"
@@ -111,7 +111,7 @@
                                         </div>
                                         <div class="col-sm">
                                             <div class="bootstrap-select-wrapper">
-                                                <label for="department_id_input">{% trans "ID Dipartimento" %}</label>
+                                                <label for="department_id_input">{% trans "Department ID" %}</label>
                                                 <div class="w-30 mt-5">
                                                     <input type="text"
                                                            id="department_id_input"
@@ -128,7 +128,7 @@
                                     <div class="row">
                                         <div class="col-sm">
                                             <div class="bootstrap-select-wrapper">
-                                                <label for="pds_cod_input">{% trans "Codice Piano di Studio" %}</label>
+                                                <label for="pds_cod_input">{% trans "Study plan code" %}</label>
                                                 <div class="w-30 mt-5">
                                                     <input type="text"
                                                            id="pds_cod_input"
@@ -139,15 +139,15 @@
                                         </div>
                                         <div class="col-sm">
                                             <div class="bootstrap-select-wrapper ml-5 mr-5">
-                                                <label for="cycle_input">{% trans "Ciclo" %}</label>
+                                                <label for="cycle_input">{% trans "Cycle" %}</label>
                                                 <div class="w-30 mt-5">
                                                     <span class="input-number">
                                                         <input type="number" id="cycle_input" name="cycle_input">
                                                         <button class="input-number-add">
-                                                            <span class="sr-only">Aumenta valore</span>
+                                                            <span class="sr-only">{% trans 'Increase value' %}</span>
                                                         </button>
                                                         <button class="input-number-sub">
-                                                            <span class="sr-only">Diminuisci valore</span>
+                                                            <span class="sr-only">{% trans 'Decrease value' %}</span>
                                                         </button>
                                                     </span>
                                                 </div>
@@ -165,7 +165,7 @@
                                             type="button"
                                             id="search-button"
                                             v-on:click="search()">
-                                        {% trans "Cerca" %}
+                                        {% trans "Search" %}
                                     </button>
                                 </div>
                             </div>

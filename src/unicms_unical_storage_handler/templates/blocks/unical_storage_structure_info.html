@@ -1,0 +1,102 @@
+{% load static %}
+
+{% load unicms_storage_handler %}
+{% load unicms_templates %}
+
+{% random_id as id %}
+{% include "includes/unical_storage_loading.html" %}
+
+{% settings_value "STRUCTURE_INFO_NOT_SHOW" as fields_to_hide %}
+
+{% get_allowed_website request.get_host as host %}
+
+{% settings_value "CMS_PATH_PREFIX" as cms_path_prefix %}
+{% settings_value "CMS_STORAGE_BASE_PATH" as base_prefix %}
+{% settings_value "CMS_STORAGE_STRUCTURE_VIEW_PREFIX_PATH" as structures_prefix %}
+
+<div id="{{ id }}">
+
+    <loading-icon
+        v-if="is_loading"
+        :loader_source="loader_source">
+    </loading-icon>
+
+    <div v-else>
+        <div class="row">
+            <div class="col-12 col-lg-2 d-flex" style="background: #d3d2cf">
+                <svg class="m-auto icon icon-xl icon-muted">
+                    <use xlink:href="/static/svg/sprite.svg#it-user"></use>
+                </svg>
+            </div>
+            <div class="col-12 col-lg-9 offset-lg-1 my-3 my-lg-0">
+                <h1 class="lighter">
+                    [[ item.StructureName ]]
+                </h1>
+            </div>
+        </div>
+        <hr class="my-4 bordeaux-unical-bg">
+        <div class="table-responsive">
+            <table class="table table-sm">
+                <tbody>
+                    <tr v-for="(value, name) in item" v-if="value && !fields_to_not_show.includes(name) && value != ''">
+                        <td>[[ labels[name] ]]</td>
+                        <td v-if="typeof value === 'object'">
+                            <ul>
+                                <li v-for="v in value">
+                                    <span style="white-space: pre-line;">
+                                        [[ v ]]
+                                    </span>
+                                </li>
+                            </ul>
+                        </td>
+                        <td v-else-if="typeof value === 'array'">
+                            <ul>
+                                <li v-for="subvalue in value">
+                                    [[ subvalue ]]
+                                </li>
+                            </ul>
+                        </td>
+                        <td v-else>
+                            <a v-if="name == 'StructureFatherName'" :href="'//{{ host }}/{{ cms_path_prefix }}{{ base_prefix }}/{{ structures_prefix }}/' + [[ item.StructureFatherId ]] +'/'">
+                                        [[ item.StructureFatherName ]]
+                                    </a>
+                            <span v-else style="white-space: pre-line;">
+                                [[ value ]]
+                            </span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<script>
+    var {{ id }} = new Vue({
+        el: '[id="{{ id }}"]',
+        data() {
+            return {
+                item: {},
+                labels: {},
+                url: '{{ url }}',
+                is_loading: true,
+                loader_source: '{{ url }}',
+                fields_to_not_show: {{ fields_to_hide|safe }},
+            }
+        },
+        mounted() {
+            this.CallURL();
+        },
+        methods: {
+            CallURL() {
+                axios
+                    .get(this.url)
+                    .then(response => {
+                        this.item = response.data.results;
+                        console.log(this.item);
+                        this.labels = response.data.labels;
+                        this.is_loading = false
+                    })
+            }
+        }
+    })
+</script>

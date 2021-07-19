@@ -250,3 +250,45 @@ class AddressbookInfoViewHandler(BaseStorageHandler):
         parent = (self.parent_url, settings.CMS_STORAGE_ADDRESSBOOK_LABEL)
         leaf = ('#', self.code)
         return (root, parent, leaf)
+
+
+class StructureListViewHandler(BaseStorageHandler):
+    template = "storage_structure_list.html"
+
+    def __init__(self, **kwargs):
+        super(StructureListViewHandler, self).__init__(**kwargs)
+
+    def as_view(self):
+        self.data['url'] = f'{settings.CMS_STORAGE_STRUCTURE_API}?lang={self.lang}'
+        return super().as_view()
+
+    @property
+    def breadcrumbs(self):
+        root = (self.get_base_url, settings.CMS_STORAGE_ROOT_LABEL)
+        leaf = ('#', settings.CMS_STORAGE_STRUCTURE_LABEL)
+        return (root, leaf)
+
+
+class StructureInfoViewHandler(BaseStorageHandler):
+    template = "storage_structure_info.html"
+
+    def __init__(self, **kwargs):
+        super(StructureInfoViewHandler, self).__init__(**kwargs)
+        self.code = self.match_dict.get('code', '')
+
+    def as_view(self):
+        self.data['url'] = f'{settings.CMS_STORAGE_STRUCTURE_API}{self.code}/?lang={self.lang}'
+        print(self.data['url'])
+        return super().as_view()
+
+    @property
+    def parent_url(self):
+        url = f'{self.webpath.get_full_path()}/{settings.CMS_STORAGE_BASE_PATH}/{settings.CMS_STORAGE_STRUCTURE_VIEW_PREFIX_PATH}/'
+        return sanitize_path(url)
+
+    @property
+    def breadcrumbs(self):
+        root = (self.get_base_url, settings.CMS_STORAGE_ROOT_LABEL)
+        parent = (self.parent_url, settings.CMS_STORAGE_STRUCTURE_LABEL)
+        leaf = ('#', self.code)
+        return (root, parent, leaf)
