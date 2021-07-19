@@ -38,7 +38,7 @@
                                             </svg>
                                         </div>
                                         <button class="btn btn-primary" type="button" id="search-button"
-                                            @click="{{ id }}.search()">{% trans "Cerca" %}</button>
+                                            @click="{{ id }}.search()">{% trans "Search" %}</button>
                                     </div>
                                 </div>
                             </div>
@@ -59,19 +59,18 @@
 
                                         <div class="bootstrap-select-wrapper" v-else>
                                             <label for="{{ id }}_structure_input">
-                                                {% trans "Struttura" %}
+                                                {% trans "Structure" %}
                                             </label>
                                             <div class="w-30 mt-5">
                                                 <select id="{{ id }}_structure_input"
-                                                        title="{% trans 'Scegli una opzione' %}"
+                                                        title="{% trans 'Choose an option' %}"
                                                         name="{{ id }}_structure_input"
                                                         class="form-control"
                                                         @change="{{ id }}.search()">
-                                                    <option value="">- {% trans 'Scegli una opzione' %} -</option>
+                                                    <option value="">- {% trans 'Choose an option' %} -</option>
                                                     <option v-for="item in structure_id_filter"
                                                             :value="item.StructureId"
                                                             v-if="!allowed_structure_id || allowed_structure_id.includes(item.StructureId)">
-                                                            <!-- v-if="allowed_structures.includes(item.StructureTypeCOD)"> -->
                                                         [[ item.StructureName ]]
                                                     </option>
                                                 </select>
@@ -119,11 +118,11 @@
 
                                         <div class="bootstrap-select-wrapper" v-else>
                                             <label for="{{ id }}_role_input">
-                                                {% trans "Ruolo" %}
+                                                {% trans "Role" %}
                                             </label>
                                             <div class="w-30 mt-5">
                                                 <select id="{{ id }}_role_input"
-                                                        title="{% trans 'Scegli una opzione' %}"
+                                                        title="{% trans 'Choose an option' %}"
                                                         name="{{ id }}_role_input"
                                                         class="form-control"
                                                         @change="{{ id }}.search()">
@@ -217,7 +216,6 @@ function {{ id }}_get_form_paramenters(dict={}, keyword=null, value=null) {
 }
 </script>
 {% endblock pagination_extra_scripts %}
-
 
 {% block extra_data %}
 
