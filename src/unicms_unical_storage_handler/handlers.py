@@ -211,12 +211,12 @@ class AddressbookListViewHandler(BaseStorageHandler):
 
         data = {'lang': self.lang}
 
-        if ALLOWED_ROLES:
-            data['roles'] = ",".join(ALLOWED_ROLES)
-        if ALLOWED_STRUCTURE_ID:
-            data['structureid'] = ",".join(ALLOWED_STRUCTURE_ID)
-        if ALLOWED_STRUCTURE_TYPES:
-            data['structuretypes'] = ",".join(ALLOWED_STRUCTURE_TYPES)
+        if ALLOWED_ADDRESSBOOK_ROLES:
+            data['roles'] = ",".join(ALLOWED_ADDRESSBOOK_ROLES)
+        if ALLOWED_ADDRESSBOOK_STRUCTURE_ID:
+            data['structureid'] = ",".join(ALLOWED_ADDRESSBOOK_STRUCTURE_ID)
+        if ALLOWED_ADDRESSBOOK_STRUCTURE_TYPES:
+            data['structuretypes'] = ",".join(ALLOWED_ADDRESSBOOK_STRUCTURE_TYPES)
 
         params = urllib.parse.urlencode(data)
 
