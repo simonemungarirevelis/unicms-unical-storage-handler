@@ -38,7 +38,7 @@
                                             </svg>
                                         </div>
                                         <button class="btn btn-primary" type="button" id="search-button"
-                                            @click="{{ id }}.search()">{% trans "Cerca" %}</button>
+                                            @click="{{ id }}.search()">{% trans "Search" %}</button>
                                     </div>
                                 </div>
                             </div>
@@ -59,17 +59,18 @@
 
                                         <div class="bootstrap-select-wrapper" v-else>
                                             <label for="{{ id }}_structure_input">
-                                                {% trans "Struttura" %}
+                                                {% trans "Structure" %}
                                             </label>
                                             <div class="w-30 mt-5">
                                                 <select id="{{ id }}_structure_input"
-                                                        title="{% trans 'Scegli una opzione' %}"
+                                                        title="{% trans 'Choose an option' %}"
                                                         name="{{ id }}_structure_input"
                                                         class="form-control"
                                                         @change="{{ id }}.search()">
+                                                    <option value=""></option>
                                                     <option v-for="item in structure_filter"
-                                                            :value="item.StructureId">
-                                                            <!-- v-if="allowed_structures.includes(item.StructureTypeCOD)"> -->
+                                                            :value="item.StructureId"
+                                                            v-if="allowed_structures.includes(item.StructureTypeCOD)">
                                                         [[ item.StructureName ]]
                                                     </option>
                                                 </select>
@@ -88,11 +89,11 @@
 
                                         <div class="bootstrap-select-wrapper" v-else>
                                             <label for="{{ id }}_role_input">
-                                                {% trans "Ruolo" %}
+                                                {% trans "Role" %}
                                             </label>
                                             <div class="w-30 mt-5">
                                                 <select id="{{ id }}_role_input"
-                                                        title="{% trans 'Scegli una opzione' %}"
+                                                        title="{% trans 'Choose an option' %}"
                                                         name="{{ id }}_role_input"
                                                         class="form-control"
                                                         @change="{{ id }}.search()">
@@ -175,7 +176,7 @@ function {{ id }}_get_form_paramenters(dict={}, keyword=null, value=null) {
 
     // role
     let role = document.getElementById('{{ id }}_role_input').value
-    if (role) dict['roleid'] = role
+    if (role) dict['roles'] = role
 
     return dict
 }
@@ -184,6 +185,10 @@ function {{ id }}_get_form_paramenters(dict={}, keyword=null, value=null) {
 
 
 {% block pagination_extra_data %}
+
+{% settings_value "ALLOWED_ADDRESSBOOK_STRUCTURES" as allowed_structures_settings %}
+{% settings_value "ALLOWED_ADDRESSBOOK_ROLES" as allowed_roles_settings %}
+
 search_dict: {},
 active_degree: "",
 degree_types: [],
@@ -191,8 +196,8 @@ is_loading_structures: true,
 is_loading_departments: true,
 loader_source_structures: 'https://storage.portale.unical.it/api/ricerca/structuresfilter/?lang={{ LANGUAGE_CODE }}',
 loader_source_roles: 'https://storage.portale.unical.it/api/ricerca/roles/?lang={{ LANGUAGE_CODE }}',
-allowed_structures: ['AREAUOC', 'DIP', 'MCRA'],
-allowed_roles: ['PO', 'PA', 'RU', 'RD', 'ND', 'AR', 'BS', 'CB', 'CC', 'DR'],
+allowed_structures: {{ allowed_structures_settings|safe }},
+allowed_roles: {{ allowed_roles_settings|safe }}
 {% endblock pagination_extra_data %}
 
 {% block pagination_extra_mounted %}
@@ -220,7 +225,6 @@ callStructures() {
         .get(this.loader_source_structures)
         .then(response => {
             this.structure_filter = response.data.results;
-            this.structure_filter.unshift("");
             this.is_loading_structures = false
         })
 },
@@ -230,7 +234,6 @@ callRoles() {
         .get(this.loader_source_roles)
         .then(response => {
             this.roles_filter = response.data.results;
-            this.roles_filter.unshift("");
             this.is_loading_roles = false
         })
 },

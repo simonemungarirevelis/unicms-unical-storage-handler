@@ -10,7 +10,7 @@
 {% get_allowed_website request.get_host as host %}
 {% settings_value "CMS_PATH_PREFIX" as cms_path_prefix %}
 {% settings_value "CMS_STORAGE_BASE_PATH" as base_prefix %}
-{% settings_value "CMS_STORAGE_STRUCTURES_VIEW_PREFIX_PATH" as structures_prefix %}
+{% settings_value "CMS_STORAGE_STRUCTURE_VIEW_PREFIX_PATH" as structures_prefix %}
 
 <div id="{{ id }}">
 
@@ -38,7 +38,7 @@
                                             </svg>
                                         </div>
                                         <button class="btn btn-primary" type="button" id="search-button"
-                                            @click="{{ id }}.search()">{% trans "Cerca" %}</button>
+                                            @click="{{ id }}.search()">{% trans "Search" %}</button>
                                     </div>
                                 </div>
                             </div>
@@ -57,7 +57,7 @@
                     <div class="card no-after" style="border:1px solid #b71918">
                         <div class="card-body">
                             <h4>
-                                <a :href="'//{{ host }}/{{ cms_path_prefix }}{{ base_prefix }}/{{ structures_prefix }}/' + [[ item.ID ]] +'/'">
+                                <a :href="'//{{ host }}/{{ cms_path_prefix }}{{ base_prefix }}/{{ structures_prefix }}/' + [[ item.StructureId ]] +'/'">
                                     [[ item.StructureName ]]
                                 </a>
                             </h4>
