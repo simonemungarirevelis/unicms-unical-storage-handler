@@ -260,10 +260,6 @@ function {{ id }}_get_form_paramenters(dict={}, keyword=null, value=null) {
     let academic_year = document.getElementById('{{ id }}_academic_year_input').value
     if (academic_year) dict['academicyear'] = academic_year
 
-    // department id
-    // let department_id = document.getElementById('{{ id }}_department_input').value
-    // if (department_id) dict['departmentid'] = department_id
-
     // department name
     let department = document.getElementById('{{ id }}_department_input').value
     if (department) dict['departmentid'] = department
