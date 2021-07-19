@@ -16,6 +16,8 @@ from . settings import *
 
 # settings params
 ALLOWED_ROLES = getattr(settings, 'ALLOWED_ROLES', ALLOWED_ROLES)
+ALLOWED_STRUCTURE_ID = getattr(settings, 'ALLOWED_STRUCTURE_ID', ALLOWED_STRUCTURE_ID)
+ALLOWED_STRUCTURE_TYPES = getattr(settings, 'ALLOWED_STRUCTURE_TYPES', ALLOWED_STRUCTURE_TYPES)
 
 ALLOWED_UNICMS_SITES = getattr(settings, 'ALLOWED_UNICMS_SITES',
                                ALLOWED_UNICMS_SITES)
@@ -208,6 +210,10 @@ class AddressbookListViewHandler(BaseStorageHandler):
 
         if ALLOWED_ROLES:
             data['roles'] = ",".join(ALLOWED_ROLES)
+        if ALLOWED_STRUCTURE_ID:
+            data['structureid'] = ",".join(ALLOWED_STRUCTURE_ID)
+        if ALLOWED_STRUCTURE_TYPES:
+            data['structuretypes'] = ",".join(ALLOWED_STRUCTURE_TYPES)
 
         params = urllib.parse.urlencode(data)
 

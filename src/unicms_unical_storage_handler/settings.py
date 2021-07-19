@@ -70,7 +70,8 @@ ALLOWED_CDS_JOINT_DEGREES = [
     {'COD': 'D', 'name': _("Doppio titolo")}
 ]
 ALLOWED_ROLES = []
-ALLOWED_STRUCTURES = []
+ALLOWED_STRUCTURE_TYPES = []
+ALLOWED_STRUCTURE_ID = []
 
 # CDSINFO FIELDS TO SHOW
 CDS_INFO_FIELDS = ['CdSGoals', 'CdSAccess', 'CdSAdmission',
@@ -78,8 +79,8 @@ CDS_INFO_FIELDS = ['CdSGoals', 'CdSAccess', 'CdSAdmission',
                    'CdSSatisfactionSurvey', 'CdSDoc']
 
 # FIELDS TO HIDE IN BLOCKS
-ADDRESSBOOK_INFO_NOT_SHOW = ['ID', 'Name', 'Role', 'RoleDescription',
-                             'StructureTypeCOD']
+ADDRESSBOOK_INFO_NOT_SHOW = ['ID', 'Name', 'Role',
+                             'RoleDescription', 'StructureTypeCOD']
 TEACHER_INFO_NOT_SHOW = ['TeacherID', 'TeacherDepartmentID',
                          'TeacherLastName', 'TeacherFirstName',
                          'TeacherRole', 'TeacherRoleDescription']
