@@ -31,7 +31,7 @@
             <div class="col">
                 <span v-for="degree in course_types"
                       class="badge badge-grey-unical square-corners my-1 mr-3 ml-0 pr-5 p-2">
-                    <div v-if="allowed_course_types.includes(degree.CourseType)">
+                    <div v-if="!allowed_course_types || allowed_course_types.includes(degree.CourseType)">
                         <a href="javascript:void(0)" @click="{{ id }}.search('coursetype', [[ degree.CourseType ]])">
                             <h5>
                                 <b v-if="degree.CourseType == active_degree">
@@ -281,14 +281,14 @@ function {{ id }}_get_form_paramenters(dict={}, keyword=null, value=null) {
 </script>
 {% endblock pagination_extra_scripts %}
 
-{% block pagination_extra_data %}
+{% block extra_data %}
 
 {% settings_value "ALLOWED_CDS_LANGUAGES" as allowed_languages %}
 {% settings_value "ALLOWED_CDS_JOINT_DEGREES" as allowed_joint_degrees %}
 
 search_dict: {},
 active_degree: "",
-allowed_course_types: [],
+allowed_course_types: null,
 course_types: [],
 is_loading_2: true,
 is_loading_academicyears: true,
@@ -300,15 +300,16 @@ academic_years_filter: [],
 departments_filter: [],
 cds_languages_filter: {{ allowed_languages|safe }},
 joint_degree_filter: {{ allowed_joint_degrees|safe }}
-{% endblock pagination_extra_data %}
+{% endblock extra_data %}
 
 {% block pagination_extra_mounted %}
 // if url if pre-filtered with preferred coursetypes
 // get them, else show all
 let params = new URLSearchParams(this.url.split('?')[1]);
 let get_coursetype = params.get("coursetype")
+let get_structuretype = params.get("structuretype")
 if (get_coursetype != null){
-    get_coursetypes_list = get_coursetype.split(',')
+    let get_coursetypes_list = get_coursetype.split(',')
     this.allowed_course_types = get_coursetypes_list
 }
 
@@ -334,10 +335,6 @@ callDegreeTypes() {
         .then(response => {
             this.course_types = response.data.results;
             this.is_loading_2 = false
-            if (this.allowed_course_types.length == 0){
-                for(index in this.course_types)
-                    this.allowed_course_types.push(this.course_types[index].CourseType)
-            }
         })
 },
 callAcademicYears() {

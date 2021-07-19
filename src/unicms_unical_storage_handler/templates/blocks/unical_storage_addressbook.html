@@ -53,7 +53,7 @@
                                     <div class="col-sm">
 
                                         <loading-icon
-                                            v-if="is_loading_structures"
+                                            v-if="is_loading_structure_id"
                                             :loader_source="loader_source_structures">
                                         </loading-icon>
 
@@ -67,11 +67,40 @@
                                                         name="{{ id }}_structure_input"
                                                         class="form-control"
                                                         @change="{{ id }}.search()">
-                                                    <option value=""></option>
-                                                    <option v-for="item in structure_filter"
+                                                    <option value="">- {% trans 'Choose an option' %} -</option>
+                                                    <option v-for="item in structure_id_filter"
                                                             :value="item.StructureId"
-                                                            v-if="allowed_structures.includes(item.StructureTypeCOD)">
+                                                            v-if="!allowed_structure_id || allowed_structure_id.includes(item.StructureId)">
                                                         [[ item.StructureName ]]
+                                                    </option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm">
+
+                                        <loading-icon
+                                            v-if="is_loading_structure_type"
+                                            :loader_source="loader_source_structure_types">
+                                        </loading-icon>
+
+                                        <div class="bootstrap-select-wrapper" v-else>
+                                            <label for="{{ id }}_structure_input">
+                                                {% trans "Struttura" %}
+                                            </label>
+                                            <div class="w-30 mt-5">
+                                                <select id="{{ id }}_structure_type_input"
+                                                        title="{% trans 'Scegli una opzione' %}"
+                                                        name="{{ id }}_structure_type_input"
+                                                        class="form-control"
+                                                        @change="{{ id }}.search()">
+                                                    <option value="">- {% trans 'Scegli una opzione' %} -</option>
+                                                    <option v-for="item in structure_type_filter"
+                                                            :value="item.StructureTypeCOD"
+                                                            v-if="!allowed_structure_types || allowed_structure_types.includes(item.StructureTypeCOD)">
+                                                            <!-- v-if="allowed_structures.includes(item.StructureTypeCOD)"> -->
+                                                        [[ item.StructureTypeName ]]
                                                     </option>
                                                 </select>
                                             </div>
@@ -97,10 +126,10 @@
                                                         name="{{ id }}_role_input"
                                                         class="form-control"
                                                         @change="{{ id }}.search()">
-                                                    <option value=""></option>
+                                                    <option value="">- {% trans 'Scegli una opzione' %} -</option>
                                                     <option v-for="item in roles_filter"
                                                             :value="item.Role"
-                                                            v-if="allowed_roles.includes(item.Role)">
+                                                            v-if="!allowed_roles || allowed_roles.includes(item.Role)">
                                                         [[ item.RoleDescription ]]
                                                     </option>
                                                 </select>
@@ -120,7 +149,8 @@
 
         <list-panel v-bind:data="items" v-if="items.results" id="{{ id }}"></list-panel>
 
-        <div class="row mb-3" v-for="item in items.results">
+        <div class="row mb-3"
+             v-for="item in items.results">
             <div class="col-12">
                 <!--start card-->
                 <div class="card-wrapper pb-0">
@@ -169,9 +199,13 @@ function {{ id }}_get_form_paramenters(dict={}, keyword=null, value=null) {
     if (search) dict['keywords'] = search
 
     {% block structure_filter_input %}
-    // structure
-    let structure = document.getElementById('{{ id }}_structure_input').value
-    if (structure) dict['structureid'] = structure
+    // structure id
+    let structure_id = document.getElementById('{{ id }}_structure_input').value
+    if (structure_id) dict['structureid'] = structure_id
+
+    // structure type
+    let structure_type = document.getElementById('{{ id }}_structure_type_input').value
+    if (structure_type) dict['structuretypes'] = structure_type
     {% endblock structure_filter_input %}
 
     // role
@@ -183,26 +217,50 @@ function {{ id }}_get_form_paramenters(dict={}, keyword=null, value=null) {
 </script>
 {% endblock pagination_extra_scripts %}
 
-
-{% block pagination_extra_data %}
-
-{% settings_value "ALLOWED_ADDRESSBOOK_STRUCTURES" as allowed_structures_settings %}
-{% settings_value "ALLOWED_ADDRESSBOOK_ROLES" as allowed_roles_settings %}
+{% block extra_data %}
 
 search_dict: {},
 active_degree: "",
-degree_types: [],
-is_loading_structures: true,
-is_loading_departments: true,
-loader_source_structures: 'https://storage.portale.unical.it/api/ricerca/structuresfilter/?lang={{ LANGUAGE_CODE }}',
+is_loading_structure_id: true,
+is_loading_structure_type: true,
+is_loading_roles: true,
+loader_source_structures: 'https://storage.portale.unical.it/api/ricerca/structures/?lang={{ LANGUAGE_CODE }}',
+loader_source_structuretypes: 'https://storage.portale.unical.it/api/ricerca/structuretypes/?lang={{ LANGUAGE_CODE }}',
 loader_source_roles: 'https://storage.portale.unical.it/api/ricerca/roles/?lang={{ LANGUAGE_CODE }}',
-allowed_structures: {{ allowed_structures_settings|safe }},
-allowed_roles: {{ allowed_roles_settings|safe }}
-{% endblock pagination_extra_data %}
+allowed_structure_id: null,
+allowed_structure_types: null,
+allowed_roles: null,
+
+roles_filter: [],
+structure_id_filter: [],
+structure_type_filter: []
+{% endblock extra_data %}
 
 {% block pagination_extra_mounted %}
+    // if url if pre-filtered with preferred coursetypes
+    // get them, else show all
+    let params = new URLSearchParams(this.url.split('?')[1]);
+
+    let get_roles = params.get("roles")
+    if (get_roles != null){
+        let get_roles_list = get_roles.split(',')
+        this.allowed_roles = get_roles_list
+    }
+
+    let get_structure_id = params.get("structureid")
+    if (get_structure_id != null){
+        let get_structure_id_list = get_structure_id.split(',')
+        this.allowed_structure_id = get_structure_id_list
+    }
+
+    let get_structure_types = params.get("structuretypes")
+    if (get_structure_types != null){
+        let get_structure_types_list = get_structure_types.split(',')
+        this.allowed_structure_types = get_structure_types_list
+    }
     {% block call_structure_on_mounted %}
-        this.callStructures();
+        this.callStructureId();
+        this.callStructureTypes();
     {% endblock call_structure_on_mounted %}
 
     this.callRoles();
@@ -219,16 +277,26 @@ search(keyword=null, value=null) {
 {% endblock pagination_method_search %}
 
 {% block pagination_extra_methods %}
+
 {% block structure_call_method %}
-callStructures() {
+callStructureId() {
     axios
         .get(this.loader_source_structures)
         .then(response => {
-            this.structure_filter = response.data.results;
-            this.is_loading_structures = false
+            this.structure_id_filter = response.data.results;
+            this.is_loading_structure_id = false
+        })
+},
+callStructureTypes() {
+    axios
+        .get(this.loader_source_structuretypes)
+        .then(response => {
+            this.structure_type_filter = response.data.results;
+            this.is_loading_structure_type = false
         })
 },
 {% endblock structure_call_method %}
+
 callRoles() {
     axios
         .get(this.loader_source_roles)

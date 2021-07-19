@@ -78,8 +78,10 @@ ALLOWED_CDS_JOINT_DEGREES = [
     {'COD': 'S', 'name': _("Titolo congiunto")},
     {'COD': 'D', 'name': _("Doppio titolo")}
 ]
-ALLOWED_ADDRESSBOOK_STRUCTURES = ['AREAUOC', 'DIP', 'MCRA']
-ALLOWED_ADDRESSBOOK_ROLES = ['PO', 'PA', 'RU', 'RD', 'ND', 'AR', 'BS', 'CB', 'CC', 'DR']
+
+ALLOWED_ADDRESSBOOK_ROLES = []
+ALLOWED_ADDRESSBOOK_STRUCTURE_TYPES = []
+ALLOWED_STRUCTURE_ID = []
 
 # CDSINFO FIELDS TO SHOW
 CDS_INFO_FIELDS = ['CdSGoals', 'CdSAccess', 'CdSAdmission',
@@ -87,11 +89,12 @@ CDS_INFO_FIELDS = ['CdSGoals', 'CdSAccess', 'CdSAdmission',
                    'CdSSatisfactionSurvey', 'CdSDoc']
 
 # FIELDS TO HIDE IN BLOCKS
-ADDRESSBOOK_INFO_NOT_SHOW = ['ID', 'Name', 'Role', 'RoleDescription',
-                             'StructureTypeCOD']
+ADDRESSBOOK_INFO_NOT_SHOW = ['ID', 'Name', 'Role',
+                             'RoleDescription', 'StructureTypeCOD']
 TEACHER_INFO_NOT_SHOW = ['TeacherID', 'TeacherDepartmentID',
                          'TeacherLastName', 'TeacherFirstName',
                          'TeacherRole', 'TeacherRoleDescription']
+
 STRUCTURE_INFO_NOT_SHOW = ['StructureId', 'StructureFatherId']
 
 # ALMALAUREA Link
