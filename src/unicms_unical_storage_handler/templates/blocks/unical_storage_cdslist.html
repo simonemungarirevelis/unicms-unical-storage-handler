@@ -281,7 +281,7 @@ function {{ id }}_get_form_paramenters(dict={}, keyword=null, value=null) {
 </script>
 {% endblock pagination_extra_scripts %}
 
-{% block pagination_extra_data %}
+{% block extra_data %}
 
 {% settings_value "ALLOWED_CDS_LANGUAGES" as allowed_languages %}
 {% settings_value "ALLOWED_CDS_JOINT_DEGREES" as allowed_joint_degrees %}
@@ -300,7 +300,7 @@ academic_years_filter: [],
 departments_filter: [],
 cds_languages_filter: {{ allowed_languages|safe }},
 joint_degree_filter: {{ allowed_joint_degrees|safe }}
-{% endblock pagination_extra_data %}
+{% endblock extra_data %}
 
 {% block pagination_extra_mounted %}
 // if url if pre-filtered with preferred coursetypes

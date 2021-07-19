@@ -69,6 +69,8 @@ ALLOWED_CDS_JOINT_DEGREES = [
     {'COD': 'S', 'name': _("Titolo congiunto")},
     {'COD': 'D', 'name': _("Doppio titolo")}
 ]
+ALLOWED_ROLES = []
+ALLOWED_STRUCTURES = []
 
 # CDSINFO FIELDS TO SHOW
 CDS_INFO_FIELDS = ['CdSGoals', 'CdSAccess', 'CdSAdmission',
@@ -81,5 +83,6 @@ ADDRESSBOOK_INFO_NOT_SHOW = ['ID', 'Name', 'Role', 'RoleDescription',
 TEACHER_INFO_NOT_SHOW = ['TeacherID', 'TeacherDepartmentID',
                          'TeacherLastName', 'TeacherFirstName',
                          'TeacherRole', 'TeacherRoleDescription']
+
 # ALMALAUREA Link
 ALMALAUREA_LINK = 'http://statistiche.almalaurea.it/universita/statistiche/trasparenza?codicione='

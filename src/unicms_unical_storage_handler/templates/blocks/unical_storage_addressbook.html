@@ -119,7 +119,9 @@
 
         <list-panel v-bind:data="items" v-if="items.results" id="{{ id }}"></list-panel>
 
-        <div class="row mb-3" v-for="item in items.results">
+        <div class="row mb-3"
+             v-for="item in items.results"
+             v-if="allowed_roles.includes(item.Role)">
             <div class="col-12">
                 <!--start card-->
                 <div class="card-wrapper pb-0">
@@ -183,7 +185,10 @@ function {{ id }}_get_form_paramenters(dict={}, keyword=null, value=null) {
 {% endblock pagination_extra_scripts %}
 
 
-{% block pagination_extra_data %}
+{% block extra_data %}
+{% settings_value "ALLOWED_ROLES" as allowed_roles %}
+{% settings_value "ALLOWED_STRUCTURES" as allowed_structures %}
+
 search_dict: {},
 active_degree: "",
 degree_types: [],
@@ -191,9 +196,9 @@ is_loading_structures: true,
 is_loading_departments: true,
 loader_source_structures: 'https://storage.portale.unical.it/api/ricerca/structures/?lang={{ LANGUAGE_CODE }}',
 loader_source_roles: 'https://storage.portale.unical.it/api/ricerca/roles/?lang={{ LANGUAGE_CODE }}',
-allowed_structures: ['AREAUOC', 'DIP', 'MCRA'],
-allowed_roles: ['PO', 'PA', 'RU', 'RD', 'ND', 'AR', 'BS', 'CB', 'CC', 'DR'],
-{% endblock pagination_extra_data %}
+allowed_structures: {{ allowed_structures|safe }},
+allowed_roles: {{ allowed_roles|safe }}
+{% endblock extra_data %}
 
 {% block pagination_extra_mounted %}
     {% block call_structure_on_mounted %}

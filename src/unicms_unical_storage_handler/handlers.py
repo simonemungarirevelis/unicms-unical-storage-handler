@@ -15,6 +15,8 @@ from . settings import *
 
 
 # settings params
+ALLOWED_ROLES = getattr(settings, 'ALLOWED_ROLES', ALLOWED_ROLES)
+
 ALLOWED_UNICMS_SITES = getattr(settings, 'ALLOWED_UNICMS_SITES',
                                ALLOWED_UNICMS_SITES)
 
@@ -75,7 +77,6 @@ class CdSListViewHandler(BaseStorageHandler):
 
         data = {'lang': self.lang}
 
-        coursetype_filter = ''
         if ALLOWED_CDS_COURSETYPES:
             data['coursetype'] = ",".join(ALLOWED_CDS_COURSETYPES)
 
@@ -202,7 +203,15 @@ class AddressbookListViewHandler(BaseStorageHandler):
         super(AddressbookListViewHandler, self).__init__(**kwargs)
 
     def as_view(self):
-        self.data['url'] = f'{settings.CMS_STORAGE_ADDRESSBOOK_API}?lang={self.lang}'
+
+        data = {'lang': self.lang}
+
+        if ALLOWED_ROLES:
+            data['roles'] = ",".join(ALLOWED_ROLES)
+
+        params = urllib.parse.urlencode(data)
+
+        self.data['url'] = f'{settings.CMS_STORAGE_ADDRESSBOOK_API}?{params}'
         return super().as_view()
 
     @property
