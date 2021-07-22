@@ -218,15 +218,18 @@ function {{ id }}_get_form_paramenters(dict={}, keyword=null, value=null) {
 {% endblock pagination_extra_scripts %}
 
 {% block extra_data %}
+{% settings_value "CMS_STORAGE_BASE_API" as base_api %}
 
 search_dict: {},
 active_degree: "",
 is_loading_structure_id: true,
 is_loading_structure_type: true,
 is_loading_roles: true,
-loader_source_structures: 'https://storage.portale.unical.it/api/ricerca/structures/?lang={{ LANGUAGE_CODE }}',
-loader_source_structure_types: 'https://storage.portale.unical.it/api/ricerca/structuretypes/?lang={{ LANGUAGE_CODE }}',
-loader_source_roles: 'https://storage.portale.unical.it/api/ricerca/roles/?lang={{ LANGUAGE_CODE }}',
+
+loader_source_structures: '{{ base_api }}structures/?lang={{ LANGUAGE_CODE }}',
+loader_source_structure_types: '{{ base_api }}structuretypes/?lang={{ LANGUAGE_CODE }}',
+loader_source_roles: '{{ base_api }}roles/?lang={{ LANGUAGE_CODE }}',
+
 allowed_structure_id: null,
 allowed_structure_types: null,
 allowed_roles: null,
