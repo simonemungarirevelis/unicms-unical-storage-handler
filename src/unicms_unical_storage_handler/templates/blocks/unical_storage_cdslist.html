@@ -25,7 +25,7 @@
         {% block filters_coursetype %}
 
         <loading-icon
-            v-if="is_loading_2"
+            v-if="is_loading_degreetypes"
             :loader_source="loader_source_degreetypes">
         </loading-icon>
 
@@ -291,7 +291,7 @@ active_coursetype: "",
 allowed_course_types: null,
 course_types: [],
 
-is_loading_2: true,
+is_loading_degreetypes: true,
 is_loading_academicyears: true,
 is_loading_departments: true,
 
@@ -337,7 +337,7 @@ callDegreeTypes() {
         .get(this.loader_source_degreetypes)
         .then(response => {
             this.course_types = response.data.results;
-            this.is_loading_2 = false
+            this.is_loading_degreetypes = false
         })
 },
 callAcademicYears() {
