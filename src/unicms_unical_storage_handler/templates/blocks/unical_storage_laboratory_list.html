@@ -1,0 +1,213 @@
+{% extends "bases/unical_storage_list.html" %}
+
+{% load i18n %}
+{% load static %}
+{% load unicms_storage_handler %}
+{% load unicms_templates %}
+
+{% block pagination_content %}
+
+{% get_allowed_website request.get_host as host %}
+{% settings_value "CMS_PATH_PREFIX" as cms_path_prefix %}
+{% settings_value "CMS_STORAGE_BASE_PATH" as base_prefix %}
+{% settings_value "CMS_STORAGE_LABORATORY_VIEW_PREFIX_PATH" as laboratory_prefix %}
+
+<div id="{{ id }}">
+
+    <loading-icon
+        v-if="is_loading"
+        :loader_source="loader_source">
+    </loading-icon>
+
+    <div v-else>
+        <div class="row">
+            <div class="col-12">
+                <div class="card-wrapper card-space">
+                    <div class="card card-bg no-after">
+                        <br>
+                        <div class="card-body">
+                            <div class="row form-group">
+                                <div class="input-group">
+                                    <label for="search"></label>
+                                    <input type="text" class="form-control" id="{{ id }}_keywords" name="{{ id }}_keywords">
+                                    <div class="input-group-append">
+                                        <div class="input-group-text">
+                                            <svg class="icon icon-sm icon-muted">
+                                                <use xlink:href="/static/svg/sprite.svg#it-search"></use>
+                                            </svg>
+                                        </div>
+                                        <button class="btn btn-primary" type="button" id="search-button"
+                                            @click="{{ id }}.search()">{% trans "Search" %}</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <!-- Areas & Department -->
+
+                                <loading-icon
+                                    v-if="is_loading_areas"
+                                    :loader_source="loader_source_areas">
+                                </loading-icon>
+
+                                <div class="row" v-else>
+                                    <div class="col-sm">
+                                        <div class="bootstrap-select-wrapper">
+                                            <label for="{{ id }}_area_input">
+                                                {% trans "Area" %}
+                                            </label>
+                                            <div class="w-30 mt-5">
+                                                <select id="{{ id }}_area_input"
+                                                        title="{% trans 'Choose an option' %}"
+                                                        name="{{ id }}_area_input"
+                                                        class="form-control"
+                                                        @change="{{ id }}.search()">
+                                                  <option value="">- {% trans 'Choose an option' %} -</option>
+                                                  <option v-for="item in areas" :value="item.Area">
+                                                      [[ item.Area ]]
+                                                  </option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <loading-icon
+                                        v-if="is_loading_departments"
+                                        :loader_source="loader_source_departments">
+                                    </loading-icon>
+
+                                    <div class="col-sm" v-else>
+                                        <div class="bootstrap-select-wrapper">
+                                            <label for="{{ id }}_department_input">
+                                                {% trans "Department" %}
+                                            </label>
+                                            <div class="w-30 mt-5">
+                                                <select id="{{ id }}_department_input"
+                                                        title="{% trans 'Choose an option' %}"
+                                                        name="{{ id }}_department_input"
+                                                        class="form-control"
+                                                        @change="{{ id }}.search()">
+                                                    <option value="">- {% trans 'Choose an option' %} -</option>
+                                                    <option v-for="item in departments"
+                                                            :value="item.DepartmentID">
+                                                        [[ item.DepartmentName ]]
+                                                    </option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <list-panel v-bind:data="items" v-if="items.results" id="{{ id }}"></list-panel>
+
+        <div class="row mb-3" v-for="item in items.results">
+            <div class="col-12">
+                <!--start card-->
+                <div class="card-wrapper pb-0">
+                    <div class="card no-after" style="border:1px solid #b71918">
+                        <div class="card-body">
+                            <h4>
+                                <a :href="'//{{ host }}/{{ cms_path_prefix }}{{ base_prefix }}/{{ laboratory_prefix }}/' + [[ item.LaboratoryId ]] +'/'">
+                                    [[ item.LaboratoryName ]]
+                                </a>
+                            </h4>
+                            <div class="row">
+                                <div class="col-12 col-md-auto">
+                                    <small>
+                                        [[ labels['DepartmentName'] ]] >
+                                        <b>[[ item.DepartmentName ]]</b>
+                                    </small>
+                                </div>
+                                <div class="col-12 col-md-auto">
+                                    <small>
+                                        [[ labels['Area'] ]] >
+                                        <b>[[ item.Area ]]</b>
+                                    </small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--end card-->
+            </div>
+        </div>
+
+        <list-panel v-bind:data="items" v-if="items.results" id="{{ id }}"></list-panel>
+    </div>
+</div>
+{% endblock pagination_content %}
+
+{% block pagination_extra_scripts %}
+<script>
+function {{ id }}_get_form_paramenters(dict={}, keyword=null, value=null) {
+
+    if (keyword)
+        dict[keyword] = value
+
+    // search
+    let search = document.getElementById('{{ id }}_keywords').value
+    if (search) dict['keywords'] = search
+
+    // area
+    let area = document.getElementById('{{ id }}_area_input').value
+    if (area) dict['area'] = area
+
+    // department
+    let department = document.getElementById('{{ id }}_department_input').value
+    if (department) dict['department'] = department
+
+    return dict
+}
+</script>
+{% endblock pagination_extra_scripts %}
+
+
+{% block extra_data %}
+search_dict: {},
+departments: [],
+areas: [],
+
+is_loading_departments: true,
+is_loading_areas: true,
+
+loader_source_departments: 'https://storage.portale.unical.it/api/ricerca/departmentsfilter/?lang={{ LANGUAGE_CODE }}',
+loader_source_areas: 'https://storage.portale.unical.it/api/ricerca/laboratoriesareas/?lang={{ LANGUAGE_CODE }}',
+{% endblock extra_data %}
+
+{% block pagination_extra_mounted %}
+this.callAreas();
+this.callDepartments();
+{% endblock pagination_extra_mounted %}
+
+{% block pagination_method_search %}
+search() {
+    this.search_dict = {}
+    this.parameters = encodeQueryData({{ id }}_get_form_paramenters(this.search_dict), this.args_input);
+    this.CallURL(this.url + this.parameters);
+},
+{% endblock pagination_method_search %}
+
+{% block pagination_extra_methods %}
+callAreas() {
+    axios
+        .get(this.loader_source_areas)
+        .then(response => {
+            this.areas = response.data.results;
+            this.is_loading_areas = false
+        })
+},
+callDepartments() {
+    axios
+        .get(this.loader_source_departments)
+        .then(response => {
+            this.departments = response.data.results;
+            this.is_loading_departments = false
+        })
+},
+{% endblock pagination_extra_methods %}
+</script>
