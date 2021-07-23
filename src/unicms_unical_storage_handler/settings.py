@@ -16,6 +16,7 @@ CMS_STORAGE_ACTIVITY_VIEW_PREFIX_PATH = 'activities'
 CMS_STORAGE_THEACHER_VIEW_PREFIX_PATH = 'teachers'
 CMS_STORAGE_ADDRESSBOOK_VIEW_PREFIX_PATH = 'addressbook'
 CMS_STORAGE_STRUCTURE_VIEW_PREFIX_PATH = 'structures'
+CMS_STORAGE_LABORATORY_VIEW_PREFIX_PATH = 'laboratories'
 
 # regexps
 CMS_STORAGE_BASE_URL_VIEW_REGEXP = f'^(?P<webpath>[\/a-zA-Z0-9\.\-\_]*)({CMS_STORAGE_BASE_PATH})(/)?$' # noqa
@@ -28,6 +29,8 @@ CMS_STORAGE_ADDRESSBOOK_URL_VIEW_REGEXP = f'^(?P<webpath>[\/a-zA-Z0-9\.\-\_]*)({
 CMS_STORAGE_ADDRESSBOOK_INFO_URL_VIEW_REGEXP = f'^(?P<webpath>[\/a-zA-Z0-9\.\-\_]*)({CMS_STORAGE_BASE_PATH})/({CMS_STORAGE_ADDRESSBOOK_VIEW_PREFIX_PATH})/(?P<code>[a-z0-9\-]*)(/)?$' # noqa
 CMS_STORAGE_STRUCTURE_URL_VIEW_REGEXP = f'^(?P<webpath>[\/a-zA-Z0-9\.\-\_]*)({CMS_STORAGE_BASE_PATH})/({CMS_STORAGE_STRUCTURE_VIEW_PREFIX_PATH})(/)?$' # noqa
 CMS_STORAGE_STRUCTURE_INFO_URL_VIEW_REGEXP = f'^(?P<webpath>[\/a-zA-Z0-9\.\-\_]*)({CMS_STORAGE_BASE_PATH})/({CMS_STORAGE_STRUCTURE_VIEW_PREFIX_PATH})/(?P<code>[a-z0-9\-]*)(/)?$' # noqa
+CMS_STORAGE_LABORATORY_URL_VIEW_REGEXP = f'^(?P<webpath>[\/a-zA-Z0-9\.\-\_]*)({CMS_STORAGE_BASE_PATH})/({CMS_STORAGE_LABORATORY_VIEW_PREFIX_PATH})(/)?$' # noqa
+CMS_STORAGE_LABORATORY_INFO_URL_VIEW_REGEXP = f'^(?P<webpath>[\/a-zA-Z0-9\.\-\_]*)({CMS_STORAGE_BASE_PATH})/({CMS_STORAGE_LABORATORY_VIEW_PREFIX_PATH})/(?P<code>[a-z0-9\-]*)(/)?$' # noqa
 
 CMS_STORAGE_HANDLERS_PATHS = [CMS_STORAGE_BASE_URL_VIEW_REGEXP,
                               CMS_STORAGE_CDS_LIST_URL_VIEW_REGEXP,
@@ -38,7 +41,9 @@ CMS_STORAGE_HANDLERS_PATHS = [CMS_STORAGE_BASE_URL_VIEW_REGEXP,
                               CMS_STORAGE_ADDRESSBOOK_URL_VIEW_REGEXP,
                               CMS_STORAGE_ADDRESSBOOK_INFO_URL_VIEW_REGEXP,
                               CMS_STORAGE_STRUCTURE_URL_VIEW_REGEXP,
-                              CMS_STORAGE_STRUCTURE_INFO_URL_VIEW_REGEXP
+                              CMS_STORAGE_STRUCTURE_INFO_URL_VIEW_REGEXP,
+                              CMS_STORAGE_LABORATORY_URL_VIEW_REGEXP,
+                              CMS_STORAGE_LABORATORY_INFO_URL_VIEW_REGEXP,
                               ]
 
 CMS_STORAGE_APP_REGEXP_URLPATHS = {
@@ -52,6 +57,8 @@ CMS_STORAGE_APP_REGEXP_URLPATHS = {
     'unicms_unical_storage_handler.handlers.AddressbookInfoViewHandler' : CMS_STORAGE_ADDRESSBOOK_INFO_URL_VIEW_REGEXP,
     'unicms_unical_storage_handler.handlers.StructureListViewHandler': CMS_STORAGE_STRUCTURE_URL_VIEW_REGEXP,
     'unicms_unical_storage_handler.handlers.StructureInfoViewHandler' : CMS_STORAGE_STRUCTURE_INFO_URL_VIEW_REGEXP,
+    'unicms_unical_storage_handler.handlers.LaboratoryListViewHandler': CMS_STORAGE_LABORATORY_URL_VIEW_REGEXP,
+    'unicms_unical_storage_handler.handlers.LaboratoryInfoViewHandler' : CMS_STORAGE_LABORATORY_INFO_URL_VIEW_REGEXP,
 }
 
 # cms_storage APIs (ref: https://storage.unical.it)
@@ -61,6 +68,7 @@ CMS_STORAGE_ACTIVITY_API = f'{CMS_STORAGE_BASE_API}activities/'
 CMS_STORAGE_TEACHER_API = f'{CMS_STORAGE_BASE_API}teachers/'
 CMS_STORAGE_ADDRESSBOOK_API = f'{CMS_STORAGE_BASE_API}addressbook/'
 CMS_STORAGE_STRUCTURE_API = f'{CMS_STORAGE_BASE_API}structures/'
+CMS_STORAGE_LABORATORY_API = f'{CMS_STORAGE_BASE_API}laboratories/'
 
 # labels (for breadcrumbs and page title)
 CMS_STORAGE_ROOT_LABEL = _("Data storage")
@@ -69,6 +77,7 @@ CMS_STORAGE_ACTIVITIES_LABEL = _("Teachings")
 CMS_STORAGE_TEACHERS_LABEL = _("Teachers")
 CMS_STORAGE_ADDRESSBOOK_LABEL = _("Persons")
 CMS_STORAGE_STRUCTURE_LABEL = _("Structures")
+CMS_STORAGE_LABORATORY_LABEL = _("Laboratories")
 
 # API filters
 ALLOWED_CDS_COURSETYPES = []
@@ -96,6 +105,16 @@ TEACHER_INFO_NOT_SHOW = ['TeacherID', 'TeacherDepartmentID',
                          'TeacherRole', 'TeacherRoleDescription']
 
 STRUCTURE_INFO_NOT_SHOW = ['StructureId', 'StructureFatherId']
+
+LABORATORY_INFO_NOT_SHOW = ['LaboratoryId', 'CompletionReferentId',
+                            'ScientificDirectorId', 'DepartmentReferentId',
+                            'LaboratoryErc1Cod', 'LaboratoryErc0Cod',
+                            'ResearchPersonnelID', 'TechPersonnelID',
+                            'LaboratoryName', 'LaboratoryAcronym',
+                            'LaboratoryScope',
+                            'LaboratoryErc1', 'LaboratoryResearchPersonnel',
+                            'LaboratoryTechPersonnel', 'LaboratoryOfferedServices',
+                            'LaboratoryLocation']
 
 # ALMALAUREA Link
 ALMALAUREA_LINK = 'http://statistiche.almalaurea.it/universita/statistiche/trasparenza?codicione='
