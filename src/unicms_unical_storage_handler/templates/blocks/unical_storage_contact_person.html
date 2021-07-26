@@ -32,6 +32,15 @@
                 <br>
                 <span>- [[ item.RoleDescription ]]</span>
                 <br>
+                <div>
+                    <span>
+                        <svg class="icon icon-sm icon-muted mr-2">
+                            <use xlink:href="{% static 'svg/sprite.svg' %}#it-map-marker-circle"></use>
+                        </svg>
+                        <a href="#">-</a>
+                    </span>
+                    <br>
+                </div>
                 <div v-for="office_email in item.OfficeReference">
                     <span>
                         <svg class="icon icon-sm icon-muted mr-2">
