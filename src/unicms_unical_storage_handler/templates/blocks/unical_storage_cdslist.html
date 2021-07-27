@@ -287,7 +287,7 @@ function {{ id }}_get_form_paramenters(dict={}, keyword=null, value=null) {
 {% settings_value "CMS_STORAGE_BASE_API" as base_api %}
 
 search_dict: {},
-active_coursetype: "",
+active_coursetype: null,
 allowed_course_types: null,
 course_types: [],
 
@@ -326,7 +326,8 @@ search(keyword=null, value=null) {
     if(keyword=='coursetype')
         this.active_coursetype = value;
     this.search_dict = {}
-    this.parameters = encodeQueryData({{ id }}_get_form_paramenters(this.search_dict, keyword, value), this.args_input);
+    if (value) this.parameters = encodeQueryData({{ id }}_get_form_paramenters(this.search_dict, keyword, value), this.args_input);
+    else this.parameters = encodeQueryData({{ id }}_get_form_paramenters(this.search_dict), this.args_input);
     this.CallURL(this.url + this.parameters);
 },
 {% endblock pagination_method_search %}
