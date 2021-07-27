@@ -15,10 +15,6 @@
 
 {% include "includes/unical_storage_loading.html" %}
 
-<!--
-<link rel="stylesheet" href="{% static 'css/markdown-vue.css' %}"></link>
-<script src="{% static 'js/markdown-vue.js' %}"></script>
--->
 <script src="{% static 'js/vue-markdown.js' %}"></script>
 
 <div id="{{ id }}">
@@ -207,6 +203,7 @@
 
 <script>
 Vue.use(VueMarkdown);
+
 var {{ id }} = new Vue({
     el: '#{{ id }}',
     data() {
