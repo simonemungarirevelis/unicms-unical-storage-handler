@@ -138,7 +138,7 @@ msgstr "Ruolo"
 
 #: templates/blocks/unical_storage_cdsinfo.html:38
 msgid "Degree class"
-msgstr "Classe di laure"
+msgstr "Classe di laurea"
 
 #: templates/blocks/unical_storage_cdsinfo.html:55
 #: templates/blocks/unical_storage_cdslist.html:222
