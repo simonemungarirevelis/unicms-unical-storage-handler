@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-07-30 12:16+0200\n"
+"POT-Creation-Date: 2021-07-30 15:29+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -100,7 +100,7 @@ msgid "next"
 msgstr "prossimo"
 
 #: src/unicms_unical_storage_handler/templates/blocks/unical_storage_addressbook.html:41
-#: src/unicms_unical_storage_handler/templates/blocks/unical_storage_cdslist.html:79
+#: src/unicms_unical_storage_handler/templates/blocks/unical_storage_cdslist.html:84
 #: src/unicms_unical_storage_handler/templates/blocks/unical_storage_doctorateslist.html:168
 #: src/unicms_unical_storage_handler/templates/blocks/unical_storage_laboratory_list.html:40
 #: src/unicms_unical_storage_handler/templates/blocks/unical_storage_structure_list.html:41
@@ -119,14 +119,14 @@ msgstr "Struttura"
 #: src/unicms_unical_storage_handler/templates/blocks/unical_storage_addressbook.html:98
 #: src/unicms_unical_storage_handler/templates/blocks/unical_storage_addressbook.html:125
 #: src/unicms_unical_storage_handler/templates/blocks/unical_storage_addressbook.html:129
-#: src/unicms_unical_storage_handler/templates/blocks/unical_storage_cdslist.html:102
-#: src/unicms_unical_storage_handler/templates/blocks/unical_storage_cdslist.html:106
-#: src/unicms_unical_storage_handler/templates/blocks/unical_storage_cdslist.html:128
-#: src/unicms_unical_storage_handler/templates/blocks/unical_storage_cdslist.html:132
-#: src/unicms_unical_storage_handler/templates/blocks/unical_storage_cdslist.html:152
-#: src/unicms_unical_storage_handler/templates/blocks/unical_storage_cdslist.html:156
-#: src/unicms_unical_storage_handler/templates/blocks/unical_storage_cdslist.html:172
-#: src/unicms_unical_storage_handler/templates/blocks/unical_storage_cdslist.html:176
+#: src/unicms_unical_storage_handler/templates/blocks/unical_storage_cdslist.html:108
+#: src/unicms_unical_storage_handler/templates/blocks/unical_storage_cdslist.html:112
+#: src/unicms_unical_storage_handler/templates/blocks/unical_storage_cdslist.html:135
+#: src/unicms_unical_storage_handler/templates/blocks/unical_storage_cdslist.html:139
+#: src/unicms_unical_storage_handler/templates/blocks/unical_storage_cdslist.html:160
+#: src/unicms_unical_storage_handler/templates/blocks/unical_storage_cdslist.html:164
+#: src/unicms_unical_storage_handler/templates/blocks/unical_storage_cdslist.html:181
+#: src/unicms_unical_storage_handler/templates/blocks/unical_storage_cdslist.html:185
 #: src/unicms_unical_storage_handler/templates/blocks/unical_storage_laboratory_list.html:60
 #: src/unicms_unical_storage_handler/templates/blocks/unical_storage_laboratory_list.html:64
 #: src/unicms_unical_storage_handler/templates/blocks/unical_storage_laboratory_list.html:85
@@ -148,7 +148,7 @@ msgid "Degree class"
 msgstr "Classe di laurea"
 
 #: src/unicms_unical_storage_handler/templates/blocks/unical_storage_cdsinfo.html:56
-#: src/unicms_unical_storage_handler/templates/blocks/unical_storage_cdslist.html:222
+#: src/unicms_unical_storage_handler/templates/blocks/unical_storage_cdslist.html:233
 msgid "years"
 msgstr "anni"
 
@@ -164,25 +164,25 @@ msgstr "Piani di studio"
 msgid "All"
 msgstr "Tutti"
 
-#: src/unicms_unical_storage_handler/templates/blocks/unical_storage_cdslist.html:98
+#: src/unicms_unical_storage_handler/templates/blocks/unical_storage_cdslist.html:104
 msgid "Academic Year"
 msgstr "Anno accademico"
 
-#: src/unicms_unical_storage_handler/templates/blocks/unical_storage_cdslist.html:124
+#: src/unicms_unical_storage_handler/templates/blocks/unical_storage_cdslist.html:131
 #: src/unicms_unical_storage_handler/templates/blocks/unical_storage_laboratory_list.html:81
 #: src/unicms_unical_storage_handler/templates/blocks/unical_storage_teacherslist.html:57
 msgid "Department"
 msgstr "Dipartimento"
 
-#: src/unicms_unical_storage_handler/templates/blocks/unical_storage_cdslist.html:148
+#: src/unicms_unical_storage_handler/templates/blocks/unical_storage_cdslist.html:156
 msgid "Course of study language"
 msgstr "Lingua del corso di studio"
 
-#: src/unicms_unical_storage_handler/templates/blocks/unical_storage_cdslist.html:168
+#: src/unicms_unical_storage_handler/templates/blocks/unical_storage_cdslist.html:177
 msgid "Joint degree"
 msgstr "Titolo congiunto"
 
-#: src/unicms_unical_storage_handler/templates/blocks/unical_storage_cdslist.html:234
+#: src/unicms_unical_storage_handler/templates/blocks/unical_storage_cdslist.html:245
 msgid "Website"
 msgstr "Sito web"
 
@@ -254,35 +254,31 @@ msgstr "Ciclo"
 msgid "Scopes"
 msgstr "Finalità"
 
-#: src/unicms_unical_storage_handler/templates/blocks/unical_storage_laboratory_info.html:96
+#: src/unicms_unical_storage_handler/templates/blocks/unical_storage_laboratory_info.html:100
 msgid "Services Scope"
 msgstr "Finalità Servizi"
 
-#: src/unicms_unical_storage_handler/templates/blocks/unical_storage_laboratory_info.html:116
-#, fuzzy
-#| msgid "Research Personnel"
+#: src/unicms_unical_storage_handler/templates/blocks/unical_storage_laboratory_info.html:123
 msgid "Research Scope"
 msgstr "Personale di ricerca"
 
-#: src/unicms_unical_storage_handler/templates/blocks/unical_storage_laboratory_info.html:136
-#, fuzzy
-#| msgid "Teachings"
+#: src/unicms_unical_storage_handler/templates/blocks/unical_storage_laboratory_info.html:146
 msgid "Teaching Scope"
 msgstr "Insegnamenti"
 
-#: src/unicms_unical_storage_handler/templates/blocks/unical_storage_laboratory_info.html:188
+#: src/unicms_unical_storage_handler/templates/blocks/unical_storage_laboratory_info.html:198
 msgid "Research Personnel"
 msgstr "Personale di ricerca"
 
-#: src/unicms_unical_storage_handler/templates/blocks/unical_storage_laboratory_info.html:214
+#: src/unicms_unical_storage_handler/templates/blocks/unical_storage_laboratory_info.html:224
 msgid "Tech Personnel"
 msgstr "Personale tecnico"
 
-#: src/unicms_unical_storage_handler/templates/blocks/unical_storage_laboratory_info.html:240
+#: src/unicms_unical_storage_handler/templates/blocks/unical_storage_laboratory_info.html:250
 msgid "Offered Services"
 msgstr "Servizi offerti"
 
-#: src/unicms_unical_storage_handler/templates/blocks/unical_storage_laboratory_info.html:268
+#: src/unicms_unical_storage_handler/templates/blocks/unical_storage_laboratory_info.html:278
 msgid "Location"
 msgstr "Ubicazione"
 
@@ -319,14 +315,10 @@ msgid "Training offer"
 msgstr "Offerta formativa"
 
 #: src/unicms_unical_storage_handler/templates/storage_structure_info.html:39
-#, fuzzy
-#| msgid "Tech Personnel"
 msgid "Personnel"
-msgstr "Personale tecnico"
+msgstr "Personale"
 
 #: src/unicms_unical_storage_handler/templates/storage_structure_info.html:59
-#, fuzzy
-#| msgid "Structures"
 msgid "Child Structures"
 msgstr "Strutture"
 
