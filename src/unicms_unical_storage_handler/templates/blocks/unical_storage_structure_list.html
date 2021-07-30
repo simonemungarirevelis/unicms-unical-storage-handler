@@ -5,7 +5,7 @@
 {% load unicms_storage_handler %}
 {% load unicms_templates %}
 
-{% block pagination_content %}
+{% block content %}
 
 {% get_allowed_website request.get_host as host %}
 {% settings_value "CMS_PATH_PREFIX" as cms_path_prefix %}
@@ -79,9 +79,9 @@
         <list-panel v-bind:data="items" v-if="items.results" id="{{ id }}"></list-panel>
     </div>
 </div>
-{% endblock pagination_content %}
+{% endblock content %}
 
-{% block pagination_extra_scripts %}
+{% block extra_scripts %}
 <script>
 function {{ id }}_get_form_paramenters(dict={}, keyword=null, value=null) {
 
@@ -95,18 +95,18 @@ function {{ id }}_get_form_paramenters(dict={}, keyword=null, value=null) {
     return dict
 }
 </script>
-{% endblock pagination_extra_scripts %}
+{% endblock extra_scripts %}
 
 
 {% block pagination_extra_data %}
 search_dict: {},
 {% endblock pagination_extra_data %}
 
-{% block pagination_method_search %}
+{% block method_search %}
 search(keyword=null, value=null) {
     this.search_dict = {}
     this.parameters = encodeQueryData({{ id }}_get_form_paramenters(this.search_dict, keyword, value), this.args_input);
     this.CallURL(this.url + this.parameters);
 },
-{% endblock pagination_method_search %}
+{% endblock method_search %}
 </script>

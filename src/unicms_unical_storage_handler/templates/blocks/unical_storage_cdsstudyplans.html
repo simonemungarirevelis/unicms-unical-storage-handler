@@ -5,7 +5,7 @@
 {% load unicms_storage_handler %}
 {% load unicms_templates %}
 
-{% block pagination_content %}
+{% block content %}
 
 {% get_allowed_website request.get_host as host %}
 {% settings_value "CMS_PATH_PREFIX" as cms_path_prefix %}
@@ -95,7 +95,7 @@
         </div>
     </div>
 </div>
-{% endblock pagination_content %}
+{% endblock content %}
 
-{% block pagination_component %}
-{% endblock pagination_component %}
+{% block component %}
+{% endblock component %}

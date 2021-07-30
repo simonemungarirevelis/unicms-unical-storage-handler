@@ -6,7 +6,7 @@
 {% load unicms_storage_handler %}
 {% load unicms_templates %}
 
-{% block pagination_content %}
+{% block content %}
 <div id="{{ id }}">
 
     <loading-icon
@@ -132,9 +132,9 @@
 
     </div>
 </div>
-{% endblock pagination_content %}
+{% endblock content %}
 
-{% block pagination_extra_scripts %}
+{% block extra_scripts %}
 <script>
 function {{ id }}_get_form_paramenters() {
     let dict = {};
@@ -154,4 +154,4 @@ function {{ id }}_get_form_paramenters() {
     return dict
 }
 </script>
-{% endblock pagination_extra_scripts %}
+{% endblock extra_scripts %}

@@ -6,7 +6,7 @@
 {% load unicms_templates %}
 
 
-{% block pagination_content %}
+{% block content %}
 
 {% get_allowed_website request.get_host as host %}
 {% settings_value "CMS_PATH_PREFIX" as cms_path_prefix %}
@@ -34,9 +34,9 @@
                 <span v-for="degree in course_types"
                       class="badge badge-grey-unical square-corners my-1 mr-3 ml-0 pr-5 p-2">
                     <div v-if="!allowed_course_types || allowed_course_types.includes(degree.CourseType)">
-                        <a href="javascript:void(0)" @click="{{ id }}.search('coursetype', [[ degree.CourseType ]])">
+                        <a href="javascript:void(0)" @click="{{ id }}.search('coursetype', degree.CourseType)">
                             <h5>
-                                <b v-if="degree.CourseType == active_coursetype">
+                                <b v-if="degree.CourseType == selected_coursetype">
                                     [[ degree.CourseTypeDescription ]]
                                 </b>
                                 <span v-else>
@@ -68,7 +68,11 @@
                             <div class="row form-group">
                                 <div class="input-group">
                                     <label for="search"></label>
-                                    <input type="text" class="form-control" id="{{ id }}_keywords" name="{{ id }}_keywords">
+                                    <input type="text"
+                                           class="form-control"
+                                           id="{{ id }}_keywords"
+                                           name="{{ id }}_keywords"
+                                           v-model="selected_keywords">
                                     <div class="input-group-append">
                                         <div class="input-group-text">
                                             <svg class="icon icon-sm icon-muted">
@@ -76,7 +80,9 @@
                                             </svg>
                                         </div>
                                         <button class="btn btn-primary" type="button" id="search-button"
-                                            @click="{{ id }}.search()">{% trans "Search" %}</button>
+                                                @click="{{ id }}.search('coursetype', selected_coursetype)">
+                                            {% trans "Search" %}
+                                        </button>
                                     </div>
                                 </div>
                             </div>
@@ -102,10 +108,11 @@
                                                         title="{% trans 'Choose an option' %}"
                                                         name="{{ id }}_academic_year_input"
                                                         class="form-control"
-                                                        @change="{{ id }}.search('coursetype', active_coursetype)">
+                                                        @change="{{ id }}.search('coursetype', selected_coursetype)">
                                                   <option value="">- {% trans 'Choose an option' %} -</option>
                                                   <option v-for="item in academic_years_filter"
-                                                          :value="item.AcademicYear">
+                                                          :value="item.AcademicYear"
+                                                          :selected="item.AcademicYear == selected_academic_year">
                                                       [[ item.AcademicYear ]]/[[ item.AcademicYear + 1 ]]
                                                   </option>
                                                 </select>
@@ -128,10 +135,11 @@
                                                         title="{% trans 'Choose an option' %}"
                                                         name="{{ id }}_department_input"
                                                         class="form-control"
-                                                        @change="{{ id }}.search('coursetype', active_coursetype)">
+                                                        @change="{{ id }}.search('coursetype', selected_coursetype)">
                                                     <option value="">- {% trans 'Choose an option' %} -</option>
                                                     <option v-for="item in departments_filter"
-                                                            :value="item.DepartmentID">
+                                                            :value="item.DepartmentID"
+                                                            :selected="item.DepartmentID == selected_department_id">
                                                         [[ item.DepartmentName ]]
                                                     </option>
                                                 </select>
@@ -152,10 +160,11 @@
                                                         title="{% trans 'Choose an option' %}"
                                                         name="{{ id }}_cds_language_input"
                                                         class="form-control"
-                                                        @change="{{ id }}.search('coursetype', active_coursetype)">
+                                                        @change="{{ id }}.search('coursetype', selected_coursetype)">
                                                     <option value="">- {% trans 'Choose an option' %} -</option>
                                                     <option v-for="item in cds_languages_filter"
-                                                            :value="item">
+                                                            :value="item"
+                                                            :selected="item == selected_language">
                                                         [[ item ]]
                                                     </option>
                                                 </select>
@@ -172,9 +181,11 @@
                                                         title="{% trans 'Choose an option' %}"
                                                         name="{{ id }}_joint_degree_input"
                                                         class="form-control"
-                                                        @change="{{ id }}.search('coursetype', active_coursetype)">
+                                                        @change="{{ id }}.search('coursetype', selected_coursetype)">
                                                     <option value="">- {% trans 'Choose an option' %} -</option>
-                                                    <option v-for="item in joint_degree_filter" :value="item.COD">
+                                                    <option v-for="item in joint_degree_filter"
+                                                            :value="item.COD"
+                                                            :selected="item.COD == selected_jointdegree">
                                                       [[ item.name ]]
                                                     </option>
                                                 </select>
@@ -246,18 +257,20 @@
         <list-panel v-bind:data="items" v-if="items.results" id="{{ id }}"></list-panel>
     </div>
 </div>
-{% endblock pagination_content %}
+{% endblock content %}
 
-{% block pagination_extra_scripts %}
+{% block extra_scripts %}
 <script>
-function {{ id }}_get_form_paramenters(dict={}, keyword=null, value=null) {
+function {{ id }}_get_form_paramenters(keyword=null, value=null) {
+
+    let dict = {}
 
     if (keyword)
         dict[keyword] = value
 
     // search
     let search = document.getElementById('{{ id }}_keywords').value
-    if (search) dict['keywords'] = search
+    dict['keywords'] = search
 
     // academic year
     let academic_year = document.getElementById('{{ id }}_academic_year_input').value
@@ -275,10 +288,12 @@ function {{ id }}_get_form_paramenters(dict={}, keyword=null, value=null) {
     let joint_degree = document.getElementById('{{ id }}_joint_degree_input').value
     if (joint_degree) dict['jointdegree'] = joint_degree
 
+    sessionStorage.setItem(window.location.href, JSON.stringify(dict))
+
     return dict
 }
 </script>
-{% endblock pagination_extra_scripts %}
+{% endblock extra_scripts %}
 
 {% block extra_data %}
 
@@ -286,8 +301,13 @@ function {{ id }}_get_form_paramenters(dict={}, keyword=null, value=null) {
 {% settings_value "ALLOWED_CDS_JOINT_DEGREES" as allowed_joint_degrees %}
 {% settings_value "CMS_STORAGE_BASE_API" as base_api %}
 
-search_dict: {},
-active_coursetype: null,
+selected_coursetype: this.getItemFromSession('coursetype'),
+selected_academic_year: this.getItemFromSession('academicyear'),
+selected_department_id: this.getItemFromSession('departmentid'),
+selected_language: this.getItemFromSession('cdslanguage'),
+selected_jointdegree: this.getItemFromSession('jointdegree'),
+selected_keywords: this.getItemFromSession('keywords'),
+
 allowed_course_types: null,
 course_types: [],
 
@@ -305,7 +325,8 @@ cds_languages_filter: {{ allowed_languages|safe }},
 joint_degree_filter: {{ allowed_joint_degrees|safe }}
 {% endblock extra_data %}
 
-{% block pagination_extra_mounted %}
+{% block extra_mounted %}
+
 // if url is pre-filtered with preferred coursetypes
 // get them, else show all
 let params = new URLSearchParams(this.url.split('?')[1]);
@@ -319,20 +340,22 @@ if (get_coursetype != null){
 this.callDegreeTypes();
 this.callAcademicYears();
 this.callDepartments();
-{% endblock pagination_extra_mounted %}
 
-{% block pagination_method_search %}
+this.parameters = encodeQueryData(JSON.parse(this.getItemsFromSession()), true)
+
+{% endblock extra_mounted %}
+
+{% block method_search %}
 search(keyword=null, value=null) {
     if(keyword=='coursetype')
-        this.active_coursetype = value;
-    this.search_dict = {}
-    if (value) this.parameters = encodeQueryData({{ id }}_get_form_paramenters(this.search_dict, keyword, value), this.args_input);
-    else this.parameters = encodeQueryData({{ id }}_get_form_paramenters(this.search_dict), this.args_input);
+        this.selected_coursetype = value
+    if (value) this.parameters = encodeQueryData({{ id }}_get_form_paramenters(keyword, value), this.args_input);
+    else this.parameters = encodeQueryData({{ id }}_get_form_paramenters(), this.args_input);
     this.CallURL(this.url + this.parameters);
 },
-{% endblock pagination_method_search %}
+{% endblock method_search %}
 
-{% block pagination_extra_methods %}
+{% block extra_methods %}
 callDegreeTypes() {
     axios
         .get(this.loader_source_degreetypes)
@@ -357,5 +380,5 @@ callDepartments() {
             this.is_loading_departments = false
         })
 },
-{% endblock pagination_extra_methods %}
+{% endblock extra_methods %}
 </script>

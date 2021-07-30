@@ -5,7 +5,7 @@
 {% load unicms_storage_handler %}
 {% load unicms_templates %}
 
-{% block pagination_content %}
+{% block content %}
 
 {% get_allowed_website request.get_host as host %}
 {% settings_value "CMS_PATH_PREFIX" as cms_path_prefix %}
@@ -137,9 +137,9 @@
         <list-panel v-bind:data="items" v-if="items.results" id="{{ id }}"></list-panel>
     </div>
 </div>
-{% endblock pagination_content %}
+{% endblock content %}
 
-{% block pagination_extra_scripts %}
+{% block extra_scripts %}
 <script>
 function {{ id }}_get_form_paramenters() {
     let dict = {};
@@ -159,7 +159,7 @@ function {{ id }}_get_form_paramenters() {
     return dict
 }
 </script>
-{% endblock pagination_extra_scripts %}
+{% endblock extra_scripts %}
 
 {% block extra_data %}
 {% settings_value "CMS_STORAGE_BASE_API" as base_api %}
@@ -174,12 +174,12 @@ departments_filter: [],
 roles_filter: [],
 {% endblock extra_data %}
 
-{% block pagination_extra_mounted %}
+{% block extra_mounted %}
 this.callDepartments();
 this.callRoles();
-{% endblock pagination_extra_mounted %}
+{% endblock extra_mounted %}
 
-{% block pagination_extra_methods %}
+{% block extra_methods %}
 callDepartments() {
     axios
         .get(this.loader_source_departments)
@@ -198,4 +198,4 @@ callRoles() {
             this.is_loading_roles = false
         })
 },
-{% endblock pagination_extra_methods %}
+{% endblock extra_methods %}

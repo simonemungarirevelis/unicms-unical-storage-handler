@@ -8,13 +8,13 @@
 
 {% include "includes/unical_storage_loading.html" %}
 
-{% block pagination_content %}
-{% endblock pagination_content %}
+{% block content %}
+{% endblock content %}
 
-{% block pagination_extra_scripts %}
-{% endblock pagination_extra_scripts %}
+{% block extra_scripts %}
+{% endblock extra_scripts %}
 
-{% block pagination_scripts %}
+{% block scripts %}
 <script>
 function encodeQueryData(data, args_input) {
     const ret = [];
@@ -28,7 +28,7 @@ function encodeQueryData(data, args_input) {
 </script>
 
 <script>
-{% block pagination_component %}
+{% block component %}
 Vue.component('list-panel', {
     props: {
         data: Array,
@@ -67,7 +67,7 @@ Vue.component('list-panel', {
         </div>
     `
 });
-{% endblock pagination_component %}
+{% endblock component %}
 
 var {{ id }} = new Vue({
     el: '[id="{{ id }}"]',
@@ -88,8 +88,8 @@ var {{ id }} = new Vue({
         }
     },
     mounted() {
-        {% block pagination_extra_mounted %}
-        {% endblock pagination_extra_mounted %}
+        {% block extra_mounted %}
+        {% endblock extra_mounted %}
 
         this.loader_source = this.url + this.parameters
         this.CallURL(this.url + this.parameters);
@@ -99,14 +99,23 @@ var {{ id }} = new Vue({
         else this.args_input = true
     },
     methods: {
-        {% block pagination_method_search %}
+        getItemsFromSession() {
+            return sessionStorage.getItem(window.location.href)
+        },
+        getItemFromSession(item) {
+            if(sessionStorage.getItem(window.location.href))
+                return JSON.parse(sessionStorage.getItem(window.location.href))[item]
+            return null
+        },
+
+        {% block method_search %}
         search() {
             this.parameters = encodeQueryData({{ id }}_get_form_paramenters(), this.args_input);
             this.CallURL(this.url + this.parameters);
         },
-        {% endblock pagination_method_search %}
+        {% endblock method_search %}
 
-        {% block pagination_method_callurl %}
+        {% block method_callurl %}
         CallURL(url) {
             axios
                 .get(url)
@@ -118,11 +127,11 @@ var {{ id }} = new Vue({
                     this.is_loading = false
                 })
         },
-        {% endblock pagination_method_callurl %}
+        {% endblock method_callurl %}
 
-        {% block pagination_extra_methods %}
-        {% endblock pagination_extra_methods %}
+        {% block extra_methods %}
+        {% endblock extra_methods %}
     }
 })
 </script>
-{% endblock pagination_scripts %}
+{% endblock scripts %}
