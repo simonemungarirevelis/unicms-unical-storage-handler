@@ -219,7 +219,7 @@ function {{ id }}_get_form_paramenters(dict={}, keyword=null, value=null) {
 
 {% block extra_data %}
 
-{% settings_value "CMS_STORAGE_STRUCTURE_API" as structures_api %}
+{% settings_value "CMS_STORAGE_STRUCTUREFILTER_API" as structuresfilter_api %}
 {% settings_value "CMS_STORAGE_STRUCTURETYPES_API" as structuretypes_api %}
 {% settings_value "CMS_STORAGE_ROLES_API" as roles_api %}
 
@@ -229,7 +229,7 @@ is_loading_structure_id: true,
 is_loading_structure_type: true,
 is_loading_roles: true,
 
-loader_source_structures: '{{ structures_api }}?lang={{ LANGUAGE_CODE }}',
+loader_source_structures: '{{ structuresfilter_api }}?lang={{ LANGUAGE_CODE }}&father={{ structure_id }}',
 loader_source_structure_types: '{{ structuretypes_api }}?lang={{ LANGUAGE_CODE }}',
 loader_source_roles: '{{ roles_api }}?lang={{ LANGUAGE_CODE }}',
 

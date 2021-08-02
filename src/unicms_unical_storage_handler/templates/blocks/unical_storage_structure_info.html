@@ -94,7 +94,7 @@
          aria-labelledby="heading-personnel-lft">
         <div class="mt-3">
             {% with addressbook_api|add:"?structuretree="|add:code|add:"&lang="|add:LANGUAGE_CODE as personnel_url %}
-            {% include "blocks/unical_storage_addressbook.html" with url=personnel_url %}
+            {% include "blocks/unical_storage_addressbook.html" with url=personnel_url structure_id=code %}
             {% endwith %}
         </div>
     </div>
