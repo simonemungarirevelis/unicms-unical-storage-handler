@@ -29,7 +29,11 @@
                             <div class="row form-group">
                                 <div class="input-group">
                                     <label for="search"></label>
-                                    <input type="text" class="form-control" id="{{ id }}_keywords" name="{{ id }}_keywords">
+                                    <input type="text"
+                                           class="form-control"
+                                           id="{{ id }}_keywords"
+                                           name="{{ id }}_keywords"
+                                           v-model="selected_keywords">
                                     <div class="input-group-append">
                                         <div class="input-group-text">
                                             <svg class="icon icon-sm icon-muted">
@@ -62,7 +66,9 @@
                                                         class="form-control"
                                                         @change="{{ id }}.search()">
                                                   <option value="">- {% trans 'Choose an option' %} -</option>
-                                                  <option v-for="item in areas" :value="item.Area">
+                                                  <option v-for="item in areas"
+                                                          :value="item.Area"
+                                                          :selected="item.Area == selected_area">
                                                       [[ item.Area ]]
                                                   </option>
                                                 </select>
@@ -88,7 +94,8 @@
                                                         @change="{{ id }}.search()">
                                                     <option value="">- {% trans 'Choose an option' %} -</option>
                                                     <option v-for="item in departments"
-                                                            :value="item.DepartmentID">
+                                                            :value="item.DepartmentID"
+                                                            :selected="item.DepartmentID == selected_department">
                                                         [[ item.DepartmentName ]]
                                                     </option>
                                                 </select>
@@ -161,6 +168,8 @@ function {{ id }}_get_form_paramenters(dict={}, keyword=null, value=null) {
     let department = document.getElementById('{{ id }}_department_input').value
     if (department) dict['department'] = department
 
+    setItemInSession("{{ id }}", dict)
+
     return dict
 }
 </script>
@@ -169,7 +178,6 @@ function {{ id }}_get_form_paramenters(dict={}, keyword=null, value=null) {
 {% block extra_data %}
 {% settings_value "CMS_STORAGE_DEPARTMENTSFILTER_API" as departmentsfilter_api %}
 {% settings_value "CMS_STORAGE_LABORATORIESAREAS_API" as laboratoriesareas_api %}
-
 
 search_dict: {},
 departments: [],
@@ -180,11 +188,18 @@ is_loading_areas: true,
 
 loader_source_departments: '{{ departmentsfilter_api }}?lang={{ LANGUAGE_CODE }}',
 loader_source_areas: '{{ laboratoriesareas_api }}?lang={{ LANGUAGE_CODE }}',
+
+selected_area: this.getItemFromSession("{{ id }}", 'area'),
+selected_department: this.getItemFromSession("{{ id }}", 'department'),
+selected_keywords: this.getItemFromSession("{{ id }}", 'keywords'),
+
 {% endblock extra_data %}
 
 {% block extra_mounted %}
 this.callAreas();
 this.callDepartments();
+
+this.parameters = encodeQueryData(this.getItemsFromSession("{{ id }}"), true)
 {% endblock extra_mounted %}
 
 {% block method_search %}

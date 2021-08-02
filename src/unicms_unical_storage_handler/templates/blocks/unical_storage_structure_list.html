@@ -30,7 +30,11 @@
                             <div class="row form-group">
                                 <div class="input-group">
                                     <label for="search"></label>
-                                    <input type="text" class="form-control" id="{{ id }}_keywords" name="{{ id }}_keywords">
+                                    <input type="text"
+                                           class="form-control"
+                                           id="{{ id }}_keywords"
+                                           name="{{ id }}_keywords"
+                                           v-model="selected_keywords">
                                     <div class="input-group-append">
                                         <div class="input-group-text">
                                             <svg class="icon icon-sm icon-muted">
@@ -92,15 +96,23 @@ function {{ id }}_get_form_paramenters(dict={}, keyword=null, value=null) {
     let search = document.getElementById('{{ id }}_keywords').value
     if (search) dict['keywords'] = search
 
+    setItemInSession("{{ id }}", dict)
+
     return dict
 }
 </script>
 {% endblock extra_scripts %}
 
 
-{% block pagination_extra_data %}
+{% block extra_data %}
 search_dict: {},
-{% endblock pagination_extra_data %}
+
+selected_keywords: this.getItemFromSession("{{ id }}", 'keywords'),
+{% endblock extra_data %}
+
+{% block extra_mounted %}
+    this.parameters = encodeQueryData(this.getItemsFromSession("{{ id }}"), true)
+{% endblock extra_mounted %}
 
 {% block method_search %}
 search(keyword=null, value=null) {

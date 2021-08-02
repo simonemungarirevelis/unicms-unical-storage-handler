@@ -30,7 +30,11 @@
                             <div class="row form-group">
                                 <div class="input-group">
                                     <label for="search"></label>
-                                    <input type="text" class="form-control" id="{{ id }}_keywords" name="{{ id }}_keywords">
+                                    <input type="text"
+                                           class="form-control"
+                                           id="{{ id }}_keywords"
+                                           name="{{ id }}_keywords"
+                                           v-model="selected_keywords">
                                     <div class="input-group-append">
                                         <div class="input-group-text">
                                             <svg class="icon icon-sm icon-muted">
@@ -70,6 +74,7 @@
                                                     <option value="">- {% trans 'Choose an option' %} -</option>
                                                     <option v-for="item in structure_id_filter"
                                                             :value="item.StructureId"
+                                                            :selected="item.StructureId == selected_structureid"
                                                             v-if="!allowed_structure_id || allowed_structure_id.includes(item.StructureId)">
                                                         [[ item.StructureName ]]
                                                     </option>
@@ -98,6 +103,7 @@
                                                     <option value="">- {% trans 'Choose an option' %} -</option>
                                                     <option v-for="item in structure_type_filter"
                                                             :value="item.StructureTypeCOD"
+                                                            :selected="item.StructureTypeCOD == selected_structuretypes"
                                                             v-if="!allowed_structure_types || allowed_structure_types.includes(item.StructureTypeCOD)">
                                                             <!-- v-if="allowed_structures.includes(item.StructureTypeCOD)"> -->
                                                         [[ item.StructureTypeName ]]
@@ -129,6 +135,7 @@
                                                     <option value="">- {% trans 'Choose an option' %} -</option>
                                                     <option v-for="item in roles_filter"
                                                             :value="item.Role"
+                                                            :selected="item.Role == selected_roles"
                                                             v-if="!allowed_roles || allowed_roles.includes(item.Role)">
                                                         [[ item.RoleDescription ]]
                                                     </option>
@@ -212,6 +219,8 @@ function {{ id }}_get_form_paramenters(dict={}, keyword=null, value=null) {
     let role = document.getElementById('{{ id }}_role_input').value
     if (role) dict['roles'] = role
 
+    setItemInSession("{{ id }}", dict)
+
     return dict
 }
 </script>
@@ -224,7 +233,12 @@ function {{ id }}_get_form_paramenters(dict={}, keyword=null, value=null) {
 {% settings_value "CMS_STORAGE_ROLES_API" as roles_api %}
 
 search_dict: {},
-active_degree: "",
+
+selected_structureid: this.getItemFromSession("{{ id }}", 'structureid'),
+selected_structuretypes: this.getItemFromSession("{{ id }}", 'structuretypes'),
+selected_roles: this.getItemFromSession("{{ id }}", 'roles'),
+selected_keywords: this.getItemFromSession("{{ id }}", 'keywords'),
+
 is_loading_structure_id: true,
 is_loading_structure_type: true,
 is_loading_roles: true,
@@ -270,12 +284,12 @@ structure_type_filter: []
     {% endblock call_structure_on_mounted %}
 
     this.callRoles();
+
+    this.parameters = encodeQueryData(this.getItemsFromSession("{{ id }}"), true)
 {% endblock extra_mounted %}
 
 {% block method_search %}
 search(keyword=null, value=null) {
-    if(keyword=='coursetype')
-        this.active_degree = value;
     this.search_dict = {}
     this.parameters = encodeQueryData({{ id }}_get_form_paramenters(this.search_dict, keyword, value), this.args_input);
     this.CallURL(this.url + this.parameters);
