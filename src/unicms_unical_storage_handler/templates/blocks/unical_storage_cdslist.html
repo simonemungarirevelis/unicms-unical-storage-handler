@@ -330,6 +330,9 @@ joint_degree_filter: {{ allowed_joint_degrees|safe }}
 
 {% block extra_mounted %}
 
+console.log(this.selected_coursetype)
+console.log(this.getItemFromSession("{{ id }}", 'academicyear'))
+
 // if url is pre-filtered with preferred coursetypes
 // get them, else show all
 let params = new URLSearchParams(this.url.split('?')[1]);
@@ -345,7 +348,6 @@ this.callAcademicYears();
 this.callDepartments();
 
 this.parameters = encodeQueryData(this.getItemsFromSession("{{ id }}"), true)
-console.log(this.parameters)
 {% endblock extra_mounted %}
 
 {% block method_search %}
