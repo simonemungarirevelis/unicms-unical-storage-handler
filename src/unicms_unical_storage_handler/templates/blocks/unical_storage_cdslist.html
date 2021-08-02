@@ -304,12 +304,12 @@ function {{ id }}_get_form_paramenters(keyword=null, value=null) {
 {% settings_value "CMS_STORAGE_DEPARTMENTSFILTER_API" as departments_api %}
 {% settings_value "CMS_STORAGE_ACADEMICYEARS_API" as academicyears_api %}
 
-selected_coursetype: this.getItemFromSession(window.location.href + "@{{ id }}", 'coursetype'),
-selected_academic_year: this.getItemFromSession(window.location.href + "@{{ id }}", 'academicyear'),
-selected_department_id: this.getItemFromSession(window.location.href + "@{{ id }}", 'departmentid'),
-selected_language: this.getItemFromSession(window.location.href + "@{{ id }}", 'cdslanguage'),
-selected_jointdegree: this.getItemFromSession(window.location.href + "@{{ id }}", 'jointdegree'),
-selected_keywords: this.getItemFromSession(window.location.href + "@{{ id }}", 'keywords'),
+selected_coursetype: this.getItemFromSession("{{ id }}", 'coursetype'),
+selected_academic_year: this.getItemFromSession("{{ id }}", 'academicyear'),
+selected_department_id: this.getItemFromSession("{{ id }}", 'departmentid'),
+selected_language: this.getItemFromSession("{{ id }}", 'cdslanguage'),
+selected_jointdegree: this.getItemFromSession("{{ id }}", 'jointdegree'),
+selected_keywords: this.getItemFromSession("{{ id }}", 'keywords'),
 
 allowed_course_types: null,
 course_types: [],
@@ -344,7 +344,7 @@ this.callDegreeTypes();
 this.callAcademicYears();
 this.callDepartments();
 
-this.parameters = encodeQueryData(this.getItemsFromSession(window.location.href + "@{{ id }}"), true)
+this.parameters = encodeQueryData(this.getItemsFromSession("{{ id }}"), true)
 console.log(this.parameters)
 {% endblock extra_mounted %}
 

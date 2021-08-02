@@ -100,11 +100,13 @@ var {{ id }} = new Vue({
     },
     methods: {
         getItemsFromSession(id) {
-            return JSON.parse(sessionStorage.getItem(id))
+            let uid = window.location.href + "@" + id
+            return JSON.parse(sessionStorage.getItem(uid))
         },
         getItemFromSession(id, item) {
             if(sessionStorage.getItem(id)){
-                return JSON.parse(sessionStorage.getItem(id))[item]
+                let uid = window.location.href + "@" + id
+                return JSON.parse(sessionStorage.getItem(uid))[item]
             }
             return null
         },
