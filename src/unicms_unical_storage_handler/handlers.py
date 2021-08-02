@@ -289,9 +289,8 @@ class StructureInfoViewHandler(BaseStorageHandler):
         self.code = self.match_dict.get('code', '')
 
     def as_view(self):
+        self.data['code'] = self.code
         self.data['url'] = f'{settings.CMS_STORAGE_STRUCTURE_API}{self.code}/?lang={self.lang}'
-        self.data['url_child_structures'] = f'{settings.CMS_STORAGE_STRUCTURE_API}/?lang={self.lang}&father={self.code}'
-        self.data['url_personnel'] = f'{settings.CMS_STORAGE_ADDRESSBOOK_API}/?lang={self.lang}&structuretree={self.code}'
         return super().as_view()
 
     @property

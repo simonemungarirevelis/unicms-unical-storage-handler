@@ -167,7 +167,9 @@ function {{ id }}_get_form_paramenters(dict={}, keyword=null, value=null) {
 {% endblock extra_scripts %}
 
 {% block extra_data %}
-{% settings_value "CMS_STORAGE_BASE_API" as base_api %}
+{% settings_value "CMS_STORAGE_DEPARTMENTSFILTER_API" as departmentsfilter_api %}
+{% settings_value "CMS_STORAGE_LABORATORIESAREAS_API" as laboratoriesareas_api %}
+
 
 search_dict: {},
 departments: [],
@@ -176,8 +178,8 @@ areas: [],
 is_loading_departments: true,
 is_loading_areas: true,
 
-loader_source_departments: '{{ base_api }}departmentsfilter/?lang={{ LANGUAGE_CODE }}',
-loader_source_areas: '{{ base_api }}laboratoriesareas/?lang={{ LANGUAGE_CODE }}',
+loader_source_departments: '{{ departmentsfilter_api }}?lang={{ LANGUAGE_CODE }}',
+loader_source_areas: '{{ laboratoriesareas_api }}?lang={{ LANGUAGE_CODE }}',
 {% endblock extra_data %}
 
 {% block extra_mounted %}

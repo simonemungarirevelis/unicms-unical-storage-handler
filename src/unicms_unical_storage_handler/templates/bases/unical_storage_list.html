@@ -4,7 +4,7 @@
 {% load unicms_templates %}
 
 {% get_current_language as LANGUAGE_CODE %}
-{% random_id as id %}
+{% random_id uid as id %}
 
 {% include "includes/unical_storage_loading.html" %}
 
@@ -99,12 +99,13 @@ var {{ id }} = new Vue({
         else this.args_input = true
     },
     methods: {
-        getItemsFromSession() {
-            return sessionStorage.getItem(window.location.href)
+        getItemsFromSession(id) {
+            return JSON.parse(sessionStorage.getItem(id))
         },
-        getItemFromSession(item) {
-            if(sessionStorage.getItem(window.location.href))
-                return JSON.parse(sessionStorage.getItem(window.location.href))[item]
+        getItemFromSession(id, item) {
+            if(sessionStorage.getItem(id)){
+                return JSON.parse(sessionStorage.getItem(id))[item]
+            }
             return null
         },
 

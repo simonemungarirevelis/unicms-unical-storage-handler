@@ -8,7 +8,7 @@
 
 {% random_id as id %}
 
-{% settings_value "CMS_STORAGE_BASE_API" as base_api %}
+{% settings_value "CMS_STORAGE_TEACHER_API" as teachers_api %}
 {% settings_value "ALLOWED_CDS_JOINT_DEGREES" as allowed_joint_degrees %}
 {% settings_value "ALMALAUREA_LINK" as almalaurea_link %}
 {% settings_value "CDS_INFO_FIELDS" as fields_to_show %}
@@ -194,7 +194,7 @@
          role="tabpanel"
          aria-labelledby="heading-teachers-lft">
         <div class="mt-3">
-            {% with base_api|add:"teachers/?cdsid="|add:cdsid|add:"&lang="|add:LANGUAGE_CODE as teachers_url %}
+            {% with teachers_api|add:"?cdsid="|add:cdsid|add:"&lang="|add:LANGUAGE_CODE as teachers_url %}
             {% include "blocks/unical_storage_teacherslist_without_filters.html" with url=teachers_url %}
             {% endwith %}
         </div>

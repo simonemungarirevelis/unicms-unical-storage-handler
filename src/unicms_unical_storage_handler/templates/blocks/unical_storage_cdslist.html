@@ -288,7 +288,7 @@ function {{ id }}_get_form_paramenters(keyword=null, value=null) {
     let joint_degree = document.getElementById('{{ id }}_joint_degree_input').value
     if (joint_degree) dict['jointdegree'] = joint_degree
 
-    sessionStorage.setItem(window.location.href, JSON.stringify(dict))
+    sessionStorage.setItem(window.location.href + "@{{ id }}", JSON.stringify(dict))
 
     return dict
 }
@@ -299,14 +299,17 @@ function {{ id }}_get_form_paramenters(keyword=null, value=null) {
 
 {% settings_value "ALLOWED_CDS_LANGUAGES" as allowed_languages %}
 {% settings_value "ALLOWED_CDS_JOINT_DEGREES" as allowed_joint_degrees %}
-{% settings_value "CMS_STORAGE_BASE_API" as base_api %}
 
-selected_coursetype: this.getItemFromSession('coursetype'),
-selected_academic_year: this.getItemFromSession('academicyear'),
-selected_department_id: this.getItemFromSession('departmentid'),
-selected_language: this.getItemFromSession('cdslanguage'),
-selected_jointdegree: this.getItemFromSession('jointdegree'),
-selected_keywords: this.getItemFromSession('keywords'),
+{% settings_value "CMS_STORAGE_DEGREETYPES_API" as degreetypes_api %}
+{% settings_value "CMS_STORAGE_DEPARTMENTSFILTER_API" as departments_api %}
+{% settings_value "CMS_STORAGE_ACADEMICYEARS_API" as academicyears_api %}
+
+selected_coursetype: this.getItemFromSession(window.location.href + "@{{ id }}", 'coursetype'),
+selected_academic_year: this.getItemFromSession(window.location.href + "@{{ id }}", 'academicyear'),
+selected_department_id: this.getItemFromSession(window.location.href + "@{{ id }}", 'departmentid'),
+selected_language: this.getItemFromSession(window.location.href + "@{{ id }}", 'cdslanguage'),
+selected_jointdegree: this.getItemFromSession(window.location.href + "@{{ id }}", 'jointdegree'),
+selected_keywords: this.getItemFromSession(window.location.href + "@{{ id }}", 'keywords'),
 
 allowed_course_types: null,
 course_types: [],
@@ -315,9 +318,9 @@ is_loading_degreetypes: true,
 is_loading_academicyears: true,
 is_loading_departments: true,
 
-loader_source_degreetypes: '{{ base_api }}degreetypes/?lang={{ LANGUAGE_CODE }}',
-loader_source_academicyears: '{{ base_api }}academicyears/?lang={{ LANGUAGE_CODE }}',
-loader_source_departments: '{{ base_api }}departments/?lang={{ LANGUAGE_CODE }}',
+loader_source_degreetypes: '{{ degreetypes_api }}?lang={{ LANGUAGE_CODE }}',
+loader_source_academicyears: '{{ academicyears_api }}/?lang={{ LANGUAGE_CODE }}',
+loader_source_departments: '{{ departments_api }}?lang={{ LANGUAGE_CODE }}',
 
 academic_years_filter: [],
 departments_filter: [],
@@ -341,8 +344,8 @@ this.callDegreeTypes();
 this.callAcademicYears();
 this.callDepartments();
 
-this.parameters = encodeQueryData(JSON.parse(this.getItemsFromSession()), true)
-
+this.parameters = encodeQueryData(this.getItemsFromSession(window.location.href + "@{{ id }}"), true)
+console.log(this.parameters)
 {% endblock extra_mounted %}
 
 {% block method_search %}
