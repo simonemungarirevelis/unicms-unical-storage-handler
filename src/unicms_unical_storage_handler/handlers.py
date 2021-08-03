@@ -11,26 +11,6 @@ from cms.contexts.models import WebPath
 from cms.contexts.utils import contextualize_template, sanitize_path
 from cms.pages.models import Page
 
-from . settings import *
-
-
-# settings params
-ALLOWED_ADDRESSBOOK_ROLES = getattr(settings, 'ALLOWED_ADDRESSBOOK_ROLES',
-                                    ALLOWED_ADDRESSBOOK_ROLES)
-ALLOWED_ADDRESSBOOK_STRUCTURE_ID = getattr(settings, 'ALLOWED_ADDRESSBOOK_STRUCTURE_ID',
-                                           ALLOWED_ADDRESSBOOK_STRUCTURE_ID)
-ALLOWED_ADDRESSBOOK_STRUCTURE_TYPES = getattr(settings, 'ALLOWED_ADDRESSBOOK_STRUCTURE_TYPES',
-                                              ALLOWED_ADDRESSBOOK_STRUCTURE_TYPES)
-
-ALLOWED_UNICMS_SITES = getattr(settings, 'ALLOWED_UNICMS_SITES',
-                               ALLOWED_UNICMS_SITES)
-
-ALLOWED_CDS_COURSETYPES = getattr(settings, 'ALLOWED_CDS_COURSETYPES',
-                                  ALLOWED_CDS_COURSETYPES)
-
-INITIAL_STRUCTURE_FATHER = getattr(settings, 'INITIAL_STRUCTURE_FATHER',
-                                  INITIAL_STRUCTURE_FATHER)
-# end settings params
 
 class BaseStorageHandler(BaseContentHandler):
     template = "storage_base.html"
@@ -85,8 +65,8 @@ class CdSListViewHandler(BaseStorageHandler):
 
         data = {'lang': self.lang}
 
-        if ALLOWED_CDS_COURSETYPES:
-            data['coursetype'] = ",".join(ALLOWED_CDS_COURSETYPES)
+        if settings.ALLOWED_CDS_COURSETYPES:
+            data['coursetype'] = ",".join(settings.ALLOWED_CDS_COURSETYPES)
 
         params = urllib.parse.urlencode(data)
         self.data['url'] = f'{settings.CMS_STORAGE_CDS_API}?{params}'
@@ -214,12 +194,12 @@ class AddressbookListViewHandler(BaseStorageHandler):
 
         data = {'lang': self.lang}
 
-        if ALLOWED_ADDRESSBOOK_ROLES:
-            data['roles'] = ",".join(ALLOWED_ADDRESSBOOK_ROLES)
-        if ALLOWED_ADDRESSBOOK_STRUCTURE_ID:
-            data['structureid'] = ",".join(ALLOWED_ADDRESSBOOK_STRUCTURE_ID)
-        if ALLOWED_ADDRESSBOOK_STRUCTURE_TYPES:
-            data['structuretypes'] = ",".join(ALLOWED_ADDRESSBOOK_STRUCTURE_TYPES)
+        if settings.ALLOWED_ADDRESSBOOK_ROLES:
+            data['roles'] = ",".join(settings.ALLOWED_ADDRESSBOOK_ROLES)
+        if settings.ALLOWED_ADDRESSBOOK_STRUCTURE_ID:
+            data['structureid'] = ",".join(settings.ALLOWED_ADDRESSBOOK_STRUCTURE_ID)
+        if settings.ALLOWED_ADDRESSBOOK_STRUCTURE_TYPES:
+            data['structuretypes'] = ",".join(settings.ALLOWED_ADDRESSBOOK_STRUCTURE_TYPES)
 
         params = urllib.parse.urlencode(data)
 
@@ -267,8 +247,8 @@ class StructureListViewHandler(BaseStorageHandler):
     def as_view(self):
         data = {'lang': self.lang}
 
-        if INITIAL_STRUCTURE_FATHER != '':
-            data['father'] = INITIAL_STRUCTURE_FATHER
+        if settings.INITIAL_STRUCTURE_FATHER != '':
+            data['father'] = settings.INITIAL_STRUCTURE_FATHER
 
         params = urllib.parse.urlencode(data)
         self.data['url'] = f'{settings.CMS_STORAGE_STRUCTURE_API}?{params}'
