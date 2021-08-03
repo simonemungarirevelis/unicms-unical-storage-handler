@@ -2,7 +2,7 @@ How it works
 ------------
 
 By exploiting the
-[uniCMS handlers](https://unicms.readthedocs.io/en/latest/contents/how_it_works.html?highlight=handler#publications-and-handlers)
+[uniCMS handlers](https://unicms.readthedocs.io/en/latest/contents/developer.html#handlers)
 mechanism, this app generates a series of dynamic webpaths which,
 using the API resources assigned to each class,
 render the obtained results through a specific template.
