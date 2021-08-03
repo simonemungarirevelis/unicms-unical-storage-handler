@@ -18,8 +18,8 @@ from recommonmark.parser import CommonMarkParser
 # -- Project information -----------------------------------------------------
 
 project = 'uniCMS storage.unical.it APIs handler'
-copyright = '2020 - Giuseppe De Marco, Francesco Filicetti'
-author = 'Giuseppe De Marco, Francesco Filicetti'
+copyright = '2021 - Università della Calabria'
+author = 'Francesco Filicetti, Simone Mungari, Carmine Carlucci'
 
 # The full version, including alpha/beta/rc tags
 release = '0.4.1'
