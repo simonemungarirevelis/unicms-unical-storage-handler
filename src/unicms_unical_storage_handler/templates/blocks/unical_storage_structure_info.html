@@ -48,10 +48,27 @@
                     <tr v-for="(value, name) in item" v-if="value && !fields_to_not_show.includes(name) && value != ''">
                         <td>[[ labels[name] ]]</td>
                         <td v-if="typeof value === 'object'">
-                            <ul>
-                                <li v-for="v in value">
+                            <ul v-for="(valueProfile, nameProfile) in value">
+                                <div v-if="typeof valueProfile === 'object'">
+                                    <ul v-for="(valueProfileInstance, nameProfileInstance) in valueProfile">
+                                        <li>
+                                            [[ labels[nameProfileInstance] ]] :
+                                            <span style="white-space: pre-line;">
+                                                [[ valueProfileInstance ]]
+                                            </span>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <li v-else>
+                                    <span v-if="nameProfile in labels">
+                                        [[ labels[nameProfile] ]]
+                                    </span>
+                                    <span v-else>
+                                        [[ nameProfile ]]
+                                    </span>
+                                    :
                                     <span style="white-space: pre-line;">
-                                        [[ v ]]
+                                        [[ valueProfile ]]
                                     </span>
                                 </li>
                             </ul>
