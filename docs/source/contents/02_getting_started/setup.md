@@ -28,7 +28,8 @@ if "unicms_unical_storage_handler" in INSTALLED_APPS:
     CMS_HANDLERS_PATHS.extend(CMS_STORAGE_HANDLERS_PATHS)
     CMS_APP_REGEXP_URLPATHS.update(CMS_STORAGE_APP_REGEXP_URLPATHS)
 
-    # Set uniCMS websites id enabled to manage the new url
+    # Set uniCMS websites pk list enabled to manage the new url
+    # if different from default [1]
     ALLOWED_UNICMS_SITES = [2]
 # END UNICAL STORAGE HANDLER
 ````

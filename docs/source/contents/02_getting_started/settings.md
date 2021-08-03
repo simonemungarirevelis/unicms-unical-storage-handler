@@ -1,19 +1,14 @@
 Settings
 --------
 
-In the settings file are defined a series of parameters that regulate
-the behavior of the component.
-
+List of website pks allowed to display the pages.
+This can be overridden in settingslocal
 ````
 ALLOWED_UNICMS_SITES = [1]
 ````
-List of website pks allowed to display the pages.
-This can be overridden in settingslocal
 
-
+Auto-built webpaths
 ````
-# base paths
-# these can't be overridden
 CMS_STORAGE_BASE_PATH = 'storage'
 CMS_STORAGE_CDS_VIEW_PREFIX_PATH = 'cds'
 CMS_STORAGE_ACTIVITY_VIEW_PREFIX_PATH = 'activities'
@@ -22,8 +17,10 @@ CMS_STORAGE_ADDRESSBOOK_VIEW_PREFIX_PATH = 'addressbook'
 CMS_STORAGE_STRUCTURE_VIEW_PREFIX_PATH = 'structures'
 CMS_STORAGE_STRUCTURETYPES_VIEW_PREFIX_PATH = 'structuretypes'
 CMS_STORAGE_LABORATORY_VIEW_PREFIX_PATH = 'laboratories'
+````
 
-# regexps managing webpath handling
+Regular expressions managing webpath handling
+````
 CMS_STORAGE_BASE_URL_VIEW_REGEXP = f'^(?P<webpath>[\/a-zA-Z0-9\.\-\_]*)({CMS_STORAGE_BASE_PATH})(/)?$' # noqa
 CMS_STORAGE_CDS_LIST_URL_VIEW_REGEXP = f'^(?P<webpath>[\/a-zA-Z0-9\.\-\_]*)({CMS_STORAGE_BASE_PATH})/({CMS_STORAGE_CDS_VIEW_PREFIX_PATH})(/)?$' # noqa
 CMS_STORAGE_CDS_INFO_URL_VIEW_REGEXP = f'^(?P<webpath>[\/a-zA-Z0-9\.\-\_]*)({CMS_STORAGE_BASE_PATH})/({CMS_STORAGE_CDS_VIEW_PREFIX_PATH})/(?P<code>[a-z0-9\-]*)(/)?$' # noqa
@@ -36,6 +33,7 @@ CMS_STORAGE_STRUCTURE_LIST_URL_VIEW_REGEXP = f'^(?P<webpath>[\/a-zA-Z0-9\.\-\_]*
 CMS_STORAGE_STRUCTURE_INFO_URL_VIEW_REGEXP = f'^(?P<webpath>[\/a-zA-Z0-9\.\-\_]*)({CMS_STORAGE_BASE_PATH})/({CMS_STORAGE_STRUCTURE_VIEW_PREFIX_PATH})/(?P<code>[a-z0-9\-]*)(/)?$' # noqa
 CMS_STORAGE_LABORATORY_LIST_URL_VIEW_REGEXP = f'^(?P<webpath>[\/a-zA-Z0-9\.\-\_]*)({CMS_STORAGE_BASE_PATH})/({CMS_STORAGE_LABORATORY_VIEW_PREFIX_PATH})(/)?$' # noqa
 CMS_STORAGE_LABORATORY_INFO_URL_VIEW_REGEXP = f'^(?P<webpath>[\/a-zA-Z0-9\.\-\_]*)({CMS_STORAGE_BASE_PATH})/({CMS_STORAGE_LABORATORY_VIEW_PREFIX_PATH})/(?P<code>[a-z0-9\-]*)(/)?$' # noqa
+````
 
 # handlers list
 CMS_STORAGE_HANDLERS_PATHS = [CMS_STORAGE_BASE_URL_VIEW_REGEXP,
