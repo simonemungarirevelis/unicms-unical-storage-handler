@@ -2,7 +2,7 @@ Templates
 ---------
 
 Templates are managed as atomic, inheritable and composable elements,
-which can also be used by uniCMS for the construction of independent
+which can also be used in uniCMS to create independent
 [blocks](https://unicms.readthedocs.io/en/latest/contents/usage.html#page-blocks)
 to be inserted in its pages.
 
