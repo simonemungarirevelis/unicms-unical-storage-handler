@@ -75,7 +75,7 @@
                                                     <option v-for="item in structure_id_filter"
                                                             :value="item.StructureId"
                                                             :selected="item.StructureId == selected_structureid"
-                                                            v-if="!allowed_structure_id || allowed_structure_id.includes(item.StructureId)">
+                                                            v-if="allowed_structure_id.length==0 || allowed_structure_id.includes(item.StructureId)">
                                                         [[ item.StructureName ]]
                                                     </option>
                                                 </select>
@@ -104,7 +104,7 @@
                                                     <option v-for="item in structure_type_filter"
                                                             :value="item.StructureTypeCOD"
                                                             :selected="item.StructureTypeCOD == selected_structuretypes"
-                                                            v-if="!allowed_structure_types || allowed_structure_types.includes(item.StructureTypeCOD)">
+                                                            v-if="allowed_structure_types.length==0 || allowed_structure_types.includes(item.StructureTypeCOD)">
                                                             <!-- v-if="allowed_structures.includes(item.StructureTypeCOD)"> -->
                                                         [[ item.StructureTypeName ]]
                                                     </option>
@@ -136,7 +136,7 @@
                                                     <option v-for="item in roles_filter"
                                                             :value="item.Role"
                                                             :selected="item.Role == selected_roles"
-                                                            v-if="!allowed_roles || allowed_roles.includes(item.Role)">
+                                                            v-if="allowed_roles.length==0 || allowed_roles.includes(item.Role)">
                                                         [[ item.RoleDescription ]]
                                                     </option>
                                                 </select>
@@ -232,6 +232,10 @@ function {{ id }}_get_form_paramenters(dict={}, keyword=null, value=null) {
 {% settings_value "CMS_STORAGE_STRUCTURETYPES_API" as structuretypes_api %}
 {% settings_value "CMS_STORAGE_ROLES_API" as roles_api %}
 
+{% settings_value "ALLOWED_ADDRESSBOOK_ROLES" as allowed_roles %}
+{% settings_value "ALLOWED_ADDRESSBOOK_STRUCTURE_ID" as allowed_structure_id %}
+{% settings_value "ALLOWED_ADDRESSBOOK_STRUCTURE_TYPES" as allowed_structure_types %}
+
 search_dict: {},
 
 selected_structureid: this.getItemFromSession("{{ id }}", 'structureid'),
@@ -247,16 +251,18 @@ loader_source_structures: '{{ structuresfilter_api }}?lang={{ LANGUAGE_CODE }}&f
 loader_source_structure_types: '{{ structuretypes_api }}?lang={{ LANGUAGE_CODE }}',
 loader_source_roles: '{{ roles_api }}?lang={{ LANGUAGE_CODE }}',
 
-allowed_structure_id: null,
-allowed_structure_types: null,
-allowed_roles: null,
+allowed_structure_id: {{ allowed_structure_id|safe }},
+allowed_structure_types: {{ allowed_structure_types|safe }},
+allowed_roles: {{ allowed_roles|safe }},
 
 roles_filter: [],
 structure_id_filter: [],
 structure_type_filter: []
+
 {% endblock extra_data %}
 
 {% block extra_mounted %}
+
     // if url if pre-filtered with preferred coursetypes
     // get them, else show all
     let params = new URLSearchParams(this.url.split('?')[1]);
@@ -278,6 +284,7 @@ structure_type_filter: []
         let get_structure_types_list = get_structure_types.split(',')
         this.allowed_structure_types = get_structure_types_list
     }
+
     {% block call_structure_on_mounted %}
         this.callStructureId();
         this.callStructureTypes();
@@ -327,3 +334,4 @@ callRoles() {
 },
 {% endblock extra_methods %}
 </script>
+

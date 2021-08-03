@@ -33,7 +33,7 @@
             <div class="col">
                 <span v-for="degree in course_types"
                       class="badge badge-grey-unical square-corners my-1 mr-3 ml-0 pr-5 p-2">
-                    <div v-if="!allowed_course_types || allowed_course_types.includes(degree.CourseType)">
+                    <div v-if="allowed_course_types.length==0 || allowed_course_types.includes(degree.CourseType)">
                         <a href="javascript:void(0)" @click="{{ id }}.search('coursetype', degree.CourseType)">
                             <h5>
                                 <b v-if="degree.CourseType == selected_coursetype">
@@ -298,6 +298,7 @@ function {{ id }}_get_form_paramenters(keyword=null, value=null) {
 {% block extra_data %}
 
 {% settings_value "ALLOWED_CDS_LANGUAGES" as allowed_languages %}
+{% settings_value "ALLOWED_CDS_COURSETYPES" as allowed_course_types %}
 {% settings_value "ALLOWED_CDS_JOINT_DEGREES" as allowed_joint_degrees %}
 
 {% settings_value "CMS_STORAGE_DEGREETYPES_API" as degreetypes_api %}
@@ -311,7 +312,7 @@ selected_language: this.getItemFromSession("{{ id }}", 'cdslanguage'),
 selected_jointdegree: this.getItemFromSession("{{ id }}", 'jointdegree'),
 selected_keywords: this.getItemFromSession("{{ id }}", 'keywords'),
 
-allowed_course_types: null,
+allowed_course_types: {{ allowed_course_types|safe }},
 course_types: [],
 
 is_loading_degreetypes: true,
