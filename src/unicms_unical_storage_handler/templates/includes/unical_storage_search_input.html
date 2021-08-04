@@ -8,7 +8,7 @@
                id="{{ id }}_keywords"
                name="{{ id }}_keywords"
                v-model="selected_keywords"
-               v-on:keyup.enter="{{ id }}.search()">
+               v-on:keyup.enter="{{ id }}.search({{ input_args }})">
         <div class="input-group-append">
             <div class="input-group-text">
                 <svg class="icon icon-sm icon-muted">

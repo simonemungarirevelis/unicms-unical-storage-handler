@@ -65,7 +65,7 @@
                     <div class="card card-bg no-after">
                         <br>
                         <div class="card-body">
-                            {% include "includes/unical_storage_search_input.html" with id=id %}
+                            {% include "includes/unical_storage_search_input.html" with id=id input_args="'coursetype', selected_coursetype" %}
 
                             {% block filters_cdslist %}
                             <div class="form-group">
