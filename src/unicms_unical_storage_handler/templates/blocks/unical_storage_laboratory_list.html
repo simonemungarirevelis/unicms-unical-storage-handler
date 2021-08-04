@@ -19,7 +19,7 @@
         :loader_source="loader_source">
     </loading-icon>
 
-    <div v-else>
+    <div v-else-if="initial_items && initial_items.length > 0">
         <div class="row">
             <div class="col-12">
                 <div class="card-wrapper card-space">
@@ -130,6 +130,11 @@
 
         <list-panel v-bind:data="items" v-if="items.results" id="{{ id }}"></list-panel>
     </div>
+
+    <div v-else>
+        {% trans "No items here" %}
+    </div>
+
 </div>
 {% endblock content %}
 

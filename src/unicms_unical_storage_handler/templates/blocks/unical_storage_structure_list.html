@@ -64,9 +64,11 @@
 
         <list-panel v-bind:data="items" v-if="items.results" id="{{ id }}"></list-panel>
     </div>
+
     <div v-else>
         {% trans "No items here" %}
     </div>
+
 </div>
 {% endblock content %}
 
