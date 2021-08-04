@@ -8,7 +8,7 @@
         :loader_source="loader_source">
     </loading-icon>
 
-    <div v-else-if="initial_items && initial_items.length > 0">
+    <div v-else-if="initial_items && initial_items.length">
         <list-panel v-bind:data="items" v-if="items.results" id="{{ id }}"></list-panel>
 
         <div class="row">
