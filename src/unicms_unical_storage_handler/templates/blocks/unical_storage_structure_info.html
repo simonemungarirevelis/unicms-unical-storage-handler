@@ -112,13 +112,16 @@
              role="tabpanel"
              aria-labelledby="{{ id }}_heading-personnel-functions-lft">
             <div class="mt-3">
-                <ul>
+                <ul v-if="item.StructurePersonnelFunctions">
                     <li v-for="subvalue in item.StructurePersonnelFunctions" v-if="subvalue.Name && subvalue.Name != ''">
                         <a :href="'//{{ host }}/{{ cms_path_prefix }}{{ base_prefix }}/{{ addressbook_prefix }}/' + [[ subvalue.ID ]] +'/'">
                                 [[ subvalue.Name ]] - [[ subvalue.Function ]]
                         </a>
                     </li>
                 </ul>
+                <div v-else>
+                    {% trans "No items here" %}
+                </div>
             </div>
         </div>
     </div>
