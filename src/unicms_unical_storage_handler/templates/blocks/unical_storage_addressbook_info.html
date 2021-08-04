@@ -16,11 +16,8 @@
         :loader_source="loader_source">
     </loading-icon>
 
-    <div v-else>
-        <div v-if="!item.results">
-            {% include "includes/unical_storage_empty.html" with url=url %}
-        </div>
-        <div v-else class="row">
+    <div v-else-if="item.results">
+        <div class="row">
             <div class="col-12 col-lg-2 d-flex">
                 <svg class="m-auto icon icon-xl icon-muted">
                     <use xlink:href="{% static 'svg/sprite.svg' %}#it-user"></use>
@@ -67,6 +64,11 @@
             </table>
         </div>
     </div>
+
+    <div v-else>
+        {% include "includes/unical_storage_empty.html" with url=url %}
+    </div>
+
 </div>
 <script>
     var {{ id }} = new Vue({
