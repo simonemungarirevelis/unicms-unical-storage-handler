@@ -76,6 +76,7 @@ var {{ id }} = new Vue({
         return {
             parameters: "",
             items: [],
+            initial_items: [],
             labels: [],
             url: '{{ url|safe }}',
             next_page: "",
@@ -93,7 +94,7 @@ var {{ id }} = new Vue({
         {% endblock extra_mounted %}
 
         this.loader_source = this.url + this.parameters
-        this.CallURL(this.url + this.parameters);
+        this.CallURL(this.url + this.parameters, true);
 
         let url_splitted = this.url.split("?");
         if (url_splitted == this.url) this.args_input = false
@@ -120,10 +121,11 @@ var {{ id }} = new Vue({
         {% endblock method_search %}
 
         {% block method_callurl %}
-        CallURL(url) {
+        CallURL(url, initial=false) {
             axios
                 .get(url)
                 .then(response => {
+                    if(initial) this.initial_items = response.data.results;
                     this.items = response.data;
                     this.next_page = response.data.next;
                     this.previous_page = response.data.previous;
