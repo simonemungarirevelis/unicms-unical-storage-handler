@@ -17,7 +17,10 @@
     </loading-icon>
 
     <div v-else>
-        <div class="row">
+        <div v-if="!item.results">
+            {% include "includes/unical_storage_empty.html" with url=url %}
+        </div>
+        <div v-else class="row">
             <div class="col-12 col-lg-2 d-flex">
                 <svg class="m-auto icon icon-xl icon-muted">
                     <use xlink:href="{% static 'svg/sprite.svg' %}#it-user"></use>
