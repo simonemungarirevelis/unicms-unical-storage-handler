@@ -96,12 +96,7 @@
                                     </div>
                                     <div class="col-sm-1">
                                         <div class="w-20 mt-5 ml-5 mr-5">
-                                            <button class="btn btn-primary"
-                                                    type="button"
-                                                    id="search-button"
-                                                    @click="{{ id }}.search()">
-                                                {% trans "Search" %}
-                                            </button>
+                                            {% include "includes/unical_storage_search_button.html" with id=id %}
                                         </div>
                                     </div>
                                 </div>
@@ -199,7 +194,6 @@ callDepartments() {
         .get(this.loader_source_departments)
         .then(response => {
             this.departments_filter = response.data.results;
-            this.departments_filter.unshift("");
             this.is_loading_departments = false
         })
 },
@@ -208,7 +202,6 @@ callRoles() {
         .get(this.loader_source_roles)
         .then(response => {
             this.roles_filter = response.data.results;
-            this.roles_filter.unshift("");
             this.is_loading_roles = false
         })
 },

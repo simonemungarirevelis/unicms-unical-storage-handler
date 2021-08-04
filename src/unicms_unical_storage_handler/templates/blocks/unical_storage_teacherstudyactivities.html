@@ -75,8 +75,7 @@
                                     </div>
                                     <div class="col-sm">
                                         <div class="w-20 mt-5 ml-5 mr-5">
-                                            <button class="btn btn-primary" type="button" id="search-button"
-                                                @click="{{ id }}.search()">{% trans "Search" %}</button>
+                                            {% include "includes/unical_storage_search_button.html" with id=id %}
                                         </div>
                                     </div>
                                 </div>

@@ -26,25 +26,9 @@
                     <div class="card card-bg no-after">
                         <br>
                         <div class="card-body">
-                            <div class="row form-group">
-                                <div class="input-group">
-                                    <label for="search"></label>
-                                    <input type="text"
-                                           class="form-control"
-                                           id="{{ id }}_keywords"
-                                           name="{{ id }}_keywords"
-                                           v-model="selected_keywords">
-                                    <div class="input-group-append">
-                                        <div class="input-group-text">
-                                            <svg class="icon icon-sm icon-muted">
-                                                <use xlink:href="/static/svg/sprite.svg#it-search"></use>
-                                            </svg>
-                                        </div>
-                                        <button class="btn btn-primary" type="button" id="search-button"
-                                            @click="{{ id }}.search()">{% trans "Search" %}</button>
-                                    </div>
-                                </div>
-                            </div>
+
+                            {% include "includes/unical_storage_search_input.html" with id=id %}
+
                             <div class="form-group">
                                 <!-- Areas & Department -->
 
