@@ -13,7 +13,7 @@
         :loader_source="loader_source">
     </loading-icon>
 
-    <div v-else-if="initial_items && initial_items.length">
+    <div v-else-if="(initial_items && initial_items.length) || parameters">
 
         <div class="bd-example-tabs">
             <div class="row">
