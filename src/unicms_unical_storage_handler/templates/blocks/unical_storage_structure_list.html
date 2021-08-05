@@ -19,7 +19,7 @@
         :loader_source="loader_source">
     </loading-icon>
 
-    <div v-else-if="initial_items && initial_items.length">
+    <div v-else-if="(initial_items && initial_items.length) || parameters">
 
         <div class="row">
             <div class="col-12">
@@ -28,6 +28,39 @@
                         <br>
                         <div class="card-body">
                             {% include "includes/unical_storage_search_input.html" with id=id %}
+
+                            <div class="form-group">
+                                <div class="row">
+                    <div class="col-sm">
+                         <loading-icon
+                                 v-if="is_loading_types"
+                                 :loader_source="loader_source_types">
+                         </loading-icon>
+
+                         <div v-else>
+                             <label for="{{ id }}_type_input">
+                                 {% trans "Types" %}
+                             </label>
+                             <div class="w-30 mt-5">
+                                 <select id="{{ id }}_type_input"
+                                         title="{% trans 'Choose an option' %}"
+                                         name="{{ id }}_type_input"
+                                         class="form-control"
+                                         @change="{{ id }}.search()">
+                                     <option value="">- {% trans 'Choose an option' %} -</option>
+                                     <option v-for="item in types_filter"
+                                             :value="item.StructureTypeCOD"
+                                             :selected="item.StructureTypeCOD == selected_types"
+                                             v-if="allowed_types.length==0 || allowed_types.includes(item.StructureTypeCOD)">
+                                         [[ item.StructureTypeName ]]
+                                     </option>
+                                 </select>
+                             </div>
+                         </div>
+                     </div>
+                </div>
+            </div>
+
                         </div>
                     </div>
                 </div>
@@ -83,6 +116,10 @@ function {{ id }}_get_form_paramenters(dict={}, keyword=null, value=null) {
     let search = document.getElementById('{{ id }}_keywords').value
     if (search) dict['keywords'] = search
 
+    //types
+    let type = document.getElementById('{{ id }}_type_input').value
+    if (type) dict['type'] = type
+
     setItemInSession("{{ id }}", dict)
 
     return dict
@@ -94,11 +131,33 @@ function {{ id }}_get_form_paramenters(dict={}, keyword=null, value=null) {
 {% block extra_data %}
 search_dict: {},
 
+selected_types: this.getItemFromSession("{{ id }}", 'type'),
+
+is_loading_types: true,
+
+{% settings_value "CMS_STORAGE_STRUCTURETYPES_API" as types_api %}
+
+
+loader_source_types: '{{ types_api }}?lang={{ LANGUAGE_CODE }}',
+
+
+{% settings_value "ALLOWED_STRUCTURES_TYPES" as allowed_types %}
+
+
 selected_keywords: this.getItemFromSession("{{ id }}", 'keywords'),
+
+allowed_types: {{ allowed_types|safe }},
+
+types_filter: [],
+
+
 {% endblock extra_data %}
 
 {% block extra_mounted %}
+
     this.parameters = encodeQueryData(this.getItemsFromSession("{{ id }}"), true)
+    this.callTypes();
+
 {% endblock extra_mounted %}
 
 {% block method_search %}
@@ -108,4 +167,15 @@ search(keyword=null, value=null) {
     this.CallURL(this.url + this.parameters);
 },
 {% endblock method_search %}
+{% block extra_methods %}
+
+    callTypes() {
+    axios
+        .get(this.loader_source_types)
+        .then(response => {
+            this.types_filter = response.data.results;
+            this.is_loading_types = false
+        })
+},
+{% endblock extra_methods %}
 </script>
