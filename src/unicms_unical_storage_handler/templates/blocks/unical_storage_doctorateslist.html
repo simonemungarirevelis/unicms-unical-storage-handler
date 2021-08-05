@@ -10,7 +10,7 @@
         :loader_source="loader_source">
     </loading-icon>
 
-    <div v-else-if="initial_items && initial_items.length">
+    <div v-else-if="(initial_items && initial_items.length) || parameters">
 
         {% block filters_doctorateslist %}
         <div class="row">

@@ -20,7 +20,7 @@
         :loader_source="loader_source">
     </loading-icon>
 
-    <div v-else-if="initial_items && initial_items.length">
+    <div v-else-if="(initial_items && initial_items.length) || parameters">
 
         <div class="bd-example-tabs">
             <ul class="nav nav-tabs" id="myTab-{{ id }}" role="tablist">
