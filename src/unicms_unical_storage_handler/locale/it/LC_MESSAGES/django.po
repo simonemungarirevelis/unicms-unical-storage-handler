@@ -344,5 +344,14 @@ msgstr "Persone"
 msgid "Training offer"
 msgstr "Offerta formativa"
 
+
+msgid "Laboratory Extra Departments"
+msgstr "Dipartimenti Coinvolti"
+
+
+msgid "Laboratory Equipment"
+msgstr "Strumentazione"
+
+
 #~ msgid "Erc 1"
 #~ msgstr "Erc1"

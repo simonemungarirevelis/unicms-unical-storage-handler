@@ -128,7 +128,7 @@ LABORATORY_INFO_NOT_SHOW = ['LaboratoryId', 'CompletionReferentId',
                             'LaboratoryLocation', 'LaboratoryErc0Description',
                             'LaboratoryServicesScope', 'LaboratoryTeachingScope',
                             'LaboratoryResearchScope', 'LaboratoryActivities',
-                            'CompletionReferentName', 'TechPersonnelRole']
+                            'CompletionReferentName', 'TechPersonnelRole', 'ExtraDepartments','LaboratoryEquipment',]
 
 INITIAL_STRUCTURE_FATHER = ''
 
