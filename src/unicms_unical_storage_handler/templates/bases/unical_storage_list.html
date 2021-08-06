@@ -18,6 +18,7 @@
 <script src="{% static 'js/unicms_ush_utils.js' %}"></script>
 <script>
 function encodeQueryData(data, args_input) {
+    if (!data) return '';
     const ret = [];
     for (let d in data)
         ret.push(encodeURIComponent(d) + '=' + encodeURIComponent(data[d]));

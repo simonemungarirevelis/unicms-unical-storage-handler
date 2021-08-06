@@ -330,8 +330,7 @@ this.callDegreeTypes();
 this.callAcademicYears();
 this.callDepartments();
 
-if(this.getItemsFromSession("{{ id }}"))
-    this.parameters = encodeQueryData(this.getItemsFromSession("{{ id }}"), true)
+this.parameters = encodeQueryData(this.getItemsFromSession("{{ id }}"), true)
 
 {% endblock extra_mounted %}
 
