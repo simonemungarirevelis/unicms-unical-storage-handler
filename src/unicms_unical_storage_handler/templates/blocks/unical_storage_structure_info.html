@@ -17,9 +17,11 @@
 {% settings_value "CMS_STORAGE_BASE_PATH" as base_prefix %}
 {% settings_value "CMS_STORAGE_STRUCTURE_VIEW_PREFIX_PATH" as structures_prefix %}
 {% settings_value "CMS_STORAGE_ADDRESSBOOK_VIEW_PREFIX_PATH" as addressbook_prefix %}
+{% settings_value "CMS_STORAGE_LABORATORY_VIEW_PREFIX_PATH" as laboratories_prefix %}
 
 {% settings_value "CMS_STORAGE_ADDRESSBOOK_API" as addressbook_api %}
 {% settings_value "CMS_STORAGE_STRUCTURE_API" as structures_api %}
+{% settings_value "CMS_STORAGE_LABORATORY_API" as laboratories_api %}
 
 <div id="{{ id }}">
 
@@ -78,7 +80,7 @@
                         </td>
                         <td v-else>
                             <a v-if="name == 'StructureFatherName'" :href="'//{{ host }}/{{ cms_path_prefix }}{{ base_prefix }}/{{ structures_prefix }}/' + [[ item.StructureFatherId ]] +'/'">
-                                        [[ item.StructureFatherName ]]
+                                        [[ item.Name ]]
                                     </a>
                             <span v-else style="white-space: pre-line;">
                                 [[ value ]]
@@ -167,6 +169,27 @@
                     {% endwith %}
                 </div>
             </div>
+    </div>
+<!-- Laboratories -->
+<div id="{{ id }}_collapse-1-lft" class="collapse-div collapse-left-icon" role="tablist">
+        <div class="collapse-header" id="{{ id }}_heading-laboratories-lft">
+            <button data-toggle="collapse"
+                    data-target="#{{ id }}_collapse-laboratories-lft"
+                    aria-expanded="false"
+                    aria-controls="{{ id }}_collapse-laboratories-lft">
+                {% trans "Laboratories" %}
+            </button>
+        </div>
+        <div id="{{ id }}_collapse-laboratories-lft"
+             class="collapse"
+             role="tabpanel"
+             aria-labelledby="{{ id }}_heading-laboratories-lft">
+            <div class="mt-3">
+                {% with laboratories_api|add:"?department="|add:code|add:"&lang="|add:LANGUAGE_CODE as laboratories_url %}
+                {% include "blocks/unical_storage_laboratory_list_without_filters.html" with url=laboratories_url laboratories_id=code uid=id|add:"_3" %}
+                {% endwith %}
+            </div>
+        </div>
     </div>
 
 

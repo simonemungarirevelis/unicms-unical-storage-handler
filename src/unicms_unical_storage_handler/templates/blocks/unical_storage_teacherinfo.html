@@ -1,10 +1,20 @@
 {% load static %}
 
+{% load i18n %}
+
 {% load unicms_storage_handler %}
 {% load unicms_templates %}
 
 {% random_id as id %}
 {% include "includes/unical_storage_loading.html" %}
+
+{% get_current_language as LANGUAGE_CODE %}
+
+{% settings_value "CMS_PATH_PREFIX" as cms_path_prefix %}
+{% settings_value "CMS_STORAGE_BASE_PATH" as base_prefix %}
+{% settings_value "CMS_STORAGE_LABORATORY_VIEW_PREFIX_PATH" as laboratories_prefix %}
+
+{% settings_value "CMS_STORAGE_LABORATORY_API" as laboratories_api %}
 
 {% settings_value "TEACHER_INFO_NOT_SHOW" as fields_to_hide %}
 
@@ -65,6 +75,28 @@
         </div>
     </div>
 </div>
+<!-- Laboratories -->
+<div id="{{ id }}_collapse-1-lft" class="collapse-div collapse-left-icon" role="tablist">
+        <div class="collapse-header" id="{{ id }}_heading-laboratories-lft">
+            <button data-toggle="collapse"
+                    data-target="#{{ id }}_collapse-laboratories-lft"
+                    aria-expanded="false"
+                    aria-controls="{{ id }}_collapse-laboratories-lft">
+                {% trans "Laboratories" %}
+            </button>
+        </div>
+        <div id="{{ id }}_collapse-laboratories-lft"
+             class="collapse"
+             role="tabpanel"
+             aria-labelledby="{{ id }}_heading-laboratories-lft">
+            <div class="mt-3">
+                {% with laboratories_api|add:"?teacher="|add:code|add:"&lang="|add:LANGUAGE_CODE as laboratories_url %}
+                {% include "blocks/unical_storage_laboratory_list_without_filters.html" with url=laboratories_url laboratories_id=code uid=id|add:"_1" %}
+                {% endwith %}
+            </div>
+        </div>
+    </div>
+
 <script>
     var {{ id }} = new Vue({
         el: '[id="{{ id }}"]',

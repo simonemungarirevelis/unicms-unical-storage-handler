@@ -31,6 +31,7 @@
 
                             <div class="form-group">
                                 <!-- Areas & Department -->
+                                {% block filters %}
 
                                 <loading-icon
                                     v-if="is_loading_areas"
@@ -38,6 +39,7 @@
                                 </loading-icon>
 
                                 <div class="row" v-else>
+
                                     <div class="col-sm">
                                         <div>
                                             <label for="{{ id }}_area_input">
@@ -87,7 +89,9 @@
                                         </div>
                                     </div>
                                 </div>
+                                {% endblock filters %}
                             </div>
+
                         </div>
                     </div>
                 </div>
@@ -151,10 +155,12 @@ function {{ id }}_get_form_paramenters(dict={}, keyword=null, value=null) {
     if (keyword)
         dict[keyword] = value
 
+
     // search
     let search = document.getElementById('{{ id }}_keywords').value
     if (search) dict['keywords'] = search
 
+    {% block laboratory_filter_input %}
     // area
     let area = document.getElementById('{{ id }}_area_input').value
     if (area) dict['area'] = area
@@ -162,6 +168,8 @@ function {{ id }}_get_form_paramenters(dict={}, keyword=null, value=null) {
     // department
     let department = document.getElementById('{{ id }}_department_input').value
     if (department) dict['department'] = department
+
+     {% endblock laboratory_filter_input %}
 
     setItemInSession("{{ id }}", dict)
 
@@ -191,8 +199,11 @@ selected_keywords: this.getItemFromSession("{{ id }}", 'keywords'),
 {% endblock extra_data %}
 
 {% block extra_mounted %}
-this.callAreas();
-this.callDepartments();
+
+    {% block call_laboratory_on_mounted %}
+        this.callAreas();
+        this.callDepartments();
+    {% endblock call_laboratory_on_mounted %}
 
 this.parameters = encodeQueryData(this.getItemsFromSession("{{ id }}"), true)
 {% endblock extra_mounted %}
@@ -206,21 +217,23 @@ search() {
 {% endblock method_search %}
 
 {% block extra_methods %}
-callAreas() {
-    axios
-        .get(this.loader_source_areas)
-        .then(response => {
-            this.areas = response.data.results;
-            this.is_loading_areas = false
-        })
-},
-callDepartments() {
-    axios
-        .get(this.loader_source_departments)
-        .then(response => {
-            this.departments = response.data.results;
-            this.is_loading_departments = false
-        })
-},
+    {% block laboratory_call_method %}
+        callAreas() {
+            axios
+                .get(this.loader_source_areas)
+                .then(response => {
+                    this.areas = response.data.results;
+                    this.is_loading_areas = false
+                })
+        },
+        callDepartments() {
+            axios
+                .get(this.loader_source_departments)
+                .then(response => {
+                    this.departments = response.data.results;
+                    this.is_loading_departments = false
+                })
+        },
+    {% endblock laboratory_call_method %}
 {% endblock extra_methods %}
 </script>

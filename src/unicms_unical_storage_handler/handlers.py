@@ -169,6 +169,7 @@ class TeacherInfoViewHandler(BaseStorageHandler):
 
     def as_view(self):
         self.data['url'] = f'{settings.CMS_STORAGE_TEACHER_API}{self.code}/?lang={self.lang}'
+        self.data['code'] = self.code
         return super().as_view()
 
     @property
