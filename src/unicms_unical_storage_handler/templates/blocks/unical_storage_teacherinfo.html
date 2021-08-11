@@ -10,9 +10,13 @@
 
 {% get_current_language as LANGUAGE_CODE %}
 
+{% get_allowed_website request.get_host as host %}
+
 {% settings_value "CMS_PATH_PREFIX" as cms_path_prefix %}
 {% settings_value "CMS_STORAGE_BASE_PATH" as base_prefix %}
 {% settings_value "CMS_STORAGE_LABORATORY_VIEW_PREFIX_PATH" as laboratories_prefix %}
+
+{% settings_value "CMS_STORAGE_STRUCTURE_VIEW_PREFIX_PATH" as structures_prefix %}
 
 {% settings_value "CMS_STORAGE_LABORATORY_API" as laboratories_api %}
 
@@ -49,7 +53,17 @@
                     <tr v-for="(value, name) in item" v-if="value && !fields_to_not_show.includes(name) && value != ''">
                         <td>[[ labels[name] ]]</td>
                         <td v-if="typeof value === 'object'">
-                            <ul>
+                            <ul v-if="name == 'TeacherFunctions'">
+                                <li v-for="subvalue in value">
+                                    <span style="white-space: pre-line;">
+                                        [[ subvalue.TeacherRole]] -
+                                    </span>
+                                    <a :href="'//{{ host }}/{{ cms_path_prefix }}{{ base_prefix }}/{{ structures_prefix }}/' + [[ subvalue.StructureId ]] +'/'">
+                                        [[ subvalue.StructureName]]
+                                    </a>
+                                </li>
+                            </ul>
+                            <ul v-else>
                                 <li v-for="v in value">
                                     <span style="white-space: pre-line;">
                                         [[ v ]]
@@ -77,25 +91,49 @@
 </div>
 <!-- Laboratories -->
 <div id="{{ id }}_collapse-1-lft" class="collapse-div collapse-left-icon" role="tablist">
-        <div class="collapse-header" id="{{ id }}_heading-laboratories-lft">
-            <button data-toggle="collapse"
-                    data-target="#{{ id }}_collapse-laboratories-lft"
-                    aria-expanded="false"
-                    aria-controls="{{ id }}_collapse-laboratories-lft">
-                {% trans "Laboratories" %}
-            </button>
-        </div>
-        <div id="{{ id }}_collapse-laboratories-lft"
-             class="collapse"
-             role="tabpanel"
-             aria-labelledby="{{ id }}_heading-laboratories-lft">
-            <div class="mt-3">
-                {% with laboratories_api|add:"?teacher="|add:code|add:"&lang="|add:LANGUAGE_CODE as laboratories_url %}
-                {% include "blocks/unical_storage_laboratory_list_without_filters.html" with url=laboratories_url laboratories_id=code uid=id|add:"_1" %}
-                {% endwith %}
-            </div>
+    <div class="collapse-header" id="{{ id }}_heading-laboratories-lft">
+        <button data-toggle="collapse"
+                data-target="#{{ id }}_collapse-laboratories-lft"
+                aria-expanded="false"
+                aria-controls="{{ id }}_collapse-laboratories-lft">
+            {% trans "Laboratories" %}
+        </button>
+    </div>
+    <div id="{{ id }}_collapse-laboratories-lft"
+         class="collapse"
+         role="tabpanel"
+         aria-labelledby="{{ id }}_heading-laboratories-lft">
+        <div class="mt-3">
+            {% with laboratories_api|add:"?teacher="|add:code|add:"&lang="|add:LANGUAGE_CODE as laboratories_url %}
+            {% include "blocks/unical_storage_laboratory_list_without_filters.html" with url=laboratories_url laboratories_id=code uid=id|add:"_1" %}
+            {% endwith %}
         </div>
     </div>
+</div>
+
+<!-- teacher's activities -->
+<div id="{{ id }}_collapse-2-lft" class="collapse-div collapse-left-icon" role="tablist">
+    <div class="collapse-header" id="{{ id }}_heading-activities-lft">
+        <button data-toggle="collapse"
+                data-target="#{{ id }}_collapse-activities-lft"
+                aria-expanded="false"
+                aria-controls="{{ id }}_collapse-activities-lft">
+            {% trans "Teachings" %}
+        </button>
+    </div>
+    <div id="{{ id }}_collapse-activities-lft"
+         class="collapse"
+         role="tabpanel"
+         aria-labelledby="{{ id }}_heading-activities-lft">
+        <div class="mt-3">
+            {% get_current_language as LANGUAGE_CODE %}
+            {% clean_url url as cleaned_url %}
+            {% with cleaned_url|add:"studyactivities/?lang="|add:LANGUAGE_CODE as studyactivities_url %}
+            {% include "blocks/unical_storage_teacherstudyactivities.html" with url=studyactivities_url %}
+            {% endwith %}
+        </div>
+    </div>
+</div>
 
 <script>
     var {{ id }} = new Vue({
