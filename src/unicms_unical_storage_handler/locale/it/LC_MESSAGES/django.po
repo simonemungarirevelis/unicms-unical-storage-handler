@@ -364,5 +364,9 @@ msgstr "Persone"
 msgid "Training offer"
 msgstr "Offerta formativa"
 
+#: templates/blocks/unical_storage_teacherinfo.html:145
+msgid "Publications"
+msgstr "Pubblicazioni"
+
 #~ msgid "Erc 1"
 #~ msgstr "Erc1"

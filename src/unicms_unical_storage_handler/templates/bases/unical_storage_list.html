@@ -130,7 +130,7 @@ var {{ id }} = new Vue({
                     this.next_page = response.data.next;
                     this.previous_page = response.data.previous;
                     this.labels = response.data.labels;
-                    this.is_loading = false
+                    this.is_loading = false;
                 })
         },
         {% endblock method_callurl %}

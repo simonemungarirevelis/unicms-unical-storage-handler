@@ -327,3 +327,29 @@ class LaboratoryInfoViewHandler(BaseStorageHandler):
         parent = (self.parent_url, settings.CMS_STORAGE_LABORATORY_LABEL)
         leaf = ('#', self.code)
         return (root, parent, leaf)
+
+
+class PublicationsInfoViewHandler(BaseStorageHandler):
+    template = "storage_publications_info.html"
+
+    def __init__(self, **kwargs):
+        super(PublicationsInfoViewHandler, self).__init__(**kwargs)
+        self.code = self.match_dict.get('code', '')
+
+    def as_view(self):
+        self.data['url'] = f'{settings.CMS_STORAGE_PUBLICATIONS_API}{self.code}/?lang={self.lang}'
+        print(self.data['url'])
+        return super().as_view()
+
+    @property
+    def parent_url(self):
+        url = f'{self.webpath.get_full_path()}/{settings.CMS_STORAGE_BASE_PATH}/{settings.CMS_STORAGE_PUBLICATIONS_VIEW_PREFIX_PATH}/'
+        return sanitize_path(url)
+
+    @property
+    def breadcrumbs(self):
+        root = (self.get_base_url, settings.CMS_STORAGE_ROOT_LABEL)
+        parent = (self.parent_url, settings.CMS_STORAGE_PUBLICATIONS_LABEL)
+        leaf = ('#', self.code)
+        return (root, parent, leaf)
+

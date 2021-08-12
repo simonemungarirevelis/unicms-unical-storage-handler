@@ -135,6 +135,30 @@
     </div>
 </div>
 
+<!-- Publications -->
+<div id="{{ id }}_collapse-2-lft" class="collapse-div collapse-left-icon" role="tablist">
+    <div class="collapse-header" id="{{ id }}_heading-publications-lft">
+        <button data-toggle="collapse"
+                data-target="#{{ id }}_collapse-publications-lft"
+                aria-expanded="false"
+                aria-controls="{{ id }}_collapse-publications-lft">
+            {% trans "Publications" %}
+        </button>
+    </div>
+    <div id="{{ id }}_collapse-publications-lft"
+         class="collapse"
+         role="tabpanel"
+         aria-labelledby="{{ id }}_heading-publications-lft">
+        <div class="mt-3">
+            {% get_current_language as LANGUAGE_CODE %}
+            {% clean_url url as cleaned_url %}
+            {% with cleaned_url|add:"publications/?lang="|add:LANGUAGE_CODE as publications_url %}
+            {% include "blocks/unical_storage_publications_list.html" with url=publications_url %}
+            {% endwith %}
+        </div>
+    </div>
+</div>
+
 <script>
     var {{ id }} = new Vue({
         el: '[id="{{ id }}"]',
