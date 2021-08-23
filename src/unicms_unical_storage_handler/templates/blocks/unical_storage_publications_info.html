@@ -9,11 +9,10 @@
 
 {% get_allowed_website request.get_host as host %}
 
-{% settings_value "LABORATORY_INFO_NOT_SHOW" as fields_to_hide %}
+{% settings_value "PUBLICATIONS_INFO_NOT_SHOW" as fields_to_hide %}
 {% settings_value "CMS_PATH_PREFIX" as cms_path_prefix %}
 {% settings_value "CMS_STORAGE_BASE_PATH" as base_prefix %}
 {% settings_value "CMS_STORAGE_ADDRESSBOOK_VIEW_PREFIX_PATH" as addressbook_prefix %}
-{% settings_value "CMS_STORAGE_STRUCTURE_VIEW_PREFIX_PATH" as structures_prefix %}
 
 <div id="{{ id }}">
 
@@ -25,21 +24,16 @@
     <div v-else>
 
         <div class="row">
-            <div class="col-12 col-lg-2 d-flex">
-                <img :src="item.LaboratoryLogo"
-                     v-if="item.LaboratoryLogo"
-                     style="width: 100%; height: 100%;">
-                <svg class="m-auto icon icon-xl icon-muted" v-else>
-                    <use xlink:href="{% static 'svg/sprite.svg' %}#it-info-circle"></use>
-                </svg>
-            </div>
             <div class="col-12 col-lg-9 my-3 my-lg-0">
                 <h1 class="lighter">
-                    [[ item.LaboratoryName ]]
+                    [[ item.PublicationTitle ]]
                 </h1>
                 <h3 class="lighter">
-                    [[ item.LaboratoryScope ]]
+                    [[ item.PublicationCommunity ]]
                 </h3>
+                <h4 class="lighter">
+                    [[ item.PublicationCollection ]]
+                </h4>
             </div>
         </div>
         <hr class="my-4 bordeaux-unical-bg">
@@ -56,23 +50,6 @@
                                     </span>
                                 </li>
                             </ul>
-                        </td>
-                        <td v-else>
-                            <a v-if="name == 'CompletionReferentName' " :href="'//{{ host }}/{{ cms_path_prefix }}{{ base_prefix }}/{{ addressbook_prefix }}/' + [[ item.CompletionReferentId ]] +'/'">
-                                [[ item.CompletionReferentName ]]
-                            </a>
-                            <a v-else-if="name == 'ScientificDirectorName' " :href="'//{{ host }}/{{ cms_path_prefix }}{{ base_prefix }}/{{ addressbook_prefix }}/' + [[ item.ScientificDirectorId ]] +'/'">
-                                [[ item.ScientificDirectorName ]]
-                            </a>
-                            <a v-else-if="name == 'DepartmentReferentName' " :href="'//{{ host }}/{{ cms_path_prefix }}{{ base_prefix }}/{{ structures_prefix }}/' + [[ item.DepartmentReferentId ]] +'/'">
-                                [[ item.DepartmentReferentName ]]
-                            </a>
-                            <a v-else-if="name == 'LaboratoryURL' " :href="[[ item.LaboratoryURL ]]" >
-                                [[ item.LaboratoryURL ]]
-                            </a>
-                            <span v-else style="white-space: pre-line;">
-                                [[ value ]]
-                            </span>
                         </td>
                     </tr>
                 </tbody>

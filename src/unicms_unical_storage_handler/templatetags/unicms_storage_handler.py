@@ -40,3 +40,10 @@ def get_allowed_website(host):
     if port:
         return f'{active.domain}:{port}'
     return f'{active.domain}'
+
+
+@register.simple_tag
+def get_father_from_url(url):
+    import re
+    father = re.match('.*father=(.*)', url)
+    return None if father is None else father.group(1)
