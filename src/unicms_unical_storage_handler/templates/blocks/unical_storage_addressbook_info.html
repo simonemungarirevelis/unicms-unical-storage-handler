@@ -1,3 +1,4 @@
+{% load i18n %}
 {% load static %}
 
 {% load unicms_storage_handler %}
@@ -63,13 +64,11 @@
                         <td v-else>
 
                             <a v-if="item.Teacher == 1 && name == 'Teacher'" :href="'//{{ host }}/{{ cms_path_prefix }}{{ base_prefix }}/{{ teachers_prefix }}/' + [[ item.ID ]] +'/'">
-                                      {{ host }}/{{ cms_path_prefix }}{{ base_prefix }}/{{ teachers_prefix }}/[[ item.ID ]]/
+                                {% trans "Click here" %}
                             </a>
 
                             <span v-else style="white-space: pre-line;">
-
                                 [[ value ]]
-
                             </span>
                         </td>
                     </tr>

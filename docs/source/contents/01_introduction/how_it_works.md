@@ -8,4 +8,4 @@ using the API resources assigned to each class,
 render the obtained results through a specific template.
 
 Each template integrates a [Vue.js](https://vuejs.org/) component that
-takes care of invoking the past resource and retrieving the data.
+takes care of invoking the passed resource and retrieving the data.

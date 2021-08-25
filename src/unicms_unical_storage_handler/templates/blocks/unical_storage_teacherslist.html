@@ -22,29 +22,25 @@
     <div v-else-if="(initial_items && initial_items.length) || parameters">
 
         {% block filters_teacherslist %}
-        <loading-icon
-            v-if="is_loading_departments"
-            :loader_source="loader_source_departments">
-        </loading-icon>
-        <loading-icon
-            v-else-if="is_loading_roles"
-            :loader_source="loader_source_roles">
-        </loading-icon>
-        <div class="row" v-else>
+
+        <div class="row">
             <div class="col-12">
                 <div class="card-wrapper card-space">
                     <div class="card card-bg no-after">
                         <br>
                         <div class="card-body">
+
+                            {% include "includes/unical_storage_search_input.html" with id=id %}
+
                             <!-- CdsId & DepartmentID & Role -->
                             <div class="form-group">
                                 <div class="row">
-                                    <div class="col-sm-2">
-                                        <div class="ml-5 mr-5">
+                                    <div class="col-sm">
+                                        <div>
                                             <label for="{{ id }}_cdsid_input">
                                                 {% trans "Course of study" %}
                                             </label>
-                                            <div class="w-40 mt-5">
+                                            <div class="w-40 mt-5 mx-2">
                                                 <input type="text"
                                                        id="{{ id }}_cdsid_input"
                                                        name="{{ id }}_cdsid_input"
@@ -53,8 +49,14 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-sm-4">
-                                        <div class="ml-5 mr-5">
+                                    <div class="col-sm">
+
+                                        <loading-icon
+                                            v-if="is_loading_departments"
+                                            :loader_source="loader_source_departments">
+                                        </loading-icon>
+
+                                        <div v-else>
                                             <label for="{{ id }}_department_input">
                                                 {% trans "Department" %}
                                             </label>
@@ -74,8 +76,14 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-sm-4">
-                                        <div class="ml-5 mr-5">
+                                    <div class="col-sm">
+
+                                        <loading-icon
+                                            v-if="is_loading_roles"
+                                            :loader_source="loader_source_roles">
+                                        </loading-icon>
+
+                                        <div v-else>
                                             <label for="{{ id }}_role_input">
                                                 {% trans "Role" %}
                                             </label>
@@ -93,11 +101,6 @@
                                                     </option>
                                                 </select>
                                             </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-1">
-                                        <div class="w-20 mt-5 ml-5 mr-5">
-                                            {% include "includes/unical_storage_search_button.html" with id=id %}
                                         </div>
                                     </div>
                                 </div>
@@ -147,8 +150,13 @@
 
 {% block extra_scripts %}
 <script>
-function {{ id }}_get_form_paramenters() {
-    let dict = {};
+function {{ id }}_get_form_paramenters(dict={}, keyword=null, value=null) {
+    if (keyword)
+        dict[keyword] = value
+
+    // search
+    let search = document.getElementById('{{ id }}_keywords').value
+    if (search) dict['keywords'] = search
 
     // cdsid
     let cdsid = document.getElementById('{{ id }}_cdsid_input').value
@@ -185,6 +193,7 @@ roles_filter: [],
 selected_cdsid: this.getItemFromSession("{{ id }}", 'cdsid'),
 selected_role: this.getItemFromSession("{{ id }}", 'role'),
 selected_department_id: this.getItemFromSession("{{ id }}", 'departmentid'),
+selected_keywords: this.getItemFromSession("{{ id }}", 'keywords'),
 {% endblock extra_data %}
 
 {% block extra_mounted %}

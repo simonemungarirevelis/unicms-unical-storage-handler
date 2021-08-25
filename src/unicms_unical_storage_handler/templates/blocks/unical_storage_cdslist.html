@@ -100,6 +100,7 @@
                                         </div>
                                     </div>
 
+                                    {% block filters_department %}
                                     <loading-icon
                                         v-if="is_loading_departments"
                                         :loader_source="loader_source_departments">
@@ -126,6 +127,7 @@
                                             </div>
                                         </div>
                                     </div>
+                                    {% endblock filters_department %}
                                 </div>
 
                                 <!-- Cds Language & Joint Degree -->

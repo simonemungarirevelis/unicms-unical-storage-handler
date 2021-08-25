@@ -10,7 +10,9 @@
 {% get_allowed_website request.get_host as host %}
 {% settings_value "CMS_PATH_PREFIX" as cms_path_prefix %}
 {% settings_value "CMS_STORAGE_BASE_PATH" as base_prefix %}
+{% settings_value "CMS_STORAGE_THEACHER_VIEW_PREFIX_PATH" as teacher_prefix %}
 {% settings_value "CMS_STORAGE_PUBLICATIONS_VIEW_PREFIX_PATH" as publications_prefix %}
+
 
 <div id="{{ id }}">
 
@@ -36,46 +38,55 @@
                                     <div class="row">
                                         <div class="col-sm">
                                             <div class="w-30 mt-5">
-                                                <label class="input-number" for="{{ id }}_year_input">{% trans "Year" %}</label>
+                                                <label class="input-number"
+                                                       for="{{ id }}_year_input">
+                                                    {% trans "Year" %}
+                                                </label>
                                                 <div class="w-30 mt-5">
                                                     <span class="input-number">
-                                                        <input type="number" id="{{ id }}_year_input" name="{{ id }}_year_input">
+                                                        <input type="number"
+                                                               id="{{ id }}_year_input"
+                                                               name="{{ id }}_year_input">
                                                         <button class="input-number-add">
-                                                            <span class="sr-only">{% trans "Increase value" %}</span>
+                                                            <span class="sr-only">
+                                                                {% trans "Increase value" %}
+                                                            </span>
                                                         </button>
                                                         <button class="input-number-sub">
-                                                            <span class="sr-only">{% trans "Decrease value" %}</span>
+                                                            <span class="sr-only">
+                                                                {% trans "Decrease value" %}
+                                                            </span>
                                                         </button>
                                                     </span>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="col-sm">
-                                        <loading-icon
-                                            v-if="is_loading_types"
-                                            :loader_source="loader_source_types">
-                                        </loading-icon>
-                                        <div v-else>
-                                            <label for="{{ id }}_type_input">
-                                                {% trans "Types" %}
-                                            </label>
-                                            <div class="w-30 mt-5">
-                                                <select id="{{ id }}_type_input"
-                                                        title="{% trans 'Choose an option' %}"
-                                                        name="{{ id }}_type_input"
-                                                        class="form-control"
-                                                        @change="{{ id }}.search()">
-                                                    <option value="">- {% trans 'Choose an option' %} -</option>
-                                                    <option v-for="item in types_filter"
-                                                            :value="item.CommunityId"
-                                                            :selected="item.CommunityId == selected_types"
-                                                            v-if="allowed_types.length==0 || allowed_types.includes(item.CommunityId)">
-                                                        [[ item.CommunityName ]]
-                                                    </option>
-                                                </select>
+                                            <loading-icon
+                                                v-if="is_loading_types"
+                                                :loader_source="loader_source_types">
+                                            </loading-icon>
+                                            <div v-else>
+                                                <label for="{{ id }}_type_input">
+                                                    {% trans "Types" %}
+                                                </label>
+                                                <div class="w-30 mt-5">
+                                                    <select id="{{ id }}_type_input"
+                                                            title="{% trans 'Choose an option' %}"
+                                                            name="{{ id }}_type_input"
+                                                            class="form-control"
+                                                            @change="{{ id }}.search()">
+                                                        <option value="">- {% trans 'Choose an option' %} -</option>
+                                                        <option v-for="item in types_filter"
+                                                                :value="item.CommunityId"
+                                                                :selected="item.CommunityId == selected_types"
+                                                                v-if="allowed_types.length==0 || allowed_types.includes(item.CommunityId)">
+                                                            [[ item.CommunityName ]]
+                                                        </option>
+                                                    </select>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
 
                                     </div>
 
@@ -96,7 +107,7 @@
                         <div class="card no-after" style="border:1px solid #b71918">
                             <div class="card-body">
                                 <h4>
-                                    <a :href="'//{{ host }}/{{ cms_path_prefix }}{{ base_prefix }}/{{ publications_prefix }}/' + [[ item.PublicationId ]] +'/'">
+                                    <a :href="'//{{ host }}/{{ cms_path_prefix }}{{ base_prefix }}/{{ teacher_prefix }}/' + [[ item.PublicationReferenceAuthor ]] +'/{{ publications_prefix }}/' + [[ item.PublicationId ]] +'/'">
                                         <h5 style="display: inline">[[ item.PublicationTitle ]]</h5>
                                     </a>
                                 </h4>
@@ -184,8 +195,8 @@ types_filter: [],
 
 {% block extra_mounted %}
 
-        this.parameters = encodeQueryData(this.getItemsFromSession("{{ id }}"), true)
-        this.callTypes();
+    this.parameters = encodeQueryData(this.getItemsFromSession("{{ id }}"), true)
+    this.callTypes();
 
 {% endblock extra_mounted %}
 

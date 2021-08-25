@@ -14,12 +14,8 @@
 
 {% settings_value "CMS_PATH_PREFIX" as cms_path_prefix %}
 {% settings_value "CMS_STORAGE_BASE_PATH" as base_prefix %}
-{% settings_value "CMS_STORAGE_LABORATORY_VIEW_PREFIX_PATH" as laboratories_prefix %}
-
 {% settings_value "CMS_STORAGE_STRUCTURE_VIEW_PREFIX_PATH" as structures_prefix %}
-
 {% settings_value "CMS_STORAGE_LABORATORY_API" as laboratories_api %}
-
 {% settings_value "TEACHER_INFO_NOT_SHOW" as fields_to_hide %}
 
 
@@ -32,12 +28,12 @@
 
     <div v-else>
         <div class="row">
-            <div class="col-12 col-lg-2 d-flex" style="background: #d3d2cf">
+            <div class="col-12 col-lg-2 d-flex">
                 <svg class="m-auto icon icon-xl icon-muted">
                     <use xlink:href="{% static 'svg/sprite.svg' %}#it-user"></use>
                 </svg>
             </div>
-            <div class="col-12 col-lg-9 offset-lg-1 my-3 my-lg-0">
+            <div class="col-12 col-lg-10 my-3 my-lg-0">
                 <h1 class="lighter">
                     [[ item.TeacherLastName ]] [[ item.TeacherFirstName ]]
                 </h1>
@@ -89,6 +85,7 @@
         </div>
     </div>
 </div>
+
 <!-- Laboratories -->
 <div id="{{ id }}_collapse-1-lft" class="collapse-div collapse-left-icon" role="tablist">
     <div class="collapse-header" id="{{ id }}_heading-laboratories-lft">
@@ -136,7 +133,7 @@
 </div>
 
 <!-- Publications -->
-<div id="{{ id }}_collapse-2-lft" class="collapse-div collapse-left-icon" role="tablist">
+<div id="{{ id }}_collapse-3-lft" class="collapse-div collapse-left-icon" role="tablist">
     <div class="collapse-header" id="{{ id }}_heading-publications-lft">
         <button data-toggle="collapse"
                 data-target="#{{ id }}_collapse-publications-lft"

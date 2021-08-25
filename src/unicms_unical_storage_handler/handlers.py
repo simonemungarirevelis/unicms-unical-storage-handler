@@ -199,8 +199,8 @@ class AddressbookListViewHandler(BaseStorageHandler):
             data['roles'] = ",".join(settings.ALLOWED_ADDRESSBOOK_ROLES)
         if settings.ALLOWED_ADDRESSBOOK_STRUCTURE_ID:
             data['structureid'] = ",".join(settings.ALLOWED_ADDRESSBOOK_STRUCTURE_ID)
-        if settings.ALLOWED_ADDRESSBOOK_STRUCTURE_TYPES:
-            data['structuretypes'] = ",".join(settings.ALLOWED_ADDRESSBOOK_STRUCTURE_TYPES)
+        if settings.ALLOWED_STRUCTURE_TYPES:
+            data['structuretypes'] = ",".join(settings.ALLOWED_STRUCTURE_TYPES)
 
         params = urllib.parse.urlencode(data)
 
@@ -223,7 +223,6 @@ class AddressbookInfoViewHandler(BaseStorageHandler):
 
     def as_view(self):
         self.data['url'] = f'{settings.CMS_STORAGE_ADDRESSBOOK_API}{self.code}/?lang={self.lang}'
-        print(self.data['url'])
         return super().as_view()
 
     @property
@@ -313,7 +312,6 @@ class LaboratoryInfoViewHandler(BaseStorageHandler):
 
     def as_view(self):
         self.data['url'] = f'{settings.CMS_STORAGE_LABORATORY_API}{self.code}/?lang={self.lang}'
-        print(self.data['url'])
         return super().as_view()
 
     @property
@@ -334,22 +332,29 @@ class PublicationsInfoViewHandler(BaseStorageHandler):
 
     def __init__(self, **kwargs):
         super(PublicationsInfoViewHandler, self).__init__(**kwargs)
+        self.teacherid = self.match_dict.get('teacherid', '')
         self.code = self.match_dict.get('code', '')
 
     def as_view(self):
-        self.data['url'] = f'{settings.CMS_STORAGE_PUBLICATIONS_API}{self.code}/?lang={self.lang}'
-        print(self.data['url'])
+        self.data['url'] = f'{settings.CMS_STORAGE_TEACHER_API}{self.teacherid}/publications/{self.code}/?lang={self.lang}'
         return super().as_view()
 
     @property
-    def parent_url(self):
-        url = f'{self.webpath.get_full_path()}/{settings.CMS_STORAGE_BASE_PATH}/{settings.CMS_STORAGE_PUBLICATIONS_VIEW_PREFIX_PATH}/'
+    def teacherslist_url(self):
+        url = f'{self.webpath.get_full_path()}/{settings.CMS_STORAGE_BASE_PATH}/{settings.CMS_STORAGE_THEACHER_VIEW_PREFIX_PATH}/'
+        return sanitize_path(url)
+
+    @property
+    def teacherid_url(self):
+        url = f'{self.webpath.get_full_path()}/{settings.CMS_STORAGE_BASE_PATH}/{settings.CMS_STORAGE_THEACHER_VIEW_PREFIX_PATH}/{self.teacherid}/'
         return sanitize_path(url)
 
     @property
     def breadcrumbs(self):
         root = (self.get_base_url, settings.CMS_STORAGE_ROOT_LABEL)
-        parent = (self.parent_url, settings.CMS_STORAGE_PUBLICATIONS_LABEL)
+        teacherslist = (self.teacherslist_url, settings.CMS_STORAGE_TEACHERS_LABEL)
+        teacherid = (self.teacherid_url, self.teacherid)
+        publications = (self.teacherid_url, settings.CMS_STORAGE_PUBLICATIONS_LABEL)
         leaf = ('#', self.code)
-        return (root, parent, leaf)
+        return (root, teacherslist, teacherid, publications, leaf)
 
