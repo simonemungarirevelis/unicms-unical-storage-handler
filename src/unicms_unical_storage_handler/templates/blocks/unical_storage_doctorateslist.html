@@ -38,7 +38,10 @@
                                                 <label for="year_input">{% trans "Year" %}</label>
                                                 <div class="w-30 mt-5">
                                                     <span class="input-number">
-                                                        <input type="number" id="year_input" name="year_input">
+                                                        <input type="number"
+                                                               id="year_input"
+                                                               name="year_input"
+                                                               v-on:keyup.enter="{{ id }}.search()">
                                                         <button class="input-number-add">
                                                             <span class="sr-only">{% trans "Increase value" %}</span>
                                                         </button>
@@ -54,7 +57,10 @@
                                                 <label for="year_from_input">{% trans "From" %}</label>
                                                 <div class="w-30 mt-5">
                                                     <span class="input-number">
-                                                        <input type="number" id="year_from_input" name="year_from_input">
+                                                        <input type="number"
+                                                               id="year_from_input"
+                                                               name="year_from_input"
+                                                               v-on:keyup.enter="{{ id }}.search()">
                                                         <button class="input-number-add">
                                                             <span class="sr-only">{% trans "Increase value" %}</span>
                                                         </button>
@@ -70,7 +76,10 @@
                                                 <label for="year_to_input">{% trans "To" %}</label>
                                                 <div class="w-30 mt-5">
                                                     <span class="input-number">
-                                                        <input type="number" id="year_to_input" name="year_to_input">
+                                                        <input type="number"
+                                                               id="year_to_input"
+                                                               name="year_to_input"
+                                                               v-on:keyup.enter="{{ id }}.search()">
                                                         <button class="input-number-add">
                                                             <span class="sr-only">{% trans "Increase value" %}</span>
                                                         </button>
@@ -94,7 +103,8 @@
                                                     <input type="text"
                                                            id="regdid_id_input"
                                                            name="regdid_id_input"
-                                                           class="form-control">
+                                                           class="form-control"
+                                                           v-on:keyup.enter="{{ id }}.search()">
                                                 </div>
                                             </div>
                                         </div>

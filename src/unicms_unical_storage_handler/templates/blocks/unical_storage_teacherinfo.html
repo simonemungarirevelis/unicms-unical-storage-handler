@@ -5,12 +5,12 @@
 {% load unicms_storage_handler %}
 {% load unicms_templates %}
 
-{% random_id as id %}
 {% include "includes/unical_storage_loading.html" %}
 
 {% get_current_language as LANGUAGE_CODE %}
-
 {% get_allowed_website request.get_host as host %}
+
+{% random_id uid as id %}
 
 {% settings_value "CMS_PATH_PREFIX" as cms_path_prefix %}
 {% settings_value "CMS_STORAGE_BASE_PATH" as base_prefix %}
@@ -126,7 +126,7 @@
             {% get_current_language as LANGUAGE_CODE %}
             {% clean_url url as cleaned_url %}
             {% with cleaned_url|add:"studyactivities/?lang="|add:LANGUAGE_CODE as studyactivities_url %}
-            {% include "blocks/unical_storage_teacherstudyactivities.html" with url=studyactivities_url %}
+            {% include "blocks/unical_storage_teacherstudyactivities.html" with url=studyactivities_url uid=id|add:"_2" %}
             {% endwith %}
         </div>
     </div>
@@ -150,7 +150,7 @@
             {% get_current_language as LANGUAGE_CODE %}
             {% clean_url url as cleaned_url %}
             {% with cleaned_url|add:"publications/?lang="|add:LANGUAGE_CODE as publications_url %}
-            {% include "blocks/unical_storage_publications_list.html" with url=publications_url %}
+            {% include "blocks/unical_storage_publications_list.html" with url=publications_url uid=id|add:"_3" %}
             {% endwith %}
         </div>
     </div>

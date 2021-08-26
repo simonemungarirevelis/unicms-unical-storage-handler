@@ -45,6 +45,7 @@
                                                        id="{{ id }}_cdsid_input"
                                                        name="{{ id }}_cdsid_input"
                                                        class="form-control"
+                                                       v-on:keyup.enter="{{ id }}.search()"
                                                        v-model="selected_cdsid">
                                             </div>
                                         </div>
@@ -150,7 +151,10 @@
 
 {% block extra_scripts %}
 <script>
-function {{ id }}_get_form_paramenters(dict={}, keyword=null, value=null) {
+function {{ id }}_get_form_paramenters(keyword=null, value=null) {
+
+    let dict = {}
+
     if (keyword)
         dict[keyword] = value
 

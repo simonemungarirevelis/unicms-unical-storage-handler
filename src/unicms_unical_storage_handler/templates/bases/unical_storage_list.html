@@ -115,8 +115,8 @@ var {{ id }} = new Vue({
         },
 
         {% block method_search %}
-        search() {
-            this.parameters = encodeQueryData({{ id }}_get_form_paramenters(), this.args_input);
+        search(keyword=null, value=null) {
+            this.parameters = encodeQueryData({{ id }}_get_form_paramenters(keyword, value), this.args_input);
             this.CallURL(this.url + this.parameters);
         },
         {% endblock method_search %}

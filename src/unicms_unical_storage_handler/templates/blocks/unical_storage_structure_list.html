@@ -107,7 +107,9 @@
 
 {% block extra_scripts %}
 <script>
-function {{ id }}_get_form_paramenters(dict={}, keyword=null, value=null) {
+function {{ id }}_get_form_paramenters(keyword=null, value=null) {
+
+    let dict = {}
 
     if (keyword)
         dict[keyword] = value
@@ -152,13 +154,6 @@ types_filter: [],
 
 {% endblock extra_mounted %}
 
-{% block method_search %}
-search(keyword=null, value=null) {
-    this.search_dict = {}
-    this.parameters = encodeQueryData({{ id }}_get_form_paramenters(this.search_dict, keyword, value), this.args_input);
-    this.CallURL(this.url + this.parameters);
-},
-{% endblock method_search %}
 {% block extra_methods %}
 
     callTypes() {

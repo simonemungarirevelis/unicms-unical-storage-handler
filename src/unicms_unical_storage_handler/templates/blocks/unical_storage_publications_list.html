@@ -46,7 +46,9 @@
                                                     <span class="input-number">
                                                         <input type="number"
                                                                id="{{ id }}_year_input"
-                                                               name="{{ id }}_year_input">
+                                                               name="{{ id }}_year_input"
+                                                               v-on:keyup.enter="{{ id }}.search()"
+                                                               v-model="selected_year">
                                                         <button class="input-number-add">
                                                             <span class="sr-only">
                                                                 {% trans "Increase value" %}
@@ -171,25 +173,19 @@ function {{ id }}_get_form_paramenters(keyword=null, value=null) {
 
 {% block extra_data %}
 
-
 selected_types: this.getItemFromSession("{{ id }}", 'type'),
 selected_keywords: this.getItemFromSession("{{ id }}", 'keywords'),
-
+selected_year: this.getItemFromSession("{{ id }}", 'year'),
 
 is_loading_types: true,
 
 {% settings_value "CMS_STORAGE_COMMUNITYTYPES_API" as types_api %}
-
-
 loader_source_types: '{{ types_api }}?lang={{ LANGUAGE_CODE }}',
 
-
 {% settings_value "ALLOWED_COMMUNITY_TYPES" as allowed_types %}
-
 allowed_types: {{ allowed_types|safe }},
 
-types_filter: [],
-
+types_filter: []
 
 {% endblock extra_data %}
 
@@ -199,14 +195,6 @@ types_filter: [],
     this.callTypes();
 
 {% endblock extra_mounted %}
-
-{% block method_search %}
-search(keyword=null, value=null) {
-    this.search_dict = {}
-    this.parameters = encodeQueryData({{ id }}_get_form_paramenters(this.search_dict, keyword, value), this.args_input);
-    this.CallURL(this.url + this.parameters);
-},
-{% endblock method_search %}
 
 {% block extra_methods %}
         callTypes() {

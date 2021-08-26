@@ -4,7 +4,7 @@
 {% load unicms_storage_handler %}
 {% load unicms_templates %}
 
-{% random_id as id %}
+{% random_id uid as id %}
 {% include "includes/unical_storage_loading.html" %}
 
 {% get_allowed_website request.get_host as host %}
