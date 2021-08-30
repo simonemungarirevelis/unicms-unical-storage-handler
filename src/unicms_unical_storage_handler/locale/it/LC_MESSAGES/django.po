@@ -279,8 +279,6 @@ msgid "Laboratory Extra Departments"
 msgstr "Altri Dipartimenti Coinvolti"
 
 #: templates/blocks/unical_storage_laboratory_info.html:146
-#, fuzzy
-#| msgid "Scopes"
 msgid "Scope"
 msgstr "Finalità"
 
