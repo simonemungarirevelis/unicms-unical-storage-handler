@@ -8,6 +8,7 @@
 {% block content %}
 
 {% get_allowed_website request.get_host as host %}
+
 {% settings_value "CMS_PATH_PREFIX" as cms_path_prefix %}
 {% settings_value "CMS_STORAGE_BASE_PATH" as base_prefix %}
 {% settings_value "CMS_STORAGE_STRUCTURE_VIEW_PREFIX_PATH" as structures_prefix %}
@@ -31,35 +32,35 @@
 
                             <div class="form-group">
                                 <div class="row">
-                    <div class="col-sm">
-                         <loading-icon
-                                 v-if="is_loading_types"
-                                 :loader_source="loader_source_types">
-                         </loading-icon>
+                                    <div class="col-sm">
+                                         <loading-icon
+                                                 v-if="is_loading_types"
+                                                 :loader_source="loader_source_types">
+                                         </loading-icon>
 
-                         <div v-else>
-                             <label for="{{ id }}_type_input">
-                                 {% trans "Types" %}
-                             </label>
-                             <div class="w-30 mt-5">
-                                 <select id="{{ id }}_type_input"
-                                         title="{% trans 'Choose an option' %}"
-                                         name="{{ id }}_type_input"
-                                         class="form-control"
-                                         @change="{{ id }}.search()">
-                                     <option value="">- {% trans 'Choose an option' %} -</option>
-                                     <option v-for="item in types_filter"
-                                             :value="item.StructureTypeCOD"
-                                             :selected="item.StructureTypeCOD == selected_types"
-                                             v-if="allowed_types.length==0 || allowed_types.includes(item.StructureTypeCOD)">
-                                         [[ item.StructureTypeName ]]
-                                     </option>
-                                 </select>
-                             </div>
-                         </div>
-                     </div>
-                </div>
-            </div>
+                                         <div v-else>
+                                             <label for="{{ id }}_type_input">
+                                                 {% trans "Types" %}
+                                             </label>
+                                             <div class="w-30 mt-5">
+                                                 <select id="{{ id }}_type_input"
+                                                         title="{% trans 'Choose an option' %}"
+                                                         name="{{ id }}_type_input"
+                                                         class="form-control"
+                                                         @change="{{ id }}.search()">
+                                                     <option value="">- {% trans 'Choose an option' %} -</option>
+                                                     <option v-for="item in types_filter"
+                                                             :value="item.StructureTypeCOD"
+                                                             :selected="item.StructureTypeCOD == selected_types"
+                                                             v-if="allowed_types.length==0 || allowed_types.includes(item.StructureTypeCOD)">
+                                                         [[ item.StructureTypeName ]]
+                                                     </option>
+                                                 </select>
+                                             </div>
+                                         </div>
+                                     </div>
+                                </div>
+                            </div>
 
                         </div>
                     </div>
@@ -131,7 +132,7 @@ function {{ id }}_get_form_paramenters(keyword=null, value=null) {
 
 {% block extra_data %}
 
-{% settings_value "ALLOWED_STRUCTURE_TYPES" as allowed_types %}
+{% get_current_language as LANGUAGE_CODE %}
 {% settings_value "CMS_STORAGE_STRUCTURETYPES_API" as types_api %}
 
 search_dict: {},
@@ -143,13 +144,24 @@ is_loading_types: true,
 loader_source_types: '{{ types_api }}?lang={{ LANGUAGE_CODE }}',
 
 selected_keywords: this.getItemFromSession("{{ id }}", 'keywords'),
-allowed_types: {{ allowed_types|safe }},
+allowed_types: [],
 types_filter: [],
 
 {% endblock extra_data %}
 
 {% block extra_mounted %}
-    this.parameters = encodeQueryData(this.getItemsFromSession("{{ id }}"), true)
+
+    // if url if pre-filtered resize select field
+    // this allows to auto generate select options according to URL get filters!
+    let params = new URLSearchParams(this.url.split('?')[1]);
+
+    let get_types = params.get("type")
+    if (get_types != null){
+        let get_types_list = get_types.split(',')
+        this.allowed_types = get_types
+    }
+
+    this.parameters = encodeQueryData(this.getItemsFromSession("{{ id }}"))
     this.callTypes();
 
 {% endblock extra_mounted %}

@@ -284,8 +284,9 @@ function {{ id }}_get_form_paramenters(keyword=null, value=null) {
 
 {% block extra_data %}
 
+{% get_current_language as LANGUAGE_CODE %}
+
 {% settings_value "ALLOWED_CDS_LANGUAGES" as allowed_languages %}
-{% settings_value "ALLOWED_CDS_COURSETYPES" as allowed_course_types %}
 {% settings_value "ALLOWED_CDS_JOINT_DEGREES" as allowed_joint_degrees %}
 
 {% settings_value "CMS_STORAGE_DEGREETYPES_API" as degreetypes_api %}
@@ -299,7 +300,7 @@ selected_language: this.getItemFromSession("{{ id }}", 'cdslanguage'),
 selected_jointdegree: this.getItemFromSession("{{ id }}", 'jointdegree'),
 selected_keywords: this.getItemFromSession("{{ id }}", 'keywords'),
 
-allowed_course_types: {{ allowed_course_types|safe }},
+allowed_course_types: [],
 course_types: [],
 
 is_loading_degreetypes: true,
@@ -307,7 +308,7 @@ is_loading_academicyears: true,
 is_loading_departments: true,
 
 loader_source_degreetypes: '{{ degreetypes_api }}?lang={{ LANGUAGE_CODE }}',
-loader_source_academicyears: '{{ academicyears_api }}/?lang={{ LANGUAGE_CODE }}',
+loader_source_academicyears: '{{ academicyears_api }}?lang={{ LANGUAGE_CODE }}',
 loader_source_departments: '{{ departments_api }}?lang={{ LANGUAGE_CODE }}',
 
 academic_years_filter: [],
@@ -332,7 +333,7 @@ this.callDegreeTypes();
 this.callAcademicYears();
 this.callDepartments();
 
-this.parameters = encodeQueryData(this.getItemsFromSession("{{ id }}"), true)
+this.parameters = encodeQueryData(this.getItemsFromSession("{{ id }}"))
 
 {% endblock extra_mounted %}
 
@@ -340,8 +341,8 @@ this.parameters = encodeQueryData(this.getItemsFromSession("{{ id }}"), true)
 search(keyword=null, value=null) {
     if(keyword=='coursetype')
         this.selected_coursetype = value
-    if (value) this.parameters = encodeQueryData({{ id }}_get_form_paramenters(keyword, value), this.args_input);
-    else this.parameters = encodeQueryData({{ id }}_get_form_paramenters(), this.args_input);
+    if (value) this.parameters = encodeQueryData({{ id }}_get_form_paramenters(keyword, value));
+    else this.parameters = encodeQueryData({{ id }}_get_form_paramenters());
     this.CallURL(this.url + this.parameters);
 },
 {% endblock method_search %}

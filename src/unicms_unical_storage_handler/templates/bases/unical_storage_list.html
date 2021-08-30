@@ -17,13 +17,12 @@
 {% block scripts %}
 <script src="{% static 'js/unicms_ush_utils.js' %}"></script>
 <script>
-function encodeQueryData(data, args_input) {
-    if (!data) return '';
-    const ret = [];
+function encodeQueryData(data=[]) {
+    const ret = ["lang={{ LANGUAGE_CODE }}"];
     for (let d in data)
         ret.push(encodeURIComponent(d) + '=' + encodeURIComponent(data[d]));
-
-    if (args_input)
+    let url = "{{ url }}";
+    if (url.includes("?"))
         return '&' + ret.join('&')
     return '?' + ret.join('&');
 }
@@ -75,14 +74,13 @@ var {{ id }} = new Vue({
     el: '[id="{{ id }}"]',
     data() {
         return {
-            parameters: "",
+            parameters: encodeQueryData(),
             items: [],
             initial_items: [],
             labels: [],
             url: '{{ url|safe }}',
             next_page: "",
             previous_page: "",
-            args_input: false,
             is_loading: true,
             loader_source: '',
 
@@ -96,10 +94,6 @@ var {{ id }} = new Vue({
 
         this.loader_source = this.url + this.parameters
         this.CallURL(this.url + this.parameters, true);
-
-        let url_splitted = this.url.split("?");
-        if (url_splitted == this.url) this.args_input = false
-        else this.args_input = true
     },
     methods: {
         getItemsFromSession(id) {
@@ -116,7 +110,7 @@ var {{ id }} = new Vue({
 
         {% block method_search %}
         search(keyword=null, value=null) {
-            this.parameters = encodeQueryData({{ id }}_get_form_paramenters(keyword, value), this.args_input);
+            this.parameters = encodeQueryData({{ id }}_get_form_paramenters(keyword, value));
             this.CallURL(this.url + this.parameters);
         },
         {% endblock method_search %}

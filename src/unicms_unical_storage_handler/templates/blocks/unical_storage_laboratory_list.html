@@ -8,6 +8,7 @@
 {% block content %}
 
 {% get_allowed_website request.get_host as host %}
+
 {% settings_value "CMS_PATH_PREFIX" as cms_path_prefix %}
 {% settings_value "CMS_STORAGE_BASE_PATH" as base_prefix %}
 {% settings_value "CMS_STORAGE_LABORATORY_VIEW_PREFIX_PATH" as laboratory_prefix %}
@@ -107,7 +108,7 @@
                                                     title="{% trans 'Choose an option' %}"
                                                     multiple
                                                     @change="{{ id }}.search()">
-
+                                                <option value="">- {% trans 'Clear all' %} -</option>
                                                 <optgroup v-for="item in erc1_list"
                                                           :label="item.Description"
                                                           style="font-weight: bold">
@@ -157,7 +158,7 @@
                                         <b>[[ item.Area ]]</b>
                                     </small>
                                 </div>
-                                <div class="col-12 col-md-auto">
+                                <div class="col-12 col-md-auto" v-if="item.Interdepartmental != 'NO'">
                                     <small>
                                         [[ labels['Interdepartmental'] ]] >
                                         <b>[[ item.Interdepartmental ]]</b>
@@ -214,7 +215,8 @@ function {{ id }}_get_form_paramenters(keyword=null, value=null) {
                 erc1_selected.push(option.value);
             }
         }
-        dict['erc1'] = erc1_selected.join(",")
+        let erc1_values = erc1_selected.join(",")
+        if(erc1_values) dict['erc1'] = erc1_values
 
     {% endblock laboratory_filter_input %}
 
@@ -226,6 +228,8 @@ function {{ id }}_get_form_paramenters(keyword=null, value=null) {
 {% endblock extra_scripts %}
 
 {% block extra_data %}
+
+{% get_current_language as LANGUAGE_CODE %}
 {% settings_value "CMS_STORAGE_DEPARTMENTSFILTER_API" as departmentsfilter_api %}
 {% settings_value "CMS_STORAGE_LABORATORIESAREAS_API" as laboratoriesareas_api %}
 {% settings_value "CMS_STORAGE_ERC1LIST_API" as erc1list_api %}
@@ -258,7 +262,7 @@ selected_erc1: (this.getItemFromSession("{{ id }}", 'erc1') || "").split(",")
         this.callERC1List();
     {% endblock call_laboratory_on_mounted %}
 
-this.parameters = encodeQueryData(this.getItemsFromSession("{{ id }}"), true)
+this.parameters = encodeQueryData(this.getItemsFromSession("{{ id }}"))
 {% endblock extra_mounted %}
 
 {% block extra_methods %}

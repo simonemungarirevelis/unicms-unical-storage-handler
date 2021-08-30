@@ -1,11 +1,15 @@
+{% load i18n %}
 {% load static %}
+
 {% load unicms_storage_handler %}
 {% load unicms_templates %}
 
 {% random_id uid as id %}
 {% include "includes/unical_storage_loading.html" %}
 
+{% get_current_language as LANGUAGE_CODE %}
 {% get_allowed_website request.get_host as host %}
+
 {% settings_value "CMS_PATH_PREFIX" as cms_path_prefix %}
 {% settings_value "CMS_STORAGE_BASE_PATH" as base_prefix %}
 {% settings_value "CMS_STORAGE_CDS_VIEW_PREFIX_PATH" as cds_prefix %}
@@ -123,7 +127,7 @@
             return {
                 item: {},
                 labels: {},
-                url: '{{ url }}',
+                url: '{{ url }}?lang={{ LANGUAGE_CODE }}',
                 is_loading: true,
                 loader_source: '{{ url }}',
                 fields_to_not_show: ['StudyActivityCdSID', 'StudyActivityRegDidId', 'StudyActivityTeacherID', 'StudyActivityID']

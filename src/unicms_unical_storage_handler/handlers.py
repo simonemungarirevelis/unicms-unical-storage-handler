@@ -17,7 +17,6 @@ class BaseStorageHandler(BaseContentHandler):
 
     def __init__(self, **kwargs):
         super(BaseStorageHandler, self).__init__(**kwargs)
-        self.lang = self.request.LANGUAGE_CODE
         self.match_dict = self.match.groupdict()
         self.webpath = WebPath.objects.filter(site=self.website,
                                               parent=None,
@@ -63,7 +62,7 @@ class CdSListViewHandler(BaseStorageHandler):
 
     def as_view(self):
 
-        data = {'lang': self.lang}
+        data = {}
 
         if settings.ALLOWED_CDS_COURSETYPES:
             data['coursetype'] = ",".join(settings.ALLOWED_CDS_COURSETYPES)
@@ -89,7 +88,7 @@ class CdSInfoViewHandler(BaseStorageHandler):
         self.code = self.match_dict.get('code', '')
 
     def as_view(self):
-        self.data['url'] = f'{settings.CMS_STORAGE_CDS_API}{self.code}/?lang={self.lang}'
+        self.data['url'] = f'{settings.CMS_STORAGE_CDS_API}{self.code}/'
         return super().as_view()
 
     @property
@@ -115,7 +114,7 @@ class ActivityViewHandler(BaseStorageHandler):
         self.code = self.match_dict.get('code', '')
 
     def as_view(self):
-        self.data['url'] = f'{settings.CMS_STORAGE_ACTIVITY_API}{self.code}/?lang={self.lang}'
+        self.data['url'] = f'{settings.CMS_STORAGE_ACTIVITY_API}{self.code}/'
         return super().as_view()
 
     @property
@@ -145,13 +144,15 @@ class TeacherListViewHandler(BaseStorageHandler):
         super(TeacherListViewHandler, self).__init__(**kwargs)
 
     def as_view(self):
-        self.data['url'] = f'{settings.CMS_STORAGE_TEACHER_API}?lang={self.lang}'
-        return super().as_view()
 
-    # @property
-    # def parent_url(self):
-        # url = f'{self.webpath.get_full_path()}/{settings.CMS_STORAGE_BASE_PATH}/{settings.CMS_STORAGE_CDS_VIEW_PREFIX_PATH}/'
-        # return sanitize_path(url)
+        data = {}
+
+        if settings.ALLOWED_TEACHER_ROLES:
+            data['roles'] = ",".join(settings.ALLOWED_TEACHER_ROLES)
+
+        params = urllib.parse.urlencode(data)
+        self.data['url'] = f'{settings.CMS_STORAGE_TEACHER_API}?{params}'
+        return super().as_view()
 
     @property
     def breadcrumbs(self):
@@ -168,7 +169,7 @@ class TeacherInfoViewHandler(BaseStorageHandler):
         self.code = self.match_dict.get('code', '')
 
     def as_view(self):
-        self.data['url'] = f'{settings.CMS_STORAGE_TEACHER_API}{self.code}/?lang={self.lang}'
+        self.data['url'] = f'{settings.CMS_STORAGE_TEACHER_API}{self.code}/'
         self.data['code'] = self.code
         return super().as_view()
 
@@ -193,7 +194,7 @@ class AddressbookListViewHandler(BaseStorageHandler):
 
     def as_view(self):
 
-        data = {'lang': self.lang}
+        data = {}
 
         if settings.ALLOWED_ADDRESSBOOK_ROLES:
             data['roles'] = ",".join(settings.ALLOWED_ADDRESSBOOK_ROLES)
@@ -203,7 +204,6 @@ class AddressbookListViewHandler(BaseStorageHandler):
             data['structuretypes'] = ",".join(settings.ALLOWED_STRUCTURE_TYPES)
 
         params = urllib.parse.urlencode(data)
-
         self.data['url'] = f'{settings.CMS_STORAGE_ADDRESSBOOK_API}?{params}'
         return super().as_view()
 
@@ -222,7 +222,7 @@ class AddressbookInfoViewHandler(BaseStorageHandler):
         self.code = self.match_dict.get('code', '')
 
     def as_view(self):
-        self.data['url'] = f'{settings.CMS_STORAGE_ADDRESSBOOK_API}{self.code}/?lang={self.lang}'
+        self.data['url'] = f'{settings.CMS_STORAGE_ADDRESSBOOK_API}{self.code}/'
         return super().as_view()
 
     @property
@@ -245,10 +245,12 @@ class StructureListViewHandler(BaseStorageHandler):
         super(StructureListViewHandler, self).__init__(**kwargs)
 
     def as_view(self):
-        data = {'lang': self.lang}
+        data = {}
 
         if settings.INITIAL_STRUCTURE_FATHER != '':
             data['father'] = settings.INITIAL_STRUCTURE_FATHER
+        if settings.ALLOWED_STRUCTURE_TYPES:
+            data['type'] = ",".join(settings.ALLOWED_STRUCTURE_TYPES)
 
         params = urllib.parse.urlencode(data)
         self.data['url'] = f'{settings.CMS_STORAGE_STRUCTURE_API}?{params}'
@@ -270,7 +272,7 @@ class StructureInfoViewHandler(BaseStorageHandler):
 
     def as_view(self):
         self.data['code'] = self.code
-        self.data['url'] = f'{settings.CMS_STORAGE_STRUCTURE_API}{self.code}/?lang={self.lang}'
+        self.data['url'] = f'{settings.CMS_STORAGE_STRUCTURE_API}{self.code}/'
         return super().as_view()
 
     @property
@@ -293,7 +295,7 @@ class LaboratoryListViewHandler(BaseStorageHandler):
         super(LaboratoryListViewHandler, self).__init__(**kwargs)
 
     def as_view(self):
-        self.data['url'] = f'{settings.CMS_STORAGE_LABORATORY_API}?lang={self.lang}'
+        self.data['url'] = f'{settings.CMS_STORAGE_LABORATORY_API}'
         return super().as_view()
 
     @property
@@ -311,7 +313,7 @@ class LaboratoryInfoViewHandler(BaseStorageHandler):
         self.code = self.match_dict.get('code', '')
 
     def as_view(self):
-        self.data['url'] = f'{settings.CMS_STORAGE_LABORATORY_API}{self.code}/?lang={self.lang}'
+        self.data['url'] = f'{settings.CMS_STORAGE_LABORATORY_API}{self.code}/'
         return super().as_view()
 
     @property
@@ -336,7 +338,7 @@ class PublicationsInfoViewHandler(BaseStorageHandler):
         self.code = self.match_dict.get('code', '')
 
     def as_view(self):
-        self.data['url'] = f'{settings.CMS_STORAGE_TEACHER_API}{self.teacherid}/publications/{self.code}/?lang={self.lang}'
+        self.data['url'] = f'{settings.CMS_STORAGE_TEACHER_API}{self.teacherid}/publications/{self.code}/'
         return super().as_view()
 
     @property

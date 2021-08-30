@@ -7,7 +7,6 @@
 
 {% random_id uid as id %}
 
-
 {% include "includes/unical_storage_loading.html" %}
 
 
@@ -78,7 +77,7 @@ var {{ id }} = new Vue({
     data() {
         return {
             item: {},
-            url: '{{ url }}',
+            url: '{{ url }}?lang={{ LANGUAGE_CODE }}',
             is_loading: true,
             loader_source: '{{ url }}',
         }

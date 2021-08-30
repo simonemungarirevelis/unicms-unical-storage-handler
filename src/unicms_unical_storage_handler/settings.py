@@ -111,10 +111,11 @@ ALLOWED_CDS_JOINT_DEGREES = [
     {'COD': 'D', 'name': _("Double title")}
 ]
 
+
 ALLOWED_ADDRESSBOOK_ROLES = []
 ALLOWED_ADDRESSBOOK_STRUCTURE_ID = []
 ALLOWED_STRUCTURE_TYPES = []
-ALLOWED_COMMUNITY_TYPES = []
+ALLOWED_TEACHER_ROLES = []
 
 
 # CDSINFO FIELDS TO SHOW
@@ -139,15 +140,18 @@ LABORATORY_INFO_NOT_SHOW = ['LaboratoryId', 'CompletionReferentId',
                             'ResearchPersonnelID', 'TechPersonnelID',
                             'LaboratoryName', 'LaboratoryAcronym',
                             'LaboratoryScope', 'LaboratoryLogo',
-                            'LaboratoryErc1', 'LaboratoryResearchPersonnel',
+                            'LaboratoryResearchPersonnel',
                             'LaboratoryTechPersonnel', 'LaboratoryOfferedServices',
-                            'LaboratoryLocation', 'LaboratoryErc0Description',
                             'LaboratoryServicesScope', 'LaboratoryTeachingScope',
                             'LaboratoryResearchScope', 'LaboratoryActivities',
-                            'CompletionReferentName', 'TechPersonnelRole', 'ExtraDepartments','LaboratoryEquipment',]
+                            'CompletionReferentName', 'TechPersonnelRole',
+                            'ExtraDepartments','LaboratoryEquipment',
+                            'Interdepartmental']
+
 PUBLICATIONS_INFO_NOT_SHOW = ['PublicationId', 'PublicationAbstract',
                               'PublicationTitle', 'PublicationCommunity',
-                              'PublicationCollection', 'PublicationReferenceAuthor']
+                              'PublicationCollection', 'PublicationReferenceAuthor',
+                              'Publication', 'PublicationLabel', 'PublicationUrl']
 
 INITIAL_STRUCTURE_FATHER = ''
 

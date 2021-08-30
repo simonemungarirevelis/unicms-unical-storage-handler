@@ -13,6 +13,9 @@
 {% get_allowed_website request.get_host as host %}
 {% get_current_language as LANGUAGE_CODE %}
 
+{% settings_value "ALLOWED_ADDRESSBOOK_ROLES" as allowed_addressbook_roles %}
+{% settings_value "ALLOWED_STRUCTURE_TYPES" as allowed_structure_types %}
+
 {% settings_value "CMS_PATH_PREFIX" as cms_path_prefix %}
 {% settings_value "CMS_STORAGE_BASE_PATH" as base_prefix %}
 {% settings_value "CMS_STORAGE_STRUCTURE_VIEW_PREFIX_PATH" as structures_prefix %}
@@ -20,8 +23,9 @@
 {% settings_value "CMS_STORAGE_LABORATORY_VIEW_PREFIX_PATH" as laboratories_prefix %}
 
 {% settings_value "CMS_STORAGE_ADDRESSBOOK_API" as addressbook_api %}
-{% settings_value "CMS_STORAGE_STRUCTURE_API" as structures_api %}
+{% settings_value "CMS_STORAGE_STRUCTUREFILTER_API" as structures_api %}
 {% settings_value "CMS_STORAGE_LABORATORY_API" as laboratories_api %}
+
 
 <div id="{{ id }}">
 
@@ -143,8 +147,12 @@
              role="tabpanel"
              aria-labelledby="{{ id }}_heading-personnel-lft">
             <div class="mt-3">
-                {% with addressbook_api|add:"?structuretree="|add:code|add:"&lang="|add:LANGUAGE_CODE as personnel_url %}
-                {% include "blocks/unical_storage_addressbook.html" with url=personnel_url structure_id=code uid=id|add:"_1" %}
+                {% with allowed_addressbook_roles|join:"," as allowed_address_book_roles_list %}
+                {% with allowed_structure_types|join:"," as allowed_structure_types_list %}
+                {% with addressbook_api|add:"?structuretree="|add:code|add:"&roles="|add:allowed_address_book_roles_list|add:"&structuretypes="|add:allowed_structure_types_list as personnel_url %}
+                {% include "blocks/unical_storage_addressbook_without_structure_type_filter.html" with url=personnel_url structure_id=code uid=id|add:"_1" %}
+                {% endwith %}
+                {% endwith %}
                 {% endwith %}
             </div>
         </div>
@@ -164,8 +172,10 @@
                  role="tabpanel"
                  aria-labelledby="{{ id }}_heading-childstructures-lft">
                 <div class="mt-3">
-                    {% with structures_api|add:"?father="|add:code|add:"&lang="|add:LANGUAGE_CODE as child_structures_url %}
+                    {% with allowed_structure_types|join:"," as allowed_structure_types_list %}
+                    {% with structures_api|add:"?father="|add:code|add:"&type="|add:allowed_structure_types_list as child_structures_url %}
                     {% include "blocks/unical_storage_structure_list.html" with url=child_structures_url uid=id|add:"_2" %}
+                    {% endwith %}
                     {% endwith %}
                 </div>
             </div>
@@ -185,7 +195,7 @@
              role="tabpanel"
              aria-labelledby="{{ id }}_heading-laboratories-lft">
             <div class="mt-3">
-                {% with laboratories_api|add:"?department="|add:code|add:"&lang="|add:LANGUAGE_CODE as laboratories_url %}
+                {% with laboratories_api|add:"?department="|add:code as laboratories_url %}
                 {% include "blocks/unical_storage_laboratory_list_without_filters.html" with url=laboratories_url laboratories_id=code uid=id|add:"_3" %}
                 {% endwith %}
             </div>
@@ -200,7 +210,7 @@
             return {
                 item: {},
                 labels: {},
-                url: '{{ url }}',
+                url: '{{ url }}?lang={{ LANGUAGE_CODE }}',
                 is_loading: true,
                 loader_source: '{{ url }}',
                 fields_to_not_show: {{ fields_to_hide|safe }},

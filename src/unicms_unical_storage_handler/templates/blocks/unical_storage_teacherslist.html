@@ -97,7 +97,8 @@
                                                     <option value="">- {% trans 'Choose an option' %} -</option>
                                                     <option v-for="item in roles_filter"
                                                             :value="item.Role"
-                                                            :selected="item.Role == selected_role">
+                                                            :selected="item.Role == selected_role"
+                                                            v-if="allowed_roles.length==0 || allowed_roles.includes(item.Role)">
                                                         [[ item.RoleDescription ]]
                                                     </option>
                                                 </select>
@@ -182,6 +183,9 @@ function {{ id }}_get_form_paramenters(keyword=null, value=null) {
 {% endblock extra_scripts %}
 
 {% block extra_data %}
+
+{% get_current_language as LANGUAGE_CODE %}
+
 {% settings_value "CMS_STORAGE_DEPARTMENTSFILTER_API" as departmentsfilter_api %}
 {% settings_value "CMS_STORAGE_ROLES_API" as roles_api %}
 
@@ -198,13 +202,27 @@ selected_cdsid: this.getItemFromSession("{{ id }}", 'cdsid'),
 selected_role: this.getItemFromSession("{{ id }}", 'role'),
 selected_department_id: this.getItemFromSession("{{ id }}", 'departmentid'),
 selected_keywords: this.getItemFromSession("{{ id }}", 'keywords'),
+
+allowed_roles: [],
+
 {% endblock extra_data %}
 
 {% block extra_mounted %}
+
+// if url if pre-filtered resize select field
+// this allows to auto generate select options according to URL get filters!
+let params = new URLSearchParams(this.url.split('?')[1]);
+
+let get_roles = params.get("roles")
+if (get_roles != null){
+    let get_roles_list = get_roles.split(',')
+    this.allowed_roles = get_roles_list
+}
+
 this.callDepartments();
 this.callRoles();
 
-this.parameters = encodeQueryData(this.getItemsFromSession("{{ id }}"), true)
+this.parameters = encodeQueryData(this.getItemsFromSession("{{ id }}"))
 {% endblock extra_mounted %}
 
 {% block extra_methods %}
