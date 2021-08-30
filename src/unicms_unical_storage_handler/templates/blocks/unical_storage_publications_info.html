@@ -81,10 +81,10 @@
                     </tr>
 
                     <tr>
-                        <td>[[ labels['PublicationUrl'] ]]</td>
+                        <td>{% trans "Link" %}</td>
                         <td>
                             <a :href="item.PublicationUrl" target="_blank">
-                                {% trans "Click here" %}
+                                [[ item.PublicationUrl ]]
                             </a>
                         </td>
                     </tr>
