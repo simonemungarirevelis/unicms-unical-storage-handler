@@ -284,11 +284,11 @@ msgstr "Finalità"
 
 #: templates/blocks/unical_storage_laboratory_info.html:157
 msgid "Services Scope"
-msgstr "Finalità Servizi"
+msgstr "Finalità dei servizi"
 
 #: templates/blocks/unical_storage_laboratory_info.html:162
 msgid "Research Scope"
-msgstr "Personale di ricerca"
+msgstr "Finalità di ricerca"
 
 #: templates/blocks/unical_storage_laboratory_info.html:167
 msgid "Teaching Scope"
