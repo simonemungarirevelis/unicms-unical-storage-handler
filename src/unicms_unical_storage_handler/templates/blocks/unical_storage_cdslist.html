@@ -34,7 +34,7 @@
                 <span v-for="degree in course_types"
                       class="badge badge-grey-unical square-corners my-1 mr-3 ml-0 pr-5 p-2">
                     <div v-if="allowed_course_types.length==0 || allowed_course_types.includes(degree.CourseType)">
-                        <a href="javascript:void(0)" @click="{{ id }}.search('coursetype', degree.CourseType)">
+                        <a class="no-color-all" href="javascript:void(0)" @click="{{ id }}.search('coursetype', degree.CourseType)">
                             <h5>
                                 <b v-if="degree.CourseType == selected_coursetype">
                                     [[ degree.CourseTypeDescription ]]
@@ -48,7 +48,7 @@
                 </span>
                 <span class="badge badge-grey-unical square-corners my-1 mr-3 ml-0 pr-5 p-2"
                       style="font-size: 100%">
-                    <a href="javascript:void(0)" @click="{{ id }}.search('coursetype', allowed_course_types)">
+                    <a class="no-color-all" href="javascript:void(0)" @click="{{ id }}.search('coursetype', allowed_course_types)">
                         <h5>
                             {% trans "All" %}
                         </h5>
@@ -192,8 +192,8 @@
                     <div class="card no-after" style="border:1px solid #b71918">
                         <div class="card-body">
                             <h4>
-                                <a :href="'//{{ host }}/{{ cms_path_prefix }}{{ base_prefix }}/{{ cds_prefix }}/' + [[ item.RegDidId ]] +'/'">
-                                    <h4 class="mb-0">[[ item.CdSName ]]</h4>
+                                <a class="no-color" :href="'//{{ host }}/{{ cms_path_prefix }}{{ base_prefix }}/{{ cds_prefix }}/' + [[ item.RegDidId ]] +'/'">
+                                    [[ item.CdSName ]]
                                 </a>
                                 <h5 style="display: inline">[[ item.CourseTypeDescription ]]</h5>
                                 <h5 v-for="joint in joint_degree_filter"
@@ -223,7 +223,7 @@
                                 </div>
                                 <div class="col text-right">
                                     <small>
-                                        <a href="#" style="color: #b71918">
+                                        <a href="#">
                                             <b>{% trans "Website" %} >></b>
                                         </a>
                                     </small>
