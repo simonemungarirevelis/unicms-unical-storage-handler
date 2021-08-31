@@ -282,7 +282,7 @@ msgstr "Personale di ricerca"
 
 #: templates/blocks/unical_storage_laboratory_info.html:112
 msgid "Teaching Scope"
-msgstr "Insegnamenti"
+msgstr "Finalità Didattiche"
 
 #: templates/blocks/unical_storage_laboratory_info.html:127
 msgid "European Research Council Classification"
