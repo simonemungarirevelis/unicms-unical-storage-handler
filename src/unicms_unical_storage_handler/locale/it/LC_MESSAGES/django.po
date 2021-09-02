@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-08-30 12:54+0200\n"
+"POT-Creation-Date: 2021-09-02 13:23+0200\n"
 "PO-Revision-Date: 2021-08-30 12:52+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -150,7 +150,7 @@ msgid "No items here"
 msgstr "Nessun risultato"
 
 #: templates/blocks/unical_storage_addressbook_info.html:69
-#: templates/blocks/unical_storage_laboratory_info.html:100
+#: templates/blocks/unical_storage_laboratory_info.html:99
 #: templates/blocks/unical_storage_publications_info.html:84
 msgid "Link"
 msgstr ""
@@ -274,39 +274,39 @@ msgstr "Cerca"
 msgid "European Research Council Classification"
 msgstr "Classificazione European Research Council"
 
-#: templates/blocks/unical_storage_laboratory_info.html:122
+#: templates/blocks/unical_storage_laboratory_info.html:121
 msgid "Laboratory Extra Departments"
 msgstr "Altri Dipartimenti Coinvolti"
 
-#: templates/blocks/unical_storage_laboratory_info.html:146
+#: templates/blocks/unical_storage_laboratory_info.html:145
 msgid "Scope"
 msgstr "Finalità"
 
-#: templates/blocks/unical_storage_laboratory_info.html:157
+#: templates/blocks/unical_storage_laboratory_info.html:156
 msgid "Services Scope"
 msgstr "Finalità dei servizi"
 
-#: templates/blocks/unical_storage_laboratory_info.html:162
+#: templates/blocks/unical_storage_laboratory_info.html:161
 msgid "Research Scope"
 msgstr "Finalità di ricerca"
 
-#: templates/blocks/unical_storage_laboratory_info.html:167
+#: templates/blocks/unical_storage_laboratory_info.html:166
 msgid "Teaching Scope"
 msgstr "Finalità Didattiche"
 
-#: templates/blocks/unical_storage_laboratory_info.html:181
+#: templates/blocks/unical_storage_laboratory_info.html:180
 msgid "Offered Services"
 msgstr "Servizi offerti"
 
-#: templates/blocks/unical_storage_laboratory_info.html:207
+#: templates/blocks/unical_storage_laboratory_info.html:206
 msgid "Laboratory Equipment"
 msgstr "Strumentazione"
 
-#: templates/blocks/unical_storage_laboratory_info.html:227
+#: templates/blocks/unical_storage_laboratory_info.html:226
 msgid "Research Personnel"
 msgstr "Personale di ricerca"
 
-#: templates/blocks/unical_storage_laboratory_info.html:251
+#: templates/blocks/unical_storage_laboratory_info.html:250
 msgid "Tech Personnel"
 msgstr "Personale tecnico"
 
