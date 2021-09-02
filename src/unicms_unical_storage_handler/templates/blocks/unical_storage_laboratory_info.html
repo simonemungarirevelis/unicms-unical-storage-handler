@@ -56,11 +56,10 @@
 
                         <td v-if="typeof value === 'object'">
                             <span v-if="name == 'LaboratoryErc1'">
+                                [[ value.Description ]]
                                 <ul>
-                                    <li v-for="erc1 in value">
-                                        <i>[[ erc1.LaboratoryErc0Description ]]</i>
-                                        <br>
-                                        [[ erc1.LaboratoryErc1Description ]]
+                                    <li v-for="erc1 in value.Erc1List">
+                                        [[ erc1.Description ]]
                                     </li>
                                 </ul>
                             </span>
@@ -292,6 +291,7 @@
                         this.item = response.data.results;
                         this.labels = response.data.labels;
                         this.is_loading = false
+                        console.log(this.item)
                     })
             }
         }
