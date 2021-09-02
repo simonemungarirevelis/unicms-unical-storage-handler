@@ -187,11 +187,9 @@
             <div class="collapse-body">
                 <ul>
                     <li v-for="subvalue in item.LaboratoryOfferedServices">
-                        <ul>
-                            <b> [[ subvalue.ServiceName ]] </b>
-                            <br>
-                            [[ subvalue.ServiceDescription ]]
-                        </ul>
+                        <b> [[ subvalue.ServiceName ]] </b>
+                        <br>
+                        [[ subvalue.ServiceDescription ]]
                     </li>
                 </ul>
             </div>
@@ -211,9 +209,7 @@
              role="tabpanel"
              aria-labelledby="{{ id }}_heading-laboratoryequipment-lft">
             <div class="collapse-body">
-                <ul>
-                    [[ item.LaboratoryEquipment ]]
-                </ul>
+                [[ item.LaboratoryEquipment ]]
             </div>
         </div>
 
