@@ -26,11 +26,15 @@
         <div class="col-auto align-left">
             <small>
                 <b>[[ item.Name ]]</b>
+                {% block structure %}
                 <br>
                 <span>[[ item.Structure ]]</span>
+                {% endblock structure %}
+                {% block role %}
                 <br>
                 <span>- [[ item.RoleDescription ]]</span>
-                <br>
+                {% endblock role %}
+                {% block location %}
                 <div>
                     <span>
                         <svg class="icon icon-sm icon-muted mr-2">
@@ -40,6 +44,7 @@
                     </span>
                     <br>
                 </div>
+                {% endblock location %}
                 <div v-for="office_email in item.OfficeReference">
                     <span>
                         <svg class="icon icon-sm icon-muted mr-2">
@@ -58,6 +63,7 @@
                     </span>
                     <br>
                 </div>
+                {% block pec %}
                 <div v-for="pec in item.PEC">
                     <span>
                         <svg class="icon icon-sm icon-muted mr-2">
@@ -67,6 +73,7 @@
                     </span>
                     <br>
                 </div>
+                {% endblock pec %}
                 <div v-for="teloffice in item.TelOffice">
                     <span>
                         <svg class="icon icon-sm icon-muted mr-2">
