@@ -83,11 +83,36 @@
                 </tbody>
             </table>
         </div>
+
+        <!-- CV -->
+        <div id="{{ id }}_collapse-1-lft"
+             class="collapse-div collapse-left-icon"
+             role="tablist"
+             v-if="item.TeacherCVFull">
+            <div class="collapse-header" id="{{ id }}_heading-cvfull-lft">
+                <button data-toggle="collapse"
+                        data-target="#{{ id }}_collapse-cvfull-lft"
+                        aria-expanded="false"
+                        aria-controls="{{ id }}_collapse-cvfull-lft">
+                    {% trans "Curriculum vitae" %}
+                </button>
+            </div>
+            <div id="{{ id }}_collapse-cvfull-lft"
+                 class="collapse"
+                 role="tabpanel"
+                 aria-labelledby="{{ id }}_heading-cvfull-lft">
+                <div class="mt-3">
+                    <div style="white-space: pre-line;">
+                        [[ item.TeacherCVFull ]]
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 
 <!-- Laboratories -->
-<div id="{{ id }}_collapse-1-lft" class="collapse-div collapse-left-icon" role="tablist">
+<div id="{{ id }}_collapse-2-lft" class="collapse-div collapse-left-icon" role="tablist">
     <div class="collapse-header" id="{{ id }}_heading-laboratories-lft">
         <button data-toggle="collapse"
                 data-target="#{{ id }}_collapse-laboratories-lft"
@@ -109,7 +134,7 @@
 </div>
 
 <!-- teacher's activities -->
-<div id="{{ id }}_collapse-2-lft" class="collapse-div collapse-left-icon" role="tablist">
+<div id="{{ id }}_collapse-3-lft" class="collapse-div collapse-left-icon" role="tablist">
     <div class="collapse-header" id="{{ id }}_heading-activities-lft">
         <button data-toggle="collapse"
                 data-target="#{{ id }}_collapse-activities-lft"
@@ -132,7 +157,7 @@
 </div>
 
 <!-- Publications -->
-<div id="{{ id }}_collapse-3-lft" class="collapse-div collapse-left-icon" role="tablist">
+<div id="{{ id }}_collapse-4-lft" class="collapse-div collapse-left-icon" role="tablist">
     <div class="collapse-header" id="{{ id }}_heading-publications-lft">
         <button data-toggle="collapse"
                 data-target="#{{ id }}_collapse-publications-lft"
