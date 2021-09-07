@@ -10,7 +10,7 @@
 {% include "includes/unical_storage_loading.html" %}
 
 
-<div id="{{ id }}">
+<div id="{{ id }}" class="mb-3">
 
     <loading-icon
         v-if="is_loading"
@@ -18,12 +18,12 @@
     </loading-icon>
 
     <div v-else class="row">
-        <div class="col-auto">
+        <div class="col-2">
             <svg class="icon icon-lg icon-muted">
                 <use xlink:href="{% static 'svg/sprite.svg' %}#it-user"></use>
             </svg>
         </div>
-        <div class="col-auto align-left">
+        <div class="col-9 pl-3 align-left">
             <small>
                 <b>[[ item.Name ]]</b>
                 {% block structure %}
