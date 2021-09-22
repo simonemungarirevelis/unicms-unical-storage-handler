@@ -36,6 +36,8 @@
             </h3>
         </div>
         <p>
+            [[ labels['CdSCod'] ]] [[ item.CdSCod ]]
+            <br>
             {% trans "Degree class" %} [[ item.CourseClassId ]]
             <br>
             [[ item.CourseClassName ]]
@@ -46,7 +48,7 @@
                     <div class="row">
                         <div class="col-12 col-md-auto">
                             <small>
-                                [[ labels['AcademicYear'] ]] >
+                                [[ labels['AcademicYear'] ]]
                                 <b>[[ item.AcademicYear ]]/[[ item.AcademicYear + 1 ]]</b>
                             </small>
                         </div>
