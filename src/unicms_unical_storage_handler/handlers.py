@@ -301,7 +301,7 @@ class LaboratoryListViewHandler(BaseStorageHandler):
     @property
     def breadcrumbs(self):
         root = (self.get_base_url, settings.CMS_STORAGE_ROOT_LABEL)
-        leaf = ('#', settings.CMS_STORAGE_STRUCTURE_LABEL)
+        leaf = ('#', settings.CMS_STORAGE_LABORATORY_LABEL)
         return (root, leaf)
 
 
@@ -360,3 +360,43 @@ class PublicationsInfoViewHandler(BaseStorageHandler):
         leaf = ('#', self.code)
         return (root, teacherslist, teacherid, publications, leaf)
 
+
+class ResearchGroupListViewHandler(BaseStorageHandler):
+    template = "storage_research_group_list.html"
+
+    def __init__(self, **kwargs):
+        super(ResearchGroupListViewHandler, self).__init__(**kwargs)
+
+    def as_view(self):
+        self.data['url'] = f'{settings.CMS_STORAGE_RESEARCH_GROUP_API}'
+        return super().as_view()
+
+    @property
+    def breadcrumbs(self):
+        root = (self.get_base_url, settings.CMS_STORAGE_ROOT_LABEL)
+        leaf = ('#', settings.CMS_STORAGE_RESEARCH_GROUP_LABEL)
+        return (root, leaf)
+
+
+# class ResearchGroupViewHandler(BaseStorageHandler):
+    # template = "storage_research_group_info.html"
+
+    # def __init__(self, **kwargs):
+        # super(LaboratoryInfoViewHandler, self).__init__(**kwargs)
+        # self.code = self.match_dict.get('code', '')
+
+    # def as_view(self):
+        # self.data['url'] = f'{settings.CMS_STORAGE_LABORATORY_API}{self.code}/'
+        # return super().as_view()
+
+    # @property
+    # def parent_url(self):
+        # url = f'{self.webpath.get_full_path()}/{settings.CMS_STORAGE_BASE_PATH}/{settings.CMS_STORAGE_LABORATORY_VIEW_PREFIX_PATH}/'
+        # return sanitize_path(url)
+
+    # @property
+    # def breadcrumbs(self):
+        # root = (self.get_base_url, settings.CMS_STORAGE_ROOT_LABEL)
+        # parent = (self.parent_url, settings.CMS_STORAGE_LABORATORY_LABEL)
+        # leaf = ('#', self.code)
+        # return (root, parent, leaf)

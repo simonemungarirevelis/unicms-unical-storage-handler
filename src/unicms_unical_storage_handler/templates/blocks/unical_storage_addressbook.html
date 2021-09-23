@@ -198,11 +198,12 @@ function {{ id }}_get_form_paramenters(keyword=null, value=null) {
     let search = document.getElementById('{{ id }}_keywords').value
     if (search) dict['keywords'] = search
 
-    {% block structure_filter_input %}
+
     // structure id
     let structure_id = document.getElementById('{{ id }}_structure_input').value
     if (structure_id) dict['structureid'] = structure_id
 
+    {% block structure_filter_input %}
     // structure type
     let structure_type = document.getElementById('{{ id }}_structure_type_input').value
     if (structure_type) dict['structuretypes'] = structure_type
