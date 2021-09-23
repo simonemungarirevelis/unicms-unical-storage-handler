@@ -11,7 +11,7 @@
 
 {% settings_value "CMS_PATH_PREFIX" as cms_path_prefix %}
 {% settings_value "CMS_STORAGE_BASE_PATH" as base_prefix %}
-{% settings_value "CMS_STORAGE_LABORATORY_VIEW_PREFIX_PATH" as laboratory_prefix %}
+{% settings_value "CMS_STORAGE_THEACHER_VIEW_PREFIX_PATH" as teacher_prefix %}
 
 <div id="{{ id }}">
 
@@ -32,37 +32,8 @@
 
                             {% block filters %}
                             <div class="form-group">
-                                <!-- Areas & Department -->
-
-                                <loading-icon
-                                    v-if="is_loading_areas"
-                                    :loader_source="loader_source_areas">
-                                </loading-icon>
-
-                                <div class="row" v-else>
-
-                                    <div class="col-sm">
-                                        <div>
-                                            <label for="{{ id }}_area_input">
-                                                {% trans "Area" %}
-                                            </label>
-                                            <div class="w-30 mt-5">
-                                                <select id="{{ id }}_area_input"
-                                                        title="{% trans 'Choose an option' %}"
-                                                        name="{{ id }}_area_input"
-                                                        class="form-control"
-                                                        @change="{{ id }}.search()">
-                                                  <option value="">- {% trans 'Choose an option' %} -</option>
-                                                  <option v-for="item in areas"
-                                                          :value="item.Area"
-                                                          :selected="item.Area == selected_area">
-                                                      [[ item.Area ]]
-                                                  </option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
-
+                                <!-- Department -->
+                                <div class="row">
                                     <loading-icon
                                         v-if="is_loading_departments"
                                         :loader_source="loader_source_departments">
@@ -91,39 +62,6 @@
                                     </div>
                                 </div>
 
-                                <loading-icon
-                                    v-if="is_loading_erc1"
-                                    :loader_source="loader_source_erc1">
-                                </loading-icon>
-
-                                <div class="row" v-else>
-                                    <div class="col-12">
-                                        <div class="mt-5">
-                                            <label for="{{ id }}_erc1_input">
-                                                {% trans "ERC 1" %}
-                                            </label>
-                                            <select id="{{ id }}_erc1_input"
-                                                    class="form-control"
-                                                    name="{{ id }}_erc1_input"
-                                                    title="{% trans 'Choose an option' %}"
-                                                    multiple
-                                                    @change="{{ id }}.search()">
-                                                <option value="">- {% trans 'Clear all' %} -</option>
-                                                <optgroup v-for="item in erc1_list"
-                                                          :label="item.Description"
-                                                          style="font-weight: bold">
-                                                    <option v-for="erc1_item in item.Erc1List"
-                                                            :value="erc1_item.IdErc1"
-                                                            :selected="selected_erc1.includes(erc1_item.IdErc1)">
-                                                        [[ erc1_item.Description ]]
-                                                    </option>
-                                                </optgroup>
-
-                                          </select>
-                                        </div>
-                                    </div>
-
-                                </div>
                             </div>
                             {% endblock filters %}
                         </div>
@@ -141,7 +79,7 @@
                     <div class="card no-after" style="border:1px solid #b71918">
                         <div class="card-body">
                             <h4>
-                                <a class="no-color" href="#">
+                                <a class="no-color">
                                     [[ item.RGroupName ]]
                                 </a>
                             </h4>
@@ -152,12 +90,12 @@
                                     </small>
                                 </div>
                             </div>
-                            <div class="row">
+                            <div class="row mt-2">
                                 <div class="col-12 col-md-auto">
                                     <small>
                                         [[ labels['Teachers'] ]] >
                                         <b v-for="(teacher, index) in item.Teachers">
-                                            <a href="">
+                                            <a :href="'//{{ host }}/{{ cms_path_prefix }}{{ base_prefix }}/{{ teacher_prefix }}/' + [[ teacher.TeacherID ]] +'/'">
                                                 [[ teacher.TeacherName ]]
                                             </a>
                                             <span v-if="index != item.Teachers.length -1">,&nbsp;</span>
@@ -196,29 +134,13 @@ function {{ id }}_get_form_paramenters(keyword=null, value=null) {
     let search = document.getElementById('{{ id }}_keywords').value
     if (search) dict['keywords'] = search
 
-    {% block laboratory_filter_input %}
-
-        // area
-        let area = document.getElementById('{{ id }}_area_input').value
-        if (area) dict['area'] = area
+    {% block researchgroup_filter_input %}
 
         // department
         let department = document.getElementById('{{ id }}_department_input').value
         if (department) dict['department'] = department
 
-        // erc1
-        let erc1 = document.getElementById('{{ id }}_erc1_input')
-        let erc1_selected = [];
-        for (var option of erc1.options)
-        {
-            if (option.selected) {
-                erc1_selected.push(option.value);
-            }
-        }
-        let erc1_values = erc1_selected.join(",")
-        if(erc1_values) dict['erc1'] = erc1_values
-
-    {% endblock laboratory_filter_input %}
+    {% endblock researchgroup_filter_input %}
 
     setItemInSession("{{ id }}", dict)
 
@@ -231,51 +153,31 @@ function {{ id }}_get_form_paramenters(keyword=null, value=null) {
 
 {% get_current_language as LANGUAGE_CODE %}
 {% settings_value "CMS_STORAGE_DEPARTMENTSFILTER_API" as departmentsfilter_api %}
-{% settings_value "CMS_STORAGE_LABORATORIESAREAS_API" as laboratoriesareas_api %}
-{% settings_value "CMS_STORAGE_ERC1LIST_API" as erc1list_api %}
 
 search_dict: {},
 departments: [],
-areas: [],
-erc1_list: [],
 
 is_loading_departments: true,
-is_loading_areas: true,
-is_loading_erc1: true,
 
 loader_source_departments: '{{ departmentsfilter_api }}?lang={{ LANGUAGE_CODE }}',
-loader_source_areas: '{{ laboratoriesareas_api }}?lang={{ LANGUAGE_CODE }}',
-loader_source_erc1: '{{ erc1list_api }}?lang={{ LANGUAGE_CODE }}',
 
-selected_area: this.getItemFromSession("{{ id }}", 'area'),
 selected_department: this.getItemFromSession("{{ id }}", 'department'),
 selected_keywords: this.getItemFromSession("{{ id }}", 'keywords'),
-selected_erc1: (this.getItemFromSession("{{ id }}", 'erc1') || "").split(",")
 
 {% endblock extra_data %}
 
 {% block extra_mounted %}
 
-    {% block call_laboratory_on_mounted %}
-        this.callAreas();
+    {% block call_researchgroup_on_mounted %}
         this.callDepartments();
-        this.callERC1List();
-    {% endblock call_laboratory_on_mounted %}
+    {% endblock call_researchgroup_on_mounted %}
 
 this.parameters = encodeQueryData(this.getItemsFromSession("{{ id }}"))
 {% endblock extra_mounted %}
 
 {% block extra_methods %}
 
-    {% block laboratory_call_method %}
-    callAreas() {
-        axios
-            .get(this.loader_source_areas)
-            .then(response => {
-                this.areas = response.data.results;
-                this.is_loading_areas = false
-            })
-    },
+    {% block researchgroup_call_method %}
     callDepartments() {
         axios
             .get(this.loader_source_departments)
@@ -284,15 +186,7 @@ this.parameters = encodeQueryData(this.getItemsFromSession("{{ id }}"))
                 this.is_loading_departments = false
             })
     },
-    callERC1List(params) {
-        axios
-            .get(this.loader_source_erc1)
-            .then(response => {
-                this.erc1_list = response.data.results;
-                this.is_loading_erc1 = false
-            })
-    },
-    {% endblock laboratory_call_method %}
+    {% endblock researchgroup_call_method %}
 
 {% endblock extra_methods %}
 </script>
