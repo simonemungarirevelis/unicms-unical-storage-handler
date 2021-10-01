@@ -89,9 +89,9 @@
                                                         @change="{{ id }}.search()">
                                                     <option value="">- {% trans 'Choose an option' %} -</option>
                                                     <option v-for="item in structure_id_filter"
-                                                            :value="item.StructureId"
-                                                            :selected="item.StructureId == selected_structureid"
-                                                            v-if="allowed_structure_id.length==0 || allowed_structure_id.includes(item.StructureId)">
+                                                            :value="item.StructureCod"
+                                                            :selected="item.StructureCod == selected_structureid"
+                                                            v-if="allowed_structure_id.length==0 || allowed_structure_id.includes(item.StructureCod)">
                                                         [[ item.StructureName ]]
                                                     </option>
                                                 </select>
@@ -195,13 +195,13 @@ function {{ id }}_get_form_paramenters(keyword=null, value=null) {
         dict[keyword] = value
 
     // search
-    let search = document.getElementById('{{ id }}_keywords').value
-    if (search) dict['keywords'] = search
+    let search = document.getElementById('{{ id }}_search').value
+    if (search) dict['search'] = search
 
 
     // structure id
     let structure_id = document.getElementById('{{ id }}_structure_input').value
-    if (structure_id) dict['structureid'] = structure_id
+    if (structure_id) dict['structure'] = structure_id
 
     {% block structure_filter_input %}
     // structure type
@@ -211,7 +211,7 @@ function {{ id }}_get_form_paramenters(keyword=null, value=null) {
 
     // role
     let role = document.getElementById('{{ id }}_role_input').value
-    if (role) dict['roles'] = role
+    if (role) dict['role'] = role
 
     setItemInSession("{{ id }}", dict)
 
@@ -229,10 +229,10 @@ function {{ id }}_get_form_paramenters(keyword=null, value=null) {
 
 search_dict: {},
 
-selected_structureid: this.getItemFromSession("{{ id }}", 'structureid'),
+selected_structureid: this.getItemFromSession("{{ id }}", 'structure'),
 selected_structuretypes: this.getItemFromSession("{{ id }}", 'structuretypes'),
-selected_roles: this.getItemFromSession("{{ id }}", 'roles'),
-selected_keywords: this.getItemFromSession("{{ id }}", 'keywords'),
+selected_roles: this.getItemFromSession("{{ id }}", 'role'),
+selected_search: this.getItemFromSession("{{ id }}", 'search'),
 
 is_loading_structure_id: true,
 is_loading_structure_type: true,
@@ -260,7 +260,7 @@ structure_type_filter_string: null
     // this allows to auto generate select options according to URL get filters!
     let params = new URLSearchParams(this.url.split('?')[1]);
 
-    let get_roles = params.get("roles")
+    let get_roles = params.get("role")
     if (get_roles != null){
         let get_roles_list = get_roles.split(',')
         this.allowed_roles = get_roles_list
@@ -273,7 +273,7 @@ structure_type_filter_string: null
         this.allowed_structure_types = get_structure_types_list
     }
 
-    let get_structure_id = params.get("structureid")
+    let get_structure_id = params.get("structure")
     if (get_structure_id != null){
         let get_structure_id_list = get_structure_id.split(',')
         this.allowed_structure_id = get_structure_id_list

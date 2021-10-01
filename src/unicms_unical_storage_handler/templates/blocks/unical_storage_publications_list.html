@@ -153,8 +153,8 @@ function {{ id }}_get_form_paramenters(keyword=null, value=null) {
         dict[keyword] = value
 
     // search
-    let search = document.getElementById('{{ id }}_keywords').value
-    if (search) dict['keywords'] = search
+    let search = document.getElementById('{{ id }}_search').value
+    if (search) dict['search'] = search
 
     // year
     let year = document.getElementById('{{ id }}_year_input').value
@@ -174,7 +174,7 @@ function {{ id }}_get_form_paramenters(keyword=null, value=null) {
 {% block extra_data %}
 
 selected_types: this.getItemFromSession("{{ id }}", 'type'),
-selected_keywords: this.getItemFromSession("{{ id }}", 'keywords'),
+selected_search: this.getItemFromSession("{{ id }}", 'search'),
 selected_year: this.getItemFromSession("{{ id }}", 'year'),
 
 is_loading_types: true,

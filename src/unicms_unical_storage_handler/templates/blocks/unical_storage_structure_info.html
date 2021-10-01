@@ -149,7 +149,7 @@
             <div class="mt-3">
                 {% with allowed_addressbook_roles|join:"," as allowed_address_book_roles_list %}
                 {% with allowed_structure_types|join:"," as allowed_structure_types_list %}
-                {% with addressbook_api|add:"?structuretree="|add:code|add:"&roles="|add:allowed_address_book_roles_list|add:"&structuretypes="|add:allowed_structure_types_list as personnel_url %}
+                {% with addressbook_api|add:"?structuretree="|add:code|add:"&role="|add:allowed_address_book_roles_list|add:"&structuretypes="|add:allowed_structure_types_list as personnel_url %}
                 {% include "blocks/unical_storage_addressbook_without_structure_type_filter.html" with url=personnel_url structure_id=code uid=id|add:"_1" %}
                 {% endwith %}
                 {% endwith %}

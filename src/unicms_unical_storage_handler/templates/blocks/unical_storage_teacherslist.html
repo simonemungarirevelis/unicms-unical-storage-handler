@@ -69,8 +69,8 @@
                                                         @change="{{ id }}.search()">
                                                     <option value="">- {% trans 'Choose an option' %} -</option>
                                                     <option v-for="item in departments_filter"
-                                                            :value="item.DepartmentID"
-                                                            :selected="item.DepartmentID == selected_department_id">
+                                                            :value="item.DepartmentCod"
+                                                            :selected="item.DepartmentCod == selected_department_id">
                                                         [[ item.DepartmentName ]]
                                                     </option>
                                                 </select>
@@ -160,20 +160,20 @@ function {{ id }}_get_form_paramenters(keyword=null, value=null) {
         dict[keyword] = value
 
     // search
-    let search = document.getElementById('{{ id }}_keywords').value
-    if (search) dict['keywords'] = search
+    let search = document.getElementById('{{ id }}_search').value
+    if (search) dict['search'] = search
 
-    // cdsid
+    // cds
     let cdsid = document.getElementById('{{ id }}_cdsid_input').value
-    if (cdsid) dict['cdsid'] = cdsid
+    if (cdsid) dict['cds'] = cdsid
 
     // role
     let role = document.getElementById('{{ id }}_role_input').value
     if (role) dict['role'] = role
 
-    // department id
+    // department
     let department = document.getElementById('{{ id }}_department_input').value
-    if (department) dict['departmentid'] = department
+    if (department) dict['department'] = department
 
     setItemInSession("{{ id }}", dict)
 
@@ -198,10 +198,10 @@ loader_source_roles: '{{ roles_api }}?lang={{ LANGUAGE_CODE }}',
 departments_filter: [],
 roles_filter: [],
 
-selected_cdsid: this.getItemFromSession("{{ id }}", 'cdsid'),
+selected_cdsid: this.getItemFromSession("{{ id }}", 'cds'),
 selected_role: this.getItemFromSession("{{ id }}", 'role'),
-selected_department_id: this.getItemFromSession("{{ id }}", 'departmentid'),
-selected_keywords: this.getItemFromSession("{{ id }}", 'keywords'),
+selected_department_id: this.getItemFromSession("{{ id }}", 'department'),
+selected_search: this.getItemFromSession("{{ id }}", 'search'),
 
 allowed_roles: [],
 
@@ -213,7 +213,7 @@ allowed_roles: [],
 // this allows to auto generate select options according to URL get filters!
 let params = new URLSearchParams(this.url.split('?')[1]);
 
-let get_roles = params.get("roles")
+let get_roles = params.get("role")
 if (get_roles != null){
     let get_roles_list = get_roles.split(',')
     this.allowed_roles = get_roles_list

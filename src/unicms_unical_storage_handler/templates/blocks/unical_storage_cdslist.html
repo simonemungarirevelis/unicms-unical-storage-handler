@@ -120,8 +120,8 @@
                                                         @change="{{ id }}.search('coursetype', selected_coursetype)">
                                                     <option value="">- {% trans 'Choose an option' %} -</option>
                                                     <option v-for="item in departments_filter"
-                                                            :value="item.DepartmentID"
-                                                            :selected="item.DepartmentID == selected_department_id">
+                                                            :value="item.DepartmentCod"
+                                                            :selected="item.DepartmentCod == selected_department_id">
                                                         [[ item.DepartmentName ]]
                                                     </option>
                                                 </select>
@@ -263,8 +263,8 @@ function {{ id }}_get_form_paramenters(keyword=null, value=null) {
         dict[keyword] = value
 
     // search
-    let search = document.getElementById('{{ id }}_keywords').value
-    dict['keywords'] = search
+    let search = document.getElementById('{{ id }}_search').value
+    dict['search'] = search
 
     // academic year
     let academic_year = document.getElementById('{{ id }}_academic_year_input').value
@@ -272,7 +272,7 @@ function {{ id }}_get_form_paramenters(keyword=null, value=null) {
 
     // department name
     let department = document.getElementById('{{ id }}_department_input').value
-    if (department) dict['departmentid'] = department
+    if (department) dict['departmentcod'] = department
 
     // cds language
     let cds_language = document.getElementById('{{ id }}_cds_language_input').value
@@ -302,10 +302,10 @@ function {{ id }}_get_form_paramenters(keyword=null, value=null) {
 
 selected_coursetype: this.getItemFromSession("{{ id }}", 'coursetype'),
 selected_academic_year: this.getItemFromSession("{{ id }}", 'academicyear'),
-selected_department_id: this.getItemFromSession("{{ id }}", 'departmentid'),
+selected_department_id: this.getItemFromSession("{{ id }}", 'departmentcod'),
 selected_language: this.getItemFromSession("{{ id }}", 'cdslanguage'),
 selected_jointdegree: this.getItemFromSession("{{ id }}", 'jointdegree'),
-selected_keywords: this.getItemFromSession("{{ id }}", 'keywords'),
+selected_search: this.getItemFromSession("{{ id }}", 'search'),
 
 allowed_course_types: [],
 course_types: [],

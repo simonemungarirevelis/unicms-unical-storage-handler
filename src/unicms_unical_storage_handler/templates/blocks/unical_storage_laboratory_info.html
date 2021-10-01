@@ -128,7 +128,7 @@
             <div class="collapse-body">
                 <ul>
                     <li v-for="subvalue in item.ExtraDepartments" v-if="subvalue.DepartmentName && subvalue.DepartmentName != ''">
-                        <a :href="'//{{ host }}/{{ cms_path_prefix }}{{ base_prefix }}/{{ structures_prefix }}/' + [[ subvalue.DepartmentID ]] +'/'">
+                        <a :href="'//{{ host }}/{{ cms_path_prefix }}{{ base_prefix }}/{{ structures_prefix }}/' + [[ subvalue.DepartmentCod ]] +'/'">
                             [[ subvalue.DepartmentName ]]
                         </a>
                     </li>

@@ -148,7 +148,7 @@ class TeacherListViewHandler(BaseStorageHandler):
         data = {}
 
         if settings.ALLOWED_TEACHER_ROLES:
-            data['roles'] = ",".join(settings.ALLOWED_TEACHER_ROLES)
+            data['role'] = ",".join(settings.ALLOWED_TEACHER_ROLES)
 
         params = urllib.parse.urlencode(data)
         self.data['url'] = f'{settings.CMS_STORAGE_TEACHER_API}?{params}'
@@ -197,9 +197,9 @@ class AddressbookListViewHandler(BaseStorageHandler):
         data = {}
 
         if settings.ALLOWED_ADDRESSBOOK_ROLES:
-            data['roles'] = ",".join(settings.ALLOWED_ADDRESSBOOK_ROLES)
+            data['role'] = ",".join(settings.ALLOWED_ADDRESSBOOK_ROLES)
         if settings.ALLOWED_ADDRESSBOOK_STRUCTURE_ID:
-            data['structureid'] = ",".join(settings.ALLOWED_ADDRESSBOOK_STRUCTURE_ID)
+            data['structure'] = ",".join(settings.ALLOWED_ADDRESSBOOK_STRUCTURE_ID)
         if settings.ALLOWED_STRUCTURE_TYPES:
             data['structuretypes'] = ",".join(settings.ALLOWED_STRUCTURE_TYPES)
 

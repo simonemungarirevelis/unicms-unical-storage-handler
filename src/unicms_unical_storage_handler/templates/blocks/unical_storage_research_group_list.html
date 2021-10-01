@@ -52,8 +52,8 @@
                                                         @change="{{ id }}.search()">
                                                     <option value="">- {% trans 'Choose an option' %} -</option>
                                                     <option v-for="item in departments"
-                                                            :value="item.DepartmentID"
-                                                            :selected="item.DepartmentID == selected_department">
+                                                            :value="item.DepartmentCod"
+                                                            :selected="item.DepartmentCod == selected_department">
                                                         [[ item.DepartmentName ]]
                                                     </option>
                                                 </select>
@@ -131,8 +131,8 @@ function {{ id }}_get_form_paramenters(keyword=null, value=null) {
 
 
     // search
-    let search = document.getElementById('{{ id }}_keywords').value
-    if (search) dict['keywords'] = search
+    let search = document.getElementById('{{ id }}_search').value
+    if (search) dict['search'] = search
 
     {% block researchgroup_filter_input %}
 
@@ -162,7 +162,7 @@ is_loading_departments: true,
 loader_source_departments: '{{ departmentsfilter_api }}?lang={{ LANGUAGE_CODE }}',
 
 selected_department: this.getItemFromSession("{{ id }}", 'department'),
-selected_keywords: this.getItemFromSession("{{ id }}", 'keywords'),
+selected_search: this.getItemFromSession("{{ id }}", 'search'),
 
 {% endblock extra_data %}
 
