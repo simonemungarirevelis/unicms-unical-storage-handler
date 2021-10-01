@@ -137,6 +137,43 @@
                     </div>
                     <!--end card-->
                 </div>
+
+                <div class="col-12 col-lg-4">
+                    <!--start card-->
+                    <div class="card-wrapper card-space">
+                        <div class="card card-bg card-big no-after">
+                            <div class="card-body">
+                                <h5 class="card-title">
+                                    {% trans "Base research lines" %}
+                                </h5>
+                                {% settings_value "CMS_STORAGE_BASE_RESEARCH_LINE_VIEW_PREFIX_PATH" as base_research_lines_prefix %}
+                                <a href="//{{ host }}/{{ cms_path_prefix }}{{ base_prefix }}/{{ base_research_lines_prefix }}/" role="button" class="btn btn-outline-primary btn-sm">
+                                    {% trans "See the list" %}
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <!--end card-->
+                </div>
+
+                <div class="col-12 col-lg-4">
+                    <!--start card-->
+                    <div class="card-wrapper card-space">
+                        <div class="card card-bg card-big no-after">
+                            <div class="card-body">
+                                <h5 class="card-title">
+                                    {% trans "Applied research lines" %}
+                                </h5>
+                                {% settings_value "CMS_STORAGE_APPLIED_RESEARCH_LINE_VIEW_PREFIX_PATH" as applied_research_lines_prefix %}
+                                <a href="//{{ host }}/{{ cms_path_prefix }}{{ base_prefix }}/{{ applied_research_lines_prefix }}/" role="button" class="btn btn-outline-primary btn-sm">
+                                    {% trans "See the list" %}
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <!--end card-->
+                </div>
+
             </div>
         {% endblock %}
     </div>

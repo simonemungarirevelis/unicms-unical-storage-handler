@@ -378,25 +378,35 @@ class ResearchGroupListViewHandler(BaseStorageHandler):
         return (root, leaf)
 
 
-# class ResearchGroupViewHandler(BaseStorageHandler):
-    # template = "storage_research_group_info.html"
+class BaseResearchLineListViewHandler(BaseStorageHandler):
+    template = "storage_base_research_line_list.html"
 
-    # def __init__(self, **kwargs):
-        # super(LaboratoryInfoViewHandler, self).__init__(**kwargs)
-        # self.code = self.match_dict.get('code', '')
+    def __init__(self, **kwargs):
+        super(BaseResearchLineListViewHandler, self).__init__(**kwargs)
 
-    # def as_view(self):
-        # self.data['url'] = f'{settings.CMS_STORAGE_LABORATORY_API}{self.code}/'
-        # return super().as_view()
+    def as_view(self):
+        self.data['url'] = f'{settings.CMS_STORAGE_BASE_RESEARCH_LINE_API}'
+        return super().as_view()
 
-    # @property
-    # def parent_url(self):
-        # url = f'{self.webpath.get_full_path()}/{settings.CMS_STORAGE_BASE_PATH}/{settings.CMS_STORAGE_LABORATORY_VIEW_PREFIX_PATH}/'
-        # return sanitize_path(url)
+    @property
+    def breadcrumbs(self):
+        root = (self.get_base_url, settings.CMS_STORAGE_ROOT_LABEL)
+        leaf = ('#', settings.CMS_STORAGE_BASE_RESEARCH_LINE_LABEL)
+        return (root, leaf)
 
-    # @property
-    # def breadcrumbs(self):
-        # root = (self.get_base_url, settings.CMS_STORAGE_ROOT_LABEL)
-        # parent = (self.parent_url, settings.CMS_STORAGE_LABORATORY_LABEL)
-        # leaf = ('#', self.code)
-        # return (root, parent, leaf)
+
+class AppliedResearchLineListViewHandler(BaseStorageHandler):
+    template = "storage_applied_research_line_list.html"
+
+    def __init__(self, **kwargs):
+        super(ApplicatedResearchLineListViewHandler, self).__init__(**kwargs)
+
+    def as_view(self):
+        self.data['url'] = f'{settings.CMS_STORAGE_APPLIED_RESEARCH_LINE_API}'
+        return super().as_view()
+
+    @property
+    def breadcrumbs(self):
+        root = (self.get_base_url, settings.CMS_STORAGE_ROOT_LABEL)
+        leaf = ('#', settings.CMS_STORAGE_APPLIED_RESEARCH_LINE_LABEL)
+        return (root, leaf)
