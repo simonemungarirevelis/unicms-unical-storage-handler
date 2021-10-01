@@ -84,20 +84,12 @@
                         </td>
                         <td v-else>
                             <a v-if="name == 'StructureFatherName'" :href="'//{{ host }}/{{ cms_path_prefix }}{{ base_prefix }}/{{ structures_prefix }}/' + [[ item.StructureFatherId ]] +'/'">
-                                        [[ item.Name ]]
+                                        [[ item.StructureFatherName ]]
                                     </a>
                             <span v-else style="white-space: pre-line;">
                                 [[ value ]]
                             </span>
                         </td>
-                    </tr>
-                    <tr>
-                        <td>Descrizione</td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td>Ubicazione</td>
-                        <td>Cubo 31C</td>
                     </tr>
                 </tbody>
             </table>
