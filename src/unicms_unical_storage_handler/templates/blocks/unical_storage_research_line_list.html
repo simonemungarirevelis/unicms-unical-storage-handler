@@ -80,18 +80,24 @@
                         <div class="card-body">
                             <h4>
                                 <a class="no-color">
-
+                                    [[ item.RLineDescription ]]
                                 </a>
                             </h4>
-                            <div class="row">
+                            <div class="row" v-if="item.RLineResults">
                                 <div class="col-12 col-md-auto">
                                     <small>
-
+                                        [[ item.RLineResults ]]
                                     </small>
                                 </div>
                             </div>
-                            <div class="row mt-2" v-if="item.Teachers.length > 0">
-                                <div class="col-12 col-md-auto">
+                            <div class="row mt-2" v-if="item.Teachers.length > 0 || item.RYear || item.RLineErc2Name">
+                                <div class="col-12 col-md-auto" v-if="item.RYear">
+                                    <small>
+                                        [[ labels['RYear'] ]] >
+                                        <b>[[ item.RYear ]]</b>
+                                    </small>
+                                </div>
+                                <div class="col-12 col-md-auto" v-if="item.Teachers.length > 0">
                                     <small>
                                         [[ labels['Teachers'] ]] >
                                         <b v-for="(teacher, index) in item.Teachers">
@@ -100,6 +106,12 @@
                                             </a>
                                             <span v-if="index != item.Teachers.length -1">,&nbsp;</span>
                                         </b>
+                                    </small>
+                                </div>
+                                <div class="col-12 col-md-auto" v-if="item.RLineErc2Name">
+                                    <small>
+                                        [[ labels['RLineErc2Name'] ]] >
+                                        <b>[[ item.RLineErc2Name ]]</b>
                                     </small>
                                 </div>
                             </div>

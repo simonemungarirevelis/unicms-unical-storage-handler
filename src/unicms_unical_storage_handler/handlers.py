@@ -399,7 +399,7 @@ class AppliedResearchLineListViewHandler(BaseStorageHandler):
     template = "storage_applied_research_line_list.html"
 
     def __init__(self, **kwargs):
-        super(ApplicatedResearchLineListViewHandler, self).__init__(**kwargs)
+        super(AppliedResearchLineListViewHandler, self).__init__(**kwargs)
 
     def as_view(self):
         self.data['url'] = f'{settings.CMS_STORAGE_APPLIED_RESEARCH_LINE_API}'
