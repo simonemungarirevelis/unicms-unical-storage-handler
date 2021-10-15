@@ -40,7 +40,6 @@ description:
 
       The entire code is open sourced and therefore licensed under
       the Apache 2.0.
-    screenshots:
     shortDescription: >-
       uniCMS storage.unical.it APIs handler
 developmentStatus: stable
