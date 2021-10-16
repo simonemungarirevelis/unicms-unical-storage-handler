@@ -78,7 +78,7 @@ maintenance:
     - email: giuseppe.demarco@unical.it
       name: Giuseppe De Marco
   type: internal
-name: https://github.com/UniversitaDellaCalabria/unicms-unical-storage-handler
+name: uniCMS - Unical storage API handler
 platforms:
   - linux
   - web
