@@ -36,11 +36,15 @@
             </h3>
         </div>
         <p>
-            [[ labels['CdSCod'] ]] [[ item.CdSCod ]]
+            [[ labels['CdSCod'] ]]  [[ item.CdSCod ]]
             <br>
-            {% trans "Degree class" %} [[ item.CourseClassId ]]
+            {% trans "Degree class" %} [[ item.CourseClassCod ]]
             <br>
             [[ item.CourseClassName ]]
+            <br>
+            {% trans "Interclass Course" %} [[ item.CourseInterClassCod ]]
+            <br>
+            [[ item.CourseInterClassDes ]]
         </p>
         <div class="card-wrapper pb-0">
             <div class="card no-after" style="border:1px solid #b71918">
