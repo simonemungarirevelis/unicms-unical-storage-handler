@@ -189,7 +189,7 @@ types_filter: []
 
 {% block extra_mounted %}
 
-    this.parameters = encodeQueryData(this.getItemsFromSession("{{ id }}"))
+    this.parameters = {{ id }}_encodeQueryData(this.getItemsFromSession("{{ id }}"))
     this.callTypes();
 
 {% endblock extra_mounted %}

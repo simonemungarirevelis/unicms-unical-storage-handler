@@ -286,7 +286,7 @@ structure_type_filter_string: null
 
     this.callRoles();
 
-    this.parameters = encodeQueryData(this.getItemsFromSession("{{ id }}"))
+    this.parameters = {{ id }}_encodeQueryData(this.getItemsFromSession("{{ id }}"))
 {% endblock extra_mounted %}
 
 {% block extra_methods %}

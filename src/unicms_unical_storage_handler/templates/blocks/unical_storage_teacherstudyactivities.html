@@ -185,6 +185,6 @@ selected_year_to: this.getItemFromSession("{{ id }}", 'yearTo'),
 
 {% block extra_mounted %}
 
-this.parameters = encodeQueryData(this.getItemsFromSession("{{ id }}"))
+this.parameters = {{ id }}_encodeQueryData(this.getItemsFromSession("{{ id }}"))
 
 {% endblock extra_mounted %}

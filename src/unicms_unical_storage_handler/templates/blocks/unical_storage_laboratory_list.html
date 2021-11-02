@@ -268,7 +268,7 @@ selected_erc1: (this.getItemFromSession("{{ id }}", 'erc1') || "").split(",")
         this.callERC1List();
     {% endblock call_laboratory_on_mounted %}
 
-this.parameters = encodeQueryData(this.getItemsFromSession("{{ id }}"))
+this.parameters = {{ id }}_encodeQueryData(this.getItemsFromSession("{{ id }}"))
 {% endblock extra_mounted %}
 
 {% block extra_methods %}

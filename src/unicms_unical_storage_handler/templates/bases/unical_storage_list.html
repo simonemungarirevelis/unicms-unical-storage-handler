@@ -17,7 +17,7 @@
 {% block scripts %}
 <script src="{% static 'js/unicms_ush_utils.js' %}"></script>
 <script>
-function encodeQueryData(data=[]) {
+function {{ id }}_encodeQueryData(data=[]) {
     const ret = ["lang={{ LANGUAGE_CODE }}"];
     for (let d in data)
         ret.push(encodeURIComponent(d) + '=' + encodeURIComponent(data[d]));
@@ -74,7 +74,7 @@ var {{ id }} = new Vue({
     el: '[id="{{ id }}"]',
     data() {
         return {
-            parameters: encodeQueryData(),
+            parameters: {{ id }}_encodeQueryData(),
             items: [],
             initial_items: [],
             labels: [],
@@ -110,7 +110,7 @@ var {{ id }} = new Vue({
 
         {% block method_search %}
         search(keyword=null, value=null) {
-            this.parameters = encodeQueryData({{ id }}_get_form_paramenters(keyword, value));
+            this.parameters = {{ id }}_encodeQueryData({{ id }}_get_form_paramenters(keyword, value));
             this.CallURL(this.url + this.parameters);
         },
         {% endblock method_search %}

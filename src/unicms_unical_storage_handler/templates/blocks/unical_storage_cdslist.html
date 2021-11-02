@@ -340,7 +340,7 @@ this.callDegreeTypes();
 this.callAcademicYears();
 this.callDepartments();
 
-this.parameters = encodeQueryData(this.getItemsFromSession("{{ id }}"))
+this.parameters = {{ id }}_encodeQueryData(this.getItemsFromSession("{{ id }}"))
 
 {% endblock extra_mounted %}
 
@@ -348,8 +348,8 @@ this.parameters = encodeQueryData(this.getItemsFromSession("{{ id }}"))
 search(keyword=null, value=null) {
     if(keyword=='coursetype')
         this.selected_coursetype = value
-    if (value) this.parameters = encodeQueryData({{ id }}_get_form_paramenters(keyword, value));
-    else this.parameters = encodeQueryData({{ id }}_get_form_paramenters());
+    if (value) this.parameters = {{ id }}_encodeQueryData({{ id }}_get_form_paramenters(keyword, value));
+    else this.parameters = {{ id }}_encodeQueryData({{ id }}_get_form_paramenters());
     this.CallURL(this.url + this.parameters);
 },
 {% endblock method_search %}
