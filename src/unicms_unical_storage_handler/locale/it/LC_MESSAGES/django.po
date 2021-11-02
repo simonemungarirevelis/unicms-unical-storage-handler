@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-10-29 19:39+0200\n"
-"PO-Revision-Date: 2021-11-02 08:31+0100\n"
+"POT-Creation-Date: 2021-11-02 16:43+0100\n"
+"PO-Revision-Date: 2021-11-02 16:44+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: it\n"
@@ -54,24 +54,23 @@ msgstr "Gruppi di ricerca"
 #: templates/storage_base.html:147
 #: templates/storage_base_research_line_list.html:25
 msgid "Base research lines"
-msgstr "Gruppi di ricerca di base"
+msgstr "Linee di ricerca di base"
 
 #: settings.py:120 templates/blocks/unical_storage_teacherinfo.html:218
 #: templates/storage_applied_research_line_list.html:25
 #: templates/storage_base.html:165
 msgid "Applied research lines"
-msgstr "Gruppi di ricerca applicata"
+msgstr "Linee di ricerca applicata"
 
 #: settings.py:121 templates/storage_base.html:30
 msgid "Data storage"
 msgstr ""
 
-#: settings.py:122 templates/storage_base.html:93
-#: templates/storage_structure_list.html:25
+#: settings.py:122 templates/storage_structure_list.html:25
 msgid "Structures"
 msgstr "Strutture"
 
-#: settings.py:123 templates/blocks/unical_storage_cdsinfo.html:195
+#: settings.py:123 templates/blocks/unical_storage_cdsinfo.html:200
 #: templates/storage_base.html:75 templates/storage_teachers_list.html:25
 msgid "Teachers"
 msgstr "Docenti"
@@ -159,7 +158,7 @@ msgstr "Ruolo"
 #: templates/blocks/unical_storage_cdsstudyplans.html:100
 #: templates/blocks/unical_storage_cdsstudyplans_v2.html:98
 #: templates/blocks/unical_storage_doctorateslist.html:215
-#: templates/blocks/unical_storage_laboratory_list.html:180
+#: templates/blocks/unical_storage_laboratory_list.html:185
 #: templates/blocks/unical_storage_publications_list.html:140
 #: templates/blocks/unical_storage_research_group_list.html:117
 #: templates/blocks/unical_storage_research_line_list.html:129
@@ -179,24 +178,20 @@ msgstr "Nessun risultato"
 msgid "Link"
 msgstr ""
 
-#: templates/blocks/unical_storage_cdsinfo.html:41
+#: templates/blocks/unical_storage_cdsinfo.html:43
 msgid "Degree class"
 msgstr "Classe di laurea"
 
-#: templates/blocks/unical_storage_cdsinfo.html:45
-msgid "Interclass Course"
-msgstr "Corso Interclasse"
-
-#: templates/blocks/unical_storage_cdsinfo.html:62
+#: templates/blocks/unical_storage_cdsinfo.html:67
 #: templates/blocks/unical_storage_cdslist.html:222
 msgid "years"
 msgstr "anni"
 
-#: templates/blocks/unical_storage_cdsinfo.html:98
+#: templates/blocks/unical_storage_cdsinfo.html:103
 msgid "Download brochure"
 msgstr "Scarica la brochure"
 
-#: templates/blocks/unical_storage_cdsinfo.html:169
+#: templates/blocks/unical_storage_cdsinfo.html:174
 msgid "Study plans"
 msgstr "Piani di studio"
 
@@ -352,6 +347,10 @@ msgstr ""
 msgid "Clear all"
 msgstr "Deseleziona tutto"
 
+#: templates/blocks/unical_storage_laboratory_list.html:146
+msgid "Responsabile"
+msgstr ""
+
 #: templates/blocks/unical_storage_publications_list.html:74
 #: templates/blocks/unical_storage_structure_list.html:43
 msgid "Types"
@@ -404,9 +403,16 @@ msgstr "Vedi lista"
 msgid "People"
 msgstr "Persone"
 
+#: templates/storage_base.html:93
+msgid "Areas and Offices"
+msgstr "Aree e Uffici"
+
 #: templates/storage_cdslist.html:25
 msgid "Training offer"
 msgstr "Offerta formativa"
+
+#~ msgid "Interclass Course"
+#~ msgstr "Corso Interclasse"
 
 #~ msgid "Click here"
 #~ msgstr "Clicca qui"
