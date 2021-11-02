@@ -134,7 +134,7 @@
          aria-labelledby="{{ id }}_heading-laboratories-lft">
         <div class="mt-3">
             {% with laboratories_api|add:"?teacher="|add:code|add:"&lang="|add:LANGUAGE_CODE as laboratories_url %}
-            {% include "blocks/unical_storage_laboratory_list_without_filters.html" with url=laboratories_url uid=id|add:"_1" %}
+            {% include "blocks/unical_storage_laboratory_list_without_filters.html" with url=laboratories_url uid=id|add:"_1" teacher_id=code %}
             {% endwith %}
         </div>
     </div>
