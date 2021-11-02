@@ -154,7 +154,7 @@ TEACHER_INFO_NOT_SHOW = ['TeacherID', 'TeacherDepartmentID',
                          'TeacherRole', 'TeacherRoleDescription',
                          'TeacherCVFull']
 
-STRUCTURE_INFO_NOT_SHOW = ['StructureId', 'StructureFatherId', 'StructureTypeCOD',
+STRUCTURE_INFO_NOT_SHOW = ['StructureId', 'StructureCod', 'StructureFatherId', 'StructureTypeCOD',
                            'StructurePersonnelFunctions',]
 
 LABORATORY_INFO_NOT_SHOW = ['LaboratoryId', 'CompletionReferentId',
