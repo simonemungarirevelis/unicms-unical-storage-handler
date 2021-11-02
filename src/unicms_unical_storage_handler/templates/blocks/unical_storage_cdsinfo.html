@@ -36,15 +36,20 @@
             </h3>
         </div>
         <p>
-            [[ labels['CdSCod'] ]]  [[ item.CdSCod ]]
-            <br>
+            <span v-if="item.CdSCod">
+                [[ labels['CdSCod'] ]]  [[ item.CdSCod ]]
+                <br>
+            </span>
             {% trans "Degree class" %} [[ item.CourseClassCod ]]
+            <span v-if="item.CourseInterClassCod">
+                / [[ item.CourseInterClassCod ]]
+            </span>
             <br>
             [[ item.CourseClassName ]]
-            <br>
-            {% trans "Interclass Course" %} [[ item.CourseInterClassCod ]]
-            <br>
-            [[ item.CourseInterClassDes ]]
+            <span v-if="item.CourseInterClassCod">
+                <br>
+                [[ item.CourseInterClassDes ]]
+            </span>
         </p>
         <div class="card-wrapper pb-0">
             <div class="card no-after" style="border:1px solid #b71918">
