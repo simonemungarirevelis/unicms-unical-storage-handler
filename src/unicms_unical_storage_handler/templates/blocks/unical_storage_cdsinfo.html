@@ -112,7 +112,7 @@
              class="collapse-div collapse-left-icon"
              style="border-bottom: 0"
              role="tablist">
-            <div v-for="name in fields_to_show" v-if="item[name] != null">
+            <div v-for="name in fields_to_show" v-if="item[name] && item[name].length > 0">
                 <div class="collapse-header" :id="'heading-' + name +'-lft'">
                     <button data-toggle="collapse" :data-target="'#collapse-' + name +'-lft'" aria-expanded="false" :aria-controls="'collapse-' + name +'-lft'">
                         [[ labels[name] ]]
