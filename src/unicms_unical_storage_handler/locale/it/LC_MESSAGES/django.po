@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-11-02 16:43+0100\n"
+"POT-Creation-Date: 2021-11-03 10:51+0100\n"
 "PO-Revision-Date: 2021-11-02 16:44+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -66,7 +66,7 @@ msgstr "Linee di ricerca applicata"
 msgid "Data storage"
 msgstr ""
 
-#: settings.py:122 templates/storage_structure_list.html:25
+#: settings.py:122
 msgid "Structures"
 msgstr "Strutture"
 
@@ -403,7 +403,7 @@ msgstr "Vedi lista"
 msgid "People"
 msgstr "Persone"
 
-#: templates/storage_base.html:93
+#: templates/storage_base.html:93 templates/storage_structure_list.html:25
 msgid "Areas and Offices"
 msgstr "Aree e Uffici"
 
