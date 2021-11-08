@@ -154,6 +154,8 @@
                                             </div>
                                         </div>
                                     </div>
+
+                                    {% block filters_jointdegree %}
                                     <div class="col-sm">
                                         <div>
                                             <label for="{{ id }}_joint_degree_input">
@@ -175,6 +177,7 @@
                                             </div>
                                         </div>
                                     </div>
+                                    {% endblock filters_jointdegree %}
                                 </div>
                             </div>
                             {% endblock filters_cdslist %}
@@ -279,8 +282,10 @@ function {{ id }}_get_form_paramenters(keyword=null, value=null) {
     if (cds_language) dict['cdslanguage'] = cds_language
 
     // joint degree
+    {% block filters_jointdegree_script %}
     let joint_degree = document.getElementById('{{ id }}_joint_degree_input').value
     if (joint_degree) dict['jointdegree'] = joint_degree
+    {% endblock filters_jointdegree_script %}
 
     setItemInSession("{{ id }}", dict)
 
