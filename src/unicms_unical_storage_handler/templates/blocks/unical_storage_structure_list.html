@@ -30,6 +30,7 @@
                         <div class="card-body">
                             {% include "includes/unical_storage_search_input.html" with id=id %}
 
+                            {% block structure_type_filter %}
                             <div class="form-group">
                                 <div class="row">
                                     <div class="col-sm">
@@ -61,6 +62,7 @@
                                      </div>
                                 </div>
                             </div>
+                            {% endblock structure_type_filter %}
 
                         </div>
                     </div>
@@ -119,9 +121,11 @@ function {{ id }}_get_form_paramenters(keyword=null, value=null) {
     let search = document.getElementById('{{ id }}_search').value
     if (search) dict['search'] = search
 
+    {% block structure_type_filter_script %}
     //types
     let type = document.getElementById('{{ id }}_type_input').value
     if (type) dict['type'] = type
+    {% endblock structure_type_filter_script %}
 
     setItemInSession("{{ id }}", dict)
 
