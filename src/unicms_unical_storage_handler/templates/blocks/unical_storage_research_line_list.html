@@ -15,12 +15,7 @@
 
 <div id="{{ id }}">
 
-    <loading-icon
-        v-if="is_loading"
-        :loader_source="loader_source">
-    </loading-icon>
-
-    <div v-else-if="(initial_items && initial_items.length) || parameters">
+    <div v-if="(initial_items && initial_items.length) || parameters">
         <div class="row">
             <div class="col-12">
                 <div class="card-wrapper card-space">
@@ -72,51 +67,58 @@
 
         <list-panel v-bind:data="items" v-if="items.results" id="{{ id }}"></list-panel>
 
-        <div class="row mb-3" v-for="item in items.results">
-            <div class="col-12">
-                <!--start card-->
-                <div class="card-wrapper pb-0">
-                    <div class="card no-after" style="border:1px solid #b71918">
-                        <div class="card-body">
-                            <b>
-                                [[ item.RLineDescription ]]
-                            </b>
-                            <div class="row" v-if="item.RLineResults">
-                                <div class="col-12 col-md-auto">
-                                    <span style="white-space: pre-line;">
-                                        [[ item.RLineResults ]]
-                                    </small>
+        <loading-icon
+            v-if="is_loading"
+            :loader_source="loader_source">
+        </loading-icon>
+
+        <div v-else>
+            <div class="row mb-3" v-for="item in items.results">
+                <div class="col-12">
+                    <!--start card-->
+                    <div class="card-wrapper pb-0">
+                        <div class="card no-after" style="border:1px solid #b71918">
+                            <div class="card-body">
+                                <b>
+                                    [[ item.RLineDescription ]]
+                                </b>
+                                <div class="row" v-if="item.RLineResults">
+                                    <div class="col-12 col-md-auto">
+                                        <span style="white-space: pre-line;">
+                                            [[ item.RLineResults ]]
+                                        </small>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="row mt-2" v-if="item.Teachers.length > 0 || item.RYear || item.RLineErc2Name">
-                                <div class="col-12 col-md-auto" v-if="item.RYear">
-                                    <small>
-                                        [[ labels['RYear'] ]] >
-                                        <b>[[ item.RYear ]]</b>
-                                    </small>
-                                </div>
-                                <div class="col-12 col-md-auto" v-if="item.Teachers.length > 0">
-                                    <small>
-                                        [[ labels['Teachers'] ]] >
-                                        <b v-for="(teacher, index) in item.Teachers">
-                                            <a :href="'//{{ host }}/{{ cms_path_prefix }}{{ base_prefix }}/{{ teacher_prefix }}/' + [[ teacher.TeacherID ]] +'/'">
-                                                [[ teacher.TeacherName ]]
-                                            </a>
-                                            <span v-if="index != item.Teachers.length -1">,&nbsp;</span>
-                                        </b>
-                                    </small>
-                                </div>
-                                <div class="col-12 col-md-auto" v-if="item.RLineErc2Name">
-                                    <small>
-                                        [[ labels['RLineErc2Name'] ]] >
-                                        <b>[[ item.RLineErc2Name ]]</b>
-                                    </small>
+                                <div class="row mt-2" v-if="item.Teachers.length > 0 || item.RYear || item.RLineErc2Name">
+                                    <div class="col-12 col-md-auto" v-if="item.RYear">
+                                        <small>
+                                            [[ labels['RYear'] ]] >
+                                            <b>[[ item.RYear ]]</b>
+                                        </small>
+                                    </div>
+                                    <div class="col-12 col-md-auto" v-if="item.Teachers.length > 0">
+                                        <small>
+                                            [[ labels['Teachers'] ]] >
+                                            <b v-for="(teacher, index) in item.Teachers">
+                                                <a :href="'//{{ host }}/{{ cms_path_prefix }}{{ base_prefix }}/{{ teacher_prefix }}/' + [[ teacher.TeacherID ]] +'/'">
+                                                    [[ teacher.TeacherName ]]
+                                                </a>
+                                                <span v-if="index != item.Teachers.length -1">,&nbsp;</span>
+                                            </b>
+                                        </small>
+                                    </div>
+                                    <div class="col-12 col-md-auto" v-if="item.RLineErc2Name">
+                                        <small>
+                                            [[ labels['RLineErc2Name'] ]] >
+                                            <b>[[ item.RLineErc2Name ]]</b>
+                                        </small>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+                    <!--end card-->
                 </div>
-                <!--end card-->
             </div>
         </div>
 

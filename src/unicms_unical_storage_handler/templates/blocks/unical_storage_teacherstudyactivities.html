@@ -9,12 +9,7 @@
 {% block content %}
 <div id="{{ id }}">
 
-    <loading-icon
-        v-if="is_loading"
-        :loader_source="loader_source">
-    </loading-icon>
-
-    <div v-else-if="(initial_items && initial_items.length) || parameters">
+    <div v-if="(initial_items && initial_items.length) || parameters">
 
         {% block filters_teacherstudyactivities %}
         <div class="row">
@@ -103,7 +98,12 @@
 
         <list-panel v-bind:data="items" v-if="items.results" id="{{ id }}"></list-panel>
 
-        <div class="row">
+        <loading-icon
+            v-if="is_loading"
+            :loader_source="loader_source">
+        </loading-icon>
+
+        <div class="row" v-else>
             <div class="table-responsive">
                 <table class="table table-sm">
                     <thead>
