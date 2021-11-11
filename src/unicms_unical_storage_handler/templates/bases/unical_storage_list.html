@@ -117,6 +117,8 @@ var {{ id }} = new Vue({
 
         {% block method_callurl %}
         CallURL(url, initial=false) {
+            this.is_loading = true
+            this.loader_source = url
             axios
                 .get(url)
                 .then(response => {

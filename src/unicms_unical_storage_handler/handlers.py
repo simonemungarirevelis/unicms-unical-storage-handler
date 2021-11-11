@@ -410,3 +410,23 @@ class AppliedResearchLineListViewHandler(BaseStorageHandler):
         root = (self.get_base_url, settings.CMS_STORAGE_ROOT_LABEL)
         leaf = ('#', settings.CMS_STORAGE_APPLIED_RESEARCH_LINE_LABEL)
         return (root, leaf)
+
+
+class PublicationsListViewHandler(BaseStorageHandler):
+    template = "storage_publications_list.html"
+
+    def __init__(self, **kwargs):
+        super(PublicationsListViewHandler, self).__init__(**kwargs)
+
+    def as_view(self):
+        data = {}
+
+        params = urllib.parse.urlencode(data)
+        self.data['url'] = f'{settings.CMS_STORAGE_PUBLICATIONS_API}?{params}'
+        return super().as_view()
+
+    @property
+    def breadcrumbs(self):
+        root = (self.get_base_url, settings.CMS_STORAGE_ROOT_LABEL)
+        leaf = ('#', settings.CMS_STORAGE_PUBLICATIONS_LABEL)
+        return (root, leaf)
