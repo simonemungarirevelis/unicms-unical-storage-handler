@@ -175,48 +175,14 @@
 {% endwith %}
 
 <!-- Applied research lines -->
-<div id="{{ id }}_collapse-6-lft" class="collapse-div collapse-left-icon" role="tablist">
-    <div class="collapse-header" id="{{ id }}_heading-appliedlines-lft">
-        <button data-toggle="collapse"
-                data-target="#{{ id }}_collapse-appliedlines-lft"
-                aria-expanded="false"
-                aria-controls="{{ id }}_collapse-appliedlines-lft">
-            {% trans "Applied research lines" %}
-        </button>
-    </div>
-    <div id="{{ id }}_collapse-appliedlines-lft"
-         class="collapse"
-         role="tabpanel"
-         aria-labelledby="{{ id }}_heading-appliedlines-lft">
-        <div class="mt-3">
-            {% with applied_research_lines_api|add:"?teacher="|add:code|add:"&lang="|add:LANGUAGE_CODE as applied_research_lines_url %}
-            {% include "blocks/unical_storage_research_line_list.html" with url=applied_research_lines_url uid=id|add:"_5" %}
-            {% endwith %}
-        </div>
-    </div>
-</div>
+{% with applied_research_lines_api|add:"?teacher="|add:code|add:"&lang="|add:LANGUAGE_CODE as applied_research_lines_url %}
+{% include "blocks/collapse/unical_storage_collapse_research_line_applied_list.html" with url=applied_research_lines_url uid=id|add:"_5" %}
+{% endwith %}
 
 <!-- Base research lines -->
-<div id="{{ id }}_collapse-7-lft" class="collapse-div collapse-left-icon" role="tablist">
-    <div class="collapse-header" id="{{ id }}_heading-baselines-lft">
-        <button data-toggle="collapse"
-                data-target="#{{ id }}_collapse-baselines-lft"
-                aria-expanded="false"
-                aria-controls="{{ id }}_collapse-baselines-lft">
-            {% trans "Base research lines" %}
-        </button>
-    </div>
-    <div id="{{ id }}_collapse-baselines-lft"
-         class="collapse"
-         role="tabpanel"
-         aria-labelledby="{{ id }}_heading-appliedlines-lft">
-        <div class="mt-3">
-            {% with base_research_lines_api|add:"?teacher="|add:code|add:"&lang="|add:LANGUAGE_CODE as base_research_lines_url %}
-            {% include "blocks/unical_storage_research_line_list.html" with url=base_research_lines_url uid=id|add:"_6" %}
-            {% endwith %}
-        </div>
-    </div>
-</div>
+{% with base_research_lines_api|add:"?teacher="|add:code|add:"&lang="|add:LANGUAGE_CODE as base_research_lines_url %}
+{% include "blocks/collapse/unical_storage_collapse_research_line_base_list.html" with url=base_research_lines_url uid=id|add:"_6" %}
+{% endwith %}
 
 <script>
     var {{ id }} = new Vue({
