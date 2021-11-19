@@ -294,8 +294,12 @@ structure_type_filter_string: null
 
 {% block structure_call_method %}
 callStructureId() {
+    let source = this.loader_source_structures
+    if (this.structure_type_filter_string)
+        this.source + '&type='+this.structure_type_filter_string
+
     axios
-        .get(this.loader_source_structures + '&type='+this.structure_type_filter_string)
+        .get(source)
         .then(response => {
             this.structure_id_filter = response.data.results;
             this.is_loading_structure_id = false
