@@ -31,15 +31,14 @@
                             <div class="form-group">
                                 <!-- Areas & Department -->
 
-                                <loading-icon
-                                    v-if="is_loading_areas"
-                                    :loader_source="loader_source_areas">
-                                </loading-icon>
-
-                                <div class="row" v-else>
+                                <div class="row">
 
                                     <div class="col-sm">
-                                        <div>
+                                        <loading-icon
+                                            v-if="is_loading_areas"
+                                            :loader_source="loader_source_areas">
+                                        </loading-icon>
+                                        <div v-else>
                                             <label for="{{ id }}_area_input">
                                                 {% trans "Area" %}
                                             </label>
@@ -60,13 +59,12 @@
                                         </div>
                                     </div>
 
-                                    <loading-icon
-                                        v-if="is_loading_departments"
-                                        :loader_source="loader_source_departments">
-                                    </loading-icon>
-
-                                    <div class="col-sm" v-else>
-                                        <div>
+                                    <div class="col-sm">
+                                        <loading-icon
+                                            v-if="is_loading_departments"
+                                            :loader_source="loader_source_departments">
+                                        </loading-icon>
+                                        <div v-else>
                                             <label for="{{ id }}_department_input">
                                                 {% trans "Department" %}
                                             </label>
@@ -88,14 +86,13 @@
                                     </div>
                                 </div>
 
-                                <loading-icon
-                                    v-if="is_loading_erc1"
-                                    :loader_source="loader_source_erc1">
-                                </loading-icon>
-
-                                <div class="row" v-else>
-                                    <div class="col-12">
-                                        <div class="mt-5">
+                                <div class="row">
+                                    <div class="col-sm">
+                                        <loading-icon
+                                            v-if="is_loading_erc1"
+                                            :loader_source="loader_source_erc1">
+                                        </loading-icon>
+                                        <div class="mt-5" v-else>
                                             <label for="{{ id }}_erc1_input">
                                                 {% trans "ERC 1" %}
                                             </label>
@@ -115,6 +112,31 @@
                                                         [[ erc1_item.Description ]]
                                                     </option>
                                                 </optgroup>
+
+                                          </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm">
+                                        <loading-icon
+                                            v-if="is_loading_scopes"
+                                            :loader_source="loader_source_scopes">
+                                        </loading-icon>
+                                        <div class="mt-5" v-else>
+                                            <label for="{{ id }}_scope_input">
+                                                {% trans "Scopes" %}
+                                            </label>
+                                            <select id="{{ id }}_scope_input"
+                                                    class="form-control"
+                                                    name="{{ id }}_scope_input"
+                                                    title="{% trans 'Choose an option' %}"
+                                                    @change="{{ id }}.search()">
+                                                <option value="">- {% trans 'Clear all' %} -</option>
+                                                <option v-for="item in scopes"
+                                                        :value="item.ScopeID"
+                                                        :selected="item.ScopeID == selected_scope">
+                                                    [[ item.ScopeDescription ]]
+                                                </option>
 
                                           </select>
                                         </div>
@@ -154,19 +176,28 @@
                                     </a>
                                 </h4>
                                 <div class="row">
-                                    <div class="col-12 col-md-auto">
+                                    <div class="col-12">
                                         <small>
                                             [[ labels['DepartmentName'] ]] >
                                             <b>[[ item.DepartmentName ]]</b>
                                         </small>
                                     </div>
-                                    <div class="col-12 col-md-auto">
+                                    <div class="col-12">
                                         <small>
                                             [[ labels['Area'] ]] >
                                             <b>[[ item.Area ]]</b>
                                         </small>
                                     </div>
-                                    <div class="col-12 col-md-auto" v-if="item.Interdepartmental != 'NO'">
+                                    <div class="col-12" v-if="item.LaboratoryScopes.length">
+                                        <small>
+                                            [[ labels['LaboratoryScopes'] ]] >
+                                            <b v-for="(scope, index) in item.LaboratoryScopes">
+                                                [[ scope.ScopeDescription ]]
+                                                <span v-if="index < (item.LaboratoryScopes.length - 1)">,&nbsp;</span>
+                                            </b>
+                                        </small>
+                                    </div>
+                                    <div class="col-12" v-if="item.Interdepartmental != 'NO'">
                                         <small>
                                             [[ labels['Interdepartmental'] ]] >
                                             <b>[[ item.Interdepartmental ]]</b>
@@ -219,6 +250,10 @@ function {{ id }}_get_form_paramenters(keyword=null, value=null) {
         let department = document.getElementById('{{ id }}_department_input').value
         if (department) dict['department'] = department
 
+        // scope
+        let scope = document.getElementById('{{ id }}_scope_input').value
+        if (scope) dict['scope'] = scope
+
         // erc1
         let erc1 = document.getElementById('{{ id }}_erc1_input')
         let erc1_selected = [];
@@ -245,25 +280,30 @@ function {{ id }}_get_form_paramenters(keyword=null, value=null) {
 {% get_current_language as LANGUAGE_CODE %}
 {% settings_value "CMS_STORAGE_DEPARTMENTSFILTER_API" as departmentsfilter_api %}
 {% settings_value "CMS_STORAGE_LABORATORIESAREAS_API" as laboratoriesareas_api %}
+{% settings_value "CMS_STORAGE_LABORATORIES_SCOPES_API" as laboratories_scopes_api %}
 {% settings_value "CMS_STORAGE_ERC1LIST_API" as erc1list_api %}
 
 search_dict: {},
 departments: [],
 areas: [],
+scopes: [],
 erc1_list: [],
 
 is_loading_departments: true,
 is_loading_areas: true,
 is_loading_erc1: true,
+is_loading_scopes: true,
 
 loader_source_departments: '{{ departmentsfilter_api }}?lang={{ LANGUAGE_CODE }}',
 loader_source_areas: '{{ laboratoriesareas_api }}?lang={{ LANGUAGE_CODE }}',
 loader_source_erc1: '{{ erc1list_api }}?lang={{ LANGUAGE_CODE }}',
+loader_source_scopes: '{{ laboratories_scopes_api }}?lang={{ LANGUAGE_CODE }}',
 
 selected_area: this.getItemFromSession("{{ id }}", 'area'),
 selected_department: this.getItemFromSession("{{ id }}", 'department'),
 selected_search: this.getItemFromSession("{{ id }}", 'search'),
-selected_erc1: (this.getItemFromSession("{{ id }}", 'erc1') || "").split(",")
+selected_erc1: (this.getItemFromSession("{{ id }}", 'erc1') || "").split(","),
+selected_scope: this.getItemFromSession("{{ id }}", 'scope')
 
 {% endblock extra_data %}
 
@@ -273,6 +313,7 @@ selected_erc1: (this.getItemFromSession("{{ id }}", 'erc1') || "").split(",")
         this.callAreas();
         this.callDepartments();
         this.callERC1List();
+        this.callScopes();
     {% endblock call_laboratory_on_mounted %}
 
 this.parameters = {{ id }}_encodeQueryData(this.getItemsFromSession("{{ id }}"))
@@ -287,6 +328,14 @@ this.parameters = {{ id }}_encodeQueryData(this.getItemsFromSession("{{ id }}"))
             .then(response => {
                 this.areas = response.data.results;
                 this.is_loading_areas = false
+            })
+    },
+    callScopes() {
+        axios
+            .get(this.loader_source_scopes)
+            .then(response => {
+                this.scopes = response.data.results;
+                this.is_loading_scopes = false
             })
     },
     callDepartments() {
