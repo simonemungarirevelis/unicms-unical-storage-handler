@@ -65,7 +65,7 @@
                                     </div>
                                     {% endblock structure_type_filter %}
 
-                                    <div class="col-sm">
+                                    <div class="col-sm" v-if="structure_id_filter.length">
 
                                         <loading-icon
                                             v-if="is_loading_structure_id"
