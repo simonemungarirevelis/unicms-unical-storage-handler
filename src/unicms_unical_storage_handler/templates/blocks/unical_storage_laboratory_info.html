@@ -221,53 +221,56 @@
         </div>
 
         <!-- ResearchPersonnel -->
-        <div class="collapse-header" id="{{ id }}_heading-researchpersonnel-lft">
-            <button data-toggle="collapse"
-                    data-target="#{{ id }}_collapse-researchpersonnel-lft"
-                    aria-expanded="false"
-                    aria-controls="{{ id }}_collapse-researchpersonnel-lft">
-                {% trans "Research Personnel" %}
-            </button>
-        </div>
-        <div id="{{ id }}_collapse-researchpersonnel-lft"
-             class="collapse"
-             role="tabpanel"
-             aria-labelledby="{{ id }}_heading-researchpersonnel-lft">
-            <div class="collapse-body">
-                <ul>
-                    <li v-for="subvalue in item.LaboratoryResearchPersonnel" v-if="subvalue.ResearchPersonnelName && subvalue.ResearchPersonnelName != ''">
-                        <a :href="'//{{ host }}/{{ cms_path_prefix }}{{ base_prefix }}/{{ addressbook_prefix }}/' + [[ subvalue.ResearchPersonnelID ]] +'/'">
-                            [[ subvalue.ResearchPersonnelName ]]
-                        </a>
-                    </li>
-                </ul>
+        <div v-if="item.LaboratoryResearchPersonnel && item.LaboratoryResearchPersonnel.length">
+            <div class="collapse-header" id="{{ id }}_heading-researchpersonnel-lft">
+                <button data-toggle="collapse"
+                        data-target="#{{ id }}_collapse-researchpersonnel-lft"
+                        aria-expanded="false"
+                        aria-controls="{{ id }}_collapse-researchpersonnel-lft">
+                    {% trans "Research Personnel" %}
+                </button>
+            </div>
+            <div id="{{ id }}_collapse-researchpersonnel-lft"
+                 class="collapse"
+                 role="tabpanel"
+                 aria-labelledby="{{ id }}_heading-researchpersonnel-lft">
+                <div class="collapse-body">
+                    <ul>
+                        <li v-for="subvalue in item.LaboratoryResearchPersonnel" v-if="subvalue.ResearchPersonnelName && subvalue.ResearchPersonnelName != ''">
+                            <a :href="'//{{ host }}/{{ cms_path_prefix }}{{ base_prefix }}/{{ addressbook_prefix }}/' + [[ subvalue.ResearchPersonnelID ]] +'/'">
+                                [[ subvalue.ResearchPersonnelName ]]
+                            </a>
+                        </li>
+                    </ul>
+                </div>
             </div>
         </div>
 
         <!-- TechPersonnel -->
-        <div class="collapse-header" id="{{ id }}_heading-techpersonnel-lft">
-            <button data-toggle="collapse"
-                    data-target="#{{ id }}_collapse-techpersonnel-lft"
-                    aria-expanded="false"
-                    aria-controls="{{ id }}_collapse-techpersonnel-lft">
-                {% trans "Tech Personnel" %}
-            </button>
-        </div>
-        <div id="{{ id }}_collapse-techpersonnel-lft"
-             class="collapse"
-             role="tabpanel"
-             aria-labelledby="{{ id }}_heading-techpersonnel-lft">
-            <div class="collapse-body">
-                <ul>
-                    <li v-for="subvalue in item.LaboratoryTechPersonnel" v-if="subvalue.TechPersonnelName && subvalue.TechPersonnelName != ''">
-                        <a :href="'//{{ host }}/{{ cms_path_prefix }}{{ base_prefix }}/{{ addressbook_prefix }}/' + [[ subvalue.TechPersonnelID ]] +'/'">
-                            [[ subvalue.TechPersonnelName ]]
-                        </a>
-                    </li>
-                </ul>
+        <div v-if="item.LaboratoryTechPersonnel && item.LaboratoryTechPersonnel.length">
+            <div class="collapse-header" id="{{ id }}_heading-techpersonnel-lft">
+                <button data-toggle="collapse"
+                        data-target="#{{ id }}_collapse-techpersonnel-lft"
+                        aria-expanded="false"
+                        aria-controls="{{ id }}_collapse-techpersonnel-lft">
+                    {% trans "Tech Personnel" %}
+                </button>
+            </div>
+            <div id="{{ id }}_collapse-techpersonnel-lft"
+                 class="collapse"
+                 role="tabpanel"
+                 aria-labelledby="{{ id }}_heading-techpersonnel-lft">
+                <div class="collapse-body">
+                    <ul>
+                        <li v-for="subvalue in item.LaboratoryTechPersonnel" v-if="subvalue.TechPersonnelName && subvalue.TechPersonnelName != ''">
+                            <a :href="'//{{ host }}/{{ cms_path_prefix }}{{ base_prefix }}/{{ addressbook_prefix }}/' + [[ subvalue.TechPersonnelID ]] +'/'">
+                                [[ subvalue.TechPersonnelName ]]
+                            </a>
+                        </li>
+                    </ul>
+                </div>
             </div>
         </div>
-
     </div>
 </div>
 <script>

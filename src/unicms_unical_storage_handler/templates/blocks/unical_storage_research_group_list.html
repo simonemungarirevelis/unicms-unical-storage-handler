@@ -13,9 +13,10 @@
 {% settings_value "CMS_STORAGE_BASE_PATH" as base_prefix %}
 {% settings_value "CMS_STORAGE_THEACHER_VIEW_PREFIX_PATH" as teacher_prefix %}
 
-<div id="{{ id }}">
+{% block storage_block_top %}
+{% include "blocks/includes/unical_storage_check.html" %}
+{% endblock storage_block_top %}
 
-    <div v-if="(initial_items && initial_items.length) || parameters">
         <div class="row">
             <div class="col-12">
                 <div class="card-wrapper card-space">
@@ -115,11 +116,14 @@
         <list-panel v-bind:data="items" v-if="items.results" id="{{ id }}"></list-panel>
     </div>
 
+{% block storage_block_bottom %}
     <div v-else>
         {% trans "No items here" %}
     </div>
 
 </div>
+{% endblock storage_block_bottom %}
+
 {% endblock content %}
 
 {% block extra_scripts %}
