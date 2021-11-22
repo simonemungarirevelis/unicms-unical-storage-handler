@@ -71,6 +71,13 @@
                                 [[ labels['LocationFloor'] ]] [[ value.LocationFloor ]]
                                 </span>
                             </span>
+                            <ul v-else-if="name == 'LaboratoryScopes'">
+                                <li v-for="v in value">
+                                    <span style="white-space: pre-line;">
+                                        [[ v.ScopeDescription ]]
+                                    </span>
+                                </li>
+                            </ul>
                             <ul v-else>
                                 <li v-for="v1 in value">
                                     <span style="white-space: pre-line;" v-for="v2 in v1">
