@@ -15,6 +15,7 @@ CMS_STORAGE_BASE_PATH = 'storage'
 
 CMS_STORAGE_ACTIVITY_VIEW_PREFIX_PATH = 'activities'
 CMS_STORAGE_ADDRESSBOOK_VIEW_PREFIX_PATH = 'addressbook'
+CMS_STORAGE_BREVETS_VIEW_PREFIX_PATH = 'brevets'
 CMS_STORAGE_CDS_VIEW_PREFIX_PATH = 'cds'
 CMS_STORAGE_LABORATORY_VIEW_PREFIX_PATH = 'laboratories'
 CMS_STORAGE_PUBLICATIONS_VIEW_PREFIX_PATH = 'publications'
@@ -31,6 +32,7 @@ CMS_STORAGE_BASE_URL_VIEW_REGEXP = f'^(?P<webpath>[\/a-zA-Z0-9\.\-\_]*)({CMS_STO
 CMS_STORAGE_ACTIVITY_URL_VIEW_REGEXP = f'^(?P<webpath>[\/a-zA-Z0-9\.\-\_]*)({CMS_STORAGE_BASE_PATH})/({CMS_STORAGE_CDS_VIEW_PREFIX_PATH})/(?P<cdsid>[a-z0-9\-]*)/{CMS_STORAGE_ACTIVITY_VIEW_PREFIX_PATH}/(?P<code>[a-z0-9\-]*)(/)?$' # noqa
 CMS_STORAGE_ADDRESSBOOK_LIST_URL_VIEW_REGEXP = f'^(?P<webpath>[\/a-zA-Z0-9\.\-\_]*)({CMS_STORAGE_BASE_PATH})/({CMS_STORAGE_ADDRESSBOOK_VIEW_PREFIX_PATH})(/)?$' # noqa
 CMS_STORAGE_ADDRESSBOOK_INFO_URL_VIEW_REGEXP = f'^(?P<webpath>[\/a-zA-Z0-9\.\-\_]*)({CMS_STORAGE_BASE_PATH})/({CMS_STORAGE_ADDRESSBOOK_VIEW_PREFIX_PATH})/(?P<code>[a-z0-9\-]*)(/)?$' # noqa
+CMS_STORAGE_BREVETS_LIST_URL_VIEW_REGEXP = f'^(?P<webpath>[\/a-zA-Z0-9\.\-\_]*)({CMS_STORAGE_BASE_PATH})/({CMS_STORAGE_BREVETS_VIEW_PREFIX_PATH})(/)?$' # noqa
 CMS_STORAGE_CDS_LIST_URL_VIEW_REGEXP = f'^(?P<webpath>[\/a-zA-Z0-9\.\-\_]*)({CMS_STORAGE_BASE_PATH})/({CMS_STORAGE_CDS_VIEW_PREFIX_PATH})(/)?$' # noqa
 CMS_STORAGE_CDS_INFO_URL_VIEW_REGEXP = f'^(?P<webpath>[\/a-zA-Z0-9\.\-\_]*)({CMS_STORAGE_BASE_PATH})/({CMS_STORAGE_CDS_VIEW_PREFIX_PATH})/(?P<code>[a-z0-9\-]*)(/)?$' # noqa
 CMS_STORAGE_LABORATORY_LIST_URL_VIEW_REGEXP = f'^(?P<webpath>[\/a-zA-Z0-9\.\-\_]*)({CMS_STORAGE_BASE_PATH})/({CMS_STORAGE_LABORATORY_VIEW_PREFIX_PATH})(/)?$' # noqa
@@ -51,6 +53,7 @@ CMS_STORAGE_HANDLERS_PATHS = [
                               CMS_STORAGE_ACTIVITY_URL_VIEW_REGEXP,
                               CMS_STORAGE_ADDRESSBOOK_LIST_URL_VIEW_REGEXP,
                               CMS_STORAGE_ADDRESSBOOK_INFO_URL_VIEW_REGEXP,
+                              CMS_STORAGE_BREVETS_LIST_URL_VIEW_REGEXP,
                               CMS_STORAGE_CDS_LIST_URL_VIEW_REGEXP,
                               CMS_STORAGE_CDS_INFO_URL_VIEW_REGEXP,
                               CMS_STORAGE_LABORATORY_LIST_URL_VIEW_REGEXP,
@@ -72,6 +75,7 @@ CMS_STORAGE_APP_REGEXP_URLPATHS = {
     'unicms_unical_storage_handler.handlers.ActivityViewHandler' : CMS_STORAGE_ACTIVITY_URL_VIEW_REGEXP,
     'unicms_unical_storage_handler.handlers.AddressbookListViewHandler' : CMS_STORAGE_ADDRESSBOOK_LIST_URL_VIEW_REGEXP,
     'unicms_unical_storage_handler.handlers.AddressbookInfoViewHandler' : CMS_STORAGE_ADDRESSBOOK_INFO_URL_VIEW_REGEXP,
+    'unicms_unical_storage_handler.handlers.BrevetsListViewHandler' : CMS_STORAGE_BREVETS_LIST_URL_VIEW_REGEXP,
     'unicms_unical_storage_handler.handlers.CdSListViewHandler' : CMS_STORAGE_CDS_LIST_URL_VIEW_REGEXP,
     'unicms_unical_storage_handler.handlers.CdSInfoViewHandler' : CMS_STORAGE_CDS_INFO_URL_VIEW_REGEXP,
     'unicms_unical_storage_handler.handlers.LaboratoryListViewHandler': CMS_STORAGE_LABORATORY_LIST_URL_VIEW_REGEXP,
@@ -96,6 +100,7 @@ CMS_STORAGE_ACTIVITY_API = f'{CMS_STORAGE_BASE_API}activities/'
 CMS_STORAGE_ADDRESSBOOK_API = f'{CMS_STORAGE_BASE_API}addressbook/'
 CMS_STORAGE_APPLIED_RESEARCH_LINE_API = f'{CMS_STORAGE_BASE_API}appliedresearchlines/'
 CMS_STORAGE_BASE_RESEARCH_LINE_API = f'{CMS_STORAGE_BASE_API}baseresearchlines/'
+CMS_STORAGE_BREVETS_API = f'{CMS_STORAGE_BASE_API}brevets/'
 CMS_STORAGE_CDS_API = f'{CMS_STORAGE_BASE_API}cds/'
 CMS_STORAGE_COMMUNITYTYPES_API = f'{CMS_STORAGE_BASE_API}publicationscommunitytypes/'
 CMS_STORAGE_DEGREETYPES_API = f'{CMS_STORAGE_BASE_API}degreetypes/'
@@ -119,6 +124,7 @@ CMS_STORAGE_ACTIVITIES_LABEL = _("Teachings")
 CMS_STORAGE_ADDRESSBOOK_LABEL = _("Persons")
 CMS_STORAGE_APPLIED_RESEARCH_LINE_LABEL = _("Applied research lines")
 CMS_STORAGE_BASE_RESEARCH_LINE_LABEL = _("Base research lines")
+CMS_STORAGE_BREVETS_LABEL = _("Brevets")
 CMS_STORAGE_CDS_LIST_LABEL = _("Study courses")
 CMS_STORAGE_LABORATORY_LABEL = _("Laboratories")
 CMS_STORAGE_PUBLICATIONS_LABEL = _("Publications")
