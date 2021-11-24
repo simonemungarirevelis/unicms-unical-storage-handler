@@ -198,10 +198,10 @@
                         <div class="card card-bg card-big no-after">
                             <div class="card-body">
                                 <h5 class="card-title">
-                                    {% trans "Brevets" %}
+                                    {% trans "Patents" %}
                                 </h5>
-                                {% settings_value "CMS_STORAGE_BREVETS_VIEW_PREFIX_PATH" as brevets_prefix %}
-                                <a href="//{{ host }}/{{ cms_path_prefix }}{{ base_prefix }}/{{ brevets_prefix }}/" role="button" class="btn btn-outline-primary btn-sm">
+                                {% settings_value "CMS_STORAGE_PATENTS_VIEW_PREFIX_PATH" as patents_prefix %}
+                                <a href="//{{ host }}/{{ cms_path_prefix }}{{ base_prefix }}/{{ patents_prefix }}/" role="button" class="btn btn-outline-primary btn-sm">
                                     {% trans "See the list" %}
                                 </a>
                             </div>

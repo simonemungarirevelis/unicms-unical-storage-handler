@@ -12,7 +12,7 @@
 {% load unicms_publications %}
 
 <!-- SEO  -->
-{% block page_title %}Brevets{% endblock page_title %}
+{% block page_title %}{% trans "Patents" %}{% endblock page_title %}
 {% block page_meta_description %}{% endblock page_meta_description %}
 {% block page_meta_keywords %}{% endblock page_meta_keywords %}
 
@@ -22,9 +22,9 @@
 <div class="container">
     <div class="col-12 py-5 bd-content">
         {% block centered_container %}
-            <h1 class="lighter mb-4">{% trans "Brevets" %}</h1>
+            <h1 class="lighter mb-4">{% trans "Patents" %}</h1>
             <hr class="my-4 bordeaux-unical-bg">
-            {% include "blocks/unical_storage_brevets_list.html" with url=url uid="id_1" %}
+            {% include "blocks/unical_storage_patents_list.html" with url=url uid="id_1" %}
         {% endblock %}
     </div>
 </div>

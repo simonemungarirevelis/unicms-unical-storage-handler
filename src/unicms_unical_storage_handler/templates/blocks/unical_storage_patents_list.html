@@ -11,7 +11,7 @@
 
 {% settings_value "CMS_PATH_PREFIX" as cms_path_prefix %}
 {% settings_value "CMS_STORAGE_BASE_PATH" as base_prefix %}
-{% settings_value "CMS_STORAGE_BREVETS_VIEW_PREFIX_PATH" as brevets_prefix %}
+{% settings_value "CMS_STORAGE_PATENTS_VIEW_PREFIX_PATH" as patents_prefix %}
 
 {% block storage_block_top %}
 {% include "blocks/includes/unical_storage_check.html" %}
@@ -47,25 +47,25 @@
                         <div class="card no-after" style="border:1px solid #b71918">
                             <div class="card-body">
                                 <div class="row">
-                                    <div class="col-12 col-lg-1" v-if="item.BrevetImage">
-                                        <img :src="gooleDriveImage(item.BrevetImage)" class="w-100"/>
+                                    <div class="col-12 col-lg-1" v-if="item.PatentImage">
+                                        <img :src="gooleDriveImage(item.PatentImage)" class="w-100"/>
                                     </div>
                                     <div class="col">
                                         <h4>
-                                            <a class="no-color" :href="'//{{ host }}/{{ cms_path_prefix }}{{ base_prefix }}/{{ brevets_prefix }}/' + [[ item.BrevetId ]] +'/'">
-                                                [[ item.BrevetTitle ]]
+                                            <a class="no-color" :href="'//{{ host }}/{{ cms_path_prefix }}{{ base_prefix }}/{{ patents_prefix }}/' + [[ item.PatentId ]] +'/'">
+                                                [[ item.PatentTitle ]]
                                             </a>
                                         </h4>
                                         <small>
-                                            [[ labels['BrevetUniqueId'] ]] >
-                                            <b>[[ item.BrevetUniqueId ]]</b>
+                                            [[ labels['PatentUniqueId'] ]] >
+                                            <b>[[ item.PatentUniqueId ]]</b>
                                         </small>
                                         <br>
-                                        <a :href="item.BrevetUrlKnowledgeShare" v-if="item.BrevetUrlKnowledgeShare">
+                                        <a :href="item.PatentUrlKnowledgeShare" v-if="item.PatentUrlKnowledgeShare">
                                             <small>
                                                 <svg class="m-auto icon-sm icon">
                                                     <use xlink:href="{% static 'svg/sprite.svg' %}#it-link"></use>
-                                                </svg> [[ labels.BrevetUrlKnowledgeShare ]]
+                                                </svg> [[ labels.PatentUrlKnowledgeShare ]]
                                             </small>
                                         </a>
                                     </div>

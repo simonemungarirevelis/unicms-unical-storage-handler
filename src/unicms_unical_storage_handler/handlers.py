@@ -424,18 +424,18 @@ class PublicationsInfoViewHandler(BaseStorageHandler):
         return (root, parent, leaf)
 
 
-class BrevetsListViewHandler(BaseStorageHandler):
-    template = "storage_brevets_list.html"
+class PatentsListViewHandler(BaseStorageHandler):
+    template = "storage_patents_list.html"
 
     def __init__(self, **kwargs):
-        super(BrevetsListViewHandler, self).__init__(**kwargs)
+        super(PatentsListViewHandler, self).__init__(**kwargs)
 
     def as_view(self):
-        self.data['url'] = f'{settings.CMS_STORAGE_BREVETS_API}'
+        self.data['url'] = f'{settings.CMS_STORAGE_PATENTS_API}'
         return super().as_view()
 
     @property
     def breadcrumbs(self):
         root = (self.get_base_url, settings.CMS_STORAGE_ROOT_LABEL)
-        leaf = ('#', settings.CMS_STORAGE_BREVETS_LABEL)
+        leaf = ('#', settings.CMS_STORAGE_PATENTS_LABEL)
         return (root, leaf)
