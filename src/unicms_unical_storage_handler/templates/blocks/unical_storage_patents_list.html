@@ -51,16 +51,24 @@
                                         <img :src="gooleDriveImage(item.PatentImage)" class="w-100"/>
                                     </div>
                                     <div class="col">
-                                        <h4>
-                                            <a class="no-color" :href="'//{{ host }}/{{ cms_path_prefix }}{{ base_prefix }}/{{ patents_prefix }}/' + [[ item.PatentId ]] +'/'">
-                                                [[ item.PatentTitle ]]
-                                            </a>
-                                        </h4>
-                                        <small>
-                                            [[ labels['PatentUniqueId'] ]] >
-                                            <b>[[ item.PatentUniqueId ]]</b>
-                                        </small>
-                                        <br>
+                                        <b>[[ item.PatentTitle ]]</b>
+                                        <p>
+                                            <small>
+                                                [[ labels['PatentUniqueId'] ]] >
+                                                <b>[[ item.PatentUniqueId ]]</b>
+                                            </small>
+                                        </p>
+                                        <p>
+                                            <small>
+                                                [[ item.PatentAbstract ]]
+                                            </small>
+                                        </p>
+                                        <p>
+                                            <small>
+                                                [[ labels['PatentAreaDescription'] ]] >
+                                                <b>[[ item.PatentAreaDescription ]]</b>
+                                            </small>
+                                        </p>
                                         <a :href="item.PatentUrlKnowledgeShare" v-if="item.PatentUrlKnowledgeShare">
                                             <small>
                                                 <svg class="m-auto icon-sm icon">
