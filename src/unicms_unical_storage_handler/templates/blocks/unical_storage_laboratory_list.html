@@ -85,7 +85,57 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div class="row">
+                                    <div class="col-sm">
+                                        <loading-icon
+                                            v-if="is_loading_infrastructures"
+                                            :loader_source="loader_source_infrastructures">
+                                        </loading-icon>
+                                        <div class="mt-5" v-else>
+                                            <label for="{{ id }}_infrastructure_input">
+                                                {% trans "Infastructure" %}
+                                            </label>
+                                            <select id="{{ id }}_infrastructure_input"
+                                                    class="form-control"
+                                                    name="{{ id }}_scope_input"
+                                                    title="{% trans 'Choose an option' %}"
+                                                    @change="{{ id }}.search()">
+                                                <option value="">- {% trans 'Clear all' %} -</option>
+                                                <option v-for="item in infrastructures"
+                                                        :value="item.InfrastructureId"
+                                                        :selected="item.InfrastructureId == selected_infrastructure">
+                                                    [[ item.InfrastructureDescription ]]
+                                                </option>
 
+                                          </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm">
+                                        <loading-icon
+                                            v-if="is_loading_scopes"
+                                            :loader_source="loader_source_scopes">
+                                        </loading-icon>
+                                        <div class="mt-5" v-else>
+                                            <label for="{{ id }}_scope_input">
+                                                {% trans "Scopes" %}
+                                            </label>
+                                            <select id="{{ id }}_scope_input"
+                                                    class="form-control"
+                                                    name="{{ id }}_scope_input"
+                                                    title="{% trans 'Choose an option' %}"
+                                                    @change="{{ id }}.search()">
+                                                <option value="">- {% trans 'Clear all' %} -</option>
+                                                <option v-for="item in scopes"
+                                                        :value="item.ScopeID"
+                                                        :selected="item.ScopeID == selected_scope">
+                                                    [[ item.ScopeDescription ]]
+                                                </option>
+
+                                          </select>
+                                        </div>
+                                    </div>
+                                </div>
                                 <div class="row">
                                     <div class="col-sm">
                                         <loading-icon
@@ -116,32 +166,6 @@
                                           </select>
                                         </div>
                                     </div>
-
-                                    <div class="col-sm">
-                                        <loading-icon
-                                            v-if="is_loading_scopes"
-                                            :loader_source="loader_source_scopes">
-                                        </loading-icon>
-                                        <div class="mt-5" v-else>
-                                            <label for="{{ id }}_scope_input">
-                                                {% trans "Scopes" %}
-                                            </label>
-                                            <select id="{{ id }}_scope_input"
-                                                    class="form-control"
-                                                    name="{{ id }}_scope_input"
-                                                    title="{% trans 'Choose an option' %}"
-                                                    @change="{{ id }}.search()">
-                                                <option value="">- {% trans 'Clear all' %} -</option>
-                                                <option v-for="item in scopes"
-                                                        :value="item.ScopeID"
-                                                        :selected="item.ScopeID == selected_scope">
-                                                    [[ item.ScopeDescription ]]
-                                                </option>
-
-                                          </select>
-                                        </div>
-                                    </div>
-
                                 </div>
                             </div>
                             {% endblock filters %}
@@ -194,6 +218,14 @@
                                             <b v-for="(scope, index) in item.LaboratoryScopes">
                                                 [[ scope.ScopeDescription ]]
                                                 <span v-if="index < (item.LaboratoryScopes.length - 1)">,&nbsp;</span>
+                                            </b>
+                                        </small>
+                                    </div>
+                                    <div class="col-12" v-if="item.InfrastructureName">
+                                        <small>
+                                            [[ labels['InfrastructureName'] ]] >
+                                            <b>
+                                                [[ item.InfrastructureName ]]
                                             </b>
                                         </small>
                                     </div>
@@ -254,6 +286,10 @@ function {{ id }}_get_form_paramenters(keyword=null, value=null) {
         let scope = document.getElementById('{{ id }}_scope_input').value
         if (scope) dict['scope'] = scope
 
+        // infrastructure
+        let infrastructure = document.getElementById('{{ id }}_infrastructure_input').value
+        if (infrastructure) dict['infrastructure'] = infrastructure
+
         // erc1
         let erc1 = document.getElementById('{{ id }}_erc1_input')
         let erc1_selected = [];
@@ -279,31 +315,36 @@ function {{ id }}_get_form_paramenters(keyword=null, value=null) {
 
 {% get_current_language as LANGUAGE_CODE %}
 {% settings_value "CMS_STORAGE_DEPARTMENTSFILTER_API" as departmentsfilter_api %}
-{% settings_value "CMS_STORAGE_LABORATORIESAREAS_API" as laboratoriesareas_api %}
+{% settings_value "CMS_STORAGE_LABORATORIES_AREAS_API" as laboratories_areas_api %}
 {% settings_value "CMS_STORAGE_LABORATORIES_SCOPES_API" as laboratories_scopes_api %}
+{% settings_value "CMS_STORAGE_INFRASTRUCTURES_API" as infrastructures_api %}
 {% settings_value "CMS_STORAGE_ERC1LIST_API" as erc1list_api %}
 
 search_dict: {},
 departments: [],
 areas: [],
 scopes: [],
+infrastructures: [],
 erc1_list: [],
 
 is_loading_departments: true,
 is_loading_areas: true,
 is_loading_erc1: true,
 is_loading_scopes: true,
+is_loading_infrastructures: true,
 
 loader_source_departments: '{{ departmentsfilter_api }}?lang={{ LANGUAGE_CODE }}',
-loader_source_areas: '{{ laboratoriesareas_api }}?lang={{ LANGUAGE_CODE }}',
+loader_source_areas: '{{ laboratories_areas_api }}?lang={{ LANGUAGE_CODE }}',
 loader_source_erc1: '{{ erc1list_api }}?lang={{ LANGUAGE_CODE }}',
 loader_source_scopes: '{{ laboratories_scopes_api }}?lang={{ LANGUAGE_CODE }}',
+loader_source_infrastructures: '{{ infrastructures_api }}?lang={{ LANGUAGE_CODE }}',
 
 selected_area: this.getItemFromSession("{{ id }}", 'area'),
 selected_department: this.getItemFromSession("{{ id }}", 'department'),
 selected_search: this.getItemFromSession("{{ id }}", 'search'),
 selected_erc1: (this.getItemFromSession("{{ id }}", 'erc1') || "").split(","),
-selected_scope: this.getItemFromSession("{{ id }}", 'scope')
+selected_scope: this.getItemFromSession("{{ id }}", 'scope'),
+selected_infrastructure: this.getItemFromSession("{{ id }}", 'infrastructure')
 
 {% endblock extra_data %}
 
@@ -314,6 +355,7 @@ selected_scope: this.getItemFromSession("{{ id }}", 'scope')
         this.callDepartments();
         this.callERC1List();
         this.callScopes();
+        this.callInfrastructures();
     {% endblock call_laboratory_on_mounted %}
 
 this.parameters = {{ id }}_encodeQueryData(this.getItemsFromSession("{{ id }}"))
@@ -336,6 +378,14 @@ this.parameters = {{ id }}_encodeQueryData(this.getItemsFromSession("{{ id }}"))
             .then(response => {
                 this.scopes = response.data.results;
                 this.is_loading_scopes = false
+            })
+    },
+    callInfrastructures() {
+        axios
+            .get(this.loader_source_infrastructures)
+            .then(response => {
+                this.infrastructures = response.data.results;
+                this.is_loading_infrastructures = false
             })
     },
     callDepartments() {

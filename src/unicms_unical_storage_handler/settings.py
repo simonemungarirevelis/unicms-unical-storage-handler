@@ -106,8 +106,9 @@ CMS_STORAGE_DEGREETYPES_API = f'{CMS_STORAGE_BASE_API}degreetypes/'
 CMS_STORAGE_DEPARTMENTSFILTER_API = f'{CMS_STORAGE_BASE_API}departmentsfilter/'
 CMS_STORAGE_ERC0LIST_API = f'{CMS_STORAGE_BASE_API}erc0list/'
 CMS_STORAGE_ERC1LIST_API = f'{CMS_STORAGE_BASE_API}erc1list/'
-CMS_STORAGE_LABORATORIESAREAS_API = f'{CMS_STORAGE_BASE_API}laboratoriesareas/'
+CMS_STORAGE_INFRASTRUCTURES_API = f'{CMS_STORAGE_BASE_API}infrastructures/'
 CMS_STORAGE_LABORATORY_API = f'{CMS_STORAGE_BASE_API}laboratories/'
+CMS_STORAGE_LABORATORIES_AREAS_API = f'{CMS_STORAGE_BASE_API}laboratoriesareas/'
 CMS_STORAGE_LABORATORIES_SCOPES_API = f'{CMS_STORAGE_BASE_API}laboratories-scopes/'
 CMS_STORAGE_PATENTS_API = f'{CMS_STORAGE_BASE_API}patents/'
 CMS_STORAGE_PUBLICATIONS_API = f'{CMS_STORAGE_BASE_API}publications/'
@@ -180,7 +181,7 @@ LABORATORY_INFO_NOT_SHOW = ['LaboratoryId', 'CompletionReferentId',
                             'LaboratoryResearchScope', 'LaboratoryActivities',
                             'CompletionReferentName', 'TechPersonnelRole',
                             'ExtraDepartments','LaboratoryEquipment',
-                            'Interdepartmental']
+                            'Interdepartmental', 'DepartmentReferentCod']
 
 PUBLICATIONS_INFO_NOT_SHOW = ['PublicationId', 'PublicationAbstract',
                               'PublicationTitle', 'PublicationCommunity',
