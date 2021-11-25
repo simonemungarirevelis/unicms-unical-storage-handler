@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-11-25 12:55+0100\n"
-"PO-Revision-Date: 2021-11-25 12:54+0100\n"
+"POT-Creation-Date: 2021-11-25 14:49+0100\n"
+"PO-Revision-Date: 2021-11-25 14:50+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: it\n"
@@ -18,83 +18,86 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Poedit 3.0\n"
 
-#: apps.py:8
-msgid "unicms_unical_storage_handler"
-msgstr ""
-
-#: settings.py:124 templates/blocks/unical_storage_teacherinfo.html:136
+#: settings.py:132 templates/blocks/unical_storage_teacherinfo.html:136
 msgid "Teachings"
 msgstr "Insegnamenti"
 
-#: settings.py:125
+#: settings.py:133
 msgid "Persons"
 msgstr "Persone"
 
-#: settings.py:126
+#: settings.py:134
 #: templates/blocks/collapse/unical_storage_collapse_research_line_applied_list.html:7
 #: templates/storage_applied_research_line_list.html:25
 #: templates/storage_base.html:165
 msgid "Applied research lines"
 msgstr "Linee di ricerca applicata"
 
-#: settings.py:127
+#: settings.py:135
 #: templates/blocks/collapse/unical_storage_collapse_research_line_base_list.html:7
 #: templates/storage_base.html:147
 #: templates/storage_base_research_line_list.html:25
 msgid "Base research lines"
 msgstr "Linee di ricerca di base"
 
-#: settings.py:128 templates/storage_base.html:39
+#: settings.py:136 templates/storage_base.html:39
 msgid "Study courses"
 msgstr "Corsi di studio"
 
-#: settings.py:129
+#: settings.py:137
 #: templates/blocks/collapse/unical_storage_collapse_laboratory_list.html:7
 #: templates/storage_base.html:111 templates/storage_laboratory_list.html:25
 msgid "Laboratories"
 msgstr "Laboratori"
 
-#: settings.py:130 templates/storage_base.html:201
+#: settings.py:138 templates/storage_base.html:201
 #: templates/storage_patents_list.html:15
 #: templates/storage_patents_list.html:25
 msgid "Patents"
 msgstr "Brevetti"
 
-#: settings.py:131 templates/blocks/unical_storage_teacherinfo.html:159
+#: settings.py:139 templates/blocks/unical_storage_teacherinfo.html:159
 #: templates/storage_base.html:183 templates/storage_publications_list.html:15
 #: templates/storage_publications_list.html:25
 msgid "Publications"
 msgstr "Pubblicazioni"
 
-#: settings.py:132
+#: settings.py:140
 #: templates/blocks/collapse/unical_storage_collapse_research_group_list.html:7
 #: templates/storage_base.html:129
 #: templates/storage_research_group_list.html:25
 msgid "Research groups"
 msgstr "Gruppi di ricerca"
 
-#: settings.py:133 templates/storage_base.html:30
+#: settings.py:141 templates/storage_base.html:30
 msgid "Data storage"
 msgstr "Archivio dati"
 
-#: settings.py:134
+#: settings.py:142 templates/storage_base.html:219
+#: templates/storage_spinoff_list.html:15
+#: templates/storage_spinoff_list.html:25
+msgid "Companies"
+msgstr "Imprese"
+
+#: settings.py:143
 msgid "Structures"
 msgstr "Strutture"
 
-#: settings.py:135 templates/blocks/unical_storage_cdsinfo.html:203
+#: settings.py:144 templates/blocks/unical_storage_cdsinfo.html:203
 #: templates/storage_base.html:75 templates/storage_teachers_list.html:25
 msgid "Teachers"
 msgstr "Docenti"
 
-#: settings.py:142
+#: settings.py:151 templates/blocks/unical_storage_spinoff_list.html:51
+#: templates/blocks/unical_storage_spinoff_list.html:75
 msgid "No"
 msgstr "No"
 
-#: settings.py:143
+#: settings.py:152
 msgid "Joint title"
 msgstr "Titolo congiunto"
 
-#: settings.py:144
+#: settings.py:153
 msgid "Double title"
 msgstr "Doppio titolo"
 
@@ -130,6 +133,7 @@ msgstr "prossimo"
 #: templates/blocks/unical_storage_publications_list.html:145
 #: templates/blocks/unical_storage_research_group_list.html:121
 #: templates/blocks/unical_storage_research_line_list.html:131
+#: templates/blocks/unical_storage_spinoff_list.html:141
 #: templates/blocks/unical_storage_structure_info.html:125
 #: templates/blocks/unical_storage_structure_list.html:108
 #: templates/blocks/unical_storage_studyplanactivities.html:37
@@ -171,14 +175,18 @@ msgstr "Tipo struttura"
 #: templates/blocks/unical_storage_laboratory_list.html:73
 #: templates/blocks/unical_storage_laboratory_list.html:77
 #: templates/blocks/unical_storage_laboratory_list.html:102
-#: templates/blocks/unical_storage_laboratory_list.html:133
-#: templates/blocks/unical_storage_laboratory_list.html:158
+#: templates/blocks/unical_storage_laboratory_list.html:128
+#: templates/blocks/unical_storage_laboratory_list.html:154
 #: templates/blocks/unical_storage_publications_list.html:74
 #: templates/blocks/unical_storage_publications_list.html:78
 #: templates/blocks/unical_storage_research_group_list.html:45
 #: templates/blocks/unical_storage_research_group_list.html:49
 #: templates/blocks/unical_storage_research_line_list.html:45
 #: templates/blocks/unical_storage_research_line_list.html:49
+#: templates/blocks/unical_storage_spinoff_list.html:40
+#: templates/blocks/unical_storage_spinoff_list.html:44
+#: templates/blocks/unical_storage_spinoff_list.html:64
+#: templates/blocks/unical_storage_spinoff_list.html:68
 #: templates/blocks/unical_storage_structure_list.html:43
 #: templates/blocks/unical_storage_structure_list.html:47
 #: templates/blocks/unical_storage_teacherslist.html:65
@@ -363,22 +371,22 @@ msgid "Area"
 msgstr "Ambito"
 
 #: templates/blocks/unical_storage_laboratory_list.html:97
-msgid "ERC 1"
-msgstr ""
-
-#: templates/blocks/unical_storage_laboratory_list.html:105
-#: templates/blocks/unical_storage_laboratory_list.html:135
-#: templates/blocks/unical_storage_laboratory_list.html:160
-msgid "Clear all"
-msgstr "Deseleziona tutto"
-
-#: templates/blocks/unical_storage_laboratory_list.html:128
 msgid "Infastructure"
 msgstr "Infrastruttura"
 
-#: templates/blocks/unical_storage_laboratory_list.html:153
+#: templates/blocks/unical_storage_laboratory_list.html:104
+#: templates/blocks/unical_storage_laboratory_list.html:130
+#: templates/blocks/unical_storage_laboratory_list.html:157
+msgid "Clear all"
+msgstr "Deseleziona tutto"
+
+#: templates/blocks/unical_storage_laboratory_list.html:123
 msgid "Scopes"
 msgstr "Finalità"
+
+#: templates/blocks/unical_storage_laboratory_list.html:149
+msgid "ERC 1"
+msgstr ""
 
 #: templates/blocks/unical_storage_laboratory_list.html:196
 msgid "Manager"
@@ -388,6 +396,23 @@ msgstr "Responsabile"
 #: templates/blocks/unical_storage_structure_list.html:39
 msgid "Types"
 msgstr "Tipologie"
+
+#: templates/blocks/unical_storage_spinoff_info.html:45
+#: templates/blocks/unical_storage_spinoff_list.html:36
+#: templates/blocks/unical_storage_spinoff_list.html:111
+msgid "Spin-off"
+msgstr ""
+
+#: templates/blocks/unical_storage_spinoff_info.html:51
+#: templates/blocks/unical_storage_spinoff_list.html:60
+#: templates/blocks/unical_storage_spinoff_list.html:117
+msgid "Startup"
+msgstr ""
+
+#: templates/blocks/unical_storage_spinoff_list.html:47
+#: templates/blocks/unical_storage_spinoff_list.html:71
+msgid "Yes"
+msgstr "Si"
 
 #: templates/blocks/unical_storage_structure_info.html:109
 msgid "Personnel Functions"
@@ -426,6 +451,7 @@ msgstr "Rubrica"
 #: templates/storage_base.html:115 templates/storage_base.html:133
 #: templates/storage_base.html:151 templates/storage_base.html:169
 #: templates/storage_base.html:187 templates/storage_base.html:205
+#: templates/storage_base.html:223
 msgid "See the list"
 msgstr "Vedi lista"
 

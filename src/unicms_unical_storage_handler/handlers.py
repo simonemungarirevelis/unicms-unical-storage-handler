@@ -439,3 +439,47 @@ class PatentsListViewHandler(BaseStorageHandler):
         root = (self.get_base_url, settings.CMS_STORAGE_ROOT_LABEL)
         leaf = ('#', settings.CMS_STORAGE_PATENTS_LABEL)
         return (root, leaf)
+
+
+class SpinoffListViewHandler(BaseStorageHandler):
+    template = "storage_spinoff_list.html"
+
+    def __init__(self, **kwargs):
+        super(SpinoffListViewHandler, self).__init__(**kwargs)
+
+    def as_view(self):
+        url_data = {}
+        params = urllib.parse.urlencode(url_data)
+        self.data['url'] = f'{settings.CMS_STORAGE_SPINOFF_API}?{params}'
+        return super().as_view()
+
+    @property
+    def breadcrumbs(self):
+        root = (self.get_base_url, settings.CMS_STORAGE_ROOT_LABEL)
+        leaf = ('#', settings.CMS_STORAGE_SPINOFF_LABEL)
+        return (root, leaf)
+
+
+class SpinoffInfoViewHandler(BaseStorageHandler):
+    template = "storage_spinoff_info.html"
+
+    def __init__(self, **kwargs):
+        super(SpinoffInfoViewHandler, self).__init__(**kwargs)
+        self.code = self.match_dict.get('code', '')
+
+    def as_view(self):
+        self.data['code'] = self.code
+        self.data['url'] = f'{settings.CMS_STORAGE_SPINOFF_API}{self.code}/'
+        return super().as_view()
+
+    @property
+    def parent_url(self):
+        url = f'{self.webpath.get_full_path()}/{settings.CMS_STORAGE_BASE_PATH}/{settings.CMS_STORAGE_SPINOFF_VIEW_PREFIX_PATH}/'
+        return sanitize_path(url)
+
+    @property
+    def breadcrumbs(self):
+        root = (self.get_base_url, settings.CMS_STORAGE_ROOT_LABEL)
+        parent = (self.parent_url, settings.CMS_STORAGE_SPINOFF_LABEL)
+        leaf = ('#', self.code)
+        return (root, parent, leaf)

@@ -22,6 +22,7 @@ CMS_STORAGE_LABORATORY_VIEW_PREFIX_PATH = 'laboratories'
 CMS_STORAGE_PATENTS_VIEW_PREFIX_PATH = 'patents'
 CMS_STORAGE_PUBLICATIONS_VIEW_PREFIX_PATH = 'publications'
 CMS_STORAGE_RESEARCH_GROUP_VIEW_PREFIX_PATH = 'research-groups'
+CMS_STORAGE_SPINOFF_VIEW_PREFIX_PATH = 'companies'
 CMS_STORAGE_STRUCTURE_VIEW_PREFIX_PATH = 'structures'
 CMS_STORAGE_THEACHER_VIEW_PREFIX_PATH = 'teachers'
 
@@ -42,6 +43,8 @@ CMS_STORAGE_PUBLICATIONS_INFO_URL_VIEW_REGEXP = f'^(?P<webpath>[\/a-zA-Z0-9\.\-\
 CMS_STORAGE_RESEARCH_GROUP_LIST_URL_VIEW_REGEXP = f'^(?P<webpath>[\/a-zA-Z0-9\.\-\_]*)({CMS_STORAGE_BASE_PATH})/({CMS_STORAGE_RESEARCH_GROUP_VIEW_PREFIX_PATH})(/)?$' # noqa
 CMS_STORAGE_BASE_RESEARCH_LINE_LIST_URL_VIEW_REGEXP = f'^(?P<webpath>[\/a-zA-Z0-9\.\-\_]*)({CMS_STORAGE_BASE_PATH})/({CMS_STORAGE_BASE_RESEARCH_LINE_VIEW_PREFIX_PATH})(/)?$' # noqa
 CMS_STORAGE_APPLIED_RESEARCH_LINE_LIST_URL_VIEW_REGEXP = f'^(?P<webpath>[\/a-zA-Z0-9\.\-\_]*)({CMS_STORAGE_BASE_PATH})/({CMS_STORAGE_APPLIED_RESEARCH_LINE_VIEW_PREFIX_PATH})(/)?$' # noqa
+CMS_STORAGE_SPINOFF_URL_LIST_VIEW_REGEXP = f'^(?P<webpath>[\/a-zA-Z0-9\.\-\_]*)({CMS_STORAGE_BASE_PATH})/({CMS_STORAGE_SPINOFF_VIEW_PREFIX_PATH})(/)?$' # noqa
+CMS_STORAGE_SPINOFF_URL_INFO_VIEW_REGEXP = f'^(?P<webpath>[\/a-zA-Z0-9\.\-\_]*)({CMS_STORAGE_BASE_PATH})/({CMS_STORAGE_SPINOFF_VIEW_PREFIX_PATH})/(?P<code>[a-z0-9\-]*)(/)?$' # noqa
 CMS_STORAGE_STRUCTURE_LIST_URL_VIEW_REGEXP = f'^(?P<webpath>[\/a-zA-Z0-9\.\-\_]*)({CMS_STORAGE_BASE_PATH})/({CMS_STORAGE_STRUCTURE_VIEW_PREFIX_PATH})(/)?$' # noqa
 CMS_STORAGE_STRUCTURE_INFO_URL_VIEW_REGEXP = f'^(?P<webpath>[\/a-zA-Z0-9\.\-\_]*)({CMS_STORAGE_BASE_PATH})/({CMS_STORAGE_STRUCTURE_VIEW_PREFIX_PATH})/(?P<code>[a-z0-9\-]*)(/)?$' # noqa
 CMS_STORAGE_TEACHER_LIST_URL_VIEW_REGEXP = f'^(?P<webpath>[\/a-zA-Z0-9\.\-\_]*)({CMS_STORAGE_BASE_PATH})/({CMS_STORAGE_THEACHER_VIEW_PREFIX_PATH})(/)?$' # noqa
@@ -63,6 +66,8 @@ CMS_STORAGE_HANDLERS_PATHS = [
                               CMS_STORAGE_RESEARCH_GROUP_LIST_URL_VIEW_REGEXP,
                               CMS_STORAGE_BASE_RESEARCH_LINE_LIST_URL_VIEW_REGEXP,
                               CMS_STORAGE_APPLIED_RESEARCH_LINE_LIST_URL_VIEW_REGEXP,
+                              CMS_STORAGE_SPINOFF_URL_LIST_VIEW_REGEXP,
+                              CMS_STORAGE_SPINOFF_URL_INFO_VIEW_REGEXP,
                               CMS_STORAGE_STRUCTURE_LIST_URL_VIEW_REGEXP,
                               CMS_STORAGE_STRUCTURE_INFO_URL_VIEW_REGEXP,
                               CMS_STORAGE_TEACHER_LIST_URL_VIEW_REGEXP,
@@ -85,6 +90,8 @@ CMS_STORAGE_APP_REGEXP_URLPATHS = {
     'unicms_unical_storage_handler.handlers.ResearchGroupListViewHandler': CMS_STORAGE_RESEARCH_GROUP_LIST_URL_VIEW_REGEXP,
     'unicms_unical_storage_handler.handlers.BaseResearchLineListViewHandler': CMS_STORAGE_BASE_RESEARCH_LINE_LIST_URL_VIEW_REGEXP,
     'unicms_unical_storage_handler.handlers.AppliedResearchLineListViewHandler': CMS_STORAGE_APPLIED_RESEARCH_LINE_LIST_URL_VIEW_REGEXP,
+    'unicms_unical_storage_handler.handlers.SpinoffListViewHandler': CMS_STORAGE_SPINOFF_URL_LIST_VIEW_REGEXP,
+    'unicms_unical_storage_handler.handlers.SpinoffInfoViewHandler' : CMS_STORAGE_SPINOFF_URL_INFO_VIEW_REGEXP,
     'unicms_unical_storage_handler.handlers.StructureListViewHandler': CMS_STORAGE_STRUCTURE_LIST_URL_VIEW_REGEXP,
     'unicms_unical_storage_handler.handlers.StructureInfoViewHandler' : CMS_STORAGE_STRUCTURE_INFO_URL_VIEW_REGEXP,
     'unicms_unical_storage_handler.handlers.TeacherListViewHandler' : CMS_STORAGE_TEACHER_LIST_URL_VIEW_REGEXP,
@@ -114,6 +121,7 @@ CMS_STORAGE_PATENTS_API = f'{CMS_STORAGE_BASE_API}patents/'
 CMS_STORAGE_PUBLICATIONS_API = f'{CMS_STORAGE_BASE_API}publications/'
 CMS_STORAGE_RESEARCH_GROUP_API = f'{CMS_STORAGE_BASE_API}researchgroups/'
 CMS_STORAGE_ROLES_API = f'{CMS_STORAGE_BASE_API}roles/'
+CMS_STORAGE_SPINOFF_API = f'{CMS_STORAGE_BASE_API}spin-offs/'
 CMS_STORAGE_STRUCTURE_API = f'{CMS_STORAGE_BASE_API}structures/'
 CMS_STORAGE_STRUCTUREFILTER_API = f'{CMS_STORAGE_BASE_API}structuresfilter/'
 CMS_STORAGE_STRUCTURETYPES_API = f'{CMS_STORAGE_BASE_API}structuretypes/'
@@ -131,6 +139,7 @@ CMS_STORAGE_PATENTS_LABEL = _("Patents")
 CMS_STORAGE_PUBLICATIONS_LABEL = _("Publications")
 CMS_STORAGE_RESEARCH_GROUP_LABEL = _("Research groups")
 CMS_STORAGE_ROOT_LABEL = _("Data storage")
+CMS_STORAGE_SPINOFF_LABEL = _("Companies")
 CMS_STORAGE_STRUCTURE_LABEL = _("Structures")
 CMS_STORAGE_TEACHERS_LABEL = _("Teachers")
 
@@ -190,6 +199,9 @@ PUBLICATIONS_INFO_NOT_SHOW = ['PublicationId', 'PublicationAbstract',
 
 INITIAL_STRUCTURE_FATHER = ''
 
+SPINOFF_INFO_NOT_SHOW = ['SpinoffId', 'SpinoffImage', 'SpinoffTechAreaId',
+                         'IsSpinoff', 'IsStartup', 'SpinoffAgencyName',
+                         'SpinoffUnicalReferentId', 'SpinoffDescription']
 
 # ALMALAUREA Link
 ALMALAUREA_LINK = 'http://statistiche.almalaurea.it/universita/statistiche/trasparenza?codicione='
