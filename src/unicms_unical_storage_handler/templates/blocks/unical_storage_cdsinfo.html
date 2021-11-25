@@ -24,7 +24,7 @@
         :loader_source="loader_source">
     </loading-icon>
 
-    <div v-else>
+    <div v-else-if="Object.keys(item).length">
         <h1 class="lighter">[[ item.CdSName ]]</h1>
         <div class="my-3">
             <h3 class="lighter" style="display: inline">[[ item.CourseTypeDescription ]]</h3>
@@ -159,6 +159,9 @@
                 </div>
             </div>
         </div>
+    </div>
+    <div v-else>
+        {% include "includes/unical_storage_empty.html" with url=url %}
     </div>
 </div>
 
