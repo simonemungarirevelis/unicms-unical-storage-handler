@@ -86,6 +86,7 @@
                                     </div>
                                 </div>
                                 <div class="row">
+                                    {% block filter_infrastructure %}
                                     <div class="col-sm">
                                         <loading-icon
                                             v-if="is_loading_infrastructures"
@@ -110,6 +111,7 @@
                                           </select>
                                         </div>
                                     </div>
+                                    {% endblock filter_infrastructure %}
 
                                     <div class="col-sm">
                                         <loading-icon
@@ -272,7 +274,7 @@ function {{ id }}_get_form_paramenters(keyword=null, value=null) {
     let search = document.getElementById('{{ id }}_search').value
     if (search) dict['search'] = search
 
-    {% block laboratory_filter_input %}
+    {% block laboratory_filter_script %}
 
         // area
         let area = document.getElementById('{{ id }}_area_input').value
@@ -286,9 +288,11 @@ function {{ id }}_get_form_paramenters(keyword=null, value=null) {
         let scope = document.getElementById('{{ id }}_scope_input').value
         if (scope) dict['scope'] = scope
 
+        {% block filter_infrastructure_script %}
         // infrastructure
         let infrastructure = document.getElementById('{{ id }}_infrastructure_input').value
         if (infrastructure) dict['infrastructure'] = infrastructure
+        {% endblock filter_infrastructure_script %}
 
         // erc1
         let erc1 = document.getElementById('{{ id }}_erc1_input')
@@ -302,7 +306,7 @@ function {{ id }}_get_form_paramenters(keyword=null, value=null) {
         let erc1_values = erc1_selected.join(",")
         if(erc1_values) dict['erc1'] = erc1_values
 
-    {% endblock laboratory_filter_input %}
+    {% endblock laboratory_filter_script %}
 
     setItemInSession("{{ id }}", dict)
 
