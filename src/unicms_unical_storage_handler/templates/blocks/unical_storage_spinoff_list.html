@@ -156,16 +156,16 @@ function {{ id }}_get_form_paramenters(keyword=null, value=null) {
         dict[keyword] = value
 
     // search
-    let search = document.getElementById('{{ id }}_search').value
-    if (search) dict['search'] = search
+    let search = document.getElementById('{{ id }}_search')
+    if (search) dict['search'] = search.value
 
     // spinoff
-    let spinoff = document.getElementById('{{ id }}_spinoff_input').value
-    if (spinoff) dict['spinoff'] = spinoff
+    let spinoff = document.getElementById('{{ id }}_spinoff_input')
+    if (spinoff) dict['spinoff'] = spinoff.value
 
     // startup
-    let startup = document.getElementById('{{ id }}_startup_input').value
-    if (startup) dict['startup'] = startup
+    let startup = document.getElementById('{{ id }}_startup_input')
+    if (startup) dict['startup'] = startup.value
 
     setItemInSession("{{ id }}", dict)
 

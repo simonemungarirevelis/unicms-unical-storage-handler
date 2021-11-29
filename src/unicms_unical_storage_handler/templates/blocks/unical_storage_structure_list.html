@@ -123,13 +123,13 @@ function {{ id }}_get_form_paramenters(keyword=null, value=null) {
         dict[keyword] = value
 
     // search
-    let search = document.getElementById('{{ id }}_search').value
-    if (search) dict['search'] = search
+    let search = document.getElementById('{{ id }}_search')
+    if (search) dict['search'] = search.value
 
     {% block structure_type_filter_script %}
     //types
-    let type = document.getElementById('{{ id }}_type_input').value
-    if (type) dict['type'] = type
+    let type = document.getElementById('{{ id }}_type_input')
+    if (type) dict['type'] = type.value
     {% endblock structure_type_filter_script %}
 
     setItemInSession("{{ id }}", dict)

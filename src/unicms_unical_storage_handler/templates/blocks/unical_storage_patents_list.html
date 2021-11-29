@@ -156,12 +156,12 @@ function {{ id }}_get_form_paramenters(keyword=null, value=null) {
 
 
     // search
-    let search = document.getElementById('{{ id }}_search').value
-    if (search) dict['search'] = search
+    let search = document.getElementById('{{ id }}_search')
+    if (search) dict['search'] = search.value
 
     // tech area
-    let techarea = document.getElementById('{{ id }}_techarea_input').value
-    if (techarea) dict['techarea'] = techarea
+    let techarea = document.getElementById('{{ id }}_techarea_input')
+    if (techarea) dict['techarea'] = techarea.value
 
     setItemInSession("{{ id }}", dict)
 

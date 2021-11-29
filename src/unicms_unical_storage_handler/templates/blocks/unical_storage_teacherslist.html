@@ -160,20 +160,20 @@ function {{ id }}_get_form_paramenters(keyword=null, value=null) {
         dict[keyword] = value
 
     // search
-    let search = document.getElementById('{{ id }}_search').value
-    if (search) dict['search'] = search
+    let search = document.getElementById('{{ id }}_search')
+    if (search) dict['search'] = search.value
 
     // cds
-    let cdsid = document.getElementById('{{ id }}_cdsid_input').value
-    if (cdsid) dict['cds'] = cdsid
+    let cdsid = document.getElementById('{{ id }}_cdsid_input')
+    if (cdsid) dict['cds'] = cdsid.value
 
     // role
-    let role = document.getElementById('{{ id }}_role_input').value
-    if (role) dict['role'] = role
+    let role = document.getElementById('{{ id }}_role_input')
+    if (role) dict['role'] = role.value
 
     // department
-    let department = document.getElementById('{{ id }}_department_input').value
-    if (department) dict['department'] = department
+    let department = document.getElementById('{{ id }}_department_input')
+    if (department) dict['department'] = department.value
 
     setItemInSession("{{ id }}", dict)
 

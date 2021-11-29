@@ -268,25 +268,25 @@ function {{ id }}_get_form_paramenters(keyword=null, value=null) {
         dict[keyword] = value
 
     // search
-    let search = document.getElementById('{{ id }}_search').value
-    dict['search'] = search
+    let search = document.getElementById('{{ id }}_search')
+    dict['search'] = search.value
 
     // academic year
-    let academic_year = document.getElementById('{{ id }}_academic_year_input').value
-    if (academic_year) dict['academicyear'] = academic_year
+    let academic_year = document.getElementById('{{ id }}_academic_year_input')
+    if (academic_year) dict['academicyear'] = academic_year.value
 
     // department name
-    let department = document.getElementById('{{ id }}_department_input').value
-    if (department) dict['departmentcod'] = department
+    let department = document.getElementById('{{ id }}_department_input')
+    if (department) dict['departmentcod'] = department.value
 
     // cds language
-    let cds_language = document.getElementById('{{ id }}_cds_language_input').value
-    if (cds_language) dict['cdslanguage'] = cds_language
+    let cds_language = document.getElementById('{{ id }}_cds_language_input')
+    if (cds_language) dict['cdslanguage'] = cds_language.value
 
     // joint degree
     {% block filters_jointdegree_script %}
-    let joint_degree = document.getElementById('{{ id }}_joint_degree_input').value
-    if (joint_degree) dict['jointdegree'] = joint_degree
+    let joint_degree = document.getElementById('{{ id }}_joint_degree_input')
+    if (joint_degree) dict['jointdegree'] = joint_degree.value
     {% endblock filters_jointdegree_script %}
 
     setItemInSession("{{ id }}", dict)

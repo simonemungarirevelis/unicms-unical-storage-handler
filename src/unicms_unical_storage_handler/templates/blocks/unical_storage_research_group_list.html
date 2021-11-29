@@ -137,14 +137,14 @@ function {{ id }}_get_form_paramenters(keyword=null, value=null) {
 
 
     // search
-    let search = document.getElementById('{{ id }}_search').value
-    if (search) dict['search'] = search
+    let search = document.getElementById('{{ id }}_search')
+    if (search) dict['search'] = search.value
 
     {% block researchgroup_filter_input %}
 
         // department
         let department = document.getElementById('{{ id }}_department_input').value
-        if (department) dict['department'] = department
+        if (department) dict['department'] = department.value
 
     {% endblock researchgroup_filter_input %}
 
