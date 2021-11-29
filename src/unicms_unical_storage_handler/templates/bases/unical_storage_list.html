@@ -42,18 +42,23 @@ Vue.component('list-panel', {
         id: String
     },
     template: `
-        <div class="card-wrapper card-space" v-if="data.total_pages > 1">
+        <div class="card-wrapper card-space">
             <div class="card card-bg no-after">
               <div class="card-body py-1">
 
                 <div class="row">
-                    <div class="col w-50">
+                    <div class="col w-50" v-if="data.total_pages > 1">
                         <span style="color:#050b12;">
                             <b>[[ data.count || 0]] {% trans "results" %}</b> in <b>[[ data.total_pages || 0 ]] {% trans "pages" %}</b>
                         </span>
                     </div>
+                    <div class="col w-50" v-else>
+                        <span style="color:#050b12;">
+                            <b>[[ data.count || 0]] {% trans "results" %}
+                        </span>
+                    </div>
 
-                    <div class="col w-50 ">
+                    <div class="col w-50" v-if="data.total_pages > 1">
                         <div class="float-right">
                             <span>
                                 <a class="" style="color:#050b12;" v-if="data.page_number > 1" :onclick="[[ id ]] + '.CallURL(' + [[ id ]] + '.previous_page)'">

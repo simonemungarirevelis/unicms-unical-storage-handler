@@ -27,6 +27,38 @@
 
                             {% include "includes/unical_storage_search_input.html" with id=id %}
 
+                            <div class="form-group">
+                                <!-- Areas & Department -->
+
+                                <div class="row">
+
+                                    <div class="col-sm">
+                                        <loading-icon
+                                            v-if="is_loading_techareas"
+                                            :loader_source="loader_source_techareas">
+                                        </loading-icon>
+                                        <div v-else>
+                                            <label for="{{ id }}_techarea_input">
+                                                {% trans "Tech Area" %}
+                                            </label>
+                                            <div class="w-30 mt-5">
+                                                <select id="{{ id }}_techarea_input"
+                                                        title="{% trans 'Choose an option' %}"
+                                                        name="{{ id }}_techarea_input"
+                                                        class="form-control"
+                                                        @change="{{ id }}.search()">
+                                                  <option value="">- {% trans 'Choose an option' %} -</option>
+                                                  <option v-for="item in techareas"
+                                                          :value="item.TechAreaId"
+                                                          :selected="item.TechAreaId == selected_techarea">
+                                                      [[ item.TechAreaDescription ]]
+                                                  </option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -127,8 +159,9 @@ function {{ id }}_get_form_paramenters(keyword=null, value=null) {
     let search = document.getElementById('{{ id }}_search').value
     if (search) dict['search'] = search
 
-    {% block laboratory_filter_input %}
-    {% endblock laboratory_filter_input %}
+    // tech area
+    let techarea = document.getElementById('{{ id }}_techarea_input').value
+    if (techarea) dict['techarea'] = techarea
 
     setItemInSession("{{ id }}", dict)
 
@@ -141,23 +174,42 @@ function {{ id }}_get_form_paramenters(keyword=null, value=null) {
 
 {% get_current_language as LANGUAGE_CODE %}
 
+{% settings_value "CMS_STORAGE_TECHAREAS_API" as techareas_api %}
+
 search_dict: {},
+techareas: [],
+
+is_loading_techareas: true,
+
+loader_source_techareas: '{{ techareas_api }}?lang={{ LANGUAGE_CODE }}',
 
 selected_search: this.getItemFromSession("{{ id }}", 'search'),
+selected_techarea: this.getItemFromSession("{{ id }}", 'techarea'),
 
 {% endblock extra_data %}
 
 {% block extra_mounted %}
 this.parameters = {{ id }}_encodeQueryData(this.getItemsFromSession("{{ id }}"))
+
+this.callTechAreas();
+
 {% endblock extra_mounted %}
 
 {% block extra_methods %}
-gooleDriveImage(path) {
-    let id = path.match("https://drive.google.com/file/d/(.*)/view")[1]
-    if (path && id) {
-        return 'https://drive.google.com/uc?export=view&id=' + id
+    callTechAreas() {
+        axios
+            .get(this.loader_source_techareas)
+            .then(response => {
+                this.techareas = response.data.results;
+                this.is_loading_techareas = false
+            })
+    },
+    gooleDriveImage(path) {
+        let id = path.match("https://drive.google.com/file/d/(.*)/view")[1]
+        if (path && id) {
+            return 'https://drive.google.com/uc?export=view&id=' + id
+        }
+        return ''
     }
-    return ''
-}
 {% endblock extra_methods %}
 </script>
