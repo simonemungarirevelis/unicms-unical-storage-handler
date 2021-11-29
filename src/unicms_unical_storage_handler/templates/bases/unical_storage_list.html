@@ -36,7 +36,7 @@ Vue.component('list-panel', {
         id: String
     },
     template: `
-        <div class="card-wrapper card-space">
+        <div class="card-wrapper card-space" v-if="data.total_pages > 1">
             <div class="card card-bg no-after">
               <div class="card-body py-1">
 
