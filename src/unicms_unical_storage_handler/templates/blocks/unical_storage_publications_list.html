@@ -45,7 +45,8 @@
                                                                id="{{ id }}_year_input"
                                                                name="{{ id }}_year_input"
                                                                v-on:keyup.enter="{{ id }}.search()"
-                                                               v-model="selected_year">
+                                                               v-model="selected_year"
+                                                               :value="selected_year" >
                                                         <button class="input-number-add">
                                                             <span class="sr-only">
                                                                 {% trans "Increase value" %}
