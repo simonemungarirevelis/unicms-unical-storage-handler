@@ -45,8 +45,7 @@
                                                                id="{{ id }}_year_input"
                                                                name="{{ id }}_year_input"
                                                                v-on:keyup.enter="{{ id }}.search()"
-                                                               v-model="selected_year"
-                                                               :value="selected_year" >
+                                                               v-model="selected_year">
                                                         <button class="input-number-add">
                                                             <span class="sr-only">
                                                                 {% trans "Increase value" %}
@@ -181,7 +180,7 @@ function {{ id }}_get_form_paramenters(keyword=null, value=null) {
 
 selected_types: this.getItemFromSession("{{ id }}", 'type'),
 selected_search: this.getItemFromSession("{{ id }}", 'search'),
-selected_year: this.getItemFromSession("{{ id }}", 'year'),
+selected_year: this.getItemFromSession("{{ id }}", 'year') || {{ id }}_get_param('year'),
 
 is_loading_types: true,
 

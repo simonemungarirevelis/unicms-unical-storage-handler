@@ -26,6 +26,12 @@ function {{ id }}_encodeQueryData(data=[]) {
         return '&' + ret.join('&')
     return '?' + ret.join('&');
 }
+
+function {{ id }}_get_param(name) {
+    let url = "{{ url }}";
+    let params = (new URL(url)).searchParams;
+    return params.get(name)
+}
 </script>
 
 <script>
