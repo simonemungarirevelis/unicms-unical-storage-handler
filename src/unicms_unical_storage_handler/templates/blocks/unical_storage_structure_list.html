@@ -20,6 +20,8 @@
         <div class="row">
             <div class="col-12">
                 <div class="card-wrapper card-space">
+
+                    {% block search %}
                     <div class="card card-bg no-after">
                         <br>
                         <div class="card-body">
@@ -61,6 +63,7 @@
 
                         </div>
                     </div>
+                    {% endblock search %}
                 </div>
             </div>
         </div>
@@ -122,9 +125,11 @@ function {{ id }}_get_form_paramenters(keyword=null, value=null) {
     if (keyword)
         dict[keyword] = value
 
+    {% block structure_search_script %}
     // search
     let search = document.getElementById('{{ id }}_search')
     if (search) dict['search'] = search.value
+    {% endblock structure_search_script %}
 
     {% block structure_type_filter_script %}
     //types
