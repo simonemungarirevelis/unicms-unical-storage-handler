@@ -97,10 +97,10 @@
                     <tr v-if="item.StructurePersonnelFunctions">
                         <td>{% trans "Manager" %}</td>
                         <td>
-                            <li v-for="subvalue in item.StructurePersonnelFunctions" v-if="subvalue.Name && subvalue.Name != '' && functions.includes(subvalue.Function)">
+                            <li v-for="subvalue in item.StructurePersonnelFunctions" v-if="subvalue.Name && subvalue.Name != '' && functions.includes(subvalue.FunctionCod)">
                                 <a :href="'//{{ host }}/{{ cms_path_prefix }}{{ base_prefix }}/{{ addressbook_prefix }}/' + [[ subvalue.ID ]] +'/'">
-                                        [[ subvalue.Name ]] - [[ subvalue.Function ]]
-                                </a>
+                                        [[ subvalue.Name ]]
+                                </a>  - [[ subvalue.Function ]]
                             </li>
                         </td>
                     </tr>
