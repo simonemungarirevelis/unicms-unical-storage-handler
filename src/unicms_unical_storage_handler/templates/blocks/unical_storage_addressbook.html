@@ -229,6 +229,7 @@ function {{ id }}_get_form_paramenters(keyword=null, value=null) {
 {% settings_value "CMS_STORAGE_STRUCTUREFILTER_API" as structuresfilter_api %}
 {% settings_value "CMS_STORAGE_STRUCTURETYPES_API" as structuretypes_api %}
 {% settings_value "CMS_STORAGE_ROLES_API" as roles_api %}
+{% settings_value "INITIAL_STRUCTURE_FATHER" as root_structure %}
 
 search_dict: {},
 
@@ -253,7 +254,8 @@ roles_filter: [],
 structure_id_filter: [],
 structure_type_filter: [],
 
-structure_type_filter_string: null
+structure_type_filter_string: '',
+structure_father_filter: '{{ root_structure }}'
 
 {% endblock extra_data %}
 
@@ -269,6 +271,7 @@ structure_type_filter_string: null
         this.allowed_roles = get_roles_list
     }
 
+    this.structure_father_filter = params.get("father")
     this.structure_type_filter_string = params.get("structuretypes")
     let get_structure_types = params.get("structuretypes")
 
@@ -297,15 +300,13 @@ structure_type_filter_string: null
 
 {% block structure_call_method %}
 
-{% settings_value "INITIAL_STRUCTURE_FATHER" as root_structure %}
-
 callStructures() {
     let source = this.loader_source_structures
     if (this.structure_type_filter_string)
         source += '&type='+this.structure_type_filter_string
 
-    if("{{ root_structure }}")
-        source += '&father={{ root_structure }}'
+    if(this.structure_father_filter)
+        source += '&father=this.structure_father_filter'
 
     axios
         .get(source)
