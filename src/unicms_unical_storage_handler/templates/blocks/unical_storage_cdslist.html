@@ -269,24 +269,24 @@ function {{ id }}_get_form_paramenters(keyword=null, value=null) {
 
     // search
     let search = document.getElementById('{{ id }}_search')
-    dict['search'] = search.value
+    if (search && search.value) dict['search'] = search.value
 
     // academic year
     let academic_year = document.getElementById('{{ id }}_academic_year_input')
-    if (academic_year) dict['academicyear'] = academic_year.value
+    if (academic_year && academic_year.value) dict['academicyear'] = academic_year.value
 
     // department name
     let department = document.getElementById('{{ id }}_department_input')
-    if (department) dict['departmentcod'] = department.value
+    if (department && department.value) dict['departmentcod'] = department.value
 
     // cds language
     let cds_language = document.getElementById('{{ id }}_cds_language_input')
-    if (cds_language) dict['cdslanguage'] = cds_language.value
+    if (cds_language && cds_language.value) dict['cdslanguage'] = cds_language.value
 
     // joint degree
     {% block filters_jointdegree_script %}
     let joint_degree = document.getElementById('{{ id }}_joint_degree_input')
-    if (joint_degree) dict['jointdegree'] = joint_degree.value
+    if (joint_degree && joint_degree_value) dict['jointdegree'] = joint_degree.value
     {% endblock filters_jointdegree_script %}
 
     setItemInSession("{{ id }}", dict)

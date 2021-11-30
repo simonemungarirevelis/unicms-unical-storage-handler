@@ -274,27 +274,28 @@ function {{ id }}_get_form_paramenters(keyword=null, value=null) {
     {% block laboratory_search_script %}
     // search
     let search = document.getElementById('{{ id }}_search')
-    if (search) dict['search'] = search.value
+    if (search && search.value) dict['search'] = search.value
+
     {% endblock laboratory_search_script %}
 
     {% block laboratory_filter_script %}
 
         // area
         let area = document.getElementById('{{ id }}_area_input')
-        if (area) dict['area'] = area.value
+        if (area && area.value) dict['area'] = area.value
 
         // department
         let department = document.getElementById('{{ id }}_department_input')
-        if (department) dict['department'] = department.value
+        if (department && department.value) dict['department'] = department.value
 
         // scope
         let scope = document.getElementById('{{ id }}_scope_input')
-        if (scope) dict['scope'] = scope.value
+        if (scope && scope.value) dict['scope'] = scope.value
 
         {% block filter_infrastructure_script %}
         // infrastructure
         let infrastructure = document.getElementById('{{ id }}_infrastructure_input')
-        if (infrastructure) dict['infrastructure'] = infrastructure.value
+        if (infrastructure && infrastructure.value) dict['infrastructure'] = infrastructure.value
         {% endblock filter_infrastructure_script %}
 
         // erc1
@@ -307,7 +308,7 @@ function {{ id }}_get_form_paramenters(keyword=null, value=null) {
             }
         }
         let erc1_values = erc1_selected.join(",")
-        if(erc1_values) dict['erc1'] = erc1_values
+        if(erc1_values && erc1_value.value) dict['erc1'] = erc1_values
 
     {% endblock laboratory_filter_script %}
 

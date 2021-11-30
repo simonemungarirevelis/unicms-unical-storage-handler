@@ -161,19 +161,19 @@ function {{ id }}_get_form_paramenters(keyword=null, value=null) {
 
     // search
     let search = document.getElementById('{{ id }}_search')
-    if (search) dict['search'] = search.value
+    if (search && search.value) dict['search'] = search.value
 
     // cds
     let cdsid = document.getElementById('{{ id }}_cdsid_input')
-    if (cdsid) dict['cds'] = cdsid.value
+    if (cdsid && cdsid.value) dict['cds'] = cdsid.value
 
     // role
     let role = document.getElementById('{{ id }}_role_input')
-    if (role) dict['role'] = role.value
+    if (role && role.value) dict['role'] = role.value
 
     // department
     let department = document.getElementById('{{ id }}_department_input')
-    if (department) dict['department'] = department.value
+    if (department && department.value) dict['department'] = department.value
 
     setItemInSession("{{ id }}", dict)
 

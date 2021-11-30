@@ -159,15 +159,15 @@ function {{ id }}_get_form_paramenters(keyword=null, value=null) {
 
     // search
     let search = document.getElementById('{{ id }}_search').value
-    if (search) dict['search'] = search.value
+    if (search && search.value) dict['search'] = search.value
 
     // year
     let year = document.getElementById('{{ id }}_year_input')
-    if (year) dict['year'] = year.value
+    if (year && year.value) dict['year'] = year.value
 
     // types
     let type = document.getElementById('{{ id }}_type_input')
-    if (type) dict['type'] = type.value
+    if (type && type.value) dict['type'] = type.value
 
     setItemInSession("{{ id }}", dict)
 

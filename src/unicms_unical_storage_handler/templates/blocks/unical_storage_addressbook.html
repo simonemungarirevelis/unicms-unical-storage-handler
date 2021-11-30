@@ -200,21 +200,21 @@ function {{ id }}_get_form_paramenters(keyword=null, value=null) {
 
     // search
     let search = document.getElementById('{{ id }}_search')
-    if (search) dict['search'] = search.value
+    if (search && search.value) dict['search'] = search.value
 
     // structure id
     let structure_id = document.getElementById('{{ id }}_structure_input')
-    if (structure_id) dict['structure'] = structure_id.value
+    if (structure_id && structure_id.value) dict['structuretree'] = structure_id.value
 
     {% block structure_filter_input %}
     // structure type
     let structure_type = document.getElementById('{{ id }}_structure_type_input')
-    if (structure_type) dict['structuretypes'] = structure_type.value
+    if (structure_type && structure_type.value) dict['structuretypes'] = structure_type.value
     {% endblock structure_filter_input %}
 
     // role
     let role = document.getElementById('{{ id }}_role_input').value
-    if (role) dict['role'] = role.value
+    if (role && role.value) dict['role'] = role.value
 
     setItemInSession("{{ id }}", dict)
 

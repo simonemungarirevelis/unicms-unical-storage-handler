@@ -25,6 +25,7 @@
 {% settings_value "CMS_STORAGE_ADDRESSBOOK_API" as addressbook_api %}
 {% settings_value "CMS_STORAGE_STRUCTURE_API" as structures_api %}
 {% settings_value "CMS_STORAGE_LABORATORY_API" as laboratories_api %}
+{% settings_value "CMS_STORAGE_STRUCTUREFUNCTIONS_API" as functions_api %}
 
 
 <div id="{{ id }}">
@@ -91,6 +92,20 @@
                             </span>
                         </td>
                     </tr>
+
+                    <!-- Manager -->
+                    <tr v-if="item.StructurePersonnelFunctions">
+                        <td>{% trans "Manager" %}</td>
+                        <td>
+                            <li v-for="subvalue in item.StructurePersonnelFunctions" v-if="subvalue.Name && subvalue.Name != '' && functions.includes(subvalue.Function)">
+                                <a :href="'//{{ host }}/{{ cms_path_prefix }}{{ base_prefix }}/{{ addressbook_prefix }}/' + [[ subvalue.ID ]] +'/'">
+                                        [[ subvalue.Name ]] - [[ subvalue.Function ]]
+                                </a>
+                            </li>
+                        </td>
+                    </tr>
+                    <!-- End Manager -->
+
                 </tbody>
             </table>
         </div>
@@ -99,34 +114,6 @@
         {% include "includes/unical_storage_empty.html" with url=url %}
     </div>
 
-    <!-- Personnel Functions -->
-    <div id="{{ id }}_collapse-3-lft" class="collapse-div collapse-left-icon" role="tablist">
-        <div class="collapse-header" id="{{ id }}_heading-personnel-functions-lft">
-            <button data-toggle="collapse"
-                    data-target="#{{ id }}_collapse-personnel-functions-lft"
-                    aria-expanded="false"
-                    aria-controls="{{ id }}_collapse-personnel-functions-lft">
-                {% trans "Personnel Functions" %}
-            </button>
-        </div>
-        <div id="{{ id }}_collapse-personnel-functions-lft"
-             class="collapse"
-             role="tabpanel"
-             aria-labelledby="{{ id }}_heading-personnel-functions-lft">
-            <div class="mt-3">
-                <ul v-if="item.StructurePersonnelFunctions">
-                    <li v-for="subvalue in item.StructurePersonnelFunctions" v-if="subvalue.Name && subvalue.Name != ''">
-                        <a :href="'//{{ host }}/{{ cms_path_prefix }}{{ base_prefix }}/{{ addressbook_prefix }}/' + [[ subvalue.ID ]] +'/'">
-                                [[ subvalue.Name ]] - [[ subvalue.Function ]]
-                        </a>
-                    </li>
-                </ul>
-                <div v-else>
-                    {% trans "No items here" %}
-                </div>
-            </div>
-        </div>
-    </div>
 </div>
 
 <!-- Personnel -->
@@ -211,22 +198,36 @@
                 item: {},
                 labels: {},
                 url: '{{ url }}?lang={{ LANGUAGE_CODE }}',
+                functions_url: '{{ functions_api }}?lang={{ LANGUAGE_CODE }}',
+                functions: [],
                 is_loading: true,
                 loader_source: '{{ url }}',
                 fields_to_not_show: {{ fields_to_hide|safe }},
             }
         },
         mounted() {
-            this.CallURL();
+            this.callURL()
         },
         methods: {
-            CallURL() {
+            callURL() {
                 axios
                     .get(this.url)
                     .then(response => {
                         this.item = response.data.results;
                         this.labels = response.data.labels;
                         this.is_loading = false
+                        this.getPersonnelFunctions(this.item.StructureTypeCOD)
+                    })
+            },
+            getPersonnelFunctions(cod) {
+                axios
+                    .get(this.functions_url)
+                    .then(response => {
+                        for(let func in response.data.results)
+                            if (response.data.results[func].StructureTypeCOD == cod){
+                                this.functions.push(response.data.results[func].Function)
+                                break
+                            }
                     })
             }
         }

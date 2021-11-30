@@ -158,15 +158,15 @@ function {{ id }}_get_form_paramenters() {
 
     // year
     let year = document.getElementById('{{ id }}_year_input')
-    if (year) dict['year'] = year.value
+    if (year && year.value) dict['year'] = year.value
 
     // year_to
     let year_to = document.getElementById('{{ id }}_year_to_input')
-    if (year_to) dict['yearTo'] = year_to.value
+    if (year_to && year_to.value) dict['yearTo'] = year_to.value
 
     // year_from
     let year_from = document.getElementById('{{ id }}_year_from_input')
-    if (year_from) dict['yearFrom'] = year_from.value
+    if (year_from && year_from.value) dict['yearFrom'] = year_from.value
 
     setItemInSession("{{ id }}", dict)
 

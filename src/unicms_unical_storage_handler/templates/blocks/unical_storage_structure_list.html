@@ -128,13 +128,13 @@ function {{ id }}_get_form_paramenters(keyword=null, value=null) {
     {% block structure_search_script %}
     // search
     let search = document.getElementById('{{ id }}_search')
-    if (search) dict['search'] = search.value
+    if (search && search.value) dict['search'] = search.value
     {% endblock structure_search_script %}
 
     {% block structure_type_filter_script %}
     //types
     let type = document.getElementById('{{ id }}_type_input')
-    if (type) dict['type'] = type.value
+    if (type && type.value) dict['type'] = type.value
     {% endblock structure_type_filter_script %}
 
     setItemInSession("{{ id }}", dict)
