@@ -137,7 +137,7 @@
             {% with "&role="|add:allowed_address_book_roles_list as roles_filter %}
             {% with "&structuretypes="|add:allowed_structure_types_list as structure_types_filter %}
 
-            {% with addressbook_api|add:"?structuretree="|add:code as personnel_url %}
+            {% with addressbook_api|add:"?structuretree="|add:code|add:"&structuretypes="|add:allowed_structure_types_list as personnel_url %}
 
             {% if allowed_address_book_roles_list and allowed_structure_types_list %}
                 {% with personnel_url|add:roles_filter|add:structure_types_filter as personnel_url %}
