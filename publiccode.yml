@@ -85,7 +85,7 @@ platforms:
 releaseDate: '2021-11-02'
 roadmap: 'https://github.com/UniversitaDellaCalabria/unicms-unical-storage-handler/issues'
 softwareType: standalone/web
-softwareVersion: v0.8.1
+softwareVersion: v0.8.2
 url: 'https://github.com/UniversitaDellaCalabria/unicms-unical-storage-handler'
 usedBy:
   - Università della Calabria - https://www.unical.it
