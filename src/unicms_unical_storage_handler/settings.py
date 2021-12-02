@@ -100,7 +100,8 @@ CMS_STORAGE_APP_REGEXP_URLPATHS = {
 
 
 # cms_storage APIs (ref: https://storage.unical.it)
-CMS_STORAGE_BASE_API = 'https://storage.portale.unical.it/api/ricerca/'
+CMS_STORAGE_ROOT_API = 'https://storage.portale.unical.it'
+CMS_STORAGE_BASE_API = f'{CMS_STORAGE_ROOT_API}/api/ricerca/'
 
 CMS_STORAGE_ACADEMICYEARS_API = f'{CMS_STORAGE_BASE_API}academicyears/'
 CMS_STORAGE_ACTIVITY_API = f'{CMS_STORAGE_BASE_API}activities/'

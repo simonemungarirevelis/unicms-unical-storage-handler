@@ -14,6 +14,7 @@
 {% get_current_language as LANGUAGE_CODE %}
 
 {% settings_value "CMS_PATH_PREFIX" as cms_path_prefix %}
+{% settings_value "CMS_STORAGE_ROOT_API" as api_root %}
 {% settings_value "CMS_STORAGE_BASE_PATH" as base_prefix %}
 {% settings_value "CMS_STORAGE_ADDRESSBOOK_VIEW_PREFIX_PATH" as addressbook_prefix %}
 {% settings_value "CMS_STORAGE_SPINOFF_VIEW_PREFIX_PATH" as spinoff_prefix %}
@@ -29,7 +30,10 @@
     <div v-else-if="Object.keys(item).length">
         <div class="row">
             <div class="col-12 col-lg-2 d-flex">
-                <svg class="m-auto icon icon-xl icon-muted">
+                <img :src="'{{ api_root }}'+item.SpinoffImage"
+                     class="w-100"
+                     v-if="item.SpinoffImage"/>
+                <svg class="m-auto icon icon-xl icon-muted" v-else>
                     <use xlink:href="{% static 'svg/sprite.svg' %}#it-settings"></use>
                 </svg>
             </div>

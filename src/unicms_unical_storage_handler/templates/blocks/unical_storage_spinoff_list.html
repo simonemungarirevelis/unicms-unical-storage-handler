@@ -10,6 +10,7 @@
 {% get_allowed_website request.get_host as host %}
 
 {% settings_value "CMS_PATH_PREFIX" as cms_path_prefix %}
+{% settings_value "CMS_STORAGE_ROOT_API" as api_root %}
 {% settings_value "CMS_STORAGE_BASE_PATH" as base_prefix %}
 {% settings_value "CMS_STORAGE_SPINOFF_VIEW_PREFIX_PATH" as spinoff_prefix %}
 
@@ -100,29 +101,36 @@
                     <div class="card-wrapper pb-0">
                         <div class="card no-after" style="border:1px solid #b71918">
                             <div class="card-body">
-                                <h4>
-                                    <a class="no-color" :href="'//{{ host }}/{{ cms_path_prefix }}{{ base_prefix }}/{{ spinoff_prefix }}/' + [[ item.SpinoffId ]] +'/'">
-                                        [[ item.SpinoffAgencyName ]]
-                                    </a>
-                                </h4>
                                 <div class="row">
-                                    <div class="col-12 col-md-auto">
-                                        <small v-if="item.IsSpinoff">
-                                            {% trans "Spin-off" %}
-                                        </small>
-                                        <small v-if="item.IsSpinoff && item.IsStartup">
-                                        /
-                                        </small>
-                                        <small v-if="item.IsStartup">
-                                            {% trans "Startup" %}
-                                        </small>
+                                    <div class="col-12 col-lg-1 mb-3 mb-lg-0" v-if="item.SpinoffImage">
+                                        <img :src="'{{ api_root }}'+item.SpinoffImage" class="w-100"/>
                                     </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-12 col-md-auto">
-                                        <small>
-                                            [[ item.SpinoffDescription ]]
-                                        </small>
+                                    <div class="col">
+                                        <b>
+                                            <a class="no-color" :href="'//{{ host }}/{{ cms_path_prefix }}{{ base_prefix }}/{{ spinoff_prefix }}/' + [[ item.SpinoffId ]] +'/'">
+                                                [[ item.SpinoffAgencyName ]]
+                                            </a>
+                                        </b>
+                                        <div class="row">
+                                            <div class="col-12 col-md-auto">
+                                                <small v-if="item.IsSpinoff">
+                                                    {% trans "Spin-off" %}
+                                                </small>
+                                                <small v-if="item.IsSpinoff && item.IsStartup">
+                                                /
+                                                </small>
+                                                <small v-if="item.IsStartup">
+                                                    {% trans "Startup" %}
+                                                </small>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-12 col-md-auto">
+                                                <small>
+                                                    [[ item.SpinoffDescription ]]
+                                                </small>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
