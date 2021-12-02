@@ -286,7 +286,7 @@ function {{ id }}_get_form_paramenters(keyword=null, value=null) {
     // joint degree
     {% block filters_jointdegree_script %}
     let joint_degree = document.getElementById('{{ id }}_joint_degree_input')
-    if (joint_degree && joint_degree_value) dict['jointdegree'] = joint_degree.value
+    if (joint_degree && joint_degree.value) dict['jointdegree'] = joint_degree.value
     {% endblock filters_jointdegree_script %}
 
     setItemInSession("{{ id }}", dict)
