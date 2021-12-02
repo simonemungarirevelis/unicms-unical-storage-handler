@@ -55,8 +55,9 @@
                             <ul v-if="name == 'TeacherFunctions'">
                                 <li v-for="subvalue in value">
                                     <span style="white-space: pre-line;">
-                                        [[ subvalue.TeacherRole]] -
+                                        [[ subvalue.TeacherRole]]
                                     </span>
+                                    <br>
                                     <a :href="'//{{ host }}/{{ cms_path_prefix }}{{ base_prefix }}/{{ structures_prefix }}/' + [[ subvalue.StructureId ]] +'/'">
                                         [[ subvalue.StructureName]]
                                     </a>
