@@ -204,7 +204,8 @@ INITIAL_STRUCTURE_FATHER = ''
 
 SPINOFF_INFO_NOT_SHOW = ['SpinoffId', 'SpinoffImage', 'SpinoffTechAreaId',
                          'IsSpinoff', 'IsStartup', 'SpinoffAgencyName',
-                         'SpinoffUnicalReferentId', 'SpinoffDescription']
+                         'SpinoffUnicalReferentId', 'SpinoffDescription',
+                         'TechAreaId']
 
 # ALMALAUREA Link
 ALMALAUREA_LINK = 'http://statistiche.almalaurea.it/universita/statistiche/trasparenza?codicione='

@@ -96,7 +96,7 @@
                                 [[ item.SpinoffUnicalReferent ]]
                             </a>
                             <a v-else-if="name == 'SpinoffAgencyUrl' "
-                               :href="item.SpinoffAgencyUrl"
+                               :href="urlFormat(item.SpinoffAgencyUrl)"
                                target="_blank">
                                 [[ item.SpinoffAgencyUrl ]]
                             </a>
@@ -140,6 +140,12 @@
                         this.labels = response.data.labels;
                         this.is_loading = false
                     })
+            },
+            urlFormat(value) {
+                if (!/^https?:\/\//i.test(value)) {
+                    return 'http://' + value;
+                }
+                return value
             }
         }
     })
