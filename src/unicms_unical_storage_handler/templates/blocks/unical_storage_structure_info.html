@@ -116,6 +116,7 @@
 
 </div>
 
+{% block structure_personnel %}
 <!-- Personnel -->
 <div id="{{ id }}_collapse-1-lft" class="collapse-div collapse-left-icon" role="tablist">
     <div class="collapse-header" id="{{ id }}_heading-personnel-lft">
@@ -165,7 +166,9 @@
         </div>
     </div>
 </div>
+{% endblock structure_personnel %}
 
+{% block structure_organization %}
 <!-- Child Structures -->
 {% with allowed_structure_types|join:"," as allowed_structure_types_list %}
 {% with "&type="|add:allowed_structure_types_list as structure_types_filter %}
@@ -184,11 +187,14 @@
 
 {% endwith %}
 {% endwith %}
+{% endblock structure_organization %}
 
+{% block structure_laboratories %}
 <!-- Laboratories -->
 {% with laboratories_api|add:"?department="|add:code as laboratories_url %}
 {% include "blocks/collapse/unical_storage_collapse_laboratory_list_without_filters.html" with url=laboratories_url laboratories_id=code uid=id|add:"_3" %}
 {% endwith %}
+{% endblock structure_laboratories %}
 
 <script>
     var {{ id }} = new Vue({
