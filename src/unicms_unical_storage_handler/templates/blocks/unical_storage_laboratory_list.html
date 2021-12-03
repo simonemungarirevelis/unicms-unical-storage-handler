@@ -308,7 +308,7 @@ function {{ id }}_get_form_paramenters(keyword=null, value=null) {
             }
         }
         let erc1_values = erc1_selected.join(",")
-        if(erc1_values && erc1_value.value) dict['erc1'] = erc1_values
+        if(erc1_values && erc1_values.value) dict['erc1'] = erc1_values
 
     {% endblock laboratory_filter_script %}
 
