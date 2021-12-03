@@ -37,6 +37,7 @@
 
     <div v-else-if="Object.keys(item).length">
         <div class="row">
+            {% block structure_title %}
             <div class="col-12 col-lg-2 d-flex">
                 <svg class="m-auto icon icon-xl icon-muted">
                     <use xlink:href="{% static 'svg/sprite.svg' %}#it-pa"></use>
@@ -47,6 +48,7 @@
                     [[ item.StructureName ]]
                 </h1>
             </div>
+            {% endblock structure_title %}
         </div>
         <hr class="my-4 bordeaux-unical-bg">
         <div class="table-responsive">
