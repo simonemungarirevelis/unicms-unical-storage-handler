@@ -12,6 +12,7 @@
 
 {% settings_value "LABORATORY_INFO_NOT_SHOW" as fields_to_hide %}
 {% settings_value "CMS_PATH_PREFIX" as cms_path_prefix %}
+{% settings_value "CMS_STORAGE_ROOT_API" as api_root %}
 {% settings_value "CMS_STORAGE_BASE_PATH" as base_prefix %}
 {% settings_value "CMS_STORAGE_ADDRESSBOOK_VIEW_PREFIX_PATH" as addressbook_prefix %}
 {% settings_value "CMS_STORAGE_STRUCTURE_VIEW_PREFIX_PATH" as structures_prefix %}
@@ -26,15 +27,15 @@
     <div v-else-if="Object.keys(item).length">
 
         <div class="row">
-            <div class="col-12 col-lg-2 d-flex">
-                <img :src="item.LaboratoryLogo"
-                     v-if="item.LaboratoryLogo"
-                     class="w-100 m-auto">
+            <div class="col-12 col-lg-3">
+                <img :src="'{{ api_root }}'+item.LaboratoryLogo"
+                     class="w-100"
+                     v-if="item.LaboratoryLogo"/>
                 <svg class="m-auto icon icon-xl icon-muted" v-else>
                     <use xlink:href="{% static 'svg/sprite.svg' %}#it-info-circle"></use>
                 </svg>
             </div>
-            <div class="col-12 col-lg-9 offset-lg-1 my-3 my-lg-0">
+            <div class="col-12 col-lg-9 my-3 my-lg-0">
                 <h1 class="lighter">
                     [[ item.LaboratoryName ]]
                 </h1>
