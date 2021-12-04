@@ -105,11 +105,11 @@
                                         <img :src="'{{ api_root }}'+item.SpinoffImage" class="w-100"/>
                                     </div>
                                     <div class="col">
-                                        <b>
+                                        <h4>
                                             <a class="no-color" :href="'//{{ host }}/{{ cms_path_prefix }}{{ base_prefix }}/{{ spinoff_prefix }}/' + [[ item.SpinoffId ]] +'/'">
                                                 [[ item.SpinoffAgencyName ]]
                                             </a>
-                                        </b>
+                                        </h4>
                                         <div class="row">
                                             <div class="col-12 col-md-auto">
                                                 <small v-if="item.IsSpinoff">
