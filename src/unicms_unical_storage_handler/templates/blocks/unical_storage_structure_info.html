@@ -231,11 +231,11 @@
                 axios
                     .get(this.functions_url)
                     .then(response => {
-                        for(let func in response.data.results)
+                        for(let func in response.data.results){
                             if (response.data.results[func].StructureTypeCOD == cod){
                                 this.functions.push(response.data.results[func].Function)
-                                break
                             }
+                        }
                     })
             }
         }
