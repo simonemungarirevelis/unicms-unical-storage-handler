@@ -173,7 +173,7 @@
                                             <tr v-for="(value, name) in item" v-if="value && !fields_to_not_show.includes(name) && value != ''">
                                                 <td>[[ labels[name] ]]</td>
                                                 <td v-if="typeof value === 'object'">
-                                                    <ul v-if="name == 'PersonFunctions'">
+                                                    <ul v-if="name == 'PersonFunctions'" class="mb-0">
                                                         <li v-for="subvalue in value">
                                                             <span style="white-space: pre-line;">
                                                                 [[ subvalue.TeacherRole]]
@@ -184,7 +184,7 @@
                                                             </a>
                                                         </li>
                                                     </ul>
-                                                    <ul v-else>
+                                                    <ul class="mb-0" v-else>
                                                         <li v-for="v in value">
                                                             <span style="white-space: pre-line;">
                                                                 [[ v ]]
@@ -193,7 +193,7 @@
                                                     </ul>
                                                 </td>
                                                 <td v-else-if="typeof value === 'array'">
-                                                    <ul>
+                                                    <ul class="mb-0">
                                                         <li v-for="subvalue in value">
                                                             [[ subvalue ]]
                                                         </li>
