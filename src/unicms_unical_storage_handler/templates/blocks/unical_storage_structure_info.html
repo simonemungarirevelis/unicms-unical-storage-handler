@@ -38,12 +38,7 @@
     <div v-else-if="Object.keys(item).length">
         <div class="row">
             {% block structure_title %}
-            <div class="col-12 col-lg-2 d-flex">
-                <svg class="m-auto icon icon-xl icon-muted">
-                    <use xlink:href="{% static 'svg/sprite.svg' %}#it-pa"></use>
-                </svg>
-            </div>
-            <div class="col-12 col-lg-10 my-3 my-lg-0">
+            <div class="col-12 my-3 my-lg-0">
                 <h1 class="lighter">
                     [[ item.StructureName ]]
                 </h1>
