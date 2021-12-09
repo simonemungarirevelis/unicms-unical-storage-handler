@@ -172,7 +172,8 @@ CDS_INFO_FIELDS = ['CdSGoals', 'CdSAccess', 'CdSAdmission',
 # FIELDS TO HIDE IN BLOCKS
 ADDRESSBOOK_INFO_NOT_SHOW = ['ID', 'Name', 'Role',
                              'RoleDescription', 'StructureTypeCOD',
-                             'TeacherCVFull', 'TeacherCVShort']
+                             'TeacherCVFull', 'TeacherCVShort',
+                             'StructureCod']
 TEACHER_INFO_NOT_SHOW = ['TeacherID', 'TeacherDepartmentID',
                          'TeacherLastName', 'TeacherFirstName',
                          'TeacherRole', 'TeacherRoleDescription',

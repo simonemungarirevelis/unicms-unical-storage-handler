@@ -149,24 +149,68 @@
                     <div class="card-wrapper pb-0">
                         <div class="card no-after" style="border:1px solid #b71918">
                             <div class="card-body">
-                                <h4>
-                                    <a class="no-color" :href="'//{{ host }}/{{ cms_path_prefix }}{{ base_prefix }}/{{ addressbook_prefix }}/' + [[ item.ID ]] +'/'">
-                                        [[ item.Name ]]
-                                    </a>
-                                </h4>
                                 <div class="row">
-                                    <div class="col-12 col-md-auto">
-                                        <small>
-                                            [[ labels['RoleDescription'] ]] >
-                                            <b>[[ item.RoleDescription ]]</b>
-                                        </small>
+                                    <div class="col-12 col-lg-2 d-flex">
+                                        <svg class="m-auto icon icon-xl icon-muted">
+                                            <use xlink:href="{% static 'svg/sprite.svg' %}#it-user"></use>
+                                        </svg>
                                     </div>
-                                    <div class="col-12 col-md-auto">
-                                        <small>
-                                            [[ labels['Structure'] ]] >
-                                            <b>[[ item.Structure ]]</b>
-                                        </small>
+                                    <div class="col-12 col-lg-10 my-3 my-lg-0">
+                                        <h4 class="lighter">
+                                            [[ item.Name ]]
+                                        </h4>
+                                        <h5 class="lighter">
+                                            [[ item.RoleDescription ]]
+                                        </h5>
                                     </div>
+                                </div>
+                                <hr class="my-4 bordeaux-unical-bg">
+                                <div class="table-responsive">
+                                    <table class="table table-sm">
+                                        <tbody>
+                                            <tr v-for="(value, name) in item" v-if="value && !fields_to_not_show.includes(name) && value != ''">
+                                                <td>[[ labels[name] ]]</td>
+                                                <td v-if="typeof value === 'object'">
+                                                    <ul v-if="name == 'PersonFunctions'">
+                                                        <li v-for="subvalue in value">
+                                                            <span style="white-space: pre-line;">
+                                                                [[ subvalue.TeacherRole]]
+                                                            </span>
+                                                            <br>
+                                                            <a :href="'//{{ host }}/{{ cms_path_prefix }}{{ base_prefix }}/{{ structures_prefix }}/' + [[ subvalue.StructureId ]] +'/'">
+                                                                [[ subvalue.StructureName]]
+                                                            </a>
+                                                        </li>
+                                                    </ul>
+                                                    <ul v-else>
+                                                        <li v-for="v in value">
+                                                            <span style="white-space: pre-line;">
+                                                                [[ v ]]
+                                                            </span>
+                                                        </li>
+                                                    </ul>
+                                                </td>
+                                                <td v-else-if="typeof value === 'array'">
+                                                    <ul>
+                                                        <li v-for="subvalue in value">
+                                                            [[ subvalue ]]
+                                                        </li>
+                                                    </ul>
+                                                </td>
+                                                <td v-else>
+
+                                                    <a v-if="item.Teacher == 1 && name == 'Teacher'"
+                                                       :href="'//{{ host }}/{{ cms_path_prefix }}{{ base_prefix }}/{{ teachers_prefix }}/' + [[ item.ID ]] +'/'">
+                                                        {% trans "Link" %}
+                                                    </a>
+
+                                                    <span v-else style="white-space: pre-line;">
+                                                        [[ value ]]
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
                                 </div>
                             </div>
                         </div>
@@ -230,6 +274,7 @@ function {{ id }}_get_form_paramenters(keyword=null, value=null) {
 {% settings_value "CMS_STORAGE_STRUCTURETYPES_API" as structuretypes_api %}
 {% settings_value "CMS_STORAGE_ROLES_API" as roles_api %}
 {% settings_value "INITIAL_STRUCTURE_FATHER" as root_structure %}
+{% settings_value "ADDRESSBOOK_INFO_NOT_SHOW" as fields_to_hide %}
 
 search_dict: {},
 
@@ -255,8 +300,9 @@ structure_id_filter: [],
 structure_type_filter: [],
 
 structure_type_filter_string: '',
-structure_father_filter: '{% firstof structure_id root_structure %}'
+structure_father_filter: '{% firstof structure_id root_structure %}',
 
+fields_to_not_show: {{ fields_to_hide|safe }}
 {% endblock extra_data %}
 
 {% block extra_mounted %}
