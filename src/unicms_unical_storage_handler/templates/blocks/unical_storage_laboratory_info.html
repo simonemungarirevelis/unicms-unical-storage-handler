@@ -27,17 +27,21 @@
     <div v-else-if="Object.keys(item).length">
 
         <div class="row">
-            <div class="col-12 col-lg-3">
+            <div class="col-12 col-lg-3" v-if="item.LaboratoryLogo">
                 <img :src="'{{ api_root }}'+item.LaboratoryLogo"
-                     class="w-100"
-                     v-if="item.LaboratoryLogo"/>
-                <svg class="m-auto icon icon-xl icon-muted" v-else>
+                     class="w-100"/>
+            </div>
+            <div class="col-12 col-lg-2 text-center" v-else>
+                <svg class="m-auto icon icon-xl icon-muted">
                     <use xlink:href="{% static 'svg/sprite.svg' %}#it-info-circle"></use>
                 </svg>
             </div>
-            <div class="col-12 col-lg-9 my-3 my-lg-0">
+            <div class="col-12 col-lg my-3 my-lg-0">
                 <h1 class="lighter">
                     [[ item.LaboratoryName ]]
+                    <span v-if="item.LaboratoryAcronym">
+                        ([[ item.LaboratoryAcronym ]])
+                    </span>
                 </h1>
                 <h3 class="lighter">
                     [[ item.LaboratoryScope ]]

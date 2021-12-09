@@ -196,7 +196,7 @@ LABORATORY_INFO_NOT_SHOW = ['LaboratoryId', 'CompletionReferentId',
                             'CompletionReferentName', 'TechPersonnelRole',
                             'ExtraDepartments','LaboratoryEquipment',
                             'Interdepartmental', 'DepartmentReferentCod',
-                            'InfrastructureId']
+                            'InfrastructureId', 'LaboratoryAcronym']
 
 PUBLICATIONS_INFO_NOT_SHOW = ['PublicationId', 'PublicationAbstract',
                               'PublicationTitle', 'PublicationCommunity',
