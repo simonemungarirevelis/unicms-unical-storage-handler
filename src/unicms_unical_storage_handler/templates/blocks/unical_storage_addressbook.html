@@ -150,18 +150,20 @@
                         <div class="card no-after" style="border:1px solid #b71918">
                             <div class="card-body">
                                 <div class="row">
+                                    {% comment %}
                                     <div class="col-12 col-lg-1 d-flex">
                                         <svg class="m-auto icon icon-xl icon-muted">
                                             <use xlink:href="{% static 'svg/sprite.svg' %}#it-user"></use>
                                         </svg>
                                     </div>
-                                    <div class="col-12 col-lg-11 my-3 my-lg-0">
-                                        <h4 class="lighter">
+                                    {% endcomment %}
+                                    <div class="col-12 my-3 my-lg-0">
+                                        <h5>
                                             [[ item.Name ]]
-                                        </h4>
-                                        <h5 class="lighter">
-                                            [[ item.RoleDescription ]]
                                         </h5>
+                                        <span>
+                                            [[ item.RoleDescription ]]
+                                        </span>
                                     </div>
                                 </div>
                                 <hr>
