@@ -159,7 +159,9 @@
                                     {% endcomment %}
                                     <div class="col-12 my-3 my-lg-0">
                                         <h5>
-                                            [[ item.Name ]]
+                                            <a class="no-color" :href="'//{{ host }}/{{ cms_path_prefix }}{{ base_prefix }}/{{ addressbook_prefix }}/' + [[ item.ID ]] +'/'">
+                                                <b>[[ item.Name ]]</b>
+                                            </a>
                                         </h5>
                                         <span>
                                             [[ item.RoleDescription ]]

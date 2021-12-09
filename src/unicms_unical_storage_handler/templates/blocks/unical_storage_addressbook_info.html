@@ -13,6 +13,7 @@
 {% settings_value "CMS_PATH_PREFIX" as cms_path_prefix %}
 {% settings_value "CMS_STORAGE_BASE_PATH" as base_prefix %}
 {% settings_value "CMS_STORAGE_THEACHER_VIEW_PREFIX_PATH" as teachers_prefix %}
+{% settings_value "CMS_STORAGE_STRUCTURE_VIEW_PREFIX_PATH" as structures_prefix %}
 
 {% settings_value "ADDRESSBOOK_INFO_NOT_SHOW" as fields_to_hide %}
 
@@ -53,7 +54,7 @@
                                         [[ subvalue.TeacherRole]]
                                     </span>
                                     <br>
-                                    <a :href="'//{{ host }}/{{ cms_path_prefix }}{{ base_prefix }}/{{ structures_prefix }}/' + [[ subvalue.StructureId ]] +'/'">
+                                    <a :href="'//{{ host }}/{{ cms_path_prefix }}{{ base_prefix }}/{{ structures_prefix }}/' + [[ subvalue.StructureCod ]] +'/'">
                                         [[ subvalue.StructureName]]
                                     </a>
                                 </li>
@@ -78,6 +79,11 @@
                             <a v-if="item.Teacher == 1 && name == 'Teacher'"
                                :href="'//{{ host }}/{{ cms_path_prefix }}{{ base_prefix }}/{{ teachers_prefix }}/' + [[ item.ID ]] +'/'">
                                 {% trans "Link" %}
+                            </a>
+
+                            <a v-else-if="name == 'Structure'"
+                               :href="'//{{ host }}/{{ cms_path_prefix }}{{ base_prefix }}/{{ structures_prefix }}/' + [[ item.StructureCod ]] +'/'">
+                                [[ value ]]
                             </a>
 
                             <span v-else style="white-space: pre-line;">
