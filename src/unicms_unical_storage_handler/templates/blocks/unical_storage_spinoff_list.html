@@ -32,6 +32,27 @@
                                 <div class="row">
                                     <div class="col-sm">
                                         <div>
+                                            <label for="{{ id }}_techarea_input">
+                                                {% trans "Tech Area" %}
+                                            </label>
+                                            <div class="w-30 mt-5">
+                                                <select id="{{ id }}_techarea_input"
+                                                        title="{% trans 'Choose an option' %}"
+                                                        name="{{ id }}_techarea_input"
+                                                        class="form-control"
+                                                        @change="{{ id }}.search()">
+                                                    <option value="">- {% trans 'Choose an option' %} -</option>
+                                                    <option v-for="item in techareas"
+                                                            :value="item.TechAreaId"
+                                                            :selected="item.TechAreaId == selected_techarea">
+                                                        [[ item.TechAreaDescription ]]
+                                                    </option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm">
+                                        <div>
                                             <label for="{{ id }}_area_input">
                                                 {% trans "Spin-off" %}
                                             </label>
@@ -130,6 +151,14 @@
                                                 </small>
                                             </div>
                                         </div>
+                                        <div class="row">
+                                            <div class="col-12 col-md-auto">
+                                                <small>
+                                                    {% trans "Tech Area" %} >
+                                                    <b>[[ item.TechAreaDescription ]]</b>
+                                                </small>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -174,6 +203,10 @@ function {{ id }}_get_form_paramenters(keyword=null, value=null) {
     let startup = document.getElementById('{{ id }}_startup_input')
     if (startup && startup.value) dict['startup'] = startup.value
 
+    // techarea
+    let techarea = document.getElementById('{{ id }}_techarea_input')
+    if (techarea && techarea.value) dict['techarea'] = techarea.value
+
     setItemInSession("{{ id }}", dict)
 
     return dict
@@ -183,6 +216,7 @@ function {{ id }}_get_form_paramenters(keyword=null, value=null) {
 
 {% block extra_data %}
 
+{% settings_value "CMS_STORAGE_TECHAREAS_API" as techareas_api %}
 {% get_current_language as LANGUAGE_CODE %}
 
 search_dict: {},
@@ -191,14 +225,30 @@ loader_source_types: '{{ types_api }}?lang={{ LANGUAGE_CODE }}',
 
 selected_search: this.getItemFromSession("{{ id }}", 'search'),
 selected_spinoff: this.getItemFromSession("{{ id }}", 'spinoff') || '',
-selected_startup: this.getItemFromSession("{{ id }}", 'startup') || ''
+selected_startup: this.getItemFromSession("{{ id }}", 'startup') || '',
+selected_techarea: this.getItemFromSession("{{ id }}", 'techarea') || '',
+
+techareas: [],
+is_loading_techareas: true,
+loader_source_techareas: '{{ techareas_api }}?lang={{ LANGUAGE_CODE }}',
 
 {% endblock extra_data %}
 
 {% block extra_mounted %}
+
+this.callTechAreas();
+
 this.parameters = {{ id }}_encodeQueryData(this.getItemsFromSession("{{ id }}"))
 {% endblock extra_mounted %}
 
 {% block extra_methods %}
+callTechAreas() {
+    axios
+        .get(this.loader_source_techareas)
+        .then(response => {
+            this.techareas = response.data.results;
+            this.is_loading_techareas = false
+        })
+},
 {% endblock extra_methods %}
 </script>
