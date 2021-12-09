@@ -12,6 +12,7 @@
 {% settings_value "CMS_PATH_PREFIX" as cms_path_prefix %}
 {% settings_value "CMS_STORAGE_BASE_PATH" as base_prefix %}
 {% settings_value "CMS_STORAGE_ADDRESSBOOK_VIEW_PREFIX_PATH" as addressbook_prefix %}
+{% settings_value "CMS_STORAGE_STRUCTURE_VIEW_PREFIX_PATH" as structures_prefix %}
 
 {% block storage_block_top %}
 {% include "blocks/includes/unical_storage_check.html" %}
@@ -181,7 +182,7 @@
                                                                 [[ subvalue.TeacherRole]]
                                                             </span>
                                                             <br>
-                                                            <a :href="'//{{ host }}/{{ cms_path_prefix }}{{ base_prefix }}/{{ structures_prefix }}/' + [[ subvalue.StructureId ]] +'/'">
+                                                            <a :href="'//{{ host }}/{{ cms_path_prefix }}{{ base_prefix }}/{{ structures_prefix }}/' + [[ subvalue.StructureCod ]] +'/'">
                                                                 [[ subvalue.StructureName]]
                                                             </a>
                                                         </li>
