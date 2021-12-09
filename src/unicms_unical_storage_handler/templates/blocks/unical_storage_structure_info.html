@@ -118,6 +118,23 @@
 
 </div>
 
+
+{% block structure_organization %}
+<!-- Child Structures -->
+{% with allowed_structure_types|join:"," as allowed_structure_types_list %}
+{% with "&type="|add:allowed_structure_types_list as structure_types_filter %}
+
+{% with structures_api|add:"?father="|add:code as child_structures_url %}
+
+{% if structure_types_filter %}
+    {% with child_structures_url|add:structure_types_filter as child_structures_url %}
+    {% include "blocks/collapse/unical_storage_collapse_structure_list_without_search.html" with url=child_structures_url uid=id|add:"_2" %}
+    {% endwith %}
+{% else %}
+    {% include "blocks/collapse/unical_storage_collapse_structure_list_without_search.html" with url=child_structures_url uid=id|add:"_2" %}
+{% endif %}
+
+
 {% block structure_personnel %}
 <!-- Personnel -->
 <div id="{{ id }}_collapse-1-lft" class="collapse-div collapse-left-icon" role="tablist">
@@ -169,21 +186,6 @@
     </div>
 </div>
 {% endblock structure_personnel %}
-
-{% block structure_organization %}
-<!-- Child Structures -->
-{% with allowed_structure_types|join:"," as allowed_structure_types_list %}
-{% with "&type="|add:allowed_structure_types_list as structure_types_filter %}
-
-{% with structures_api|add:"?father="|add:code as child_structures_url %}
-
-{% if structure_types_filter %}
-    {% with child_structures_url|add:structure_types_filter as child_structures_url %}
-    {% include "blocks/collapse/unical_storage_collapse_structure_list_without_search.html" with url=child_structures_url uid=id|add:"_2" %}
-    {% endwith %}
-{% else %}
-    {% include "blocks/collapse/unical_storage_collapse_structure_list_without_search.html" with url=child_structures_url uid=id|add:"_2" %}
-{% endif %}
 
 {% endwith %}
 
