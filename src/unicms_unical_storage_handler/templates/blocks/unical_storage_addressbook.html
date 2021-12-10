@@ -145,84 +145,104 @@
         </loading-icon>
 
         <div v-else>
-            <div class="row mb-3" v-for="item in items.results">
-                <div class="col-12">
-                    <!--start card-->
+            <div class="row" >
+
+                <div class="col-12 col-md-6 mb-3" v-for="item in items.results">
                     <div class="card-wrapper pb-0">
                         <div class="card no-after" style="border:1px solid #b71918">
                             <div class="card-body p-3">
                                 <div class="row">
                                     {% comment %}
-                                    <div class="col-12 col-lg-1 d-flex">
-                                        <svg class="m-auto icon icon-xl icon-muted">
+                                    <div class="col-2">
+                                        <svg class="icon icon-lg icon-muted">
                                             <use xlink:href="{% static 'svg/sprite.svg' %}#it-user"></use>
                                         </svg>
                                     </div>
                                     {% endcomment %}
-                                    <div class="col-12 my-3 my-lg-0">
-                                        <h5>
-                                            <a class="no-color" :href="'//{{ host }}/{{ cms_path_prefix }}{{ base_prefix }}/{{ addressbook_prefix }}/' + [[ item.ID ]] +'/'">
-                                                <b>[[ item.Name ]]</b>
-                                            </a>
-                                        </h5>
-                                        <span>
-                                            [[ item.RoleDescription ]]
-                                        </span>
+                                    <div class="col-12 align-left">
+                                        <small>
+                                            <b>[[ item.Name ]]</b>
+                                            {% block structure %}
+                                            <br>
+                                            <span>[[ item.Structure ]]</span>
+                                            {% endblock structure %}
+                                            {% block role %}
+                                            <br>
+                                            <span>[[ item.RoleDescription ]]</span>
+                                            {% endblock role %}
+
+                                            {% block location %}
+                                            {% comment %}
+                                            <div>
+                                                <span>
+                                                    <svg class="icon icon-sm icon-muted mr-2">
+                                                        <use xlink:href="{% static 'svg/sprite.svg' %}#it-map-marker-circle"></use>
+                                                    </svg>
+                                                    <a href="#">-</a>
+                                                </span>
+                                                <br>
+                                            </div>
+                                            {% endcomment %}
+                                            {% endblock location %}
+
+                                            <div v-for="office_email in item.OfficeReference">
+                                                <span>
+                                                    <svg class="icon icon-sm icon-muted mr-2">
+                                                        <use xlink:href="{% static 'svg/sprite.svg' %}#it-mail"></use>
+                                                    </svg>
+                                                    <a href="mailto: [[ office_email ]]">[[ office_email ]]</a>
+                                                </span>
+                                                <br>
+                                            </div>
+                                            <div v-for="email in item.Email">
+                                                <span>
+                                                    <svg class="icon icon-sm icon-muted mr-2">
+                                                        <use xlink:href="{% static 'svg/sprite.svg' %}#it-mail"></use>
+                                                    </svg>
+                                                    <a href="mailto: [[ email ]]">[[ email ]]</a>
+                                                </span>
+                                                <br>
+                                            </div>
+                                            {% block pec %}
+                                            <div v-for="pec in item.PEC">
+                                                <span>
+                                                    <svg class="icon icon-sm icon-muted mr-2">
+                                                        <use xlink:href="{% static 'svg/sprite.svg' %}#it-mail"></use>
+                                                    </svg>
+                                                    <a href="mailto: [[ pec ]]">[[ pec ]]</a>
+                                                </span>
+                                                <br>
+                                            </div>
+                                            {% endblock pec %}
+                                            <div v-for="teloffice in item.TelOffice">
+                                                <span>
+                                                    <svg class="icon icon-sm icon-muted mr-2">
+                                                        <use xlink:href="{% static 'svg/sprite.svg' %}#it-telephone"></use>
+                                                    </svg> [[ teloffice ]]
+                                                </span>
+                                                <br>
+                                            </div>
+                                            <div v-for="telceloffice in item.TelCelOffice">
+                                                <span>
+                                                    <svg class="icon icon-sm icon-muted mr-2">
+                                                        <use xlink:href="{% static 'svg/sprite.svg' %}#it-telephone"></use>
+                                                    </svg> [[ telceloffice ]]
+                                                </span>
+                                                <br>
+                                            </div>
+                                        </small>
                                     </div>
-                                </div>
-                                <hr>
-                                <div class="table-responsive">
-                                    <table class="table table-sm">
-                                        <tbody>
-                                            <tr v-for="(value, name) in item" v-if="value && !fields_to_not_show.includes(name) && value != ''">
-                                                <td>[[ labels[name] ]]</td>
-                                                <td v-if="typeof value === 'object'">
-                                                    <ul v-if="name == 'PersonFunctions'" class="mb-0">
-                                                        <li v-for="subvalue in value">
-                                                            <span style="white-space: pre-line;">
-                                                                [[ subvalue.TeacherRole]]
-                                                            </span>
-                                                            <br>
-                                                            <a :href="'//{{ host }}/{{ cms_path_prefix }}{{ base_prefix }}/{{ structures_prefix }}/' + [[ subvalue.StructureCod ]] +'/'">
-                                                                [[ subvalue.StructureName]]
-                                                            </a>
-                                                        </li>
-                                                    </ul>
-                                                    <ul class="mb-0" v-else>
-                                                        <li v-for="v in value">
-                                                            <span style="white-space: pre-line;">
-                                                                [[ v ]]
-                                                            </span>
-                                                        </li>
-                                                    </ul>
-                                                </td>
-                                                <td v-else-if="typeof value === 'array'">
-                                                    <ul class="mb-0">
-                                                        <li v-for="subvalue in value">
-                                                            [[ subvalue ]]
-                                                        </li>
-                                                    </ul>
-                                                </td>
-                                                <td v-else>
-
-                                                    <a v-if="item.Teacher == 1 && name == 'Teacher'"
-                                                       :href="'//{{ host }}/{{ cms_path_prefix }}{{ base_prefix }}/{{ teachers_prefix }}/' + [[ item.ID ]] +'/'">
-                                                        {% trans "Link" %}
-                                                    </a>
-
-                                                    <span v-else style="white-space: pre-line;">
-                                                        [[ value ]]
-                                                    </span>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <!--end card-->
                 </div>
+
+
+
+
+
+
             </div>
         </div>
 
