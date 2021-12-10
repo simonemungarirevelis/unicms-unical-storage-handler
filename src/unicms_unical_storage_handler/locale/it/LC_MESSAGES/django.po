@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-12-10 13:39+0100\n"
-"PO-Revision-Date: 2021-12-10 13:39+0100\n"
+"POT-Creation-Date: 2021-12-10 13:45+0100\n"
+"PO-Revision-Date: 2021-12-10 13:45+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: it\n"
@@ -216,10 +216,6 @@ msgstr "Struttura"
 #: templates/blocks/unical_storage_teacherslist.html:84
 msgid "Role"
 msgstr "Ruolo"
-
-#: templates/blocks/unical_storage_addressbook_info.html:54
-msgid "Functions"
-msgstr "Funzioni"
 
 #: templates/blocks/unical_storage_addressbook_info.html:81
 #: templates/blocks/unical_storage_laboratory_info.html:111
@@ -464,8 +460,8 @@ msgid "Resource not found"
 msgstr "Risorsa non trovata"
 
 #: templates/includes/unical_storage_loading.html:18
-msgid "Loading data from"
-msgstr "Caricamento dati da"
+msgid "Loading data"
+msgstr "Caricamento dati"
 
 #: templates/storage_addressbook_list.html:25
 msgid "Address book"
@@ -492,6 +488,9 @@ msgstr "Aree e Uffici"
 #: templates/storage_cdslist.html:25
 msgid "Training offer"
 msgstr "Offerta formativa"
+
+#~ msgid "Functions"
+#~ msgstr "Funzioni"
 
 #~ msgid "Personnel Functions"
 #~ msgstr "Responsabili"
