@@ -161,7 +161,9 @@
                                     {% endcomment %}
                                     <div class="col-12 align-left">
                                         <small>
-                                            <b>[[ item.Name ]]</b>
+                                            <a class="no-color" :href="'//{{ host }}/{{ cms_path_prefix }}{{ base_prefix }}/{{ addressbook_prefix }}/' + [[ item.ID ]] +'/'">
+                                                <b>[[ item.Name ]]</b>
+                                            </a>
                                             {% block structure %}
                                             <br>
                                             <span>[[ item.Structure ]]</span>
