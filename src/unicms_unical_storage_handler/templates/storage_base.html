@@ -30,6 +30,25 @@
             <h1 class="lighter mb-4">{% trans "Data storage" %}</h1>
             <hr class="my-4 bordeaux-unical-bg">
             <div class="row">
+
+                <div class="col-12 col-lg-4">
+                    <!--start card-->
+                    <div class="card-wrapper card-space">
+                        <div class="card card-bg card-big no-after">
+                            <div class="card-body">
+                                <h5 class="card-title">
+                                    {% trans "Areas and Offices" %}
+                                </h5>
+                                {% settings_value "CMS_STORAGE_STRUCTURE_VIEW_PREFIX_PATH" as structures_prefix %}
+                                <a href="//{{ host }}/{{ cms_path_prefix }}{{ base_prefix }}/{{ structures_prefix }}/" role="button" class="btn btn-outline-primary btn-sm">
+                                    {% trans "See the list" %}
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <!--end card-->
+                </div>
+
                 <div class="col-12 col-lg-4">
                     <!--start card-->
                     <div class="card-wrapper card-space">
@@ -84,23 +103,7 @@
                     <!--end card-->
                 </div>
 
-                <div class="col-12 col-lg-4">
-                    <!--start card-->
-                    <div class="card-wrapper card-space">
-                        <div class="card card-bg card-big no-after">
-                            <div class="card-body">
-                                <h5 class="card-title">
-                                    {% trans "Areas and Offices" %}
-                                </h5>
-                                {% settings_value "CMS_STORAGE_STRUCTURE_VIEW_PREFIX_PATH" as structures_prefix %}
-                                <a href="//{{ host }}/{{ cms_path_prefix }}{{ base_prefix }}/{{ structures_prefix }}/" role="button" class="btn btn-outline-primary btn-sm">
-                                    {% trans "See the list" %}
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                    <!--end card-->
-                </div>
+
 
                 <div class="col-12 col-lg-4">
                     <!--start card-->
@@ -112,60 +115,6 @@
                                 </h5>
                                 {% settings_value "CMS_STORAGE_LABORATORY_VIEW_PREFIX_PATH" as laboratories_prefix %}
                                 <a href="//{{ host }}/{{ cms_path_prefix }}{{ base_prefix }}/{{ laboratories_prefix }}/" role="button" class="btn btn-outline-primary btn-sm">
-                                    {% trans "See the list" %}
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                    <!--end card-->
-                </div>
-
-                <div class="col-12 col-lg-4">
-                    <!--start card-->
-                    <div class="card-wrapper card-space">
-                        <div class="card card-bg card-big no-after">
-                            <div class="card-body">
-                                <h5 class="card-title">
-                                    {% trans "Research groups" %}
-                                </h5>
-                                {% settings_value "CMS_STORAGE_RESEARCH_GROUP_VIEW_PREFIX_PATH" as research_groups_prefix %}
-                                <a href="//{{ host }}/{{ cms_path_prefix }}{{ base_prefix }}/{{ research_groups_prefix }}/" role="button" class="btn btn-outline-primary btn-sm">
-                                    {% trans "See the list" %}
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                    <!--end card-->
-                </div>
-
-                <div class="col-12 col-lg-4">
-                    <!--start card-->
-                    <div class="card-wrapper card-space">
-                        <div class="card card-bg card-big no-after">
-                            <div class="card-body">
-                                <h5 class="card-title">
-                                    {% trans "Base research lines" %}
-                                </h5>
-                                {% settings_value "CMS_STORAGE_BASE_RESEARCH_LINE_VIEW_PREFIX_PATH" as base_research_lines_prefix %}
-                                <a href="//{{ host }}/{{ cms_path_prefix }}{{ base_prefix }}/{{ base_research_lines_prefix }}/" role="button" class="btn btn-outline-primary btn-sm">
-                                    {% trans "See the list" %}
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                    <!--end card-->
-                </div>
-
-                <div class="col-12 col-lg-4">
-                    <!--start card-->
-                    <div class="card-wrapper card-space">
-                        <div class="card card-bg card-big no-after">
-                            <div class="card-body">
-                                <h5 class="card-title">
-                                    {% trans "Applied research lines" %}
-                                </h5>
-                                {% settings_value "CMS_STORAGE_APPLIED_RESEARCH_LINE_VIEW_PREFIX_PATH" as applied_research_lines_prefix %}
-                                <a href="//{{ host }}/{{ cms_path_prefix }}{{ base_prefix }}/{{ applied_research_lines_prefix }}/" role="button" class="btn btn-outline-primary btn-sm">
                                     {% trans "See the list" %}
                                 </a>
                             </div>
@@ -220,6 +169,60 @@
                                 </h5>
                                 {% settings_value "CMS_STORAGE_SPINOFF_VIEW_PREFIX_PATH" as spinoff_prefix %}
                                 <a href="//{{ host }}/{{ cms_path_prefix }}{{ base_prefix }}/{{ spinoff_prefix }}/" role="button" class="btn btn-outline-primary btn-sm">
+                                    {% trans "See the list" %}
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <!--end card-->
+                </div>
+
+                <div class="col-12 col-lg-4">
+                    <!--start card-->
+                    <div class="card-wrapper card-space">
+                        <div class="card card-bg card-big no-after">
+                            <div class="card-body">
+                                <h5 class="card-title">
+                                    {% trans "Research groups" %}
+                                </h5>
+                                {% settings_value "CMS_STORAGE_RESEARCH_GROUP_VIEW_PREFIX_PATH" as research_groups_prefix %}
+                                <a href="//{{ host }}/{{ cms_path_prefix }}{{ base_prefix }}/{{ research_groups_prefix }}/" role="button" class="btn btn-outline-primary btn-sm">
+                                    {% trans "See the list" %}
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <!--end card-->
+                </div>
+
+                <div class="col-12 col-lg-4">
+                    <!--start card-->
+                    <div class="card-wrapper card-space">
+                        <div class="card card-bg card-big no-after">
+                            <div class="card-body">
+                                <h5 class="card-title">
+                                    {% trans "Base research lines" %}
+                                </h5>
+                                {% settings_value "CMS_STORAGE_BASE_RESEARCH_LINE_VIEW_PREFIX_PATH" as base_research_lines_prefix %}
+                                <a href="//{{ host }}/{{ cms_path_prefix }}{{ base_prefix }}/{{ base_research_lines_prefix }}/" role="button" class="btn btn-outline-primary btn-sm">
+                                    {% trans "See the list" %}
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <!--end card-->
+                </div>
+
+                <div class="col-12 col-lg-4">
+                    <!--start card-->
+                    <div class="card-wrapper card-space">
+                        <div class="card card-bg card-big no-after">
+                            <div class="card-body">
+                                <h5 class="card-title">
+                                    {% trans "Applied research lines" %}
+                                </h5>
+                                {% settings_value "CMS_STORAGE_APPLIED_RESEARCH_LINE_VIEW_PREFIX_PATH" as applied_research_lines_prefix %}
+                                <a href="//{{ host }}/{{ cms_path_prefix }}{{ base_prefix }}/{{ applied_research_lines_prefix }}/" role="button" class="btn btn-outline-primary btn-sm">
                                     {% trans "See the list" %}
                                 </a>
                             </div>
