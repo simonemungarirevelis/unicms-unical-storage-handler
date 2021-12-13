@@ -132,54 +132,37 @@
 
 {% block structure_personnel %}
 <!-- Personnel -->
-<div id="{{ id }}_collapse-1-lft" class="collapse-div collapse-left-icon" role="tablist">
-    <div class="collapse-header" id="{{ id }}_heading-personnel-lft">
-        <button data-toggle="collapse"
-                data-target="#{{ id }}_collapse-personnel-lft"
-                aria-expanded="false"
-                aria-controls="{{ id }}_collapse-personnel-lft">
-            {% trans "Personnel" %}
-        </button>
-    </div>
-    <div id="{{ id }}_collapse-personnel-lft"
-         class="collapse"
-         role="tabpanel"
-         aria-labelledby="{{ id }}_heading-personnel-lft">
-        <div class="mt-3">
-            {% with allowed_addressbook_roles|join:"," as allowed_address_book_roles_list %}
-            {% with allowed_structure_types|join:"," as allowed_structure_types_list %}
+{% with allowed_addressbook_roles|join:"," as allowed_address_book_roles_list %}
+{% with allowed_structure_types|join:"," as allowed_structure_types_list %}
 
-            {% with "&role="|add:allowed_address_book_roles_list as roles_filter %}
-            {% with "&structuretypes="|add:allowed_structure_types_list as structure_types_filter %}
+{% with "&role="|add:allowed_address_book_roles_list as roles_filter %}
+{% with "&structuretypes="|add:allowed_structure_types_list as structure_types_filter %}
 
-            {% with addressbook_api|add:"?structuretree="|add:code|add:"&structuretypes="|add:allowed_structure_types_list as personnel_url %}
+{% with addressbook_api|add:"?structuretree="|add:code|add:"&structuretypes="|add:allowed_structure_types_list as personnel_url %}
 
-            {% if allowed_address_book_roles_list and allowed_structure_types_list %}
-                {% with personnel_url|add:roles_filter|add:structure_types_filter as personnel_url %}
-                {% include "blocks/unical_storage_addressbook_without_structure_type_filter.html" with url=personnel_url structure_id=code uid=id|add:"_1" %}
-                {% endwith %}
-            {% elif allowed_address_book_roles_list %}
-                {% with personnel_url|add:roles_filter as personnel_url %}
-                {% include "blocks/unical_storage_addressbook_without_structure_type_filter.html" with url=personnel_url structure_id=code uid=id|add:"_1" %}
-                {% endwith %}
-            {% elif allowed_address_book_roles_list %}
-                {% with addressbook_api|add:structure_types_filter as personnel_url %}
-                {% include "blocks/unical_storage_addressbook_without_structure_type_filter.html" with url=personnel_url structure_id=code uid=id|add:"_1" %}
-                {% endwith %}
-            {% else %}
-                {% include "blocks/unical_storage_addressbook_without_structure_type_filter.html" with url=personnel_url structure_id=code uid=id|add:"_1" %}
-            {% endif %}
+{% if allowed_address_book_roles_list and allowed_structure_types_list %}
+    {% with personnel_url|add:roles_filter|add:structure_types_filter as personnel_url %}
+    {% include "blocks/collapse/unical_storage_collapse_addressbook_without_structure_type_filter.html" with url=personnel_url structure_id=code uid=id|add:"_1" %}
+    {% endwith %}
+{% elif allowed_address_book_roles_list %}
+    {% with personnel_url|add:roles_filter as personnel_url %}
+    {% include "blocks/collapse/unical_storage_collapse_addressbook_without_structure_type_filter.html" with url=personnel_url structure_id=code uid=id|add:"_1" %}
+    {% endwith %}
+{% elif allowed_address_book_roles_list %}
+    {% with addressbook_api|add:structure_types_filter as personnel_url %}
+    {% include "blocks/collapse/unical_storage_collapse_addressbook_without_structure_type_filter.html" with url=personnel_url structure_id=code uid=id|add:"_1" %}
+    {% endwith %}
+{% else %}
+    {% include "blocks/collapse/unical_storage_collapse_addressbook_without_structure_type_filter.html" with url=personnel_url structure_id=code uid=id|add:"_1" %}
+{% endif %}
 
-            {% endwith %}
+{% endwith %}
 
-            {% endwith %}
-            {% endwith %}
+{% endwith %}
+{% endwith %}
 
-            {% endwith %}
-            {% endwith %}
-        </div>
-    </div>
-</div>
+{% endwith %}
+{% endwith %}
 {% endblock structure_personnel %}
 
 {% endwith %}
