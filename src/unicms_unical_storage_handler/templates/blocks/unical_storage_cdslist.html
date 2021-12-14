@@ -17,12 +17,7 @@
 
     <div v-if="(initial_items && initial_items.length) || parameters">
 
-        {% block filters_coursetype %}
-
-        <loading-icon
-            v-if="is_loading_degreetypes"
-            :loader_source="loader_source_degreetypes">
-        </loading-icon>
+        {% comment %}
 
         <div class="row mt-3" v-else>
             <div class="col">
@@ -53,7 +48,7 @@
             </div>
         </div>
         <hr class="my-4 bordeaux-unical-bg">
-        {% endblock filters_coursetype %}
+        {% endcomment %}
 
         <div class="row">
             <div class="col-12">
@@ -61,13 +56,47 @@
                     <div class="card card-bg no-after">
                         <br>
                         <div class="card-body">
-                            {% include "includes/unical_storage_search_input.html" with id=id input_args="'coursetype', selected_coursetype" %}
+                            {% include "includes/unical_storage_search_input.html" with id=id %}
 
                             {% block filters_cdslist %}
                             <div class="form-group">
 
-                                <!-- Academic year & Department -->
+                                <!-- type & Academic year & language -->
                                 <div class="row">
+
+                                    {% block filters_coursetype %}
+
+                                    <loading-icon
+                                        v-if="is_loading_degreetypes"
+                                        :loader_source="loader_source_degreetypes">
+                                    </loading-icon>
+
+                                    <div class="col-sm" v-else>
+                                        <div>
+                                            <label for="{{ id }}_cds_type">
+                                                {% trans "Course type" %}
+                                            </label>
+
+
+
+                                            <div class="w-30 mt-5">
+                                                <select id="{{ id }}_coursetype_input"
+                                                        title="{% trans 'Choose an option' %}"
+                                                        name="{{ id }}_coursetype_input"
+                                                        class="form-control"
+                                                        @change="{{ id }}.search()">
+                                                    <option value="">- {% trans 'Choose an option' %} -</option>
+                                                    <option v-for="degree in course_types"
+                                                            v-if="allowed_course_types.length==0 || allowed_course_types.includes(degree.CourseType)"
+                                                            :value="degree.CourseType"
+                                                            :selected="degree.CourseType == selected_coursetype">
+                                                        [[ degree.CourseTypeDescription ]]
+                                                    </option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {% endblock filters_coursetype %}
 
                                     <loading-icon
                                         v-if="is_loading_academicyears"
@@ -84,7 +113,7 @@
                                                         title="{% trans 'Choose an option' %}"
                                                         name="{{ id }}_academic_year_input"
                                                         class="form-control"
-                                                        @change="{{ id }}.search('coursetype', selected_coursetype)">
+                                                        @change="{{ id }}.search()">
                                                   <option value="">- {% trans 'Choose an option' %} -</option>
                                                   <option v-for="item in academic_years_filter"
                                                           :value="item.AcademicYear"
@@ -95,6 +124,33 @@
                                             </div>
                                         </div>
                                     </div>
+
+                                    <div class="col-sm">
+                                        <div>
+                                            <label for="{{ id }}_cds_language_input">
+                                                {% trans "Course of study language" %}
+                                            </label>
+                                            <div class="w-30 mt-5">
+                                                <select id="{{ id }}_cds_language_input"
+                                                        title="{% trans 'Choose an option' %}"
+                                                        name="{{ id }}_cds_language_input"
+                                                        class="form-control"
+                                                        @change="{{ id }}.search()">
+                                                    <option value="">- {% trans 'Choose an option' %} -</option>
+                                                    <option v-for="item in cds_languages_filter"
+                                                            :value="item"
+                                                            :selected="item == selected_language">
+                                                        [[ item ]]
+                                                    </option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <!-- Cds department & Joint Degree -->
+                                <div class="row">
 
                                     {% block filters_department %}
                                     <loading-icon
@@ -112,7 +168,7 @@
                                                         title="{% trans 'Choose an option' %}"
                                                         name="{{ id }}_department_input"
                                                         class="form-control"
-                                                        @change="{{ id }}.search('coursetype', selected_coursetype)">
+                                                        @change="{{ id }}.search()">
                                                     <option value="">- {% trans 'Choose an option' %} -</option>
                                                     <option v-for="item in departments_filter"
                                                             :value="item.DepartmentCod"
@@ -124,31 +180,6 @@
                                         </div>
                                     </div>
                                     {% endblock filters_department %}
-                                </div>
-
-                                <!-- Cds Language & Joint Degree -->
-                                <div class="row">
-                                    <div class="col-sm">
-                                        <div>
-                                            <label for="{{ id }}_cds_language_input">
-                                                {% trans "Course of study language" %}
-                                            </label>
-                                            <div class="w-30 mt-5">
-                                                <select id="{{ id }}_cds_language_input"
-                                                        title="{% trans 'Choose an option' %}"
-                                                        name="{{ id }}_cds_language_input"
-                                                        class="form-control"
-                                                        @change="{{ id }}.search('coursetype', selected_coursetype)">
-                                                    <option value="">- {% trans 'Choose an option' %} -</option>
-                                                    <option v-for="item in cds_languages_filter"
-                                                            :value="item"
-                                                            :selected="item == selected_language">
-                                                        [[ item ]]
-                                                    </option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
 
                                     {% block filters_jointdegree %}
                                     <div class="col-sm">
@@ -161,7 +192,7 @@
                                                         title="{% trans 'Choose an option' %}"
                                                         name="{{ id }}_joint_degree_input"
                                                         class="form-control"
-                                                        @change="{{ id }}.search('coursetype', selected_coursetype)">
+                                                        @change="{{ id }}.search()">
                                                     <option value="">- {% trans 'Choose an option' %} -</option>
                                                     <option v-for="item in joint_degree_filter"
                                                             :value="item.COD"
@@ -271,6 +302,10 @@ function {{ id }}_get_form_paramenters(keyword=null, value=null) {
     let search = document.getElementById('{{ id }}_search')
     if (search && search.value) dict['search'] = search.value
 
+    // coursetype
+    let coursetype = document.getElementById('{{ id }}_coursetype_input')
+    if (coursetype && coursetype.value) dict['coursetype'] = coursetype.value
+
     // academic year
     let academic_year = document.getElementById('{{ id }}_academic_year_input')
     if (academic_year && academic_year.value) dict['academicyear'] = academic_year.value
@@ -353,8 +388,6 @@ this.parameters = {{ id }}_encodeQueryData(this.getItemsFromSession("{{ id }}"))
 
 {% block method_search %}
 search(keyword=null, value=null) {
-    if(keyword=='coursetype')
-        this.selected_coursetype = value
     if (value) this.parameters = {{ id }}_encodeQueryData({{ id }}_get_form_paramenters(keyword, value));
     else this.parameters = {{ id }}_encodeQueryData({{ id }}_get_form_paramenters());
     this.CallURL(this.url + this.parameters);
