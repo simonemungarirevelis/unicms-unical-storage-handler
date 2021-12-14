@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-12-14 12:46+0100\n"
+"POT-Creation-Date: 2021-12-14 12:52+0100\n"
 "PO-Revision-Date: 2021-12-14 12:47+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -70,8 +70,8 @@ msgid "Research groups"
 msgstr "Gruppi di ricerca"
 
 #: settings.py:144 templates/storage_base.html:30
-msgid "Data storage"
-msgstr "Archivio dati"
+msgid "Open data"
+msgstr ""
 
 #: settings.py:145 templates/storage_base.html:168
 #: templates/storage_spinoff_list.html:15
@@ -486,6 +486,9 @@ msgstr "Persone"
 #: templates/storage_cdslist.html:25
 msgid "Training offer"
 msgstr "Offerta formativa"
+
+#~ msgid "Data storage"
+#~ msgstr "Archivio dati"
 
 #~ msgid "Addressbook"
 #~ msgstr "Rubrica"
