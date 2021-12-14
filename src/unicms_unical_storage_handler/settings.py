@@ -20,6 +20,7 @@ CMS_STORAGE_BASE_RESEARCH_LINE_VIEW_PREFIX_PATH = 'base-research-lines'
 CMS_STORAGE_CDS_VIEW_PREFIX_PATH = 'cds'
 CMS_STORAGE_LABORATORY_VIEW_PREFIX_PATH = 'laboratories'
 CMS_STORAGE_PATENTS_VIEW_PREFIX_PATH = 'patents'
+CMS_STORAGE_PROJECTS_VIEW_PREFIX_PATH = 'projects'
 CMS_STORAGE_PUBLICATIONS_VIEW_PREFIX_PATH = 'publications'
 CMS_STORAGE_RESEARCH_GROUP_VIEW_PREFIX_PATH = 'research-groups'
 CMS_STORAGE_SPINOFF_VIEW_PREFIX_PATH = 'companies'
@@ -38,6 +39,8 @@ CMS_STORAGE_CDS_INFO_URL_VIEW_REGEXP = f'^(?P<webpath>[\/a-zA-Z0-9\.\-\_]*)({CMS
 CMS_STORAGE_LABORATORY_LIST_URL_VIEW_REGEXP = f'^(?P<webpath>[\/a-zA-Z0-9\.\-\_]*)({CMS_STORAGE_BASE_PATH})/({CMS_STORAGE_LABORATORY_VIEW_PREFIX_PATH})(/)?$' # noqa
 CMS_STORAGE_LABORATORY_INFO_URL_VIEW_REGEXP = f'^(?P<webpath>[\/a-zA-Z0-9\.\-\_]*)({CMS_STORAGE_BASE_PATH})/({CMS_STORAGE_LABORATORY_VIEW_PREFIX_PATH})/(?P<code>[a-z0-9\-]*)(/)?$' # noqa
 CMS_STORAGE_PATENTS_LIST_URL_VIEW_REGEXP = f'^(?P<webpath>[\/a-zA-Z0-9\.\-\_]*)({CMS_STORAGE_BASE_PATH})/({CMS_STORAGE_PATENTS_VIEW_PREFIX_PATH})(/)?$' # noqa
+CMS_STORAGE_PROJECTS_LIST_URL_VIEW_REGEXP = f'^(?P<webpath>[\/a-zA-Z0-9\.\-\_]*)({CMS_STORAGE_BASE_PATH})/({CMS_STORAGE_PROJECTS_VIEW_PREFIX_PATH})(/)?$' # noqa
+CMS_STORAGE_PROJECTS_INFO_URL_VIEW_REGEXP = f'^(?P<webpath>[\/a-zA-Z0-9\.\-\_]*)({CMS_STORAGE_BASE_PATH})/{CMS_STORAGE_PROJECTS_VIEW_PREFIX_PATH}/(?P<code>[a-z0-9\-]*)(/)?$' # noqa
 CMS_STORAGE_PUBLICATIONS_LIST_URL_VIEW_REGEXP = f'^(?P<webpath>[\/a-zA-Z0-9\.\-\_]*)({CMS_STORAGE_BASE_PATH})/({CMS_STORAGE_PUBLICATIONS_VIEW_PREFIX_PATH})(/)?$' # noqa
 CMS_STORAGE_PUBLICATIONS_INFO_URL_VIEW_REGEXP = f'^(?P<webpath>[\/a-zA-Z0-9\.\-\_]*)({CMS_STORAGE_BASE_PATH})/{CMS_STORAGE_PUBLICATIONS_VIEW_PREFIX_PATH}/(?P<code>[a-z0-9\-]*)(/)?$' # noqa
 CMS_STORAGE_RESEARCH_GROUP_LIST_URL_VIEW_REGEXP = f'^(?P<webpath>[\/a-zA-Z0-9\.\-\_]*)({CMS_STORAGE_BASE_PATH})/({CMS_STORAGE_RESEARCH_GROUP_VIEW_PREFIX_PATH})(/)?$' # noqa
@@ -61,6 +64,8 @@ CMS_STORAGE_HANDLERS_PATHS = [
                               CMS_STORAGE_LABORATORY_LIST_URL_VIEW_REGEXP,
                               CMS_STORAGE_LABORATORY_INFO_URL_VIEW_REGEXP,
                               CMS_STORAGE_PATENTS_LIST_URL_VIEW_REGEXP,
+                              CMS_STORAGE_PROJECTS_LIST_URL_VIEW_REGEXP,
+                              CMS_STORAGE_PROJECTS_INFO_URL_VIEW_REGEXP,
                               CMS_STORAGE_PUBLICATIONS_LIST_URL_VIEW_REGEXP,
                               CMS_STORAGE_PUBLICATIONS_INFO_URL_VIEW_REGEXP,
                               CMS_STORAGE_RESEARCH_GROUP_LIST_URL_VIEW_REGEXP,
@@ -85,6 +90,8 @@ CMS_STORAGE_APP_REGEXP_URLPATHS = {
     'unicms_unical_storage_handler.handlers.LaboratoryListViewHandler': CMS_STORAGE_LABORATORY_LIST_URL_VIEW_REGEXP,
     'unicms_unical_storage_handler.handlers.LaboratoryInfoViewHandler' : CMS_STORAGE_LABORATORY_INFO_URL_VIEW_REGEXP,
     'unicms_unical_storage_handler.handlers.PatentsListViewHandler' : CMS_STORAGE_PATENTS_LIST_URL_VIEW_REGEXP,
+    'unicms_unical_storage_handler.handlers.ProjectsListViewHandler': CMS_STORAGE_PROJECTS_LIST_URL_VIEW_REGEXP,
+    'unicms_unical_storage_handler.handlers.ProjectsInfoViewHandler': CMS_STORAGE_PROJECTS_INFO_URL_VIEW_REGEXP,
     'unicms_unical_storage_handler.handlers.PublicationsListViewHandler': CMS_STORAGE_PUBLICATIONS_LIST_URL_VIEW_REGEXP,
     'unicms_unical_storage_handler.handlers.PublicationsInfoViewHandler': CMS_STORAGE_PUBLICATIONS_INFO_URL_VIEW_REGEXP,
     'unicms_unical_storage_handler.handlers.ResearchGroupListViewHandler': CMS_STORAGE_RESEARCH_GROUP_LIST_URL_VIEW_REGEXP,
@@ -119,6 +126,7 @@ CMS_STORAGE_LABORATORY_API = f'{CMS_STORAGE_BASE_API}laboratories/'
 CMS_STORAGE_LABORATORIES_AREAS_API = f'{CMS_STORAGE_BASE_API}laboratoriesareas/'
 CMS_STORAGE_LABORATORIES_SCOPES_API = f'{CMS_STORAGE_BASE_API}laboratories-scopes/'
 CMS_STORAGE_PATENTS_API = f'{CMS_STORAGE_BASE_API}patents/'
+CMS_STORAGE_PROJECTS_API = f'{CMS_STORAGE_BASE_API}projects/'
 CMS_STORAGE_PUBLICATIONS_API = f'{CMS_STORAGE_BASE_API}publications/'
 CMS_STORAGE_RESEARCH_GROUP_API = f'{CMS_STORAGE_BASE_API}researchgroups/'
 CMS_STORAGE_ROLES_API = f'{CMS_STORAGE_BASE_API}roles/'
@@ -139,6 +147,7 @@ CMS_STORAGE_BASE_RESEARCH_LINE_LABEL = _("Base research lines")
 CMS_STORAGE_CDS_LIST_LABEL = _("Study courses")
 CMS_STORAGE_LABORATORY_LABEL = _("Laboratories")
 CMS_STORAGE_PATENTS_LABEL = _("Patents")
+CMS_STORAGE_PROJECTS_LABEL = _("Projects")
 CMS_STORAGE_PUBLICATIONS_LABEL = _("Publications")
 CMS_STORAGE_RESEARCH_GROUP_LABEL = _("Research groups")
 CMS_STORAGE_ROOT_LABEL = _("Open data")
@@ -202,6 +211,12 @@ PUBLICATIONS_INFO_NOT_SHOW = ['PublicationId', 'PublicationAbstract',
                               'PublicationTitle', 'PublicationCommunity',
                               'PublicationCollection', 'PublicationReferenceAuthor',
                               'Publication', 'PublicationLabel', 'PublicationUrl']
+
+PROJECTS_INFO_NOT_SHOW = ['ProjectId', 'ProjectDepartmentId',
+                          'TerritorialScopeId', 'TypeProgramId',
+                          'TechAreaId', 'ProjectTitle',
+                          'ProjectDescription', 'ProjectAbstract',
+                          'ProjectImage']
 
 INITIAL_STRUCTURE_FATHER = ''
 

@@ -483,3 +483,47 @@ class SpinoffInfoViewHandler(BaseStorageHandler):
         parent = (self.parent_url, settings.CMS_STORAGE_SPINOFF_LABEL)
         leaf = ('#', self.code)
         return (root, parent, leaf)
+
+
+class ProjectsListViewHandler(BaseStorageHandler):
+    template = "storage_projects_list.html"
+
+    def __init__(self, **kwargs):
+        super(ProjectsListViewHandler, self).__init__(**kwargs)
+
+    def as_view(self):
+        url_data = {}
+
+        params = urllib.parse.urlencode(url_data)
+        self.data['url'] = f'{settings.CMS_STORAGE_PROJECTS_API}?{params}'
+        return super().as_view()
+
+    @property
+    def breadcrumbs(self):
+        root = (self.get_base_url, settings.CMS_STORAGE_ROOT_LABEL)
+        leaf = ('#', settings.CMS_STORAGE_PROJECTS_LABEL)
+        return (root, leaf)
+
+
+class ProjectsInfoViewHandler(BaseStorageHandler):
+    template = "storage_projects_info.html"
+
+    def __init__(self, **kwargs):
+        super(ProjectsInfoViewHandler, self).__init__(**kwargs)
+        self.code = self.match_dict.get('code', '')
+
+    def as_view(self):
+        self.data['url'] = f'{settings.CMS_STORAGE_PROJECTS_API}{self.code}/'
+        return super().as_view()
+
+    @property
+    def parent_url(self):
+        url = f'{self.webpath.get_full_path()}/{settings.CMS_STORAGE_BASE_PATH}/{settings.CMS_STORAGE_PROJECTS_VIEW_PREFIX_PATH}/'
+        return sanitize_path(url)
+
+    @property
+    def breadcrumbs(self):
+        root = (self.get_base_url, settings.CMS_STORAGE_ROOT_LABEL)
+        parent = (self.parent_url, settings.CMS_STORAGE_PROJECTS_LABEL)
+        leaf = ('#', self.code)
+        return (root, parent, leaf)
