@@ -21,14 +21,14 @@ function {{ id }}_encodeQueryData(data=[]) {
     const ret = ["lang={{ LANGUAGE_CODE }}"];
     for (let d in data)
         ret.push(encodeURIComponent(d) + '=' + encodeURIComponent(data[d]));
-    let url = "{{ url }}";
+    let url = "{{ url|safe }}";
     if (url.includes("?"))
         return '&' + ret.join('&')
     return '?' + ret.join('&');
 }
 
 function {{ id }}_get_param(name) {
-    let url = "{{ url }}";
+    let url = "{{ url|safe }}";
     let params = (new URL(url)).searchParams;
     return params.get(name)
 }
@@ -98,6 +98,10 @@ var {{ id }} = new Vue({
             {% block extra_data %}
             {% endblock extra_data %}
         }
+    },
+    beforeMount() {
+        {% block extra_before_mount %}
+        {% endblock extra_before_mount %}
     },
     mounted() {
         {% block extra_mounted %}

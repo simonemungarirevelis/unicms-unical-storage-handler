@@ -114,7 +114,9 @@
                                                         name="{{ id }}_academic_year_input"
                                                         class="form-control"
                                                         @change="{{ id }}.search()">
-                                                  <option value="">- {% trans 'Choose an option' %} -</option>
+                                                  <option value="" v-if="initial_academic_year==''">
+                                                      - {% trans 'Choose an option' %} -
+                                                  </option>
                                                   <option v-for="item in academic_years_filter"
                                                           :value="item.AcademicYear"
                                                           :selected="item.AcademicYear == selected_academic_year">
@@ -342,8 +344,10 @@ function {{ id }}_get_form_paramenters(keyword=null, value=null) {
 {% settings_value "CMS_STORAGE_DEPARTMENTSFILTER_API" as departments_api %}
 {% settings_value "CMS_STORAGE_ACADEMICYEARS_API" as academicyears_api %}
 
+initial_academic_year: {{ id }}_get_param('academicyear') || '',
+
 selected_coursetype: this.getItemFromSession("{{ id }}", 'coursetype'),
-selected_academic_year: this.getItemFromSession("{{ id }}", 'academicyear'),
+selected_academic_year: this.getItemFromSession("{{ id }}", 'academicyear') || {{ id }}_get_param('academicyear'),
 selected_department_id: this.getItemFromSession("{{ id }}", 'departmentcod'),
 selected_language: this.getItemFromSession("{{ id }}", 'cdslanguage'),
 selected_jointdegree: this.getItemFromSession("{{ id }}", 'jointdegree'),
@@ -383,7 +387,6 @@ this.callAcademicYears();
 this.callDepartments();
 
 this.parameters = {{ id }}_encodeQueryData(this.getItemsFromSession("{{ id }}"))
-
 {% endblock extra_mounted %}
 
 {% block method_search %}
