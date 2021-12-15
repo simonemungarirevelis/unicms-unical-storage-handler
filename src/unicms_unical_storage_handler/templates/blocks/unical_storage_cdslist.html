@@ -230,7 +230,9 @@
                         <div class="card no-after" style="border-top:1px solid #b71918">
                             <div class="card-body p-3">
                                 <h5>
-                                    <a class="no-color" :href="'//{{ host }}/{{ cms_path_prefix }}{{ base_prefix }}/{{ cds_prefix }}/' + [[ item.RegDidId ]] +'/'">
+                                    <a class="no-color"
+                                       :href="'//{{ host }}/{{ cms_path_prefix }}{{ base_prefix }}/{{ cds_prefix }}/' + [[ item.RegDidId ]] +'/'"
+                                       {% if request.get_host != host %}target="_blank"{% endif %}>
                                         <b>[[ item.CdSName ]]</b>
                                     </a>
 
