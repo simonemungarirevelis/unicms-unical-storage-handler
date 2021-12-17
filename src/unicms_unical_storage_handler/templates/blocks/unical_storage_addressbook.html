@@ -328,7 +328,7 @@ structure_id_filter: [],
 structure_type_filter: [],
 
 structure_type_filter_string: '',
-structure_father_filter: '{% firstof structure_id root_structure %}',
+structure_father_filter: new URL('{{ url }}').searchParams.get("structuretree") || '{{ root_structure }}',
 
 fields_to_not_show: {{ fields_to_hide|safe }}
 {% endblock extra_data %}
