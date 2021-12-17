@@ -127,6 +127,7 @@
                                         </div>
                                     </div>
 
+                                    {% block filters_language %}
                                     <div class="col-sm">
                                         <div>
                                             <label for="{{ id }}_cds_language_input">
@@ -148,7 +149,7 @@
                                             </div>
                                         </div>
                                     </div>
-
+                                    {% endblock filters_language %}
                                 </div>
 
                                 <!-- Cds department & Joint Degree -->
@@ -319,8 +320,10 @@ function {{ id }}_get_form_paramenters(keyword=null, value=null) {
     if (department && department.value) dict['departmentcod'] = department.value
 
     // cds language
+    {% block filters_language_script %}
     let cds_language = document.getElementById('{{ id }}_cds_language_input')
     if (cds_language && cds_language.value) dict['cdslanguage'] = cds_language.value
+    {% endblock filters_language_script %}
 
     // joint degree
     {% block filters_jointdegree_script %}
