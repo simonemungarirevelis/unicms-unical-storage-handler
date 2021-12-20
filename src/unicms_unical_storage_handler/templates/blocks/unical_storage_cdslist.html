@@ -54,9 +54,10 @@
             <div class="col-12">
                 <div class="card-wrapper card-space">
                     <div class="card card-bg no-after">
-                        <br>
                         <div class="card-body">
+                            {% block filters_search %}
                             {% include "includes/unical_storage_search_input.html" with id=id %}
+                            {% endblock filters_search %}
 
                             {% block filters_cdslist %}
                             <div class="form-group">
