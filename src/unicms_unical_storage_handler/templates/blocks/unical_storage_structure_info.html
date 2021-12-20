@@ -121,7 +121,7 @@
 
 {% with structures_api|add:"?father="|add:code as child_structures_url %}
 
-{% if structure_types_filter %}
+{% if allowed_structure_types_list %}
     {% with child_structures_url|add:structure_types_filter as child_structures_url %}
     {% include "blocks/collapse/unical_storage_collapse_structure_list_without_search.html" with url=child_structures_url uid=id|add:"_2" %}
     {% endwith %}
@@ -138,7 +138,7 @@
 {% with "&role="|add:allowed_address_book_roles_list as roles_filter %}
 {% with "&structuretypes="|add:allowed_structure_types_list as structure_types_filter %}
 
-{% with addressbook_api|add:"?structuretree="|add:code|add:"&structuretypes="|add:allowed_structure_types_list as personnel_url %}
+{% with addressbook_api|add:"?structuretree="|add:code as personnel_url %}
 
 {% if allowed_address_book_roles_list and allowed_structure_types_list %}
     {% with personnel_url|add:roles_filter|add:structure_types_filter as personnel_url %}
@@ -148,7 +148,7 @@
     {% with personnel_url|add:roles_filter as personnel_url %}
     {% include "blocks/collapse/unical_storage_collapse_addressbook_without_structure_type_filter.html" with url=personnel_url uid=id|add:"_1" %}
     {% endwith %}
-{% elif allowed_address_book_roles_list %}
+{% elif allowed_structure_types_list %}
     {% with addressbook_api|add:structure_types_filter as personnel_url %}
     {% include "blocks/collapse/unical_storage_collapse_addressbook_without_structure_type_filter.html" with url=personnel_url uid=id|add:"_1" %}
     {% endwith %}
