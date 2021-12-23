@@ -82,7 +82,9 @@
             <div class="embed-responsive embed-responsive-16by9">
                 <iframe :title="item.CdSVideo"
                         class="embed-responsive-item"
-                        :src="item.CdSVideo" allowfullscreen></iframe>
+                        :src="item.CdSVideo"
+                        allowfullscreen sandbox="allow-scripts allow-same-origin">
+                </iframe>
             </div>
         </div>
 
