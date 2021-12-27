@@ -84,6 +84,8 @@ var {{ id }} = new Vue({
     data() {
         return {
             parameters: {{ id }}_encodeQueryData(),
+            initial_clean_parameters: '',
+            initial_parameters: '',
             items: [],
             initial_items: [],
             labels: [],
@@ -102,8 +104,12 @@ var {{ id }} = new Vue({
         {% endblock extra_before_mount %}
     },
     mounted() {
+        this.initial_clean_parameters = this.parameters
+
         {% block extra_mounted %}
         {% endblock extra_mounted %}
+
+        this.initial_parameters = this.parameters
 
         this.loader_source = this.url + this.parameters
         this.CallURL(this.url + this.parameters, true);
