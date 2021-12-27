@@ -143,7 +143,7 @@ function {{ id }}_get_form_paramenters(keyword=null, value=null) {
     {% block researchgroup_filter_input %}
 
         // department
-        let department = document.getElementById('{{ id }}_department_input').value
+        let department = document.getElementById('{{ id }}_department_input')
         if (department && department.value) dict['department'] = department.value
 
     {% endblock researchgroup_filter_input %}
