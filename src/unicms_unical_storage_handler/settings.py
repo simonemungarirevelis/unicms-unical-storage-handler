@@ -227,3 +227,6 @@ SPINOFF_INFO_NOT_SHOW = ['SpinoffId', 'SpinoffImage', 'SpinoffTechAreaId',
 
 # ALMALAUREA Link
 ALMALAUREA_LINK = 'http://statistiche.almalaurea.it/universita/statistiche/trasparenza?codicione='
+
+# CURRENT ACADEMIC YEAR
+CURRENT_YEAR = ""

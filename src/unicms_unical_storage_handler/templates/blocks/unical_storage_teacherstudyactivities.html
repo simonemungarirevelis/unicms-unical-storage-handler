@@ -177,7 +177,7 @@ function {{ id }}_get_form_paramenters() {
 
 {% block extra_data %}
 
-selected_year: this.getItemFromSession("{{ id }}", 'year'),
+selected_year: this.getItemFromSession("{{ id }}", 'year') || {{ id }}_get_param('year'),
 selected_year_from: this.getItemFromSession("{{ id }}", 'yearFrom'),
 selected_year_to: this.getItemFromSession("{{ id }}", 'yearTo'),
 
