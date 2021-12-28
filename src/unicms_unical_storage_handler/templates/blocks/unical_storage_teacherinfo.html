@@ -175,7 +175,7 @@
 
 <!-- Research groups -->
 {% with research_groups_api|add:"?teacher="|add:code as research_groups_url %}
-{% include "blocks/collapse/unical_storage_collapse_research_group_list.html" with url=research_groups_url uid=id|add:"_4" %}
+{% include "blocks/collapse/unical_storage_collapse_research_group_list_without_any_filter.html" with url=research_groups_url uid=id|add:"_4" %}
 {% endwith %}
 
 <!-- Applied research lines -->
