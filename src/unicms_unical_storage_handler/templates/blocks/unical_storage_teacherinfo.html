@@ -179,14 +179,9 @@
 {% include "blocks/collapse/unical_storage_collapse_research_group_list_without_any_filter.html" with url=research_groups_url uid=id|add:"_4" %}
 {% endwith %}
 
-<!-- Applied research lines -->
-{% with applied_research_lines_api|add:"?teacher="|add:code as applied_research_lines_url %}
-{% include "blocks/collapse/unical_storage_collapse_research_line_applied_list.html" with url=applied_research_lines_url uid=id|add:"_5" %}
-{% endwith %}
-
-<!-- Base research lines -->
-{% with base_research_lines_api|add:"?teacher="|add:code as base_research_lines_url %}
-{% include "blocks/collapse/unical_storage_collapse_research_line_base_list.html" with url=base_research_lines_url uid=id|add:"_6" %}
+<!-- Research lines -->
+{% with cleaned_url|add:"/researchlines/" as researchlines_url %}
+{% include "blocks/collapse/unical_storage_collapse_research_line_list_without_any_filter.html" with url=researchlines_url uid=id|add:"_6" %}
 {% endwith %}
 
 <script>

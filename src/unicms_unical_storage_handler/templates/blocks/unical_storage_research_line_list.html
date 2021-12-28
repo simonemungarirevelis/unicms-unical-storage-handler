@@ -20,6 +20,7 @@
         <div class="row">
             <div class="col-12">
                 <div class="card-wrapper card-space">
+                    {% block search %}
                     <div class="card card-bg no-after">
                         <br>
                         <div class="card-body">
@@ -62,6 +63,7 @@
                             {% endblock filters %}
                         </div>
                     </div>
+                    {% endblock search %}
                 </div>
             </div>
         </div>
@@ -88,7 +90,7 @@
                                         </small>
                                     </div>
                                 </div>
-                                <div class="row mt-2" v-if="item.Teachers.length > 0 || item.RYear || item.RLineErc2Name">
+                                <div class="row mt-2" v-if="item.Teachers && item.Teachers.length > 0 || item.RYear || item.RLineErc2Name">
                                     <div class="col-12 col-md-auto" v-if="item.RYear">
                                         <small>
                                             [[ labels['RYear'] ]] >
@@ -143,18 +145,19 @@ function {{ id }}_get_form_paramenters(keyword=null, value=null) {
     if (keyword)
         dict[keyword] = value
 
-
+    {% block researchline_search_input %}
     // search
     let search = document.getElementById('{{ id }}_search')
     if (search && search.value) dict['search'] = search.value
+    {% endblock researchline_search_input %}
 
-    {% block researchgroup_filter_input %}
+    {% block researchline_filter_input %}
 
         // department
         let department = document.getElementById('{{ id }}_department_input')
         if (department && department.value) dict['department'] = department.value
 
-    {% endblock researchgroup_filter_input %}
+    {% endblock researchline_filter_input %}
 
     setItemInSession("{{ id }}", dict)
 
