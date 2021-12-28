@@ -4,17 +4,10 @@
 {% load static %}
 
 <!-- load custom template tags -->
-{% load unicms_carousels %}
 {% load unicms_contexts %}
-{% load unicms_menus %}
-{% load unicms_templates %}
-{% load unicms_pages %}
-{% load unicms_publications %}
 
 <!-- SEO  -->
 {% block page_title %}{% trans "Areas and Offices" %}{% endblock page_title %}
-{% block page_meta_description %}{% endblock page_meta_description %}
-{% block page_meta_keywords %}{% endblock page_meta_keywords %}
 
 {% block container %}
 {% breadcrumbs webpath=webpath leaf=handler %}
