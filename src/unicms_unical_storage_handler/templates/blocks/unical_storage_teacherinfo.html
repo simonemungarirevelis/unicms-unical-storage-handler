@@ -124,7 +124,7 @@
 
 <!-- Laboratories -->
 {% with laboratories_api|add:"?teacher="|add:code as laboratories_url %}
-{% include "blocks/collapse/unical_storage_collapse_laboratory_list_without_filters.html" with url=laboratories_url uid=id|add:"_1" teacher_id=code %}
+{% include "blocks/collapse/unical_storage_collapse_laboratory_list_without_any_filter.html" with url=laboratories_url uid=id|add:"_1" teacher_id=code %}
 {% endwith %}
 
 <!-- teacher's activities -->
