@@ -216,7 +216,7 @@ PROJECTS_INFO_NOT_SHOW = ['ProjectId', 'ProjectDepartmentId',
                           'TerritorialScopeId', 'TypeProgramId',
                           'TechAreaId', 'ProjectTitle',
                           'ProjectDescription', 'ProjectAbstract',
-                          'ProjectImage']
+                          'ProjectImage', 'InfrastructureId']
 
 INITIAL_STRUCTURE_FATHER = ''
 
