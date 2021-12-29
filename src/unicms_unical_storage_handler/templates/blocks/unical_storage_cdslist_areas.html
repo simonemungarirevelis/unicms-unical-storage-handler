@@ -227,13 +227,24 @@
         <div v-else>
             <div class="row mt-3">
                 <div class="col-12 col-md-6" v-for="area in cds_areas" v-if="area.AreaCds && items.results.filter(result => (result.AreaCds == area.AreaCds)).length">
-                    <h4 class="bordeaux-unical-color">{% trans "Course Area" %} [[ area.AreaCds ]]</h4>
-                    <ul>
+                    <b class="bordeaux-unical-color">{% trans "Course Area" %} [[ area.AreaCds ]]</b>
+                    <ul class="list-unstyled">
                         <li v-for="item in items.results" v-if="item.AreaCds == area.AreaCds">
                             <a class="no-color"
                                :href="'//{{ host }}/{{ cms_path_prefix }}{{ base_prefix }}/{{ cds_prefix }}/' + [[ item.RegDidId ]] +'/'"
                                {% if request.get_host != host %}target="_blank"{% endif %}>
+                                <small>
                                 <b>[[ item.CdSName ]]</b>
+                                <span>
+                                    - [[ item.CourseType ]]
+                                </span>
+                                <span v-if="item.CdSLanguage.includes('inglese') || item.CdSLanguage.includes('INGLESE') || item.CdSLanguage.includes('ENGLISH') || item.CdSLanguage.includes('english')">
+                                    <span class="mr-1" v-if="item.CdSLanguage.includes('italiano') || item.CdSLanguage.includes('ITALIANO') || item.CdSLanguage.includes('ITALIAN') || item.CdSLanguage.includes('italian')">
+                                        <img src="{% static 'images/ita.jpg' %}" />
+                                    </span>
+                                    <img src="{% static 'images/eng.jpg' %}" />
+                                </span>
+                                </small>
                             </a>
                         </li>
                     </ul>
