@@ -17,42 +17,38 @@
 
     <div v-if="(initial_items && initial_items.length) || parameters">
 
-        {% comment %}
-
-        <div class="row mt-3" v-else>
-            <div class="col">
-                <span v-for="degree in course_types"
-                      :class="{ selected: degree.CourseType == selected_coursetype }"
-                      class="badge badge-grey-unical square-corners my-1 mr-3 ml-0 pr-5 p-2">
-                    <div v-if="allowed_course_types.length==0 || allowed_course_types.includes(degree.CourseType)">
-                        <a class="no-color" href="javascript:void(0)" @click="{{ id }}.search('coursetype', degree.CourseType)">
-                            <h5>
-                                <b v-if="degree.CourseType == selected_coursetype">
-                                    [[ degree.CourseTypeDescription ]]
-                                </b>
-                                <span v-else>
-                                    [[ degree.CourseTypeDescription ]]
-                                </span>
-                            </h5>
-                        </a>
-                    </div>
-                </span>
-                <span class="badge badge-grey-unical square-corners my-1 mr-3 ml-0 pr-5 p-2"
-                      style="font-size: 100%">
-                    <a class="no-color" href="javascript:void(0)" @click="{{ id }}.search('coursetype', allowed_course_types)">
-                        <h5>
-                            {% trans "All" %}
-                        </h5>
-                    </a>
-                </span>
-            </div>
-        </div>
-        <hr class="my-4 bordeaux-unical-bg">
-        {% endcomment %}
-
-
         <div class="row">
             <div class="col-12">
+
+                <loading-icon
+                    v-if="is_loading_academicyears"
+                    :loader_source="loader_source_academicyears">
+                </loading-icon>
+                <div class="form-group mb-3 row" v-else>
+                    <div class="col">
+                        <label for="{{ id }}_academic_year_input">
+                            {% trans "Academic Year" %}
+                        </label>
+                        <div class="mt-5">
+                            <select id="{{ id }}_academic_year_input"
+                                    title="{% trans 'Choose an option' %}"
+                                    name="{{ id }}_academic_year_input"
+                                    class="form-control"
+                                    @change="{{ id }}.search()">
+                              <option value="" v-if="initial_academic_year==''">
+                                  - {% trans 'Choose an option' %} -
+                              </option>
+                              <option v-for="item in academic_years_filter"
+                                      :value="item.AcademicYear"
+                                      :selected="item.AcademicYear == selected_academic_year">
+                                  [[ item.AcademicYear ]]/[[ item.AcademicYear + 1 ]]
+                              </option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                {% comment %}
                 <div class="card-wrapper card-space">
                     <div class="card card-bg no-after">
                         <div class="card-body">
@@ -67,7 +63,6 @@
                                 <div class="row">
 
                                     {% block filters_coursetype %}
-
                                     <loading-icon
                                         v-if="is_loading_degreetypes"
                                         :loader_source="loader_source_degreetypes">
@@ -78,9 +73,6 @@
                                             <label for="{{ id }}_cds_type">
                                                 {% trans "Course type" %}
                                             </label>
-
-
-
                                             <div class="w-30 mt-5">
                                                 <select id="{{ id }}_coursetype_input"
                                                         title="{% trans 'Choose an option' %}"
@@ -158,56 +150,9 @@
                                 <div class="row">
 
                                     {% block filters_department %}
-                                    <loading-icon
-                                        v-if="is_loading_departments"
-                                        :loader_source="loader_source_departments">
-                                    </loading-icon>
-
-                                    <div class="col-sm" v-else>
-                                        <div>
-                                            <label for="{{ id }}_department_input">
-                                                {% trans "Department" %}
-                                            </label>
-                                            <div class="w-30 mt-5">
-                                                <select id="{{ id }}_department_input"
-                                                        title="{% trans 'Choose an option' %}"
-                                                        name="{{ id }}_department_input"
-                                                        class="form-control"
-                                                        @change="{{ id }}.search()">
-                                                    <option value="">- {% trans 'Choose an option' %} -</option>
-                                                    <option v-for="item in departments_filter"
-                                                            :value="item.DepartmentCod"
-                                                            :selected="item.DepartmentCod == selected_department_id">
-                                                        [[ item.DepartmentName ]]
-                                                    </option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
                                     {% endblock filters_department %}
 
                                     {% block filters_jointdegree %}
-                                    <div class="col-sm">
-                                        <div>
-                                            <label for="{{ id }}_joint_degree_input">
-                                                {% trans "Joint degree" %}
-                                            </label>
-                                            <div class="w-30 mt-5">
-                                                <select id="{{ id }}_joint_degree_input"
-                                                        title="{% trans 'Choose an option' %}"
-                                                        name="{{ id }}_joint_degree_input"
-                                                        class="form-control"
-                                                        @change="{{ id }}.search()">
-                                                    <option value="">- {% trans 'Choose an option' %} -</option>
-                                                    <option v-for="item in joint_degree_filter"
-                                                            :value="item.COD"
-                                                            :selected="item.COD == selected_jointdegree">
-                                                      [[ item.name ]]
-                                                    </option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
                                     {% endblock filters_jointdegree %}
                                 </div>
                             </div>
@@ -215,6 +160,7 @@
                         </div>
                     </div>
                 </div>
+                {% endcomment %}
             </div>
         </div>
 
