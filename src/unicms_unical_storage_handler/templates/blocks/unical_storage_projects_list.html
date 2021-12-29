@@ -31,7 +31,7 @@
                                 <div class="form-group mb-0">
 
                                 {% block filters %}
-                                    <!-- Year and Types -->
+                                    <!-- Year and TechArea -->
                                     <div class="row">
                                         <div class="col-sm">
                                             <div class="w-30 mt-5">
@@ -60,7 +60,13 @@
                                                 </div>
                                             </div>
                                         </div>
-                                         <div class="col-sm">
+
+                                        <loading-icon
+                                            v-if="is_loading_techareas"
+                                            :loader_source="loader_source_techareas">
+                                        </loading-icon>
+
+                                        <div class="col-sm" v-else>
                                             <div>
                                                 <label for="{{ id }}_techarea_input">
                                                     {% trans "Tech Area" %}
@@ -83,7 +89,63 @@
                                         </div>
 
                                     </div>
+                                    <!--END Year and TechArea -->
 
+                                    <!-- Program type and Territorial scope -->
+                                    <div class="row">
+                                        <loading-icon
+                                            v-if="is_loading_program_types"
+                                            :loader_source="loader_source_program_types">
+                                        </loading-icon>
+                                        <div class="col-sm" v-else>
+                                            <div>
+                                                <label for="{{ id }}_program_type_input">
+                                                    {% trans "Program Type" %}
+                                                </label>
+                                                <div class="w-30 mt-5">
+                                                    <select id="{{ id }}_program_type_input"
+                                                            title="{% trans 'Choose an option' %}"
+                                                            name="{{ id }}_program_type_input"
+                                                            class="form-control"
+                                                            @change="{{ id }}.search()">
+                                                        <option value="">- {% trans 'Choose an option' %} -</option>
+                                                        <option v-for="item in program_types"
+                                                                :value="item.TypeProgramId"
+                                                                :selected="item.TypeProgramId == selected_program_type">
+                                                            [[ item.TypeProgramDescription ]]
+                                                        </option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <loading-icon
+                                            v-if="is_loading_territorial_scopes"
+                                            :loader_source="loader_source_territorial_scopes">
+                                        </loading-icon>
+                                        <div class="col-sm" v-else>
+                                            <div>
+                                                <label for="{{ id }}_territorial_scope_input">
+                                                    {% trans "Territorial Scope" %}
+                                                </label>
+                                                <div class="w-30 mt-5">
+                                                    <select id="{{ id }}_territorial_scope_input"
+                                                            title="{% trans 'Choose an option' %}"
+                                                            name="{{ id }}_territorial_scope_input"
+                                                            class="form-control"
+                                                            @change="{{ id }}.search()">
+                                                        <option value="">- {% trans 'Choose an option' %} -</option>
+                                                        <option v-for="item in territorial_scopes"
+                                                                :value="item.TerritorialScopeId"
+                                                                :selected="item.TerritorialScopeId == selected_territorial_scope">
+                                                            [[ item.TerritorialScopeDescription ]]
+                                                        </option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- END Program type and Territorial scope -->
                                 {%  endblock filters %}
                             </div>
                         </div>
@@ -178,6 +240,14 @@ function {{ id }}_get_form_paramenters(keyword=null, value=null) {
     let year = document.getElementById('{{ id }}_year_input')
     if (year && year.value) dict['year'] = year.value
 
+    // program type
+    let program_type = document.getElementById('{{ id }}_program_type_input')
+    if (program_type && program_type.value) dict['program_type'] = program_type.value
+
+    // territorial scope
+    let territorial_scope = document.getElementById('{{ id }}_territorial_scope_input')
+    if (territorial_scope && territorial_scope.value) dict['territorial_scope'] = territorial_scope.value
+
     // techarea
     let techarea = document.getElementById('{{ id }}_techarea_input')
     if (techarea && techarea.value) dict['techarea'] = techarea.value
@@ -192,16 +262,26 @@ function {{ id }}_get_form_paramenters(keyword=null, value=null) {
 {% block extra_data %}
 {% get_current_language as LANGUAGE_CODE %}
 
+{% settings_value "CMS_STORAGE_PROJECTS_PROGRAMS_TYPES_API" as program_types_api %}
+{% settings_value "CMS_STORAGE_PROJECTS_TERRITORIAL_SCOPES_API" as territorial_scopes_api %}
 {% settings_value "CMS_STORAGE_TECHAREAS_API" as techareas_api %}
 
 search_dict: {},
+program_types: [],
+territorial_scopes: [],
 techareas: [],
 
+is_loading_program_types: true,
+is_loading_territorial_scopes: true,
 is_loading_techareas: true,
 
+loader_source_program_types: '{{ program_types_api }}?lang={{ LANGUAGE_CODE }}',
+loader_source_territorial_scopes: '{{ territorial_scopes_api }}?lang={{ LANGUAGE_CODE }}',
 loader_source_techareas: '{{ techareas_api }}?lang={{ LANGUAGE_CODE }}',
 
 selected_search: this.getItemFromSession("{{ id }}", 'search'),
+selected_program_type: this.getItemFromSession("{{ id }}", 'program_type'),
+selected_territorial_scope: this.getItemFromSession("{{ id }}", 'territorial_scope'),
 selected_techarea: this.getItemFromSession("{{ id }}", 'techarea'),
 selected_year: this.getItemFromSession("{{ id }}", 'year') || {{ id }}_get_param('year'),
 
@@ -210,11 +290,29 @@ selected_year: this.getItemFromSession("{{ id }}", 'year') || {{ id }}_get_param
 {% block extra_mounted %}
 this.parameters = {{ id }}_encodeQueryData(this.getItemsFromSession("{{ id }}"))
 
+this.callProgramTypes();
+this.callTerritorialScopes();
 this.callTechAreas();
 
 {% endblock extra_mounted %}
 
 {% block extra_methods %}
+callProgramTypes() {
+    axios
+        .get(this.loader_source_program_types)
+        .then(response => {
+            this.program_types = response.data.results;
+            this.is_loading_program_types = false
+        })
+},
+callTerritorialScopes() {
+    axios
+        .get(this.loader_source_territorial_scopes)
+        .then(response => {
+            this.territorial_scopes = response.data.results;
+            this.is_loading_territorial_scopes = false
+        })
+},
 callTechAreas() {
     axios
         .get(this.loader_source_techareas)
