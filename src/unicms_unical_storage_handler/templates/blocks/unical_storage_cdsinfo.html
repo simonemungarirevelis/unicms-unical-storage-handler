@@ -8,6 +8,7 @@
 
 {% random_id uid as id %}
 
+{% settings_value "CMS_STORAGE_ROOT_API" as api_root %}
 {% settings_value "CMS_STORAGE_TEACHER_API" as teachers_api %}
 {% settings_value "ALLOWED_CDS_JOINT_DEGREES" as allowed_joint_degrees %}
 {% settings_value "ALMALAUREA_LINK" as almalaurea_link %}
@@ -83,7 +84,14 @@
                 <iframe :title="item.CdSVideo"
                         class="embed-responsive-item"
                         :src="item.CdSVideo"
-                        allowfullscreen sandbox="allow-scripts allow-same-origin">
+                        allowfullscreen sandbox="allow-scripts allow-same-origin"
+                        v-if="item.CdSVideo.includes('https') || item.CdSVideo.includes('http')">
+                </iframe>
+                <iframe :title="item.CdSVideo"
+                        class="embed-responsive-item"
+                        :src="'{{ api_root }}' + item.CdSVideo"
+                        allowfullscreen
+                        v-else>
                 </iframe>
             </div>
         </div>
@@ -99,7 +107,12 @@
                 <div class="card-body">
                     <div class="row">
                         <div class="col-12 col-md-auto">
-                            <a :href="item.CdSDoc" target="_blank">
+                            <a :href="item.CdSDoc" target="_blank" v-if="item.CdSDoc.includes('https') || item.CdSDoc.includes('http')">
+                                <svg class="m-auto icon icon-muted">
+                                    <use xlink:href="{% static 'svg/sprite.svg' %}#it-clip"></use>
+                                </svg> <b>{% trans "Download brochure" %}</b>
+                            </a>
+                            <a :href="'{{ api_root }}' + item.CdSDoc" target="_blank" v-else>
                                 <svg class="m-auto icon icon-muted">
                                     <use xlink:href="{% static 'svg/sprite.svg' %}#it-clip"></use>
                                 </svg> <b>{% trans "Download brochure" %}</b>
