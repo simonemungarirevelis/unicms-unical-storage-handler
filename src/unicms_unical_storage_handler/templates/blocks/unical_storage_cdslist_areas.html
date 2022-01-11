@@ -180,7 +180,7 @@
                                :href="'//{{ host }}/{{ cms_path_prefix }}{{ base_prefix }}/{{ cds_prefix }}/' + [[ item.RegDidId ]] +'/'"
                                {% if request.get_host != host %}target="_blank"{% endif %}>
                                 <small>
-                                <b>[[ item.CdSName.toLowerCase() ]]</b>
+                                <b>[[ item.CdSName.charAt(0).toUpperCase() + item.CdSName.slice(1).toLowerCase() ]]</b>
                                 <span>
                                     - [[ item.CourseType ]]
                                 </span>
