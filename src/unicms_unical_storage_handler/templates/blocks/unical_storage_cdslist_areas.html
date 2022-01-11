@@ -184,8 +184,8 @@
                                 <span>
                                     - [[ item.CourseType ]]
                                 </span>
-                                <span v-if="item.CdSLanguage.includes('inglese') || item.CdSLanguage.includes('INGLESE') || item.CdSLanguage.includes('ENGLISH') || item.CdSLanguage.includes('english')">
-                                    <span class="mr-1" v-if="item.CdSLanguage.includes('italiano') || item.CdSLanguage.includes('ITALIANO') || item.CdSLanguage.includes('ITALIAN') || item.CdSLanguage.includes('italian')">
+                                <span v-if="arrayLower(item.CdSLanguage, 'english') || arrayLower(item.CdSLanguage, 'inglese')">
+                                    <span class="mr-1" v-if="arrayLower(item.CdSLanguage, 'italian')">
                                         <img src="{% static 'images/ita.jpg' %}" />
                                     </span>
                                     <img src="{% static 'images/eng.jpg' %}" />
@@ -355,5 +355,8 @@ callCdSAreas()  {
             this.is_loading_cds_areas = false
         })
 },
+arrayLower(list, item) {
+    return list.toString().toLowerCase().includes(item.toLowerCase())
+}
 {% endblock extra_methods %}
 </script>
