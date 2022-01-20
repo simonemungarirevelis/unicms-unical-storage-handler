@@ -129,7 +129,11 @@
              role="tablist">
             <div v-for="name in fields_to_show" v-if="item[name] && item[name].length > 0">
                 <div class="collapse-header" :id="'heading-' + name +'-lft'">
-                    <button data-toggle="collapse" :data-target="'#collapse-' + name +'-lft'" aria-expanded="false" :aria-controls="'collapse-' + name +'-lft'">
+                    <button data-toggle="collapse"
+                           :data-target="'#collapse-' + name +'-lft'"
+                           aria-expanded="false"
+                           role="tab"
+                           :aria-controls="'collapse-' + name +'-lft'">
                         [[ labels[name] ]]
                     </button>
                 </div>
@@ -188,6 +192,7 @@
         <button data-toggle="collapse"
                 data-target="#collapse-studyplans-lft"
                 aria-expanded="false"
+                role="tab"
                 aria-controls="collapse-studyplans-lft">
             {% trans "Study plans" %}
         </button>
@@ -213,6 +218,7 @@
         <button data-toggle="collapse"
                 data-target="#collapse-teachers-lft"
                 aria-expanded="false"
+                role="tab"
                 aria-controls="collapse-teachers-lft"
                 style="border-top: 0">
             {% trans "Teachers" %}
