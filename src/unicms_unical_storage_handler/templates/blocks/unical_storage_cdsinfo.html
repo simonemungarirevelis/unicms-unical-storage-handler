@@ -3,16 +3,20 @@
 {% load unicms_storage_handler %}
 {% load unicms_templates %}
 
+{% get_allowed_website request.get_host as host %}
 {% get_cdsid_from_url url as cdsid %}
 {% get_current_language as LANGUAGE_CODE %}
 
 {% random_id uid as id %}
 
+{% settings_value "CMS_PATH_PREFIX" as cms_path_prefix %}
+{% settings_value "CMS_STORAGE_BASE_PATH" as base_prefix %}
 {% settings_value "CMS_STORAGE_ROOT_API" as api_root %}
 {% settings_value "CMS_STORAGE_TEACHER_API" as teachers_api %}
 {% settings_value "ALLOWED_CDS_JOINT_DEGREES" as allowed_joint_degrees %}
 {% settings_value "ALMALAUREA_LINK" as almalaurea_link %}
 {% settings_value "CDS_INFO_FIELDS" as fields_to_show %}
+{% settings_value "CMS_STORAGE_STRUCTURE_VIEW_PREFIX_PATH" as structures_prefix %}
 
 {% include "includes/unical_storage_loading.html" %}
 
@@ -53,6 +57,12 @@
             <span v-if="item.CourseInterClassCod">
                 <br>
                 [[ item.CourseInterClassDes ]]
+            </span>
+            <span v-if="item.DepartmentName">
+                <br>
+                <a :href="'//{{ host }}/{{ cms_path_prefix }}{{ base_prefix }}/{{ structures_prefix }}/' + [[ item.DepartmentCod ]] +'/'">
+                    [[ item.DepartmentName ]]
+                </a>
             </span>
         </p>
         <div class="card-wrapper pb-0">
