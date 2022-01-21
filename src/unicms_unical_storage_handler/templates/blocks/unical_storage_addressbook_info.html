@@ -59,7 +59,7 @@
                                     </a>
                                 </li>
                             </ul>
-                            <ul v-else>
+                            <ul class="list-unstyled" v-else>
                                 <li v-for="v in value">
                                     <span style="white-space: pre-line;">
                                         [[ v ]]
@@ -68,7 +68,7 @@
                             </ul>
                         </td>
                         <td v-else-if="typeof value === 'array'">
-                            <ul>
+                            <ul class="list-unstyled">
                                 <li v-for="subvalue in value">
                                     [[ subvalue ]]
                                 </li>

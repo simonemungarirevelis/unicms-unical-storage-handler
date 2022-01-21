@@ -15,7 +15,7 @@
 {% settings_value "CMS_STORAGE_CDS_VIEW_PREFIX_PATH" as cds_prefix %}
 {% settings_value "CMS_STORAGE_ACTIVITY_VIEW_PREFIX_PATH" as activity_prefix %}
 {% settings_value "CMS_STORAGE_THEACHER_VIEW_PREFIX_PATH" as teacher_prefix %}
-
+{% settings_value "STUDY_ACTIVITY_INFO_NOT_SHOW" as fields_to_hide %}
 
 <div id="{{ id }}">
 
@@ -169,17 +169,7 @@
                                      'StudyActivityEvaluation',
                                      'StudyActivityTextbooks',
                                      'StudyActivityWorkload'],
-                fields_to_not_show: ['StudyActivityCdSID',
-                                     'StudyActivityRegDidId',
-                                     'StudyActivityTeacherID',
-                                     'StudyActivityID',
-                                     'StudyActivityContent',
-                                     'StudyActivityProgram',
-                                     'StudyActivityLearningOutcomes',
-                                     'StudyActivityMethodology',
-                                     'StudyActivityEvaluation',
-                                     'StudyActivityTextbooks',
-                                     'StudyActivityWorkload']
+                fields_to_not_show: {{ fields_to_hide|safe }},
             }
         },
         mounted() {

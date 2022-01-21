@@ -37,10 +37,13 @@
             </h3>
         </div>
         <p>
+            {% comment %}
             <span v-if="item.CdSCod">
                 [[ labels['CdSCod'] ]]  [[ item.CdSCod ]]
                 <br>
             </span>
+            {% endcomment %}
+
             {% trans "Degree class" %} [[ item.CourseClassCod ]]
             <span v-if="item.CourseInterClassCod">
                 / [[ item.CourseInterClassCod ]]
@@ -72,6 +75,13 @@
                             <small>
                                 [[ labels['CdSLanguage'] ]] >
                                 <b>[[ item.CdSLanguage.join(', ') ]] </b>
+                            </small>
+                        </div>
+                        <div class="col-12 col-md-auto" v-if="item.CdSUrl">
+                            <small>
+                                <a :href="[[ item.CdSUrl ]]" target="_blank" rel="noopener noreferrer">
+                                    <b>{% trans "Website" %} >></b>
+                                </a>
                             </small>
                         </div>
                     </div>

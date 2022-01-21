@@ -175,18 +175,31 @@ ALLOWED_ADDRESSBOOK_STRUCTURE_ID = []
 ALLOWED_STRUCTURE_TYPES = []
 ALLOWED_TEACHER_ROLES = []
 
-
-# CDSINFO FIELDS TO SHOW
 CDS_INFO_FIELDS = ['CdSGoals', 'CdSAccess', 'CdSAdmission',
                    'CdSProfiles', 'CdSFinalTest', 'CdSFinalTestMode',
                    'CdSSatisfactionSurvey']
 
-
 # FIELDS TO HIDE IN BLOCKS
+
+STUDY_ACTIVITY_INFO_NOT_SHOW = ['StudyActivityCdSID',
+                                 'StudyActivityRegDidId',
+                                 'StudyActivityTeacherID',
+                                 'StudyActivityID',
+                                 'StudyActivityContent',
+                                 'StudyActivityProgram',
+                                 'StudyActivityLearningOutcomes',
+                                 'StudyActivityMethodology',
+                                 'StudyActivityEvaluation',
+                                 'StudyActivityTextbooks',
+                                 'StudyActivityWorkload',
+                                 'StudyActivityCdSCod',
+                                 'StudyActivityCod']
+
 ADDRESSBOOK_INFO_NOT_SHOW = ['ID', 'Name', 'Role',
                              'RoleDescription', 'StructureTypeCOD',
                              'TeacherCVFull', 'TeacherCVShort',
-                             'StructureCod', 'StructureTypeName']
+                             'StructureCod', 'StructureTypeName',
+                             'StructureCod']
 TEACHER_INFO_NOT_SHOW = ['TeacherID', 'TeacherDepartmentID',
                          'TeacherLastName', 'TeacherFirstName',
                          'TeacherRole', 'TeacherRoleDescription',
