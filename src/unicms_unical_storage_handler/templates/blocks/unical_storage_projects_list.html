@@ -120,6 +120,8 @@
 
                                     <!-- Program type and Territorial scope -->
                                     <div class="row">
+
+                                        {% block filter_programtype %}
                                         <loading-icon
                                             v-if="is_loading_programtypes"
                                             :loader_source="loader_source_programtypes">
@@ -145,6 +147,7 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        {% endblock filter_programtype %}
 
                                         <loading-icon
                                             v-if="is_loading_infrastructures"
