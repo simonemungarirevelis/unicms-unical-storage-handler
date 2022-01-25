@@ -82,8 +82,8 @@
                         </td>
                         <td v-else>
                             <a v-if="name == 'StructureFatherName'" :href="'//{{ host }}/{{ cms_path_prefix }}{{ base_prefix }}/{{ structures_prefix }}/' + [[ item.StructureFatherId ]] +'/'">
-                                        [[ item.StructureFatherName ]]
-                                    </a>
+                                [[ item.StructureFatherName ]]
+                            </a>
                             <span v-else style="white-space: pre-line;">
                                 [[ value ]]
                             </span>
@@ -94,11 +94,13 @@
                     <tr v-if="item.StructurePersonnelFunctions">
                         <td>{% trans "Manager" %}</td>
                         <td>
-                            <li v-for="subvalue in item.StructurePersonnelFunctions" v-if="subvalue.Name && subvalue.Name != '' && functions.includes(subvalue.FunctionCod)">
-                                <a :href="'//{{ host }}/{{ cms_path_prefix }}{{ base_prefix }}/{{ addressbook_prefix }}/' + [[ subvalue.ID ]] +'/'">
-                                        [[ subvalue.Name ]]
-                                </a>  - [[ subvalue.Function ]]
-                            </li>
+                            <ul class="list-unstyled">
+                                <li v-for="subvalue in item.StructurePersonnelFunctions" v-if="subvalue.Name && subvalue.Name != '' && functions.includes(subvalue.FunctionCod)">
+                                    <a :href="'//{{ host }}/{{ cms_path_prefix }}{{ base_prefix }}/{{ addressbook_prefix }}/' + [[ subvalue.ID ]] +'/'">
+                                            [[ subvalue.Name ]]
+                                    </a>  - [[ subvalue.Function ]]
+                                </li>
+                            </ul>
                         </td>
                     </tr>
                     <!-- End Manager -->
