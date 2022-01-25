@@ -96,6 +96,13 @@
                                     </div>
                                 </div>
                                 {% endcomment %}
+                                <div class="col-12 col-md-auto text-right" v-if="item.StructureURL">
+                                    <small>
+                                        <a :href="[[ item.StructureURL ]]" target="_blank" rel="noopener noreferrer">
+                                            <b>{% trans "Website" %} >></b>
+                                        </a>
+                                    </small>
+                                </div>
                             </div>
                         </div>
                     </div>
