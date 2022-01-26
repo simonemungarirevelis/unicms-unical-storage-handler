@@ -58,22 +58,30 @@
                         <td v-if="name == 'ScientificDirectors' ">
                             <ul>
                                 <li v-for="v in value">
-                                    <a :href="'//{{ host }}/{{ cms_path_prefix }}{{ base_prefix }}/{{ addressbook_prefix }}/' + [[ v.ScientificDirectorId ]] +'/'">
+                                    <a v-if="v.ScientificDirectorId" :href="'//{{ host }}/{{ cms_path_prefix }}{{ base_prefix }}/{{ addressbook_prefix }}/' + [[ v.ScientificDirectorId ]] +'/'">
                                         [[ v.ScientificDirectorName ]]
                                     </a>
+                                    <span v-else>
+                                        [[ v.ScientificDirectorName ]]
+                                    </span>
+                                </li>
+                            </ul>
+                        </td>
+                        <td v-else-if="name == 'Researchers' ">
+                            <ul>
+                                <li v-for="v in value">
+                                    <a v-if="v.ResearcherId" :href="'//{{ host }}/{{ cms_path_prefix }}{{ base_prefix }}/{{ addressbook_prefix }}/' + [[ v.ResearcherId ]] +'/'">
+                                        [[ v.ResearcherName ]]
+                                    </a>
+                                    <span v-else>
+                                        [[ v.ResearcherName ]]
+                                    </span>
                                 </li>
                             </ul>
                         </td>
 
                         <td v-else-if="typeof value === 'object'">
-                            <ul v-if="name == 'PublicationAuthors'">
-                                <li v-for="subvalue in value">
-                                    <a :href="'//{{ host }}/{{ cms_path_prefix }}{{ base_prefix }}/{{ addressbook_prefix }}/' + [[ subvalue.AuthorId ]] +'/'">
-                                        [[ subvalue.AuthorName]]
-                                    </a>
-                                </li>
-                            </ul>
-                            <ul v-else>
+                            <ul>
                                 <li v-for="v in value">
                                     <span style="white-space: pre-line;">
                                         [[ v ]]
