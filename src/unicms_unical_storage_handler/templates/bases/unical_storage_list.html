@@ -30,7 +30,7 @@ function {{ id }}_encodeQueryData(data=[]) {
 function {{ id }}_get_param(name) {
     let url = "{{ url|safe }}";
     let params = (new URL(url)).searchParams;
-    return params.get(name)
+    return params.get(name) || '';
 }
 </script>
 

@@ -139,6 +139,7 @@
                                                             @change="{{ id }}.search()">
                                                         <option value="">- {% trans 'Choose an option' %} -</option>
                                                         <option v-for="item in programtypes"
+                                                                v-if="!excluded_programtypes.includes(String(item.TypeProgramId))"
                                                                 :value="item.TypeProgramId"
                                                                 :selected="item.TypeProgramId == selected_programtype">
                                                             [[ item.TypeProgramDescription ]]
@@ -349,6 +350,7 @@ this.callTerritorialScopes();
 this.callTechAreas();
 this.callInfrastructures();
 
+this.excluded_programtypes = {{ id }}_get_param("-programtype").split(",");
 {% endblock extra_mounted %}
 
 {% block extra_methods %}
