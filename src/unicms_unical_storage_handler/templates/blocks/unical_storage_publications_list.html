@@ -33,7 +33,7 @@
                                 {% block filters %}
                                     <!-- Year and Types -->
                                     <div class="row">
-                                        <div class="col-sm">
+                                        <div class="col-12 col-lg-3">
                                             <div class="w-30 mt-5">
                                                 <label class="input-number"
                                                        for="{{ id }}_year_input">
@@ -45,7 +45,13 @@
                                                                id="{{ id }}_year_input"
                                                                name="{{ id }}_year_input"
                                                                v-on:keyup.enter="{{ id }}.search()"
-                                                               v-model="selected_year">
+                                                               v-model="selected_year"
+                                                               v-if="selected_year != 9999">
+                                                        <input type="number"
+                                                               id="{{ id }}_year_input"
+                                                               name="{{ id }}_year_input"
+                                                               v-on:keyup.enter="{{ id }}.yearSearch()"
+                                                               v-else>
                                                         <button class="input-number-add">
                                                             <span class="sr-only">
                                                                 {% trans "Increase value" %}
@@ -57,6 +63,24 @@
                                                             </span>
                                                         </button>
                                                     </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 col-lg-2 offset-lg-1">
+                                            <div class="w-30 mt-5">
+                                                <label class="input-number"
+                                                       for="{{ id }}_print_input">
+                                                    {% trans "In print" %}
+                                                </label>
+                                                <div class="w-30 mt-5">
+                                                    <div class="form-check d-inline">
+                                                    <input name="{{ id }}_print_input" type="radio" id="{{ id }}_print_off" :checked="selected_year != 9999" v-on:click="{{ id }}.search()">
+                                                    <label for="{{ id }}_print_off">{% trans "No" %}</label>
+                                                  </div>
+                                                  <div class="form-check d-inline">
+                                                    <input name="{{ id }}_print_input" type="radio" id="{{ id }}_print_on" :checked="selected_year == 9999" v-on:click="{{ id }}.callPrintingPublications()">
+                                                    <label for="{{ id }}_print_on">{% trans "Yes" %}</label>
+                                                  </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -154,11 +178,7 @@
 {% block extra_scripts %}
 <script>
 function {{ id }}_get_form_paramenters(keyword=null, value=null) {
-
     let dict ={};
-
-    if (keyword)
-        dict[keyword] = value
 
     // search
     let search = document.getElementById('{{ id }}_search')
@@ -168,9 +188,15 @@ function {{ id }}_get_form_paramenters(keyword=null, value=null) {
     let year = document.getElementById('{{ id }}_year_input')
     if (year && year.value) dict['year'] = year.value
 
+    if (document.getElementById('{{ id }}_print_on').checked)
+        dict['year'] = 9999
+
     // types
     let type = document.getElementById('{{ id }}_type_input')
     if (type && type.value) dict['type'] = type.value
+
+    if (keyword)
+        dict[keyword] = value
 
     setItemInSession("{{ id }}", dict)
 
@@ -196,10 +222,8 @@ types_filter: []
 {% endblock extra_data %}
 
 {% block extra_mounted %}
-
     this.parameters = {{ id }}_encodeQueryData(this.getItemsFromSession("{{ id }}"))
     this.callTypes();
-
 {% endblock extra_mounted %}
 
 {% block extra_methods %}
@@ -211,6 +235,16 @@ types_filter: []
                 this.is_loading_types = false
             })
     },
+    yearSearch() {
+        document.getElementById('{{ id }}_print_off').checked = true
+        document.getElementById('{{ id }}_print_on').checked = false
+        this.search()
+    },
+    callPrintingPublications() {
+        document.getElementById('{{ id }}_year_input').value = ''
+        this.selected_year = 9999
+        this.search('year', '9999')
+    }
 {% endblock extra_methods %}
 </script>
 
