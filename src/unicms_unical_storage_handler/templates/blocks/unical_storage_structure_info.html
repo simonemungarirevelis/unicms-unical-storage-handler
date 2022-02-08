@@ -53,7 +53,7 @@
                         <td>[[ labels[name] ]]</td>
 
                         <td v-if="labels[name] == 'URL'">
-                            <a href="[[ value ]]" target="_blank" rel="noopener noreferrer">
+                            <a :href="[[ value ]]" target="_blank" rel="noopener noreferrer">
                                 [[ value ]]
                             </a>
                         </td>
