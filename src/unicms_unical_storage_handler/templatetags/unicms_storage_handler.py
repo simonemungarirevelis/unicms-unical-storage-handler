@@ -17,13 +17,15 @@ ALLOWED_UNICMS_SITES = getattr(settings, 'ALLOWED_UNICMS_SITES',
 
 @register.simple_tag
 def clean_url(url):
-    return url[:url.find('?')]
+    if url.find('?'): url = url.split('?')[0]
+    if url[-1] == '/': return url[:-1]
+    return url
 
 
 @register.simple_tag
 def get_cdsid_from_url(url):
-    cleaned = url[:url.find('?')]
-    pieces = cleaned.split('/')
+    if url.find('?'): url = url.split('?')[0]
+    pieces = url.split('/')
     return list(filter(None, pieces))[-1]
 
 

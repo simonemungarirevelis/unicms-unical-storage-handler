@@ -88,7 +88,6 @@ class CdSInfoViewHandler(BaseStorageHandler):
         self.code = self.match_dict.get('code', '')
 
     def as_view(self):
-        self.data['code'] = self.code
         self.data['url'] = f'{settings.CMS_STORAGE_CDS_API}{self.code}/'
         return super().as_view()
 
