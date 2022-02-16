@@ -13,6 +13,7 @@
 {% settings_value "CMS_PATH_PREFIX" as cms_path_prefix %}
 {% settings_value "CMS_STORAGE_BASE_PATH" as base_prefix %}
 {% settings_value "CMS_STORAGE_CDS_VIEW_PREFIX_PATH" as cds_prefix %}
+{% settings_value "CDS_EXCLUDE_YEAR" as cds_exclude_year %}
 
 <div id="{{ id }}">
 
@@ -40,6 +41,7 @@
                                   - {% trans 'Choose an option' %} -
                               </option>
                               <option v-for="item in academic_years_filter"
+                                      v-if="item.AcademicYear != '{{ cds_exclude_year }}'"
                                       :value="item.AcademicYear"
                                       :selected="item.AcademicYear == selected_academic_year">
                                   [[ item.AcademicYear ]]/[[ item.AcademicYear + 1 ]]
@@ -184,7 +186,7 @@
                         {% endif %}
                     </b>
                     <ul class="list-unstyled mt-3">
-                        <li v-for="item in items.results" v-if="item.AreaCds == area.AreaCds">
+                        <li v-for="item in items.results" v-if="item.AreaCds == area.AreaCds && item.AcademicYear != '{{ cds_exclude_year }}'">
                             <a class="no-color"
                                :href="'//{{ host }}/{{ cms_path_prefix }}{{ base_prefix }}/{{ cds_prefix }}/' + [[ item.RegDidId ]] +'/'"
                                {% if request.get_host != host %}target="_blank"{% endif %}>
