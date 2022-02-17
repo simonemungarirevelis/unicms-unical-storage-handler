@@ -89,7 +89,7 @@
                                         </small>
                                     </div>
                                 </div>
-                                <div class="row mt-2" v-if="item.Teachers && item.Teachers.length > 0 || item.RYear || item.RLineErc2Name">
+                                <div class="row mt-2" v-if="item.Teachers && item.Teachers.length > 0 || item.RYear || item.RLineErc2Name || item.RLineAster2Name">
                                     <div class="col-12 col-md-auto" v-if="item.RYear">
                                         <small>
                                             [[ labels['RYear'] ]] >
@@ -111,6 +111,12 @@
                                         <small>
                                             [[ labels['RLineErc2Name'] ]] >
                                             <b>[[ item.RLineErc2Name ]]</b>
+                                        </small>
+                                    </div>
+                                    <div class="col-12 col-md-auto" v-if="item.RLineAster2Name">
+                                        <small>
+                                            [[ labels['RLineAster2Name'] ]] >
+                                            <b>[[ item.RLineAster2Name ]]</b>
                                         </small>
                                     </div>
                                 </div>
