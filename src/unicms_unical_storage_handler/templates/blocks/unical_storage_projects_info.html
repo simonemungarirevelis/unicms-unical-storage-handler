@@ -16,6 +16,7 @@
 {% settings_value "CMS_STORAGE_BASE_PATH" as base_prefix %}
 {% settings_value "CMS_STORAGE_ADDRESSBOOK_VIEW_PREFIX_PATH" as addressbook_prefix %}
 {% settings_value "CMS_STORAGE_STRUCTURE_VIEW_PREFIX_PATH" as structure_prefix %}
+{% settings_value "BREADCRUMB_LAST" as breadcrumb_last %}
 
 <div id="{{ id }}">
 
@@ -138,6 +139,9 @@
                         this.item = response.data.results;
                         this.labels = response.data.labels;
                         this.is_loading = false
+                        {% if change_breadcrumb %}
+                    document.getElementsByClassName("{{ breadcrumb_last }}")[0].innerHTML = this.item.ProjectTitle
+                    {% endif %}
                     })
             }
         }

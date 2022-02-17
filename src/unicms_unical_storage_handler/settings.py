@@ -248,3 +248,6 @@ ALMALAUREA_LINK = 'http://statistiche.almalaurea.it/universita/statistiche/trasp
 
 # CURRENT ACADEMIC YEAR
 CURRENT_YEAR = ""
+
+# breadcrumb last item class
+BREADCRUMB_LAST = "breadcrumb-item active"

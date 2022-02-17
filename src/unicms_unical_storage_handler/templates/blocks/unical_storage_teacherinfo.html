@@ -20,6 +20,7 @@
 {% settings_value "CMS_STORAGE_BASE_RESEARCH_LINE_API" as base_research_lines_api %}
 {% settings_value "CMS_STORAGE_APPLIED_RESEARCH_LINE_API" as applied_research_lines_api %}
 {% settings_value "TEACHER_INFO_NOT_SHOW" as fields_to_hide %}
+{% settings_value "BREADCRUMB_LAST" as breadcrumb_last %}
 
 
 <div id="{{ id }}">
@@ -193,6 +194,9 @@
                         this.item = response.data.results;
                         this.labels = response.data.labels;
                         this.is_loading = false
+                        {% if change_breadcrumb %}
+                        document.getElementsByClassName("{{ breadcrumb_last }}")[0].innerHTML = this.item.TeacherLastName.concat(" ", this.item.TeacherFirstName)
+                        {% endif %}
                     })
             }
         }

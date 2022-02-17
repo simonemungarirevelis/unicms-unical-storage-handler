@@ -26,6 +26,7 @@
 {% settings_value "CMS_STORAGE_STRUCTURE_API" as structures_api %}
 {% settings_value "CMS_STORAGE_LABORATORY_API" as laboratories_api %}
 {% settings_value "CMS_STORAGE_STRUCTUREFUNCTIONS_API" as functions_api %}
+{% settings_value "BREADCRUMB_LAST" as breadcrumb_last %}
 
 
 <div id="{{ id }}">
@@ -214,6 +215,9 @@
                         this.labels = response.data.labels;
                         this.is_loading = false
                         this.getPersonnelFunctions(this.item.StructureTypeCOD)
+                        {% if change_breadcrumb %}
+                        document.getElementsByClassName("{{ breadcrumb_last }}")[0].innerHTML = this.item.StructureName
+                        {% endif %}
                     })
             },
             getPersonnelFunctions(cod) {

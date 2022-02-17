@@ -14,8 +14,8 @@
 {% settings_value "CMS_STORAGE_BASE_PATH" as base_prefix %}
 {% settings_value "CMS_STORAGE_THEACHER_VIEW_PREFIX_PATH" as teachers_prefix %}
 {% settings_value "CMS_STORAGE_STRUCTURE_VIEW_PREFIX_PATH" as structures_prefix %}
-
 {% settings_value "ADDRESSBOOK_INFO_NOT_SHOW" as fields_to_hide %}
+{% settings_value "BREADCRUMB_LAST" as breadcrumb_last %}
 
 
 <div id="{{ id }}">
@@ -125,6 +125,9 @@
                         this.item = response.data.results;
                         this.labels = response.data.labels;
                         this.is_loading = false
+                        {% if change_breadcrumb %}
+                        document.getElementsByClassName("{{ breadcrumb_last }}")[0].innerHTML = this.item.Name
+                        {% endif %}
                     })
             }
         }
