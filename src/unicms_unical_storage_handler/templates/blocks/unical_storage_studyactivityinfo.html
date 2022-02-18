@@ -16,6 +16,7 @@
 {% settings_value "CMS_STORAGE_ACTIVITY_VIEW_PREFIX_PATH" as activity_prefix %}
 {% settings_value "CMS_STORAGE_THEACHER_VIEW_PREFIX_PATH" as teacher_prefix %}
 {% settings_value "STUDY_ACTIVITY_INFO_NOT_SHOW" as fields_to_hide %}
+{% settings_value "BREADCRUMB_ITEM" as breadcrumb_item %}
 {% settings_value "BREADCRUMB_LAST" as breadcrumb_last %}
 
 
@@ -187,6 +188,13 @@
                         this.is_loading = false
                         {% if change_breadcrumb %}
                         document.getElementsByClassName("{{ breadcrumb_last }}")[0].innerHTML = this.item.StudyActivityName
+                        let breadcrumbs = document.getElementsByClassName("{{ breadcrumb_item }}")
+                        for(let item in breadcrumbs){
+                            if(breadcrumbs[item].children[0].innerHTML == this.item.StudyActivityRegDidId){
+                                breadcrumbs[item].children[0].innerHTML = this.item.StudyActivityCdSName
+                                break
+                            }
+                        }
                         {% endif %}
                     });
             }
