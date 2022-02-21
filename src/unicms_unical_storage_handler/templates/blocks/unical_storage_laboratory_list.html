@@ -198,11 +198,6 @@
                                         <img :src="'{{ api_root }}'+item.LaboratoryLogo" class="w-100"/>
                                     </div>
                                     <div class="col">
-                                        {% if teacher_id %}
-                                        <span v-if="item.ScientificDirectorId == {{ teacher_id }}">
-                                            {% trans "Manager" %}
-                                        </span>
-                                        {% endif %}
                                         <h5>
                                             <a class="no-color" :href="'//{{ host }}/{{ cms_path_prefix }}{{ base_prefix }}/{{ laboratory_prefix }}/' + [[ item.LaboratoryId ]] +'/'">
                                                 <b>[[ item.LaboratoryName ]]</b>
@@ -218,6 +213,12 @@
                                                 <small>
                                                     [[ labels['Area'] ]] >
                                                     <b>[[ item.Area ]]</b>
+                                                </small>
+                                            </div>
+                                            <div class="col-12">
+                                                <small>
+                                                    {% trans "Manager" %} >
+                                                    <b>[[ item.ScientificDirector ]]</b>
                                                 </small>
                                             </div>
                                             <div class="col-12" v-if="item.LaboratoryScopes.length">
