@@ -28,6 +28,8 @@
 
                             {% block filters %}
                             <div class="form-group mb-0">
+
+                                {% block filter_department %}
                                 <!-- Department -->
                                 <div class="row">
                                     <loading-icon
@@ -57,6 +59,7 @@
                                         </div>
                                     </div>
                                 </div>
+                                {% endblock filter_department %}
 
                                 <!-- Type -->
                                 <div class="row">
@@ -246,9 +249,11 @@ function {{ id }}_get_form_paramenters(keyword=null, value=null) {
 
     {% block researchline_filter_input %}
 
+        {% block department_filter_input %}
         // department
         let department = document.getElementById('{{ id }}_department_input')
         if (department && department.value) dict['department'] = department.value
+        {% endblock department_filter_input %}
 
         // aster1
         let aster1_container = document.getElementById('{{ id }}_aster1_container')
