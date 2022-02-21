@@ -363,6 +363,23 @@ class BaseResearchLineListViewHandler(BaseStorageHandler):
         return (root, leaf)
 
 
+class ResearchLineListViewHandler(BaseStorageHandler):
+    template = "storage_research_line_list.html"
+
+    def __init__(self, **kwargs):
+        super(ResearchLineListViewHandler, self).__init__(**kwargs)
+
+    def as_view(self):
+        self.data['url'] = f'{settings.CMS_STORAGE_RESEARCH_LINE_API}'
+        return super().as_view()
+
+    @property
+    def breadcrumbs(self):
+        root = (self.get_base_url, settings.CMS_STORAGE_ROOT_LABEL)
+        leaf = ('#', settings.CMS_STORAGE_RESEARCH_LINE_LABEL)
+        return (root, leaf)
+
+
 class AppliedResearchLineListViewHandler(BaseStorageHandler):
     template = "storage_applied_research_line_list.html"
 
