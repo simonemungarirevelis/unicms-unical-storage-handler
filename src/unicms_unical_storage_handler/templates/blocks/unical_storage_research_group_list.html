@@ -29,7 +29,10 @@
                             {% block filters %}
                             <div class="form-group mb-0">
                                 <!-- Department -->
+
+                                {% block filter_department %}
                                 <div class="row">
+
                                     <loading-icon
                                         v-if="is_loading_departments"
                                         :loader_source="loader_source_departments">
@@ -54,6 +57,40 @@
                                                     </option>
                                                 </select>
                                             </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endblock filter_department %}
+
+                                <!-- ERC 1 -->
+                                <div class="row">
+                                    <div class="col-sm">
+                                        <loading-icon
+                                            v-if="is_loading_erc1"
+                                            :loader_source="loader_source_erc1">
+                                        </loading-icon>
+                                        <div class="mt-5" v-else>
+                                            <label for="{{ id }}_erc1_input">
+                                                {% trans "ERC 1" %}
+                                            </label>
+                                            <select id="{{ id }}_erc1_input"
+                                                    class="form-control"
+                                                    name="{{ id }}_erc1_input"
+                                                    title="{% trans 'Choose an option' %}"
+                                                    multiple
+                                                    @change="{{ id }}.search()">
+                                                <option value="">- {% trans 'Clear all' %} -</option>
+                                                <optgroup v-for="item in erc1_list"
+                                                          :label="item.Description"
+                                                          style="font-weight: bold">
+                                                    <option v-for="erc1_item in item.Erc1List"
+                                                            :value="erc1_item.IdErc1"
+                                                            :selected="selected_erc1.includes(erc1_item.IdErc1)">
+                                                        [[ erc1_item.Description ]]
+                                                    </option>
+                                                </optgroup>
+
+                                          </select>
                                         </div>
                                     </div>
                                 </div>
@@ -142,13 +179,29 @@ function {{ id }}_get_form_paramenters(keyword=null, value=null) {
     if (search && search.value) dict['search'] = search.value
     {% endblock researchgroup_search_script %}
 
-    {% block researchgroup_filter_input %}
+    {% block filter_department_input %}
 
         // department
         let department = document.getElementById('{{ id }}_department_input')
         if (department && department.value) dict['department'] = department.value
+    {% endblock filter_department_input %}
 
-    {% endblock researchgroup_filter_input %}
+    {% block filter_erc1_input %}
+        // erc1
+        let erc1_container = document.getElementById('{{ id }}_erc1_container')
+        let erc1 = document.getElementById('{{ id }}_erc1_input')
+        let erc1_selected = [];
+        if(erc1)
+            for (var option of erc1.options)
+            {
+                if (option.selected) {
+                    erc1_selected.push(option.value);
+                }
+            }
+        let erc1_values = erc1_selected.join(",")
+        if(erc1_selected) dict['coderc1'] = erc1_selected
+
+    {% endblock filter_erc1_input %}
 
     setItemInSession("{{ id }}", dict)
 
@@ -161,26 +214,29 @@ function {{ id }}_get_form_paramenters(keyword=null, value=null) {
 
 {% get_current_language as LANGUAGE_CODE %}
 {% settings_value "CMS_STORAGE_DEPARTMENTSFILTER_API" as departmentsfilter_api %}
+{% settings_value "CMS_STORAGE_ERC1LIST_API" as erc1list_api %}
 
 search_dict: {},
 departments: [],
 
 is_loading_departments: true,
+is_loading_erc1: true,
 
 loader_source_departments: '{{ departmentsfilter_api }}?lang={{ LANGUAGE_CODE }}',
+loader_source_erc1: '{{ erc1list_api }}?lang={{ LANGUAGE_CODE }}',
 
 selected_department: this.getItemFromSession("{{ id }}", 'department'),
 selected_search: this.getItemFromSession("{{ id }}", 'search'),
+selected_erc1: (this.getItemFromSession("{{ id }}", 'coderc1') || ""),
 
 {% endblock extra_data %}
 
 {% block extra_mounted %}
 
-    {% block call_researchgroup_on_mounted %}
-        this.callDepartments();
-    {% endblock call_researchgroup_on_mounted %}
+    this.callDepartments();
+    this.callERC1List();
 
-this.parameters = {{ id }}_encodeQueryData(this.getItemsFromSession("{{ id }}"))
+    this.parameters = {{ id }}_encodeQueryData(this.getItemsFromSession("{{ id }}"))
 {% endblock extra_mounted %}
 
 {% block extra_methods %}
@@ -192,6 +248,14 @@ this.parameters = {{ id }}_encodeQueryData(this.getItemsFromSession("{{ id }}"))
             .then(response => {
                 this.departments = response.data.results;
                 this.is_loading_departments = false
+            })
+    },
+    callERC1List(params) {
+        axios
+            .get(this.loader_source_erc1)
+            .then(response => {
+                this.erc1_list = response.data.results;
+                this.is_loading_erc1 = false
             })
     },
     {% endblock researchgroup_call_method %}
