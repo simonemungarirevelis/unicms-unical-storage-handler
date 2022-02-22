@@ -104,7 +104,7 @@
             <div class="embed-responsive embed-responsive-16by9">
                 <iframe :title="item.CdSVideo"
                         class="embed-responsive-item"
-                        :src="item.CdSVideo"
+                        :src="youtubeNoCookie(item.CdSVideo)"
                         allowfullscreen sandbox="allow-scripts allow-same-origin"
                         v-if="item.CdSVideo.includes('https') || item.CdSVideo.includes('http')">
                 </iframe>
@@ -297,6 +297,9 @@ var {{ id }} = new Vue({
                     document.getElementsByClassName("{{ breadcrumb_last }}")[0].innerHTML = this.item.CdSName
                     {% endif %}
                 });
+        },
+        youtubeNoCookie(value) {
+            return value.replace("youtube.com", "youtube-nocookie.com")
         }
     }
 })
