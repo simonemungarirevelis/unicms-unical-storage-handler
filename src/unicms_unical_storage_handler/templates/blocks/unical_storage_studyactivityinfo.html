@@ -37,8 +37,14 @@
                     <tr v-for="(value, name) in item" v-if="value && !fields_to_not_show.includes(name) && value != ''">
                         <td class="col-3">[[ labels[name] ]]</td>
 
+                        <td v-if="name == 'StudyActivityElearningLink'">
+                            <a :href="item.StudyActivityElearningLink" target="_blank" rel="noopener noreferrer">
+                                {% trans "Link" %}
+                            </a>
+                        </td>
+
                         <!-- Root activity -->
-                        <td v-if="name === 'StudyActivityRoot' && item.StudyActivityRoot">
+                        <td v-else-if="name === 'StudyActivityRoot' && item.StudyActivityRoot">
                             <a :href="'//{{ host }}/{{ cms_path_prefix }}{{ base_prefix }}/{{ cds_prefix }}/' + [[ item.StudyActivityRegDidId ]] +'/{{ activity_prefix }}/' + [[ item.StudyActivityRoot.StudyActivityID ]] +'/'">
                                 [[ item.StudyActivityRoot.StudyActivityName ]]
                             </a>

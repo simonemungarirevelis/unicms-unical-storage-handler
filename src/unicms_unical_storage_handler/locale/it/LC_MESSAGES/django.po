@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-02-21 13:05+0100\n"
-"PO-Revision-Date: 2022-02-21 13:06+0100\n"
+"POT-Creation-Date: 2022-02-22 13:16+0100\n"
+"PO-Revision-Date: 2022-02-22 13:17+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: it\n"
@@ -100,7 +100,7 @@ msgstr "Imprese"
 msgid "Structures"
 msgstr "Strutture"
 
-#: settings.py:168 templates/blocks/unical_storage_cdsinfo.html:246
+#: settings.py:168 templates/blocks/unical_storage_cdsinfo.html:219
 #: templates/storage_base.html:88 templates/storage_teachers_list.html:11
 #: templates/storage_teachers_list.html:19
 msgid "Teachers"
@@ -148,13 +148,14 @@ msgstr "prossimo"
 #: templates/blocks/unical_storage_cdslist_areas.html:217
 #: templates/blocks/unical_storage_cdsstudyplans.html:101
 #: templates/blocks/unical_storage_cdsstudyplans_v2.html:99
+#: templates/blocks/unical_storage_cdsstudyplans_v3.html:100
 #: templates/blocks/unical_storage_departments_list.html:69
 #: templates/blocks/unical_storage_doctorateslist.html:216
-#: templates/blocks/unical_storage_laboratory_list.html:263
+#: templates/blocks/unical_storage_laboratory_list.html:264
 #: templates/blocks/unical_storage_patents_list.html:140
 #: templates/blocks/unical_storage_projects_list.html:267
 #: templates/blocks/unical_storage_publications_list.html:170
-#: templates/blocks/unical_storage_research_group_list.html:122
+#: templates/blocks/unical_storage_research_group_list.html:159
 #: templates/blocks/unical_storage_research_line_list.html:227
 #: templates/blocks/unical_storage_spinoff_list.html:178
 #: templates/blocks/unical_storage_structure_list.html:120
@@ -222,8 +223,9 @@ msgstr "Tipo struttura"
 #: templates/blocks/unical_storage_projects_list.html:168
 #: templates/blocks/unical_storage_publications_list.html:98
 #: templates/blocks/unical_storage_publications_list.html:102
-#: templates/blocks/unical_storage_research_group_list.html:45
-#: templates/blocks/unical_storage_research_group_list.html:49
+#: templates/blocks/unical_storage_research_group_list.html:48
+#: templates/blocks/unical_storage_research_group_list.html:52
+#: templates/blocks/unical_storage_research_group_list.html:79
 #: templates/blocks/unical_storage_research_line_list.html:47
 #: templates/blocks/unical_storage_research_line_list.html:51
 #: templates/blocks/unical_storage_research_line_list.html:73
@@ -257,6 +259,7 @@ msgstr "Ruolo"
 #: templates/blocks/unical_storage_addressbook_info.html:81
 #: templates/blocks/unical_storage_laboratory_info.html:113
 #: templates/blocks/unical_storage_publications_info.html:85
+#: templates/blocks/unical_storage_studyactivityinfo.html:42
 msgid "Link"
 msgstr ""
 
@@ -279,9 +282,9 @@ msgstr "Sito web"
 msgid "Download brochure"
 msgstr "Scarica la brochure"
 
-#: templates/blocks/unical_storage_cdsinfo.html:219
-msgid "Study plans"
-msgstr "Piani di studio"
+#: templates/blocks/unical_storage_cdsinfo.html:234
+msgid "Study paths"
+msgstr "Percorsi di studio"
 
 #: templates/blocks/unical_storage_cdslist.html:80
 msgid "Course type"
@@ -298,7 +301,7 @@ msgstr "Lingua del corso di studio"
 
 #: templates/blocks/unical_storage_cdslist.html:171
 #: templates/blocks/unical_storage_laboratory_list.html:70
-#: templates/blocks/unical_storage_research_group_list.html:41
+#: templates/blocks/unical_storage_research_group_list.html:44
 #: templates/blocks/unical_storage_research_line_list.html:43
 #: templates/blocks/unical_storage_teacherslist.html:56
 msgid "Department"
@@ -317,6 +320,7 @@ msgid "Course Area"
 msgstr "Area"
 
 #: templates/blocks/unical_storage_cdsstudyplans.html:59
+#: templates/blocks/unical_storage_cdsstudyplans_v3.html:57
 msgid "year"
 msgstr "anno"
 
@@ -329,7 +333,7 @@ msgid "Year"
 msgstr "Anno"
 
 #: templates/blocks/unical_storage_departments_info.html:95
-#: templates/blocks/unical_storage_laboratory_list.html:203
+#: templates/blocks/unical_storage_laboratory_list.html:220
 #: templates/blocks/unical_storage_structure_info.html:103
 msgid "Manager"
 msgstr "Responsabile"
@@ -448,6 +452,7 @@ msgstr "Infrastruttura"
 #: templates/blocks/unical_storage_laboratory_list.html:105
 #: templates/blocks/unical_storage_laboratory_list.html:131
 #: templates/blocks/unical_storage_laboratory_list.html:158
+#: templates/blocks/unical_storage_research_group_list.html:82
 #: templates/blocks/unical_storage_research_line_list.html:103
 #: templates/blocks/unical_storage_research_line_list.html:136
 msgid "Clear all"
@@ -458,6 +463,7 @@ msgid "Scopes"
 msgstr "Finalità"
 
 #: templates/blocks/unical_storage_laboratory_list.html:150
+#: templates/blocks/unical_storage_research_group_list.html:74
 #: templates/blocks/unical_storage_research_line_list.html:95
 msgid "ERC 1"
 msgstr ""

@@ -66,6 +66,8 @@ class CdSListViewHandler(BaseStorageHandler):
 
         if settings.ALLOWED_CDS_COURSETYPES:
             url_data['coursetype'] = ",".join(settings.ALLOWED_CDS_COURSETYPES)
+        if settings.CURRENT_YEAR:
+            url_data['academicyear'] = settings.CURRENT_YEAR
 
         params = urllib.parse.urlencode(url_data)
         self.data['url'] = f'{settings.CMS_STORAGE_CDS_API}?{params}'

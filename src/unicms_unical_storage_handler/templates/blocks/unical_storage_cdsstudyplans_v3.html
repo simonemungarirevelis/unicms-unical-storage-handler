@@ -23,27 +23,25 @@
 
     <div v-else-if="(initial_items && initial_items.length) || parameters">
 
-        <div class="bd-example-tabs">
-            <ul class="nav nav-tabs" id="myTab-{{ id }}" role="tablist">
-                <li v-for="(item, index) in items.results"
-                    class="nav-item">
-                    <a :class="index == 0 ? 'nav-link active' : 'nav-link'"
-                       :id="'tab-{{ id }}-' + index + '-tab'"
-                       data-toggle="tab"
-                       :href="'#tab-{{ id }}-' + index"
-                       role="tab"
-                       :aria-controls="'tab-{{ id }}-' + index"
-                       :aria-selected="index == 0 ? 'true' : 'false'">
-                        [[ item.StudyPlanName ]]
-                    </a>
-                </li>
-            </ul>
-            <div class="tab-content" id="myTab-{{ id }}Content">
-                <div v-for="(item, index) in items.results"
-                     :class="index == 0 ? 'tab-pane p-4 fade fade show active' : 'tab-pane p-4 fade fade'"
-                     :id="'tab-{{ id }}-' + index"
-                     role="tabpanel"
-                     :aria-labelledby="'tab-{{ id }}-' + index + '-tab'">
+        <div v-for="(item, index) in items.results"
+             :id="'studyPlanCollapseDiv{{ id }}-' + index + '-lft'"
+             class="collapse-div collapse-left-icon"
+             role="tablist">
+            <div class="collapse-header"
+                 :id="'studyPlanHeading-{{ id }}-' + index + '-lft'">
+                <button data-toggle="collapse"
+                        :data-target="'#studyPlanCollapse-{{ id }}-' + index +'-lft'"
+                        aria-expanded="false"
+                        role="tab"
+                        :aria-controls="'studyPlanCollapse-{{ id }}-' + index +'-lft'">
+                    [[ item.StudyPlanName ]]
+                </button>
+            </div>
+            <div :id="'studyPlanCollapse-{{ id }}-' + index +'-lft'"
+                 class="collapse"
+                 role="tabpanel"
+                 :aria-labelledby="'studyPlanHeading-{{ id }}-' + index + '-lft'">
+                <div class="collapse-body">
 
                     <div v-for="(value, label, index2) in item.StudyActivities"
                          :id="'collapseDiv{{ id }}-' + index + '-lft'"
@@ -92,6 +90,7 @@
                             </div>
                         </div>
                     </div>
+
                 </div>
             </div>
         </div>

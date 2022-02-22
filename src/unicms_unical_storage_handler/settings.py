@@ -189,19 +189,20 @@ CDS_INFO_FIELDS = ['CdSGoals', 'CdSAccess', 'CdSAdmission',
 
 # FIELDS TO HIDE IN BLOCKS
 
-STUDY_ACTIVITY_INFO_NOT_SHOW = ['StudyActivityCdSID',
-                                 'StudyActivityRegDidId',
-                                 'StudyActivityTeacherID',
-                                 'StudyActivityID',
-                                 'StudyActivityContent',
-                                 'StudyActivityProgram',
-                                 'StudyActivityLearningOutcomes',
-                                 'StudyActivityMethodology',
-                                 'StudyActivityEvaluation',
-                                 'StudyActivityTextbooks',
-                                 'StudyActivityWorkload',
-                                 'StudyActivityCdSCod',
-                                 'StudyActivityCod']
+STUDY_ACTIVITY_INFO_NOT_SHOW = ['StudyActivityName',
+                                'StudyActivityCdSID',
+                                'StudyActivityRegDidId',
+                                'StudyActivityTeacherID',
+                                'StudyActivityID',
+                                'StudyActivityContent',
+                                'StudyActivityProgram',
+                                'StudyActivityLearningOutcomes',
+                                'StudyActivityMethodology',
+                                'StudyActivityEvaluation',
+                                'StudyActivityTextbooks',
+                                'StudyActivityWorkload',
+                                'StudyActivityCdSCod',
+                                'StudyActivityCod']
 
 ADDRESSBOOK_INFO_NOT_SHOW = ['ID', 'Name', 'Role',
                              'RoleDescription', 'StructureTypeCOD',
@@ -249,6 +250,8 @@ SPINOFF_INFO_NOT_SHOW = ['SpinoffId', 'SpinoffImage', 'SpinoffTechAreaId',
                          'IsSpinoff', 'IsStartup', 'SpinoffAgencyName',
                          'SpinoffUnicalReferentId', 'SpinoffDescription',
                          'TechAreaId']
+
+EXCLUDE_STUDY_ACTIVITIES_CODES = []
 
 # ALMALAUREA Link
 ALMALAUREA_LINK = 'http://statistiche.almalaurea.it/universita/statistiche/trasparenza?codicione='
