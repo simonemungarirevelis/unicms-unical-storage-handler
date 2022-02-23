@@ -185,7 +185,7 @@ ALLOWED_TEACHER_ROLES = []
 
 CDS_INFO_FIELDS = ['CdSGoals', 'CdSAccess', 'CdSAdmission',
                    'CdSProfiles', 'CdSFinalTest', 'CdSFinalTestMode',
-                   'CdSSatisfactionSurvey']
+                   'CdSSatisfactionSurvey',]
 
 # FIELDS TO HIDE IN BLOCKS
 
