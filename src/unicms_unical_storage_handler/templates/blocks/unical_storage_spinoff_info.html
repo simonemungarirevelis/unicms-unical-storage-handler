@@ -91,13 +91,16 @@
                             </ul>
                         </td>
                         <td v-else>
-                            <a v-if="name == 'SpinoffUnicalReferent' "
+                            <a v-if="name == 'SpinoffUnicalReferent' && item.SpinoffUnicalReferentId"
                                :href="'//{{ host }}/{{ cms_path_prefix }}{{ base_prefix }}/{{ addressbook_prefix }}/' + [[ item.SpinoffUnicalReferentId ]] +'/'">
                                 [[ item.SpinoffUnicalReferent ]]
                             </a>
+                            <span v-else-if="name == 'SpinoffUnicalReferent' &! item.SpinoffUnicalReferentId">
+                                [[ item.SpinoffUnicalReferent ]]
+                            </span>
                             <a v-else-if="name == 'SpinoffAgencyUrl' "
                                :href="urlFormat(item.SpinoffAgencyUrl)"
-                               target="_blank">
+                               target="_blank" rel="noopener noreferrer">
                                 [[ item.SpinoffAgencyUrl ]]
                             </a>
                             <span v-else style="white-space: pre-line;">
