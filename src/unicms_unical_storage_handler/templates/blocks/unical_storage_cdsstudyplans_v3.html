@@ -71,10 +71,10 @@
                                                         <th scope="col">[[ items.labels.StudyActivityName ]]</th>
                                                         <th scope="col">[[ items.labels.StudyActivitySemester ]]</th>
                                                         <th scope="col">[[ items.labels.StudyActivityECTS ]]</th>
-                                                        <th scope="col" v-if="interclass_degree_class">
+                                                        <th scope="col" v-if="interclass_degree_class && degree_class">
                                                             [[ degree_class ]]
                                                         </th>
-                                                        <th scope="col" v-else></th>
+                                                        <th scope="col" v-else-if="degree_class"></th>
                                                         <th scope="col" v-if="interclass_degree_class">
                                                             [[ interclass_degree_class ]]
                                                         </th>
@@ -90,7 +90,7 @@
                                                         </td>
                                                         <td>[[ activity.StudyActivitySemester ]]</td>
                                                         <td>[[ activity.StudyActivityECTS ]]</td>
-                                                        <td>
+                                                        <td v-if="degree_class">
                                                             [[ activity.StudyActivityTeachingUnitType || "-" ]]
                                                         </td>
                                                         <td v-if="interclass_degree_class">

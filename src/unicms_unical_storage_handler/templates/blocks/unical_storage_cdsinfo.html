@@ -148,7 +148,7 @@
              class="collapse-div collapse-left-icon"
              style="border-bottom: 0"
              role="tablist">
-            <div v-for="name in fields_to_show" v-if="item[name] && item[name].length > 0">
+            <div v-for="name in fields_to_show" v-if="item[name] && (item[name].length > 0 || Object.keys(item[name]).length > 0)">
                 <div class="collapse-header" :id="'heading-' + name +'-lft'">
                     <button data-toggle="collapse"
                            :data-target="'#collapse-' + name +'-lft'"
@@ -160,7 +160,7 @@
                 </div>
                 <div :id="'collapse-' + name +'-lft'" class="collapse" role="tabpanel" :aria-labelledby="'heading-' + name +'-lft'">
                     <div class="collapse-body">
-                        <span v-if="typeof item[name] === 'object'" class="col-9">
+                        <span v-if="typeof item[name] === 'object'">
                             <ul v-for="(valueProfile, nameProfile) in item[name]">
                                 <li>
                                     [[ nameProfile ]]
@@ -181,7 +181,7 @@
                                 </li>
                             </ul>
                         </span>
-                        <span v-else-if="typeof item[name] === 'array'" class="col-9">
+                        <span v-else-if="typeof item[name] === 'array'">
                             <ul>
                                 <li v-for="subvalue in item[name]">
                                     [[ subvalue ]]
