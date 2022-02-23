@@ -235,7 +235,7 @@
 
 {% clean_url url as cleaned_url %}
 {% with cleaned_url|add:"/studyplans/" as studyplans_url %}
-{% include "blocks/unical_storage_cdsstudyplans_v3.html" with url=studyplans_url uid=id|add:"_1" %}
+{% include "blocks/unical_storage_cdsstudyplans_v3.html" with url=studyplans_url uid=id|add:"_1" father_uid=id %}
 {% endwith %}
 
 {% comment %}
@@ -258,7 +258,7 @@
         <div class="mt-3">
             {% clean_url url as cleaned_url %}
             {% with cleaned_url|add:"/studyplans/" as studyplans_url %}
-            {% include "blocks/unical_storage_cdsstudyplans_v3.html" with url=studyplans_url uid=id|add:"_1" %}
+            {% include "blocks/unical_storage_cdsstudyplans_v3.html" with url=studyplans_url uid=id|add:"_1" change_breadcrumb={{ change_breadcrumb }} %}
             {% endwith %}
         </div>
     </div>
@@ -283,7 +283,7 @@ var {{ id }} = new Vue({
         }
     },
     mounted() {
-        this.CallURL();
+        //this.CallURL(); called by studyPlans.CallCdS()
     },
     methods: {
         CallURL() {

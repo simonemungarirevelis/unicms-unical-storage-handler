@@ -64,27 +64,42 @@
                             <div class="collapse-body">
                                 <div class="it-list-wrapper">
                                     <div class="table-responsive">
-                                        <table class="table table-sm">
-                                            <thead>
-                                                <tr>
-                                                    <th scope="col">[[ items.labels.StudyActivityName ]]</th>
-                                                    <th scope="col">[[ items.labels.StudyActivitySemester ]]</th>
-                                                    <th scope="col">[[ items.labels.StudyActivityECTS ]]</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr v-for="activity in value" v-if="!exclude_studyactivity_codes.includes(activity.StudyActivityCod)">
-                                                    <td>
-                                                        <a :href="'//{{ host }}/{{ cms_path_prefix }}{{ base_prefix }}/{{ cds_prefix }}/' + [[ activity.StudyActivityRegDidId ]] + '/{{ activity_prefix }}/' + [[ activity.StudyActivityID ]] +'/'">
-                                                            [[ activity.StudyActivityName ]]
-                                                            <span v-if="items.StudyActivityCompulsory == 1">*</span>
-                                                        </a>
-                                                    </td>
-                                                    <td>[[ activity.StudyActivitySemester ]]</td>
-                                                    <td>[[ activity.StudyActivityECTS ]]</td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
+                                        <small>
+                                            <table class="table table-sm table-hover">
+                                                <thead>
+                                                    <tr>
+                                                        <th scope="col">[[ items.labels.StudyActivityName ]]</th>
+                                                        <th scope="col">[[ items.labels.StudyActivitySemester ]]</th>
+                                                        <th scope="col">[[ items.labels.StudyActivityECTS ]]</th>
+                                                        <th scope="col" v-if="interclass_degree_class">
+                                                            [[ degree_class ]]
+                                                        </th>
+                                                        <th scope="col" v-else></th>
+                                                        <th scope="col" v-if="interclass_degree_class">
+                                                            [[ interclass_degree_class ]]
+                                                        </th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr v-for="activity in value" v-if="!exclude_studyactivity_codes.includes(activity.StudyActivityCod)">
+                                                        <td>
+                                                            <a :href="'//{{ host }}/{{ cms_path_prefix }}{{ base_prefix }}/{{ cds_prefix }}/' + [[ activity.StudyActivityRegDidId ]] + '/{{ activity_prefix }}/' + [[ activity.StudyActivityID ]] +'/'">
+                                                                [[ activity.StudyActivityName ]]
+                                                                <span v-if="items.StudyActivityCompulsory == 1">*</span>
+                                                            </a>
+                                                        </td>
+                                                        <td>[[ activity.StudyActivitySemester ]]</td>
+                                                        <td>[[ activity.StudyActivityECTS ]]</td>
+                                                        <td>
+                                                            [[ activity.StudyActivityTeachingUnitType || "-" ]]
+                                                        </td>
+                                                        <td v-if="interclass_degree_class">
+                                                            [[ activity.StudyActivityInterclassTeachingUnitType || "-" ]]
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </small>
                                     </div>
                                 </div>
                             </div>
@@ -110,4 +125,49 @@
 {% settings_value "EXCLUDE_STUDY_ACTIVITIES_CODES" as exclude_studyactivity_codes %}
 
 exclude_studyactivity_codes: {{ exclude_studyactivity_codes|safe }},
+
+degree_class: '',
+interclass_degree_class: '',
 {% endblock extra_data %}
+
+{% block method_callurl %}
+CallURL(url, initial=false) {
+    this.is_loading = true
+    this.loader_source = url
+    axios
+        .get(url)
+        .then(response => {
+            if(initial) this.initial_items = response.data.results;
+            this.items = response.data;
+            this.next_page = response.data.next;
+            this.previous_page = response.data.previous;
+            this.labels = response.data.labels;
+            this.is_loading = false;
+            this.CallCdS();
+        })
+},
+{% endblock method_callurl %}
+
+{% block extra_methods %}
+
+{% settings_value "CMS_STORAGE_CDS_API" as cds_api %}
+{% settings_value "BREADCRUMB_LAST" as breadcrumb_last %}
+
+CallCdS() {
+    axios
+        .get("{{cds_api}}"+this.items.results[0].RegDidId + "/")
+        .then(response => {
+            this.degree_class = response.data.results.CourseClassCod
+            this.interclass_degree_class = response.data.results.CourseInterClassCod
+
+            {% if father_uid %}
+                {{father_uid}}.item = response.data.results;
+                {{father_uid}}.labels = response.data.labels;
+                {{father_uid}}.is_loading = false
+                {% if change_breadcrumb %}
+                document.getElementsByClassName("{{ breadcrumb_last }}")[0].innerHTML = response.data.results.CdSName
+                {% endif %}
+            {% endif %}
+        });
+},
+{% endblock extra_methods %}

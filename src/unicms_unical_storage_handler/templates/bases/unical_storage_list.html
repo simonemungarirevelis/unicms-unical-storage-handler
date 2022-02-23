@@ -99,6 +99,10 @@ var {{ id }} = new Vue({
             {% endblock extra_data %}
         }
     },
+    created() {
+        {% block extra_created %}
+        {% endblock extra_created %}
+    },
     beforeMount() {
         {% block extra_before_mount %}
         {% endblock extra_before_mount %}
