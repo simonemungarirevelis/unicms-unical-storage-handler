@@ -164,6 +164,12 @@ CallCdS() {
                 {{father_uid}}.item = response.data.results;
                 {{father_uid}}.labels = response.data.labels;
                 {{father_uid}}.is_loading = false
+
+                {% if full_page %}
+                {{father_uid}}_contacts.item = response.data.results;
+                {{father_uid}}_contacts.labels = response.data.labels;
+                {% endif %}
+
                 {% if change_breadcrumb %}
                 document.getElementsByClassName("{{ breadcrumb_last }}")[0].innerHTML = response.data.results.CdSName
                 {% endif %}

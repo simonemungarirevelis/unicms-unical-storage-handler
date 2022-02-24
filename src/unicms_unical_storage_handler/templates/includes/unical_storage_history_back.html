@@ -1,0 +1,10 @@
+{% load i18n %}
+{% load static %}
+
+
+<a href="javascript:history.back()" class="no-color" aria-label="{% trans 'Back to previous page' %}">
+    <svg class="m-auto icon icon-sm">
+        <use xlink:href="{% static 'svg/sprite.svg' %}#it-arrow-left-circle"></use>
+    </svg>
+    <b>{% trans "Back to previous page" %}</b>
+</a>
