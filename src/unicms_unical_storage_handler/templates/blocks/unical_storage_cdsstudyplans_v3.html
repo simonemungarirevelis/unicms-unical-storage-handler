@@ -22,8 +22,77 @@
     </loading-icon>
 
     <div v-else-if="(initial_items && initial_items.length) || parameters">
+        <div v-if="items.results.length == 1">
 
-        <div v-for="(item, index) in items.results"
+            <h5 class="mt-4 mb-3">{% trans "Teachings" %}</h5>
+
+            <div v-for="(value, label, index) in items.results[0].StudyActivities"
+                 :id="'collapseDiv{{ id }}-' + index + '-lft'"
+                 class="collapse-div collapse-left-icon"
+                 role="tablist">
+                <div class="collapse-header"
+                     :id="'heading-{{ id }}-' + index + '-lft'">
+                    <button data-toggle="collapse"
+                            :data-target="'#collapse-{{ id }}-' + index +'-lft'"
+                            aria-expanded="false"
+                            role="tab"
+                            :aria-controls="'collapse-{{ id }}-' + index +'-lft'">
+                    [[ label ]] {% trans "year" %}
+                    </button>
+                </div>
+                <div :id="'collapse-{{ id }}-' + index +'-lft'"
+                     class="collapse"
+                     role="tabpanel"
+                     :aria-labelledby="'heading-{{ id }}-' + index + '-lft'">
+                    <div class="collapse-body">
+                        <div class="it-list-wrapper">
+                            <div class="table-responsive">
+                                <small>
+                                    <table class="table table-sm table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col">[[ items.labels.StudyActivityName ]]</th>
+                                                <th scope="col">[[ items.labels.StudyActivitySemester ]]</th>
+                                                <th scope="col">[[ items.labels.StudyActivityECTS ]]</th>
+                                                <th scope="col" v-if="interclass_degree_class && degree_class">
+                                                    [[ degree_class ]]
+                                                </th>
+                                                <th scope="col" v-else-if="degree_class"></th>
+                                                <th scope="col" v-if="interclass_degree_class">
+                                                    [[ interclass_degree_class ]]
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr v-for="activity in value" v-if="!exclude_studyactivity_codes.includes(activity.StudyActivityCod)">
+                                                <td>
+                                                    <a :href="'//{{ host }}/{{ cms_path_prefix }}{{ base_prefix }}/{{ cds_prefix }}/' + [[ activity.StudyActivityRegDidId ]] + '/{{ activity_prefix }}/' + [[ activity.StudyActivityID ]] +'/'">
+                                                        [[ activity.StudyActivityName ]]
+                                                        <span v-if="items.StudyActivityCompulsory == 1">*</span>
+                                                    </a>
+                                                </td>
+                                                <td>[[ activity.StudyActivitySemester ]]</td>
+                                                <td>[[ activity.StudyActivityECTS ]]</td>
+                                                <td v-if="degree_class">
+                                                    [[ activity.StudyActivityTeachingUnitType || "-" ]]
+                                                </td>
+                                                <td v-if="interclass_degree_class">
+                                                    [[ activity.StudyActivityInterclassTeachingUnitType || "-" ]]
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div v-else>
+            <h5 class="mt-4 mb-3">{% trans "Study paths" %}</h5>
+            <div v-for="(item, index) in items.results"
              :id="'studyPlanCollapseDiv{{ id }}-' + index + '-lft'"
              class="collapse-div collapse-left-icon"
              role="tablist">
@@ -38,77 +107,79 @@
                 </button>
             </div>
             <div :id="'studyPlanCollapse-{{ id }}-' + index +'-lft'"
-                 class="collapse"
-                 role="tabpanel"
-                 :aria-labelledby="'studyPlanHeading-{{ id }}-' + index + '-lft'">
-                <div class="collapse-body">
+                     class="collapse"
+                     role="tabpanel"
+                     :aria-labelledby="'studyPlanHeading-{{ id }}-' + index + '-lft'">
+                    <div class="collapse-body">
 
-                    <div v-for="(value, label, index2) in item.StudyActivities"
-                         :id="'collapseDiv{{ id }}-' + index + '-lft'"
-                         class="collapse-div collapse-left-icon"
-                         role="tablist">
-                        <div class="collapse-header"
-                             :id="'heading-{{ id }}-' + index + index2 + '-lft'">
-                            <button data-toggle="collapse"
-                                    :data-target="'#collapse-{{ id }}-' + index + index2 +'-lft'"
-                                    aria-expanded="false"
-                                    role="tab"
-                                    :aria-controls="'collapse-{{ id }}-' + index + index2 +'-lft'">
-                            [[ label ]] {% trans "year" %}
-                            </button>
-                        </div>
-                        <div :id="'collapse-{{ id }}-' + index + index2 +'-lft'"
-                             class="collapse"
-                             role="tabpanel"
-                             :aria-labelledby="'heading-{{ id }}-' + index + index2 + '-lft'">
-                            <div class="collapse-body">
-                                <div class="it-list-wrapper">
-                                    <div class="table-responsive">
-                                        <small>
-                                            <table class="table table-sm table-hover">
-                                                <thead>
-                                                    <tr>
-                                                        <th scope="col">[[ items.labels.StudyActivityName ]]</th>
-                                                        <th scope="col">[[ items.labels.StudyActivitySemester ]]</th>
-                                                        <th scope="col">[[ items.labels.StudyActivityECTS ]]</th>
-                                                        <th scope="col" v-if="interclass_degree_class && degree_class">
-                                                            [[ degree_class ]]
-                                                        </th>
-                                                        <th scope="col" v-else-if="degree_class"></th>
-                                                        <th scope="col" v-if="interclass_degree_class">
-                                                            [[ interclass_degree_class ]]
-                                                        </th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <tr v-for="activity in value" v-if="!exclude_studyactivity_codes.includes(activity.StudyActivityCod)">
-                                                        <td>
-                                                            <a :href="'//{{ host }}/{{ cms_path_prefix }}{{ base_prefix }}/{{ cds_prefix }}/' + [[ activity.StudyActivityRegDidId ]] + '/{{ activity_prefix }}/' + [[ activity.StudyActivityID ]] +'/'">
-                                                                [[ activity.StudyActivityName ]]
-                                                                <span v-if="items.StudyActivityCompulsory == 1">*</span>
-                                                            </a>
-                                                        </td>
-                                                        <td>[[ activity.StudyActivitySemester ]]</td>
-                                                        <td>[[ activity.StudyActivityECTS ]]</td>
-                                                        <td v-if="degree_class">
-                                                            [[ activity.StudyActivityTeachingUnitType || "-" ]]
-                                                        </td>
-                                                        <td v-if="interclass_degree_class">
-                                                            [[ activity.StudyActivityInterclassTeachingUnitType || "-" ]]
-                                                        </td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                        </small>
+                        <div v-for="(value, label, index2) in item.StudyActivities"
+                             :id="'collapseDiv{{ id }}-' + index + '-lft'"
+                             class="collapse-div collapse-left-icon"
+                             role="tablist">
+                            <div class="collapse-header"
+                                 :id="'heading-{{ id }}-' + index + index2 + '-lft'">
+                                <button data-toggle="collapse"
+                                        :data-target="'#collapse-{{ id }}-' + index + index2 +'-lft'"
+                                        aria-expanded="false"
+                                        role="tab"
+                                        :aria-controls="'collapse-{{ id }}-' + index + index2 +'-lft'">
+                                [[ label ]] {% trans "year" %}
+                                </button>
+                            </div>
+                            <div :id="'collapse-{{ id }}-' + index + index2 +'-lft'"
+                                 class="collapse"
+                                 role="tabpanel"
+                                 :aria-labelledby="'heading-{{ id }}-' + index + index2 + '-lft'">
+                                <div class="collapse-body">
+                                    <div class="it-list-wrapper">
+                                        <div class="table-responsive">
+                                            <small>
+                                                <table class="table table-sm table-hover">
+                                                    <thead>
+                                                        <tr>
+                                                            <th scope="col">[[ items.labels.StudyActivityName ]]</th>
+                                                            <th scope="col">[[ items.labels.StudyActivitySemester ]]</th>
+                                                            <th scope="col">[[ items.labels.StudyActivityECTS ]]</th>
+                                                            <th scope="col" v-if="interclass_degree_class && degree_class">
+                                                                [[ degree_class ]]
+                                                            </th>
+                                                            <th scope="col" v-else-if="degree_class"></th>
+                                                            <th scope="col" v-if="interclass_degree_class">
+                                                                [[ interclass_degree_class ]]
+                                                            </th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr v-for="activity in value" v-if="!exclude_studyactivity_codes.includes(activity.StudyActivityCod)">
+                                                            <td>
+                                                                <a :href="'//{{ host }}/{{ cms_path_prefix }}{{ base_prefix }}/{{ cds_prefix }}/' + [[ activity.StudyActivityRegDidId ]] + '/{{ activity_prefix }}/' + [[ activity.StudyActivityID ]] +'/'">
+                                                                    [[ activity.StudyActivityName ]]
+                                                                    <span v-if="items.StudyActivityCompulsory == 1">*</span>
+                                                                </a>
+                                                            </td>
+                                                            <td>[[ activity.StudyActivitySemester ]]</td>
+                                                            <td>[[ activity.StudyActivityECTS ]]</td>
+                                                            <td v-if="degree_class">
+                                                                [[ activity.StudyActivityTeachingUnitType || "-" ]]
+                                                            </td>
+                                                            <td v-if="interclass_degree_class">
+                                                                [[ activity.StudyActivityInterclassTeachingUnitType || "-" ]]
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </small>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
 
+                    </div>
                 </div>
             </div>
         </div>
+
     </div>
 
     <div v-else>
