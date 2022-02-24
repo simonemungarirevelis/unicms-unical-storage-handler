@@ -16,6 +16,7 @@
 {% settings_value "CMS_STORAGE_ACTIVITY_VIEW_PREFIX_PATH" as activity_prefix %}
 {% settings_value "CMS_STORAGE_THEACHER_VIEW_PREFIX_PATH" as teacher_prefix %}
 {% settings_value "STUDY_ACTIVITY_INFO_NOT_SHOW" as fields_to_hide %}
+{% settings_value "CMS_STORAGE_ADDRESSBOOK_VIEW_PREFIX_PATH" as addressbook_prefix %}
 {% settings_value "BREADCRUMB_ITEM" as breadcrumb_item %}
 {% settings_value "BREADCRUMB_LAST" as breadcrumb_last %}
 
@@ -41,6 +42,22 @@
                             <a :href="item.StudyActivityElearningLink" target="_blank" rel="noopener noreferrer">
                                 {% trans "Link" %}
                             </a>
+                        </td>
+
+                        <td v-else-if="name == 'StudyActivityHours'">
+                            <ul>
+                                <li v-for="coverage in item.StudyActivityHours">
+                                    [[ coverage.ActivityType ]]
+                                    (h. [[ coverage.Hours ]])
+                                    -
+                                    <a :href="'//{{ host }}/{{ cms_path_prefix }}{{ base_prefix }}/{{ addressbook_prefix }}/' + [[ coverage.StudyActivityTeacherID ]] +'/'" v-if="coverage.StudyActivityTeacherID">
+                                        [[ coverage.StudyActivityTeacherName ]]
+                                    </a>
+                                    <span v-else>
+                                        [[ coverage.StudyActivityTeacherName ]]
+                                    </span>
+                                </li>
+                            </ul>
                         </td>
 
                         <!-- Root activity -->
