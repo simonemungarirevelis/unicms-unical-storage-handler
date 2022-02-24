@@ -378,8 +378,10 @@
 
 {% if full_page %}
     </div>
-    <div class="col-12 col-lg-3 offset-lg-1 mt-5 mt-md-0" id="{{ id }}_contacts">
-        {% include "includes/unical_storage_history_back.html" %}
+    <div class="col-12 col-lg-3 offset-lg-1" id="{{ id }}_contacts">
+        <div class="d-none d-lg-block">
+            {% include "includes/unical_storage_history_back.html" %}
+        </div>
 
         <div class="row mt-4" v-if="item.OtherData && item.OtherData[0].DirectorName && item.OtherData[0].DirectorName.trim().length>0">
             <div class="col-12"><hr></div>
