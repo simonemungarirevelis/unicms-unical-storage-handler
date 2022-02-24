@@ -315,6 +315,7 @@
                         this.is_loading = false
                         {% if change_breadcrumb %}
                         document.getElementsByClassName("{{ breadcrumb_last }}")[0].innerHTML = this.item.LaboratoryName
+                        document.title = this.item.LaboratoryName
                         {% endif %}
                     })
             }

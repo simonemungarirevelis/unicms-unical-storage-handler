@@ -124,6 +124,7 @@
                         this.is_loading = false
                         {% if change_breadcrumb %}
                         document.getElementsByClassName("{{ breadcrumb_last }}")[0].innerHTML = this.item.PublicationTitle
+                        document.title = this.item.PublicationTitle
                         {% endif %}
                     })
             }

@@ -172,6 +172,7 @@ CallCdS() {
 
                 {% if change_breadcrumb %}
                 document.getElementsByClassName("{{ breadcrumb_last }}")[0].innerHTML = response.data.results.CdSName
+                document.title = response.data.results.CdSName
                 {% endif %}
             {% endif %}
         });

@@ -532,6 +532,7 @@ var {{ id }} = new Vue({
                     this.is_loading = false
                     {% if change_breadcrumb %}
                     document.getElementsByClassName("{{ breadcrumb_last }}")[0].innerHTML = this.item.CdSName
+                    document.title = this.item.CdSName
                     {% endif %}
                 });
         },

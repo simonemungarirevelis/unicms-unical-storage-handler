@@ -217,6 +217,7 @@
                         this.getPersonnelFunctions(this.item.StructureTypeCOD)
                         {% if change_breadcrumb %}
                         document.getElementsByClassName("{{ breadcrumb_last }}")[0].innerHTML = this.item.StructureName
+                        document.title = this.item.StructureName
                         {% endif %}
                     })
             },

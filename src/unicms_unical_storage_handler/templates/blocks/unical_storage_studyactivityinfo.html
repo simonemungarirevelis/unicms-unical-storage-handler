@@ -211,6 +211,7 @@
                         this.is_loading = false
                         {% if change_breadcrumb %}
                         document.getElementsByClassName("{{ breadcrumb_last }}")[0].innerHTML = this.item.StudyActivityName
+                        document.title = this.item.StudyActivityName + " - " + this.item.StudyActivityCdSName;
                         let breadcrumbs = document.getElementsByClassName("{{ breadcrumb_item }}")
                         for(let item in breadcrumbs){
                             if(breadcrumbs[item].children[0].innerHTML == this.item.StudyActivityRegDidId){

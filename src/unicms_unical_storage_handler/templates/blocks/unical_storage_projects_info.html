@@ -140,8 +140,9 @@
                         this.labels = response.data.labels;
                         this.is_loading = false
                         {% if change_breadcrumb %}
-                    document.getElementsByClassName("{{ breadcrumb_last }}")[0].innerHTML = this.item.ProjectTitle
-                    {% endif %}
+                        document.getElementsByClassName("{{ breadcrumb_last }}")[0].innerHTML = this.item.ProjectTitle
+                        document.title = this.item.ProjectTitle
+                        {% endif %}
                     })
             }
         }
