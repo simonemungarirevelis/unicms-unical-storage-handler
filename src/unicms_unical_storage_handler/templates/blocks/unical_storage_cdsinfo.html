@@ -55,18 +55,22 @@
                     </span>
                     {% endcomment %}
 
-                    {% trans "Degree class" %} [[ item.CourseClassCod ]]
+                    <span v-if="item.CourseClassCod">
+                        {% trans "Degree class" %} [[ item.CourseClassCod ]]
+                    </span>
                     <span v-if="item.CourseInterClassCod">
                         / [[ item.CourseInterClassCod ]]
                     </span>
-                    <br>
-                    [[ item.CourseClassName ]]
-                    <span v-if="item.CourseInterClassCod">
+                    <span v-if="item.CourseClassName">
                         <br>
+                        [[ item.CourseClassName ]]
+                        <br>
+                    </span>
+                    <span v-if="item.CourseInterClassCod">
                         [[ item.CourseInterClassDes ]]
+                        <br>
                     </span>
                     <span v-if="item.DepartmentName">
-                        <br>
                         <a :href="'//{{ host }}/{{ cms_path_prefix }}{{ base_prefix }}/{{ structures_prefix }}/' + [[ item.DepartmentCod ]] +'/'">
                             [[ item.DepartmentName ]]
                         </a>
@@ -76,19 +80,19 @@
                     <div class="card no-after" style="border:1px solid #b71918">
                         <div class="card-body">
                             <div class="row">
-                                <div class="col-12 col-md-auto">
+                                <div class="col-12 col-md-auto" v-if="item.CdSDuration">
                                     <small>
                                         [[ labels['AcademicYear'] ]]
                                         <b>[[ item.AcademicYear ]]/[[ item.AcademicYear + 1 ]]</b>
                                     </small>
                                 </div>
-                                <div class="col-12 col-md-auto">
+                                <div class="col-12 col-md-auto" v-if="item.CdSDuration">
                                     <small>
                                         [[ labels['CdSDuration'] ]] >
                                         <b>[[ item.CdSDuration ]] {% trans "years" %}</b>
                                     </small>
                                 </div>
-                                <div class="col-12 col-md-auto">
+                                <div class="col-12 col-md-auto" v-if="item.CdSLanguage.length > 0 && item.CdSLanguage[0]">
                                     <small>
                                         [[ labels['CdSLanguage'] ]] >
                                         <b>[[ item.CdSLanguage.join(', ') ]] </b>

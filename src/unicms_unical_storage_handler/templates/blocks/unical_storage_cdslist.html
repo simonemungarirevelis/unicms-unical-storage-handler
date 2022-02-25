@@ -251,19 +251,19 @@
                                             &nbsp;- [[ joint.name ]]
                                         </b>
                                     </div>
-                                    <div class="col-12 col-md-auto">
+                                    <div class="col-12 col-md-auto" v-if="item.AcademicYear">
                                         <small>
                                             {% trans "A.Y." %} >
                                             <b>[[ item.AcademicYear ]]/[[ item.AcademicYear + 1]]</b>
                                         </small>
                                     </div>
-                                    <div class="col-12 col-md-auto">
+                                    <div class="col-12 col-md-auto" v-if="item.CdSDuration">
                                         <small>
                                             [[ labels['CdSDuration'] ]] >
                                             <b>[[ item.CdSDuration ]] {% trans "years" %}</b>
                                         </small>
                                     </div>
-                                    <div class="col-12 col-md-auto mr-md-4">
+                                    <div class="col-12 col-md-auto mr-md-4" v-if="item.CdSLanguage.length > 0">
                                         <small>
                                             [[ labels['CdSLanguage'] ]] >
                                             <b>[[ item.CdSLanguage.join(', ') ]] </b>
