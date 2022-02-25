@@ -33,7 +33,7 @@
         <h3 class="lighter">[[ item.StudyActivityCdSName ]]</h3>
         <hr class="my-4 bordeaux-unical-bg">
         <div class="table-responsive">
-            <table class="table table-sm mb-0 table-hover">
+            <table class="table table-sm mb-0 table-hover table-striped">
                 <tbody>
                     <tr v-for="(value, name) in item" v-if="value && !fields_to_not_show.includes(name) && value != ''">
                         <td class="col-4">[[ labels[name] ]]</td>
