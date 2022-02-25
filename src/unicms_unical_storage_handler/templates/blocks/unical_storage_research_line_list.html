@@ -92,7 +92,7 @@
                                         </loading-icon>
                                         <div class="mt-5" id="{{ id }}_erc1_container" v-else>
                                             <label for="{{ id }}_erc1_input">
-                                                {% trans "ERC 1" %}
+                                                {% trans "Base research (Ref. ERC)" %}
                                             </label>
                                             <select id="{{ id }}_erc1_input"
                                                     class="form-control"
@@ -125,7 +125,7 @@
                                         </loading-icon>
                                         <div class="mt-5" id="{{ id }}_aster1_container" v-else>
                                             <label for="{{ id }}_aster1_input">
-                                                {% trans "ASTER 1" %}
+                                                {% trans "Applied research (Ref. ASTER)" %}
                                             </label>
                                             <select id="{{ id }}_aster1_input"
                                                     class="form-control"
@@ -200,13 +200,13 @@
                                     </div>
                                     <div class="col-12 col-md-auto" v-if="item.RLineErc2Name">
                                         <small>
-                                            [[ labels['RLineErc2Name'] ]] >
+                                            {% trans "Ref. ERC" %} >
                                             <b>[[ item.RLineErc2Name ]]</b>
                                         </small>
                                     </div>
                                     <div class="col-12 col-md-auto" v-if="item.RLineAster2Name">
                                         <small>
-                                            [[ labels['RLineAster2Name'] ]] >
+                                            {% trans "Ref. ASTER" %} >
                                             <b>[[ item.RLineAster2Name ]]</b>
                                         </small>
                                     </div>
