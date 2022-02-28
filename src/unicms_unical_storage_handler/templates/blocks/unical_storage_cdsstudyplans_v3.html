@@ -226,10 +226,11 @@ CallURL(url, initial=false) {
 
 {% settings_value "CMS_STORAGE_CDS_API" as cds_api %}
 {% settings_value "BREADCRUMB_LAST" as breadcrumb_last %}
+{% get_current_language as LANGUAGE_CODE %}
 
 CallCdS() {
     axios
-        .get("{{cds_api}}"+this.items.results[0].RegDidId + "/")
+        .get("{{cds_api}}"+this.items.results[0].RegDidId + "/?lang={{ LANGUAGE_CODE }}")
         .then(response => {
             this.degree_class = response.data.results.CourseClassCod
             this.interclass_degree_class = response.data.results.CourseInterClassCod
