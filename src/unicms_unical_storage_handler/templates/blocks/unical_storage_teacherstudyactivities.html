@@ -7,6 +7,10 @@
 {% load unicms_templates %}
 
 {% block content %}
+
+{% settings_value "CURRENT_YEAR" as current_year %}
+
+
 <div id="{{ id }}">
 
     <div v-if="(initial_items && initial_items.length) || parameters">
@@ -16,31 +20,37 @@
             <div class="col-12">
                 <div class="card-wrapper card-space">
                     <div class="card card-bg no-after">
-                        <br>
                         <div class="card-body">
                             <!-- Year & YearFrom & YearTo -->
-                            <div class="form-group">
-                                <div class="row">
-                                    <div class="col-sm">
-                                        <div class="ml-5 mr-5">
-                                            <label for="{{ id }}_year_input">{% trans "Year" %}</label>
-                                            <div class="w-30 mt-5">
-                                                <span class="input-number">
-                                                    <input type="number"
-                                                           id="{{ id }}_year_input"
-                                                           name="{{ id }}_year_input"
-                                                           v-on:keyup.enter="{{ id }}.search()"
-                                                           v-model="selected_year">
-                                                    <button class="input-number-add">
-                                                        <span class="sr-only">{% trans "Increase value" %}</span>
-                                                    </button>
-                                                    <button class="input-number-sub">
-                                                        <span class="sr-only">{% trans "Decrease value" %}</span>
-                                                    </button>
-                                                </span>
-                                            </div>
-                                        </div>
+                            <div class="form-group mb-0">
+
+                                <div class="input-group">
+                                    <label>
+                                        <b>{% trans "Year" %}</b>
+                                    </label>
+
+                                    <input type="number"
+                                           id="{{ id }}_year_input"
+                                           name="{{ id }}_year_input"
+                                           v-on:keyup.enter="{{ id }}.search()"
+                                           v-model="selected_year"
+                                           placeholder="{{ current_year }}"
+                                           class="form-control"
+                                           style="margin-left: 80px">
+
+                                    <div class="input-group-append">
+                                        <button id="search-button"
+                                                type="button"
+                                                class="btn btn-primary"
+                                                @click="{{ id }}.search()">
+                                            {% trans "Search" %}
+                                        </button>
+
                                     </div>
+                                </div>
+
+
+                                    {% comment %}
                                     <div class="col-sm">
                                         <div class="ml-5 mr-5">
                                             <label for="{{ id }}_year_from_input">{% trans "From" %}</label>
@@ -63,7 +73,9 @@
                                     </div>
                                     <div class="col-sm">
                                         <div class="ml-5 mr-5">
-                                            <label for="{{ id }}_year_to_input">{% trans "To" %}</label>
+                                            <label for="{{ id }}_year_to_input">
+                                                <b>{% trans "To" %}</b>
+                                            </label>
                                             <div class="w-30 mt-5">
                                                 <span class="input-number">
                                                     <input type="number"
@@ -81,12 +93,8 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-sm">
-                                        <div class="w-20 mt-5 ml-5 mr-5">
-                                            {% include "includes/unical_storage_search_button.html" with id=id %}
-                                        </div>
-                                    </div>
-                                </div>
+                                    {% endcomment %}
+
                             </div>
                         </div>
                     </div>
@@ -160,6 +168,7 @@ function {{ id }}_get_form_paramenters() {
     let year = document.getElementById('{{ id }}_year_input')
     if (year && year.value) dict['year'] = year.value
 
+    {% comment %}
     // year_to
     let year_to = document.getElementById('{{ id }}_year_to_input')
     if (year_to && year_to.value) dict['yearTo'] = year_to.value
@@ -167,6 +176,7 @@ function {{ id }}_get_form_paramenters() {
     // year_from
     let year_from = document.getElementById('{{ id }}_year_from_input')
     if (year_from && year_from.value) dict['yearFrom'] = year_from.value
+    {% endcomment %}
 
     setItemInSession("{{ id }}", dict)
 
@@ -178,8 +188,11 @@ function {{ id }}_get_form_paramenters() {
 {% block extra_data %}
 
 selected_year: this.getItemFromSession("{{ id }}", 'year') || {{ id }}_get_param('year'),
+
+{% comment %}
 selected_year_from: this.getItemFromSession("{{ id }}", 'yearFrom'),
 selected_year_to: this.getItemFromSession("{{ id }}", 'yearTo'),
+{% endcomment %}
 
 {% endblock extra_data %}
 
