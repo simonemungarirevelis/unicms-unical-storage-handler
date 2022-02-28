@@ -56,22 +56,16 @@
                     {% endcomment %}
 
                     <span v-if="item.CourseInterClassCod">
-                        {% trans "Degree class interclass" %}
+                        {% trans "Interclass degree" %}
+                        <br>
                     </span>
 
-                    <span v-if="item.CourseClassCod">
-                        {% trans "Degree class" %} [[ item.CourseClassCod ]]
-                    </span>
-                    <span v-if="item.CourseInterClassCod">
-                        / [[ item.CourseInterClassCod ]]
-                    </span>
                     <span v-if="item.CourseClassName">
-                        <br>
-                        [[ item.CourseClassName ]]
+                        [[ item.CourseClassName ]] ([[ item.CourseClassCod ]])
                         <br>
                     </span>
                     <span v-if="item.CourseInterClassCod">
-                        [[ item.CourseInterClassDes ]]
+                        [[ item.CourseInterClassDes ]] ([[ item.CourseInterClassCod ]])
                         <br>
                     </span>
                     <span v-if="item.DepartmentName">
