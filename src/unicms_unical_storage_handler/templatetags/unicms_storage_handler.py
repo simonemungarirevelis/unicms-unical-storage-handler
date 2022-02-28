@@ -35,8 +35,11 @@ def get_allowed_website(host):
     domain = domain_params[0]
     port = domain_params[1] if len(domain_params)==2 else None
     websites = []
-    websites = WebSite.objects.filter(pk__in=ALLOWED_UNICMS_SITES,
-                                      is_active=True)
+    if '*' in ALLOWED_UNICMS_SITES:
+        websites = WebSite.objects.filter(is_active=True)
+    else:
+        websites = WebSite.objects.filter(pk__in=ALLOWED_UNICMS_SITES,
+                                          is_active=True)
     current = websites.filter(domain=domain).first()
     active = current or websites.first()
     if port:

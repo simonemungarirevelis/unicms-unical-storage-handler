@@ -55,6 +55,10 @@
                     </span>
                     {% endcomment %}
 
+                    <span v-if="item.CourseInterClassCod">
+                        {% trans "Degree class interclass" %}
+                    </span>
+
                     <span v-if="item.CourseClassCod">
                         {% trans "Degree class" %} [[ item.CourseClassCod ]]
                     </span>

@@ -22,7 +22,9 @@ class BaseStorageHandler(BaseContentHandler):
                                               parent=None,
                                               is_active=True)\
                                       .first()
-        if self.webpath.site.pk not in settings.ALLOWED_UNICMS_SITES:
+        allowed_sites = settings.ALLOWED_UNICMS_SITES
+
+        if '*' not in allowed_sites and self.webpath.site.pk not in allowed_sites:
             raise Http404('Website not allowed to show this webpath')
 
         # only home page of allowed websites
