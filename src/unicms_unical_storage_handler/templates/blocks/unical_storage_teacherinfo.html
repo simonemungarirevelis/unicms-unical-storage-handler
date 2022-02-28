@@ -52,7 +52,10 @@
                 <tbody>
                     <tr v-for="(value, name) in item" v-if="value && !fields_to_not_show.includes(name) && value != ''">
                         <td>[[ labels[name] ]]</td>
-                        <td v-if="typeof value === 'object'">
+                        <td v-if="name == 'TeacherSSDDescription'">
+                            [[ item.TeacherSSDCod ]] - [[ item.TeacherSSDDescription ]]
+                        </td>
+                        <td v-else-if="typeof value === 'object'">
                             <ul v-if="name == 'TeacherFunctions'">
                                 <li v-for="subvalue in value">
                                     <span style="white-space: pre-line;">
