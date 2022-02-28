@@ -28,7 +28,6 @@
                                     <label>
                                         <b>{% trans "Year" %}</b>
                                     </label>
-
                                     <input type="number"
                                            id="{{ id }}_year_input"
                                            name="{{ id }}_year_input"
@@ -37,7 +36,6 @@
                                            placeholder="{{ current_year }}"
                                            class="form-control"
                                            style="margin-left: 80px">
-
                                     <div class="input-group-append">
                                         <button id="search-button"
                                                 type="button"
@@ -47,49 +45,34 @@
                                         </button>
 
                                     </div>
+
                                 </div>
 
 
                                     {% comment %}
                                     <div class="col-sm">
                                         <div class="ml-5 mr-5">
-                                            <label for="{{ id }}_year_from_input">{% trans "From" %}</label>
+                                            <label>{% trans "From" %}</label>
                                             <div class="w-30 mt-5">
-                                                <span class="input-number">
-                                                    <input type="number"
-                                                           id="{{ id }}_year_from_input"
-                                                           name="{{ id }}_year_from_input"
-                                                           v-on:keyup.enter="{{ id }}.search()"
-                                                           v-model="selected_year_from">
-                                                    <button class="input-number-add">
-                                                        <span class="sr-only">{% trans "Increase value" %}</span>
-                                                    </button>
-                                                    <button class="input-number-sub">
-                                                        <span class="sr-only">{% trans "Decrease value" %}</span>
-                                                    </button>
-                                                </span>
+                                                <input type="number"
+                                                       id="{{ id }}_year_from_input"
+                                                       name="{{ id }}_year_from_input"
+                                                       v-on:keyup.enter="{{ id }}.search()"
+                                                       v-model="selected_year_from">
                                             </div>
                                         </div>
                                     </div>
                                     <div class="col-sm">
                                         <div class="ml-5 mr-5">
-                                            <label for="{{ id }}_year_to_input">
+                                            <label>
                                                 <b>{% trans "To" %}</b>
                                             </label>
                                             <div class="w-30 mt-5">
-                                                <span class="input-number">
-                                                    <input type="number"
-                                                           id="{{ id }}_year_to_input"
-                                                           name="{{ id }}_year_to_input"
-                                                           v-on:keyup.enter="{{ id }}.search()"
-                                                           v-model="selected_year_to">
-                                                    <button class="input-number-add">
-                                                        <span class="sr-only">{% trans "Increase value" %}</span>
-                                                    </button>
-                                                    <button class="input-number-sub">
-                                                        <span class="sr-only">{% trans "Decrease value" %}</span>
-                                                    </button>
-                                                </span>
+                                                <input type="number"
+                                                       id="{{ id }}_year_to_input"
+                                                       name="{{ id }}_year_to_input"
+                                                       v-on:keyup.enter="{{ id }}.search()"
+                                                       v-model="selected_year_to">
                                             </div>
                                         </div>
                                     </div>
