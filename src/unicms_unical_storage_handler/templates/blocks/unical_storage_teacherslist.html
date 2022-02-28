@@ -31,7 +31,7 @@
                                 <div class="row">
                                     <div class="col-sm">
                                         <div>
-                                            <label for="{{ id }}_cdsid_input">
+                                            <label>
                                                 {% trans "Course of study" %}
                                             </label>
                                             <div class="w-40 mt-5 mx-2">
@@ -122,9 +122,7 @@
                     <tr>
                         <th scope="col">[[ labels.TeacherName ]]</th>
                         <th scope="col">[[ labels.TeacherRole ]]</th>
-                        {% comment %}
                         <th scope="col">[[ labels.TeacherSSDCod ]]</th>
-                        {% endcomment %}
                     </tr>
                 </thead>
                 <tbody>
@@ -135,9 +133,7 @@
                             </a>
                         </td>
                         <td>[[ item.TeacherRole ]]</td>
-                        {% comment %}
                         <td>[[ item.TeacherSSDCod ]] - [[ item.TeacherSSDDescription ]]</td>
-                        {% endcomment %}
                     </tr>
                 </tbody>
             </table>
