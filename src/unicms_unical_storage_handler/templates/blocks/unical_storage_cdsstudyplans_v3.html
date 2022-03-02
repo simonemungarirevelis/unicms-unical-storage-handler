@@ -37,7 +37,7 @@
                                 aria-expanded="false"
                                 role="tab"
                                 :aria-controls="'collapse-{{ id }}-' + index +'-lft'">
-                        [[ label ]] {% trans "year" %}
+                        [[ label ]] {% trans "year" %} ({% trans "disbursed in" %} [[ academic_year + parseInt(label) - 1]]/[[ academic_year + parseInt(label)]])
                         </button>
                     </div>
                     <div :id="'collapse-{{ id }}-' + index +'-lft'"
@@ -124,7 +124,7 @@
                                                 aria-expanded="false"
                                                 role="tab"
                                                 :aria-controls="'collapse-{{ id }}-' + index + index2 +'-lft'">
-                                        [[ label ]] {% trans "year" %}
+                                        [[ label ]] {% trans "year" %} [[ {{father_uid}}.item ]]
                                         </button>
                                     </div>
                                     <div :id="'collapse-{{ id }}-' + index + index2 +'-lft'"
@@ -202,6 +202,7 @@ exclude_studyactivity_codes: {{ exclude_studyactivity_codes|safe }},
 
 degree_class: '',
 interclass_degree_class: '',
+academic_year: ''
 {% endblock extra_data %}
 
 {% block method_callurl %}
@@ -234,6 +235,7 @@ CallCdS() {
         .then(response => {
             this.degree_class = response.data.results.CourseClassCod
             this.interclass_degree_class = response.data.results.CourseInterClassCod
+            this.academic_year = response.data.results.AcademicYear
 
             {% if father_uid %}
                 {{father_uid}}.item = response.data.results;

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-03-02 13:23+0100\n"
-"PO-Revision-Date: 2022-03-02 13:27+0100\n"
+"POT-Creation-Date: 2022-03-02 19:01+0100\n"
+"PO-Revision-Date: 2022-03-02 19:02+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: it\n"
@@ -160,7 +160,7 @@ msgstr "prossimo"
 #: templates/blocks/unical_storage_research_line_list.html:227
 #: templates/blocks/unical_storage_spinoff_list.html:178
 #: templates/blocks/unical_storage_structure_list.html:120
-#: templates/blocks/unical_storage_studyactivity_list.html:322
+#: templates/blocks/unical_storage_studyactivity_list.html:325
 #: templates/blocks/unical_storage_studyplanactivities.html:37
 #: templates/blocks/unical_storage_teacherresearchgroups.html:41
 #: templates/blocks/unical_storage_teacherresearchlines.html:39
@@ -269,7 +269,7 @@ msgstr "Ruolo"
 #: templates/blocks/unical_storage_addressbook_info.html:81
 #: templates/blocks/unical_storage_laboratory_info.html:113
 #: templates/blocks/unical_storage_publications_info.html:85
-#: templates/blocks/unical_storage_studyactivityinfo.html:43
+#: templates/blocks/unical_storage_studyactivityinfo.html:48
 msgid "Link"
 msgstr ""
 
@@ -298,9 +298,8 @@ msgstr "Tipologia corso"
 
 #: templates/blocks/unical_storage_cdslist.html:112
 #: templates/blocks/unical_storage_cdslist_areas.html:32
-#: templates/blocks/unical_storage_studyactivity_list.html:43
-msgid "Academic Year"
-msgstr "Anno accademico"
+msgid "Year of registration"
+msgstr ""
 
 #: templates/blocks/unical_storage_cdslist.html:138
 msgid "Course of study language"
@@ -337,10 +336,13 @@ msgstr "anno"
 #: templates/blocks/unical_storage_doctorateslist.html:34
 #: templates/blocks/unical_storage_projects_list.html:40
 #: templates/blocks/unical_storage_publications_list.html:39
-#: templates/blocks/unical_storage_studyactivity_list.html:279
 #: templates/blocks/unical_storage_teacherstudyactivities.html:29
 msgid "Year"
 msgstr "Anno"
+
+#: templates/blocks/unical_storage_cdsstudyplans_v3.html:40
+msgid "disbursed in"
+msgstr "erogato nel"
 
 #: templates/blocks/unical_storage_cdsstudyplans_v3.html:95
 msgid "Study paths"
@@ -531,13 +533,17 @@ msgstr ""
 msgid "Startup"
 msgstr ""
 
+#: templates/blocks/unical_storage_studyactivity_list.html:43
+msgid "Academic Year"
+msgstr "Anno accademico"
+
 #: templates/blocks/unical_storage_studyactivity_list.html:95
 msgid "Course year"
 msgstr "Anno del corso"
 
 #: templates/blocks/unical_storage_studyactivity_list.html:117
 msgid "Period"
-msgstr ""
+msgstr "Periodo"
 
 #: templates/blocks/unical_storage_studyactivity_list.html:168
 #: templates/blocks/unical_storage_studyactivity_list.html:278
@@ -553,7 +559,7 @@ msgid "Study course"
 msgstr "Corso di studio"
 
 #: templates/blocks/unical_storage_studyactivity_list.html:249
-#: templates/blocks/unical_storage_studyactivity_list.html:280
+#: templates/blocks/unical_storage_studyactivity_list.html:279
 msgid "SSD"
 msgstr ""
 
