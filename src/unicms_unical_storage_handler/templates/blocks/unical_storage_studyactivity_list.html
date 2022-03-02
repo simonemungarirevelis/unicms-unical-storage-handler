@@ -285,10 +285,10 @@
                         <tbody>
                             <tr v-for="item in items.results">
                                 <td>
-                                    <a :href="'//{{ host }}/{{ cms_path_prefix }}{{ base_prefix }}/{{ cds_prefix }}/' + [[ item.StudyActivityRegDidId ]] + '/{{ activity_prefix }}/' + [[ item.StudyActivityID ]] +'/'">
+                                    <a v-if="item.StudyActivityCod" :href="'//{{ host }}/{{ cms_path_prefix }}{{ base_prefix }}/{{ cds_prefix }}/' + [[ item.StudyActivityRegDidId ]] + '/{{ activity_prefix }}/' + [[ item.StudyActivityID ]] +'/'">
                                         [[ item.StudyActivityCod ]]
-                                        <span v-if="item.StudyActivityCompulsory == 1">*</span>
                                     </a>
+                                    <span v-else>-</span>
                                 </td>
                                 <td>[[ item.StudyActivityName ]]</td>
                                 <td>
@@ -303,9 +303,12 @@
                                     </a>
                                 </td>
                                 <td>
-                                    <a :href="'//{{ host }}/{{ cms_path_prefix }}{{ base_prefix }}/{{ teacher_prefix }}/' + [[ item.StudyActivityTeacherID ]] + '/'">
+                                    <a v-if="item.StudyActivityTeacherID" :href="'//{{ host }}/{{ cms_path_prefix }}{{ base_prefix }}/{{ teacher_prefix }}/' + [[ item.StudyActivityTeacherID ]] + '/'">
                                         [[ item.StudyActivityTeacherName ]]
                                     </a>
+                                    <span v-else>
+                                        [[ item.StudyActivityTeacherName ]]
+                                    </span>
                                 </td>
                             </tr>
                         </tbody>
