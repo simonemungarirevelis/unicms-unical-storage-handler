@@ -1,0 +1,461 @@
+{% extends "bases/unical_storage_list.html" %}
+
+{% load i18n %}
+{% load static %}
+{% load unicms_storage_handler %}
+{% load unicms_templates %}
+
+{% block content %}
+
+{% get_allowed_website request.get_host as host %}
+
+{% settings_value "CMS_PATH_PREFIX" as cms_path_prefix %}
+{% settings_value "CMS_STORAGE_BASE_PATH" as base_prefix %}
+{% settings_value "CMS_STORAGE_ROOT_API" as api_root %}
+{% settings_value "CDS_EXCLUDE_YEAR" as cds_exclude_year %}
+{% settings_value "CMS_STORAGE_CDS_VIEW_PREFIX_PATH" as cds_prefix %}
+{% settings_value "CMS_STORAGE_ACTIVITY_VIEW_PREFIX_PATH" as activity_prefix %}
+{% settings_value "CMS_STORAGE_THEACHER_VIEW_PREFIX_PATH" as teacher_prefix %}
+
+{% block storage_block_top %}
+{% include "blocks/includes/unical_storage_check.html" %}
+{% endblock storage_block_top %}
+
+        <div class="row">
+            <div class="col-12">
+                <div class="card-wrapper card-space">
+                    {% block search %}
+                    <div class="card card-bg no-after">
+                        <div class="card-body">
+
+                            <div class="form-group">
+                                <!-- Areas & Department -->
+
+                                <div class="row">
+
+                                    <div class="col-md">
+                                        <loading-icon
+                                            v-if="is_loading_academicyears"
+                                            :loader_source="loader_source_academicyears">
+                                        </loading-icon>
+                                        <div v-else>
+                                            <label for="{{ id }}_academic_year_input">
+                                                {% trans "Academic Year" %}
+                                            </label>
+                                            <div class="w-30 mt-5">
+                                                <select id="{{ id }}_academic_year_input"
+                                                        title="{% trans 'Choose an option' %}"
+                                                        name="{{ id }}_academic_year_input"
+                                                        class="form-control"
+                                                        @change="{{ id }}.search()">
+                                                  <option value="" v-if="initial_academic_year==''">
+                                                      - {% trans 'Choose an option' %} -
+                                                  </option>
+                                                  <option v-for="item in academic_years_filter"
+                                                          v-if="item.AcademicYear != '{{ cds_exclude_year }}'"
+                                                          :value="item.AcademicYear"
+                                                          :selected="item.AcademicYear == selected_academic_year">
+                                                      [[ item.AcademicYear ]]/[[ item.AcademicYear + 1 ]]
+                                                  </option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md">
+                                        <loading-icon
+                                            v-if="is_loading_departments"
+                                            :loader_source="loader_source_departments">
+                                        </loading-icon>
+                                        <div v-else>
+                                            <label for="{{ id }}_department_input">
+                                                {% trans "Department" %}
+                                            </label>
+                                            <div class="w-30 mt-5">
+                                                <select id="{{ id }}_department_input"
+                                                        title="{% trans 'Choose an option' %}"
+                                                        name="{{ id }}_department_input"
+                                                        class="form-control"
+                                                        @change="{{ id }}.search()">
+                                                    <option value="">- {% trans 'Choose an option' %} -</option>
+                                                    <option v-for="item in departments_filter"
+                                                            :value="item.DepartmentCod"
+                                                            :selected="item.DepartmentCod == selected_department">
+                                                        [[ item.DepartmentName ]]
+                                                    </option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md">
+                                        <div>
+                                            <label for="{{ id }}_course_year_input">
+                                                {% trans "Course year" %}
+                                            </label>
+                                            <div class="w-30 mt-5">
+                                                <select id="{{ id }}_course_year_input"
+                                                        title="{% trans 'Choose an option' %}"
+                                                        name="{{ id }}_course_year_input"
+                                                        class="form-control"
+                                                        @change="{{ id }}.search()">
+                                                    <option value="">- {% trans 'Choose an option' %} -</option>
+                                                    <option value="1" :selected="selected_course_year == 1">1</option>
+                                                    <option value="2" :selected="selected_course_year == 2">2</option>
+                                                    <option value="3" :selected="selected_course_year == 3">3</option>
+                                                    <option value="4" :selected="selected_course_year == 4">4</option>
+                                                    <option value="5" :selected="selected_course_year == 5">5</option>
+                                                    <option value="6" :selected="selected_course_year == 6">6</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md">
+                                        <div>
+                                            <label for="{{ id }}_course_year_input">
+                                                {% trans "Period" %}
+                                            </label>
+                                            <div class="w-30 mt-5">
+                                                <select id="{{ id }}_period_input"
+                                                        title="{% trans 'Choose an option' %}"
+                                                        name="{{ id }}_period_input"
+                                                        class="form-control"
+                                                        @change="{{ id }}.search()">
+                                                    <option value="">- {% trans 'Choose an option' %} -</option>
+                                                    <option value="Annualità" :selected="selected_period == 'Annualità'">Annualità</option>
+                                                    <option value="Primo Periodo" :selected="selected_period == 'Primo Periodo'">Primo Periodo</option>
+                                                    <option value="Secondo Periodo" :selected="selected_period == 'Secondo Periodo'">Secondo Periodo</option>
+                                                    <option value="Terzo Periodo" :selected="selected_period == 'Terzo Periodo'">Terzo Periodo</option>
+                                                    <option value="Quarto Periodo" :selected="selected_period == 'Quarto Periodo'">Quarto Periodo</option>
+                                                    <option value="Primo Semestre" :selected="selected_period == 'Primo Semestre'">Primo Semestre</option>
+                                                    <option value="Secondo Semestre" :selected="selected_period == 'Secondo Semestre'">Secondo Semestre</option>
+                                                    <option value="Primo Trimestre" :selected="selected_period == 'Primo Trimestre'">Primo Trimestre</option>
+                                                    <option value="Secondo Trimestre" :selected="selected_period == 'Secondo Trimestre'">Secondo Trimestre</option>
+                                                    <option value="Terzo Trimestre" :selected="selected_course_year == 'Terzo Trimestre'">Terzo Trimestre</option>
+                                                    <option value="Quarto Trimestre" :selected="selected_period == 'Quarto Trimestre'">Quarto Trimestre</option>
+                                                    <option value="Semestre" :selected="selected_period == 'Semestre'">Semestre</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                            <div class="row form-group">
+                                <div class="col-md">
+                                    <div class="input-group">
+                                        <label for="{{ id }}_teaching"></label>
+                                        <input type="text"
+                                               class="form-control"
+                                               id="{{ id }}_teaching"
+                                               name="{{ id }}_teaching"
+                                               v-model="selected_teaching"
+                                               v-on:keyup.enter="{{ id }}.search({{ input_args }})">
+                                        <div class="input-group-append">
+                                            <div class="input-group-text">
+                                                <svg class="icon icon-sm icon-muted">
+                                                    <use xlink:href="{% static 'svg/sprite.svg' %}#it-search"></use>
+                                                </svg>
+                                            </div>
+
+                                            <button class="btn btn-primary"
+                                                    type="button"
+                                                    id="search-button"
+                                                    @click="{{ id }}.search()">
+                                                {% trans "Teaching" %}
+                                            </button>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md mt-3 mt-md-0">
+                                    <div class="input-group">
+                                        <label for="{{ id }}_teacher"></label>
+                                        <input type="text"
+                                               class="form-control"
+                                               id="{{ id }}_teacher"
+                                               name="{{ id }}_teacher"
+                                               v-model="selected_teacher"
+                                               v-on:keyup.enter="{{ id }}.search({{ input_args }})">
+                                        <div class="input-group-append">
+                                            <div class="input-group-text">
+                                                <svg class="icon icon-sm icon-muted">
+                                                    <use xlink:href="{% static 'svg/sprite.svg' %}#it-search"></use>
+                                                </svg>
+                                            </div>
+
+                                            <button class="btn btn-primary"
+                                                    type="button"
+                                                    id="search-button"
+                                                    @click="{{ id }}.search()">
+                                                {% trans "Teacher" %}
+                                            </button>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row form-group">
+                                <div class="col-md mt-3 mt-md-0">
+                                    <div class="input-group">
+                                        <label for="{{ id }}_cds"></label>
+                                        <input type="text"
+                                               class="form-control"
+                                               id="{{ id }}_cds"
+                                               name="{{ id }}_cds"
+                                               v-model="selected_cds"
+                                               v-on:keyup.enter="{{ id }}.search({{ input_args }})">
+                                        <div class="input-group-append">
+                                            <div class="input-group-text">
+                                                <svg class="icon icon-sm icon-muted">
+                                                    <use xlink:href="{% static 'svg/sprite.svg' %}#it-search"></use>
+                                                </svg>
+                                            </div>
+
+                                            <button class="btn btn-primary"
+                                                    type="button"
+                                                    id="search-button"
+                                                    @click="{{ id }}.search()">
+                                                {% trans "Study course" %}
+                                            </button>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md mt-3 mt-md-0">
+                                    <div class="input-group">
+                                        <label for="{{ id }}_ssd"></label>
+                                        <input type="text"
+                                               class="form-control"
+                                               id="{{ id }}_ssd"
+                                               name="{{ id }}_ssd"
+                                               v-model="selected_ssd"
+                                               v-on:keyup.enter="{{ id }}.search({{ input_args }})">
+                                        <div class="input-group-append">
+                                            <div class="input-group-text">
+                                                <svg class="icon icon-sm icon-muted">
+                                                    <use xlink:href="{% static 'svg/sprite.svg' %}#it-search"></use>
+                                                </svg>
+                                            </div>
+
+                                            <button class="btn btn-primary"
+                                                    type="button"
+                                                    id="search-button"
+                                                    @click="{{ id }}.search()">
+                                                {% trans "SSD" %}
+                                            </button>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    {% endblock search %}
+                </div>
+            </div>
+        </div>
+
+        <list-panel v-bind:data="items" v-if="items.results" id="{{ id }}"></list-panel>
+
+        <loading-icon
+            v-if="is_loading"
+            :loader_source="loader_source">
+        </loading-icon>
+
+        <div v-else>
+            <small>
+                <div class="table-responsive">
+                    <table class="table table-sm table-hover table-striped">
+                        <thead>
+                            <tr>
+                                <th scope="col">{% trans "Code" %}</th>
+                                <th scope="col">{% trans "Teaching" %}</th>
+                                <th scope="col">{% trans "Year" %}</th>
+                                <th scope="col">{% trans "SSD" %}</th>
+                                <th scope="col">[[ labels.StudyActivityCdSName ]]</th>
+                                <th scope="col">[[ labels.StudyActivityTeacherName ]]</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="item in items.results">
+                                <td>
+                                    <a :href="'//{{ host }}/{{ cms_path_prefix }}{{ base_prefix }}/{{ cds_prefix }}/' + [[ item.StudyActivityRegDidId ]] + '/{{ activity_prefix }}/' + [[ item.StudyActivityID ]] +'/'">
+                                        [[ item.StudyActivityCod ]]
+                                        <span v-if="item.StudyActivityCompulsory == 1">*</span>
+                                    </a>
+                                </td>
+                                <td>[[ item.StudyActivityName ]]</td>
+                                <td>
+                                    [[ item.StudyActivityAcademicYear ]]
+                                </td>
+                                <td>
+                                    [[ item.StudyActivitySSD ]]
+                                </td>
+                                <td>
+                                    <a :href="'//{{ host }}/{{ cms_path_prefix }}{{ base_prefix }}/{{ cds_prefix }}/' + [[ item.StudyActivityRegDidId ]] + '/'">
+                                        [[ item.StudyActivityCdSName ]]
+                                    </a>
+                                </td>
+                                <td>
+                                    <a :href="'//{{ host }}/{{ cms_path_prefix }}{{ base_prefix }}/{{ teacher_prefix }}/' + [[ item.StudyActivityTeacherID ]] + '/'">
+                                        [[ item.StudyActivityTeacherName ]]
+                                    </a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </small>
+        </div>
+
+        <list-panel v-bind:data="items" v-if="items.results" id="{{ id }}"></list-panel>
+    </div>
+
+{% block storage_block_bottom %}
+    <div v-else>
+        {% trans "No items here" %}
+    </div>
+
+</div>
+{% endblock storage_block_bottom %}
+
+{% endblock content %}
+
+{% block extra_scripts %}
+<script>
+function {{ id }}_get_form_paramenters(keyword=null, value=null) {
+
+    let dict = {}
+
+    if (keyword)
+        dict[keyword] = value
+
+    // search
+    //let search = document.getElementById('{{ id }}_search')
+    //if (search && search.value) dict['search'] = search.value
+
+    // academic year
+    let academic_year = document.getElementById('{{ id }}_academic_year_input')
+    if (academic_year && academic_year.value) dict['academic_year'] = academic_year.value
+
+    // department
+    let department = document.getElementById('{{ id }}_department_input')
+    if (department && department.value) dict['department'] = department.value
+
+    // course year
+    let course_year = document.getElementById('{{ id }}_course_year_input')
+    if (course_year && course_year.value) dict['course_year'] = course_year.value
+
+    // period
+    let period = document.getElementById('{{ id }}_period_input')
+    if (period && period.value) dict['period'] = period.value
+
+    // teaching
+    let teaching = document.getElementById('{{ id }}_teaching')
+    if (teaching && teaching.value) dict['teaching'] = teaching.value
+
+    // teacher
+    let teacher = document.getElementById('{{ id }}_teacher')
+    if (teacher && teacher.value) dict['teacher'] = teacher.value
+
+    // ssd
+    let ssd = document.getElementById('{{ id }}_ssd')
+    if (ssd && ssd.value) dict['ssd'] = ssd.value
+
+    // cds
+    let cds = document.getElementById('{{ id }}_cds')
+    if (cds && cds.value) dict['cds'] = cds.value
+
+    setItemInSession("{{ id }}", dict)
+
+    return dict
+}
+</script>
+{% endblock extra_scripts %}
+
+{% block extra_data %}
+
+{% get_current_language as LANGUAGE_CODE %}
+{% settings_value "CMS_STORAGE_ACADEMICYEARS_API" as academicyears_api %}
+{% settings_value "CMS_STORAGE_DEPARTMENTSFILTER_API" as departments_api %}
+{% settings_value "CMS_STORAGE_ACADEMICYEARS_API" as academicyears_api %}
+{% settings_value "CURRENT_YEAR" as current_year %}
+
+initial_academic_year: {{ id }}_get_param('academicyear') || '{{ current_year }}',
+
+selected_academic_year: this.getItemFromSession("{{ id }}", 'academic_year') || {{ id }}_get_param('academic_year'),
+selected_department: this.getItemFromSession("{{ id }}", 'department'),
+selected_course_year: this.getItemFromSession("{{ id }}", 'course_year'),
+selected_period: this.getItemFromSession("{{ id }}", 'period'),
+selected_teaching: this.getItemFromSession("{{ id }}", 'teaching'),
+selected_teacher: this.getItemFromSession("{{ id }}", 'teacher'),
+selected_ssd: this.getItemFromSession("{{ id }}", 'ssd'),
+selected_cds: this.getItemFromSession("{{ id }}", 'cds'),
+<!--
+selected_search: this.getItemFromSession("{{ id }}", 'search'),
+-->
+
+is_loading_academicyears: true,
+is_loading_course_year: true,
+is_loading_departments: true,
+
+loader_source_academicyears: '{{ academicyears_api }}?lang={{ LANGUAGE_CODE }}',
+loader_source_departments: '{{ departments_api }}?lang={{ LANGUAGE_CODE }}',
+
+academic_years_filter: [],
+departments_filter: [],
+
+{% endblock extra_data %}
+
+{% block extra_mounted %}
+
+this.callAcademicYears();
+this.callDepartments();
+
+this.parameters = {{ id }}_encodeQueryData(this.getItemsFromSession("{{ id }}"))
+{% endblock extra_mounted %}
+
+{% block extra_methods %}
+
+callAcademicYears() {
+    axios
+        .get(this.loader_source_academicyears)
+        .then(response => {
+            this.academic_years_filter = response.data.results;
+            this.is_loading_academicyears = false
+        })
+},
+callDepartments() {
+    axios
+        .get(this.loader_source_departments)
+        .then(response => {
+            this.departments_filter = response.data.results;
+            this.is_loading_departments = false
+        })
+},
+{% block method_callurl %}
+CallURL(url, initial=false) {
+    this.is_loading = true
+    this.loader_source = url
+    if (!url.includes("academic_year"))
+        url = url + '&academic_year=' + this.initial_academic_year
+    axios
+        .get(url)
+        .then(response => {
+            if(initial) this.initial_items = response.data.results;
+            this.items = response.data;
+            this.next_page = response.data.next;
+            this.previous_page = response.data.previous;
+            this.labels = response.data.labels;
+            this.is_loading = false;
+        })
+},
+{% endblock method_callurl %}
+{% endblock extra_methods %}
+</script>
