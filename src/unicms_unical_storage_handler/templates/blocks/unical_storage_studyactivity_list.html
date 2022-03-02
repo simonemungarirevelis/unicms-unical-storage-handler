@@ -276,7 +276,6 @@
                             <tr>
                                 <th scope="col">{% trans "Code" %}</th>
                                 <th scope="col">{% trans "Teaching" %}</th>
-                                <th scope="col">{% trans "Year" %}</th>
                                 <th scope="col">{% trans "SSD" %}</th>
                                 <th scope="col">[[ labels.StudyActivityCdSName ]]</th>
                                 <th scope="col">[[ labels.StudyActivityTeacherName ]]</th>
@@ -292,15 +291,16 @@
                                 </td>
                                 <td>[[ item.StudyActivityName ]]</td>
                                 <td>
-                                    [[ item.StudyActivityAcademicYear ]]
+                                    <span v-if="item.StudyActivitySSD">
+                                        [[ item.StudyActivitySSD ]]
+                                    </span>
+                                    <span v-else>-</span>
                                 </td>
                                 <td>
-                                    [[ item.StudyActivitySSD ]]
-                                </td>
-                                <td>
-                                    <a :href="'//{{ host }}/{{ cms_path_prefix }}{{ base_prefix }}/{{ cds_prefix }}/' + [[ item.StudyActivityRegDidId ]] + '/'">
+                                    <a v-if="item.StudyActivityCdSName" :href="'//{{ host }}/{{ cms_path_prefix }}{{ base_prefix }}/{{ cds_prefix }}/' + [[ item.StudyActivityRegDidId ]] + '/'">
                                         [[ item.StudyActivityCdSName ]]
                                     </a>
+                                    <span v-else>-</span>
                                 </td>
                                 <td>
                                     <a v-if="item.StudyActivityTeacherID" :href="'//{{ host }}/{{ cms_path_prefix }}{{ base_prefix }}/{{ teacher_prefix }}/' + [[ item.StudyActivityTeacherID ]] + '/'">
