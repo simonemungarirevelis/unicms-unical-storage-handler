@@ -44,6 +44,14 @@
                             </a>
                         </td>
 
+                        <td v-else-if="name == 'StudyActivityModalities' && item.StudyActivityModalities.length > 0">
+                            <ul class="list-unstyled">
+                                <li v-for="mode in item.StudyActivityModalities">
+                                    [[ mode.ModalityActivityDescription ]]
+                                </li>
+                            </ul>
+                        </td>
+
                         <td v-else-if="name == 'StudyActivityHours'">
                             <ul>
                                 <li v-for="coverage in item.StudyActivityHours">
