@@ -284,12 +284,25 @@
                         <tbody>
                             <tr v-for="item in items.results">
                                 <td>
-                                    <a v-if="item.StudyActivityCod" :href="'//{{ host }}/{{ cms_path_prefix }}{{ base_prefix }}/{{ cds_prefix }}/' + [[ item.StudyActivityRegDidId ]] + '/{{ activity_prefix }}/' + [[ item.StudyActivityID ]] +'/'">
+                                    <span v-if="item.StudyActivityCod">
                                         [[ item.StudyActivityCod ]]
-                                    </a>
+                                    </span>
                                     <span v-else>-</span>
                                 </td>
-                                <td>[[ item.StudyActivityName ]]</td>
+                                <td>
+                                    <a v-if="item.StudyActivityID" :href="'//{{ host }}/{{ cms_path_prefix }}{{ base_prefix }}/{{ cds_prefix }}/' + [[ item.StudyActivityRegDidId ]] + '/{{ activity_prefix }}/' + [[ item.StudyActivityID ]] +'/'">
+                                        [[ item.StudyActivityName ]]
+                                        <span v-if="item.StudyActivityPartitionDes">
+                                            ([[ item.StudyActivityPartitionDes ]])
+                                        </span>
+                                    </a>
+                                    <span v-else>
+                                        [[ item.StudyActivityName ]]
+                                        <span v-if="item.StudyActivityPartitionDes">
+                                            ([[ item.StudyActivityPartitionDes ]])
+                                        </span>
+                                    </span>
+                                </td>
                                 <td>
                                     <span v-if="item.StudyActivitySSD">
                                         [[ item.StudyActivitySSD ]]
