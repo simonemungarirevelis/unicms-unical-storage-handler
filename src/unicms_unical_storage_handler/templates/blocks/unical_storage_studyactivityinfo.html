@@ -29,7 +29,12 @@
     </loading-icon>
 
     <div v-else-if="Object.keys(item).length">
-        <h1 class="lighter">[[ item.StudyActivityName ]]</h1>
+        <h1 class="lighter">
+            [[ item.StudyActivityName ]]
+            <span v-if="item.StudyActivityPartitionDes">
+                ([[ item.StudyActivityPartitionDes ]])
+            </span>
+        </h1>
         <h3 class="lighter">[[ item.StudyActivityCdSName ]]</h3>
         <hr class="my-4 bordeaux-unical-bg">
         <div class="table-responsive">
@@ -77,10 +82,13 @@
 
                         <!-- Modules activities -->
                         <td v-else-if="name === 'StudyActivitiesModules' && item.StudyActivitiesModules">
-                            <ul v-for="(valueProfile, nameProfile) in value">
-                                <li>
+                            <ul>
+                                <li v-for="(valueProfile, nameProfile) in value">
                                     <a :href="'//{{ host }}/{{ cms_path_prefix }}{{ base_prefix }}/{{ cds_prefix }}/' + [[ item.StudyActivityRegDidId ]] +'/{{ activity_prefix }}/' + [[ valueProfile.StudyActivityID ]] +'/'">
                                         [[ valueProfile.StudyActivityName ]]
+                                        <span v-if="valueProfile.StudyActivityPartitionDescription">
+                                            ([[ valueProfile.StudyActivityPartitionDescription ]])
+                                        </span>
                                     </a>
                                 </li>
                             </ul>

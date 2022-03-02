@@ -206,7 +206,11 @@ STUDY_ACTIVITY_INFO_NOT_SHOW = ['StudyActivityName',
                                 'StudyActivityTeachingUnitTypeCod',
                                 'StudyActivityInterclassTeachingUnitTypeCod',
                                 'StudyActivityCdSName',
-                                'StudyActivitiesBorrowedFromThis']
+                                'StudyActivitiesBorrowedFromThis',
+                                'StudyActivityPartitionCod',
+                                'StudyActivityExtendedPartitionCod',
+                                'StudyActivityExtendedPartitionDes',
+                                'StudyActivityPartitionDes']
 
 ADDRESSBOOK_INFO_NOT_SHOW = ['ID', 'Name', 'Role',
                              'RoleDescription', 'StructureTypeCOD',
