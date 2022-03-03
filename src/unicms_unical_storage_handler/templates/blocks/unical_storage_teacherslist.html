@@ -224,6 +224,12 @@ this.callRoles();
 this.parameters = {{ id }}_encodeQueryData(this.getItemsFromSession("{{ id }}"))
 {% endblock extra_mounted %}
 
+{% comment %}
+CallURL is blank because the method is called by CdS studyplans template!
+{% endcomment %}
+{% block call_url %}
+{% endblock call_url %}
+
 {% block extra_methods %}
 callDepartments() {
     axios

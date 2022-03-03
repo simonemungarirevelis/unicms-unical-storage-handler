@@ -116,7 +116,10 @@ var {{ id }} = new Vue({
         this.initial_parameters = this.parameters
 
         this.loader_source = this.url + this.parameters
+
+        {% block call_url %}
         this.CallURL(this.url + this.parameters, true);
+        {% endblock call_url %}
     },
     methods: {
         getItemsFromSession(id) {
