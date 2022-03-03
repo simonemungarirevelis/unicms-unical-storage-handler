@@ -223,7 +223,8 @@ ADDRESSBOOK_INFO_NOT_SHOW = ['ID', 'Name', 'Role',
 TEACHER_INFO_NOT_SHOW = ['TeacherID', 'TeacherDepartmentID',
                          'TeacherLastName', 'TeacherFirstName',
                          'TeacherRole', 'TeacherRoleDescription',
-                         'TeacherCVFull', 'TeacherSSDCod']
+                         'TeacherCVFull', 'TeacherSSDCod',
+                         'TeacherDepartmentCod']
 
 STRUCTURE_INFO_NOT_SHOW = ['StructureId', 'StructureCod', 'StructureFatherId',
                            'StructureTypeCOD', 'StructurePersonnelFunctions',
