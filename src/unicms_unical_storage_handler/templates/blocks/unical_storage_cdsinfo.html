@@ -263,7 +263,11 @@
                 <div id="collapseDiv1-lft"
                      class="collapse-div collapse-left-icon"
                      role="tablist">
+                    {% if full_page %}
+                    <div v-for="name in fields_to_show" v-if="item[name] && (item[name].length > 0 || Object.keys(item[name]).length > 0) && name != 'CdSSatisfactionSurvey'">
+                    {% else %}
                     <div v-for="name in fields_to_show" v-if="item[name] && (item[name].length > 0 || Object.keys(item[name]).length > 0)">
+                    {% endif %}
                         <div class="collapse-header" :id="'heading-' + name +'-lft'">
                             <button data-toggle="collapse"
                                    :data-target="'#collapse-' + name +'-lft'"
@@ -305,9 +309,20 @@
                                 </span>
                                 <span v-else>
                                     <span style="white-space: pre-line;">
-                                        <a v-if="name == 'CdSSatisfactionSurvey'" v-bind:href="link_almalaurea + item[name]">[[ link_almalaurea ]][[ item[name] ]]</a>
-                                        <a v-else-if="name == 'CdSDoc'" v-bind:href="item[name]">[[ item[name] ]]</a>
+                                        {% if full_page %}
+                                        <a v-if="name != 'CdSSatisfactionSurvey' && name == 'CdSDoc'" v-bind:href="item[name]">
+                                            [[ item[name] ]]
+                                        </a>
+                                        <span v-else-if="name != 'CdSSatisfactionSurvey'">[[ item[name] ]]</span>
+                                        {% else %}
+                                        <a v-if="name == 'CdSSatisfactionSurvey'" v-bind:href="'{{ almalaurea_link }}' + item[name]">
+                                            {{ almalaurea_link }}[[ item[name] ]]
+                                        </a>
+                                        <a v-else-if="name == 'CdSDoc'" v-bind:href="item[name]">
+                                            [[ item[name] ]]
+                                        </a>
                                         <span v-else>[[ item[name] ]]</span>
+                                        {% endif %}
                                     </span>
                                 </span>
                             </div>
@@ -540,6 +555,23 @@
                 </div>
             </div>
         </div>
+
+        <div v-if="item.CdSSatisfactionSurvey" class="mt-4">
+            <div class="row background-light-grey px-2 py-3 mb-2">
+                <div class="col-2 text-center" style="font-size: x-large">
+                    <span style="font-weight: 400" title='{% trans "Digital services" %}'>@</span>
+                </div>
+                <div class="col m-auto align-middle">
+                    <ul class="mb-0 pl-0 list-unstyled">
+                        <li>
+                            <a class="no-color" target="_blank" :href="'{{ almalaurea_link }}' + item.CdSSatisfactionSurvey">
+                                <b>[[ labels['CdSSatisfactionSurvey'] ]]</b>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 {% endif %}
@@ -558,7 +590,6 @@ var {{ id }} = new Vue({
             fields_to_show: {{ fields_to_show|safe }},
             is_loading: true,
             loader_source: '{{ url }}',
-            link_almalaurea: '{{ almalaurea_link }}',
             joint_degree_filter: {{ allowed_joint_degrees|safe }}
         }
     },
