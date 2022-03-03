@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-03-02 19:01+0100\n"
-"PO-Revision-Date: 2022-03-02 19:02+0100\n"
+"POT-Creation-Date: 2022-03-03 13:49+0100\n"
+"PO-Revision-Date: 2022-03-03 13:50+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: it\n"
@@ -160,7 +160,7 @@ msgstr "prossimo"
 #: templates/blocks/unical_storage_research_line_list.html:227
 #: templates/blocks/unical_storage_spinoff_list.html:178
 #: templates/blocks/unical_storage_structure_list.html:120
-#: templates/blocks/unical_storage_studyactivity_list.html:325
+#: templates/blocks/unical_storage_studyactivity_list.html:341
 #: templates/blocks/unical_storage_studyplanactivities.html:37
 #: templates/blocks/unical_storage_teacherresearchgroups.html:41
 #: templates/blocks/unical_storage_teacherresearchlines.html:39
@@ -299,7 +299,7 @@ msgstr "Tipologia corso"
 #: templates/blocks/unical_storage_cdslist.html:112
 #: templates/blocks/unical_storage_cdslist_areas.html:32
 msgid "Year of registration"
-msgstr ""
+msgstr "Anno di immatricolazione"
 
 #: templates/blocks/unical_storage_cdslist.html:138
 msgid "Course of study language"
@@ -339,10 +339,6 @@ msgstr "anno"
 #: templates/blocks/unical_storage_teacherstudyactivities.html:29
 msgid "Year"
 msgstr "Anno"
-
-#: templates/blocks/unical_storage_cdsstudyplans_v3.html:40
-msgid "disbursed in"
-msgstr "erogato nel"
 
 #: templates/blocks/unical_storage_cdsstudyplans_v3.html:95
 msgid "Study paths"
@@ -665,6 +661,9 @@ msgstr "Dettaglio della struttura"
 #: templates/storage_teachers_info.html:12
 msgid "Teacher detail"
 msgstr "Dettaglio docente"
+
+#~ msgid "disbursed in"
+#~ msgstr "erogato nel"
 
 #~ msgid "Increase value"
 #~ msgstr "Aumenta valore"
