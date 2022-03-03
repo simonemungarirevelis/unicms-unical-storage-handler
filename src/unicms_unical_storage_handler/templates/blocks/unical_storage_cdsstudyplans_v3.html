@@ -124,7 +124,7 @@
                                                 aria-expanded="false"
                                                 role="tab"
                                                 :aria-controls="'collapse-{{ id }}-' + index + index2 +'-lft'">
-                                        [[ label ]] {% trans "year" %} [[ {{father_uid}}.item ]]
+                                        [[ label ]] {% trans "year" %}  ([[ academic_year + parseInt(label) - 1]]/[[ academic_year + parseInt(label)]])
                                         </button>
                                     </div>
                                     <div :id="'collapse-{{ id }}-' + index + index2 +'-lft'"
