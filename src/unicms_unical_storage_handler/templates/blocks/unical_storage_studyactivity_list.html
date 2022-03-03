@@ -311,8 +311,11 @@
                                 </td>
                                 <td>
                                     <a v-if="item.StudyActivityCdSName" :href="'//{{ host }}/{{ cms_path_prefix }}{{ base_prefix }}/{{ cds_prefix }}/' + [[ item.StudyActivityRegDidId ]] + '/'">
-                                        [[ item.StudyActivityCdSName ]]
-                                    </a>
+                                        [[ item.StudyActivityCdSName ]]</a>
+                                        <span v-if="item.StudyPlanDes">
+                                            ([[ item.StudyPlanDes ]])
+                                        </span>
+
                                     <span v-else>-</span>
                                 </td>
                                 <td>
