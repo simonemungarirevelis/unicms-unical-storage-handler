@@ -112,6 +112,11 @@
                             </ul>
                         </td>
 
+                        <!-- ssd -->
+                        <td v-else-if="name === 'StudyActivitySSD'">
+                            [[ item.StudyActivitySSDCod ]] - [[ item.StudyActivitySSD ]]
+                        </td>
+
                         <td v-else-if="typeof value === 'object'" class="col">
                             <ul v-for="(valueProfile, nameProfile) in value">
                                 <div v-if="typeof valueProfile === 'object'">
