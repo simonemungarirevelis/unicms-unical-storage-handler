@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-03-03 14:06+0100\n"
-"PO-Revision-Date: 2022-03-03 14:06+0100\n"
+"POT-Creation-Date: 2022-03-03 18:24+0100\n"
+"PO-Revision-Date: 2022-03-03 18:24+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: it\n"
@@ -101,7 +101,7 @@ msgstr "Imprese"
 msgid "Structures"
 msgstr "Strutture"
 
-#: settings.py:168 templates/blocks/unical_storage_cdsinfo.html:360
+#: settings.py:168 templates/blocks/unical_storage_cdsinfo.html:362
 #: templates/storage_base.html:88 templates/storage_teachers_list.html:11
 #: templates/storage_teachers_list.html:19
 msgid "Teachers"
@@ -287,14 +287,23 @@ msgstr "anni"
 msgid "Website"
 msgstr "Sito web"
 
-#: templates/blocks/unical_storage_cdsinfo.html:250
-#: templates/blocks/unical_storage_cdsinfo.html:255
+#: templates/blocks/unical_storage_cdsinfo.html:251
+#: templates/blocks/unical_storage_cdsinfo.html:256
 msgid "Download brochure"
 msgstr "Scarica la brochure"
 
-#: templates/blocks/unical_storage_cdsinfo.html:371
+#: templates/blocks/unical_storage_cdsinfo.html:373
 msgid "Teachings year"
 msgstr "Docenze anno"
+
+#: templates/blocks/unical_storage_cdsinfo.html:528
+msgid "Documents"
+msgstr "Documenti"
+
+#: templates/blocks/unical_storage_cdsinfo.html:537
+#: templates/blocks/unical_storage_cdsinfo.html:540
+msgid "Study course brochure"
+msgstr "Brochure del corso"
 
 #: templates/blocks/unical_storage_cdslist.html:80
 msgid "Course type"

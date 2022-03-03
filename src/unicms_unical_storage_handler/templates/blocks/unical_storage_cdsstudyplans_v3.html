@@ -265,7 +265,7 @@ CallCdS() {
                         {{teacher_uid}}.previous_page = response.data.previous;
                         {{teacher_uid}}.labels = response.data.labels;
                         {{teacher_uid}}.is_loading = false;
-                        document.getElementById("{{ father_uid }}_cds_year").innerHTML = this.academic_year
+                        document.getElementById("{{ father_uid }}_cds_year").innerHTML = this.academic_year + "/" + (this.academic_year+1)
                 });
             {% endif %}
 

@@ -237,6 +237,7 @@
                     </vue-markdown>
                 </div>
 
+                {% if not full_page %}
                 <div class="card-wrapper pb-0 mb-4" v-if="item.CdSDoc">
                     <div class="card no-after" style="border:1px solid #b71918">
                         <div class="card-body">
@@ -257,6 +258,7 @@
                         </div>
                     </div>
                 </div>
+                {% endif %}
 
                 <div id="collapseDiv1-lft"
                      class="collapse-div collapse-left-icon"
@@ -511,6 +513,31 @@
                         </div>
                     </div>
                 </small>
+            </div>
+        </div>
+
+        <div v-if="item.CdSDoc" class="mt-4">
+            <div class="row background-light-grey px-2 py-3 mb-2">
+                <div class="col-2">
+                    <b>
+                        <svg class="icon" aria-labelledby="doc_menu">
+                            <title id="doc_menu">{% trans "Documents" %}</title>
+                            <use xlink:href="{% static 'svg/sprite.svg' %}#it-files"></use>
+                        </svg>
+                    </b>
+                </div>
+                <div class="col m-auto align-middle">
+                    <ul class="mb-0 pl-0 list-unstyled">
+                        <li>
+                            <a :href="item.CdSDoc" class="no-color" target="_blank" v-if="item.CdSDoc.includes('https') || item.CdSDoc.includes('http')">
+                                <b>{% trans "Study course brochure" %}</b>
+                            </a>
+                            <a :href="'{{ api_root }}' + item.CdSDoc" class="no-color" target="_blank" v-else>
+                                <b>{% trans "Study course brochure" %}</b>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
             </div>
         </div>
     </div>
