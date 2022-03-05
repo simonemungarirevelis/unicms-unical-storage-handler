@@ -62,11 +62,15 @@
                         <td v-else>[[ labels[name] ]]</td>
 
                         <td v-if="typeof value === 'object'">
-                            <span v-if="name == 'LaboratoryErc1'">
-                                [[ value.Description ]]
-                                <ul>
-                                    <li v-for="erc1 in value.Erc1List">
-                                        [[ erc1.Description ]]
+                            <span v-if="name == 'LaboratoryErc1' && value.length > 0">
+                                <ul class="list-unstyled">
+                                    <li v-for="erc0 in value">
+                                        [[ erc0.IdErc0 ]] - [[ erc0.Description ]]
+                                        <ul v-if="erc0.Erc1List.length > 0">
+                                            <li v-for="erc1 in erc0.Erc1List">
+                                                [[ erc1.IdErc1 ]] - [[ erc1.Description ]]
+                                            </li>
+                                        </ul>
                                     </li>
                                 </ul>
                             </span>
