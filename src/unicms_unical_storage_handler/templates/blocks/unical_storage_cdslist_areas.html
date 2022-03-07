@@ -180,7 +180,10 @@
                         {% if LANGUAGE_CODE == 'it' %}
                             Area
                         {% endif %}
-                        [[ area.AreaCds ]]
+                        <span v-if="area.AreaCds == 'Medico Sanitaria'">
+                            Medico-Sanitaria
+                        </span>
+                        <span v-else>[[ area.AreaCds ]]</span>
                         {% if LANGUAGE_CODE != 'it' %}
                             {% trans "Course Area" %}
                         {% endif %}
