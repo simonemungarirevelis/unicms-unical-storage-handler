@@ -133,7 +133,12 @@
                             </a>
                         </td>
                         <td>[[ item.TeacherRole ]] - [[ item.TeacherRoleDescription ]]</td>
-                        <td>[[ item.TeacherSSDCod ]] - [[ item.TeacherSSDDescription ]]</td>
+                        <td v-if="!item.TeacherSSDCod.includes('0000')">
+                            [[ item.TeacherSSDCod ]] - [[ item.TeacherSSDDescription ]]
+                        </td>
+                        <td v-else>
+                            -
+                        </td>
                     </tr>
                 </tbody>
             </table>
