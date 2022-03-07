@@ -12,7 +12,6 @@
 {% settings_value "CMS_PATH_PREFIX" as cms_path_prefix %}
 {% settings_value "CMS_STORAGE_BASE_PATH" as base_prefix %}
 {% settings_value "CMS_STORAGE_PUBLICATIONS_VIEW_PREFIX_PATH" as publications_prefix %}
-
 {% settings_value "CMS_STORAGE_THEACHER_VIEW_PREFIX_PATH" as teacher_prefix %}
 
 {% block storage_block_top %}
@@ -58,7 +57,7 @@
                                                 <label>{% trans "Only in print" %}</label>
                                                 <div class="w-30 mt-5">
                                                     <div class="form-check d-inline">
-                                                    <input name="{{ id }}_print_input" type="radio" id="{{ id }}_print_off" :checked="selected_year != 9999" v-on:click="{{ id }}.search()">
+                                                    <input name="{{ id }}_print_input" type="radio" id="{{ id }}_print_off" :checked="selected_year != 9999" v-on:click="{{ id }}.clearPrintingPublications()">
                                                     <label for="{{ id }}_print_off">{% trans "No" %}</label>
                                                   </div>
                                                   <div class="form-check d-inline">
@@ -190,10 +189,12 @@ function {{ id }}_get_form_paramenters(keyword=null, value=null) {
 {% endblock extra_scripts %}
 
 {% block extra_data %}
+{% settings_value "CURRENT_YEAR" as current_year %}
 
 selected_types: this.getItemFromSession("{{ id }}", 'type'),
 selected_search: this.getItemFromSession("{{ id }}", 'search'),
-selected_year: this.getItemFromSession("{{ id }}", 'year') || {{ id }}_get_param('year'),
+initial_year: {{ id }}_get_param('year') || '{{ current_year }}',
+selected_year: this.getItemFromSession("{{ id }}", 'year') || {{ id }}_get_param('year') || '{{ current_year }}',
 
 is_loading_types: true,
 
@@ -210,6 +211,25 @@ types_filter: []
     this.callTypes();
 {% endblock extra_mounted %}
 
+{% block method_callurl %}
+CallURL(url, initial=false) {
+    this.is_loading = true
+    this.loader_source = url
+    if (!url.includes("year") & this.selected_year)
+        url = url + '&year=' + this.selected_year
+    axios
+        .get(url)
+        .then(response => {
+            if(initial) this.initial_items = response.data.results;
+            this.items = response.data;
+            this.next_page = response.data.next;
+            this.previous_page = response.data.previous;
+            this.labels = response.data.labels;
+            this.is_loading = false;
+        })
+},
+{% endblock method_callurl %}
+
 {% block extra_methods %}
     callTypes() {
         axios
@@ -222,12 +242,15 @@ types_filter: []
     yearSearch() {
         document.getElementById('{{ id }}_print_off').checked = true
         document.getElementById('{{ id }}_print_on').checked = false
-        this.search()
     },
     callPrintingPublications() {
         document.getElementById('{{ id }}_year_input').value = ''
         this.selected_year = 9999
         this.search('year', '9999')
+    },
+    clearPrintingPublications() {
+        this.selected_year = this.initial_year
+        this.search()
     }
 {% endblock extra_methods %}
 </script>
