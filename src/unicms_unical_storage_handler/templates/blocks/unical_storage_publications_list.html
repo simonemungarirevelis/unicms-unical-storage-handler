@@ -190,11 +190,10 @@ function {{ id }}_get_form_paramenters(keyword=null, value=null) {
 {% endblock extra_scripts %}
 
 {% block extra_data %}
-{% settings_value "CURRENT_YEAR" as current_year %}
 
 selected_types: this.getItemFromSession("{{ id }}", 'type'),
 selected_search: this.getItemFromSession("{{ id }}", 'search'),
-selected_year: this.getItemFromSession("{{ id }}", 'year') || '{{ current_year }}',
+selected_year: this.getItemFromSession("{{ id }}", 'year') || {{ id }}_get_param('year'),
 
 is_loading_types: true,
 
@@ -210,25 +209,6 @@ types_filter: []
     this.parameters = {{ id }}_encodeQueryData(this.getItemsFromSession("{{ id }}"))
     this.callTypes();
 {% endblock extra_mounted %}
-
-{% block method_callurl %}
-CallURL(url, initial=false) {
-    this.is_loading = true
-    this.loader_source = url
-    if (!url.includes("year") && this.selected_year)
-        url = url + '&year=' + this.selected_year
-    axios
-        .get(url)
-        .then(response => {
-            if(initial) this.initial_items = response.data.results;
-            this.items = response.data;
-            this.next_page = response.data.next;
-            this.previous_page = response.data.previous;
-            this.labels = response.data.labels;
-            this.is_loading = false;
-        })
-},
-{% endblock method_callurl %}
 
 {% block extra_methods %}
     callTypes() {
