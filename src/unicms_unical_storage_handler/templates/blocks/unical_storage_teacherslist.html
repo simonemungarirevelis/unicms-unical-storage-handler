@@ -228,6 +228,9 @@ this.parameters = {{ id }}_encodeQueryData(this.getItemsFromSession("{{ id }}"))
 CallURL is blank because the method is called by CdS studyplans template!
 {% endcomment %}
 {% block call_url %}
+    {% if full_page %}
+        {{ block.super }}
+    {% endif %}
 {% endblock call_url %}
 
 {% block extra_methods %}
