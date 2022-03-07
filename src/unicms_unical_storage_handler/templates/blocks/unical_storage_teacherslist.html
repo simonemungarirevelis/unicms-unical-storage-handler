@@ -12,6 +12,7 @@
 {% settings_value "CMS_STORAGE_BASE_PATH" as base_prefix %}
 {% settings_value "CMS_STORAGE_THEACHER_VIEW_PREFIX_PATH" as teacher_prefix %}
 
+
 <div id="{{ id }}">
 
     <div v-if="(initial_items && initial_items.length) || parameters">
@@ -233,7 +234,7 @@ this.parameters = {{ id }}_encodeQueryData(this.getItemsFromSession("{{ id }}"))
 CallURL is blank because the method is called by CdS studyplans template!
 {% endcomment %}
 {% block call_url %}
-    {% if full_page %}
+    {% if teachers_full_page %}
         {{ block.super }}
     {% endif %}
 {% endblock call_url %}
