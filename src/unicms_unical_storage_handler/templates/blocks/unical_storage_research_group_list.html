@@ -234,7 +234,7 @@ function {{ id }}_get_form_paramenters(keyword=null, value=null) {
 {% block extra_data %}
 
 {% get_current_language as LANGUAGE_CODE %}
-{% settings_value "CMS_STORAGE_DEPARTMENTSFILTER_API" as departmentsfilter_api %}
+{% settings_value "CMS_STORAGE_DEPARTMENTS_API" as departmentsfilter_api %}
 {% settings_value "CMS_STORAGE_ERC1LIST_API" as erc1list_api %}
 
 search_dict: {},
@@ -243,7 +243,7 @@ departments: [],
 is_loading_departments: true,
 is_loading_erc1: true,
 
-loader_source_departments: '{{ departmentsfilter_api }}?lang={{ LANGUAGE_CODE }}',
+loader_source_departments: '{{ departmentsfilter_api }}?lang={{ LANGUAGE_CODE }}&page_size=100',
 loader_source_erc1: '{{ erc1list_api }}?lang={{ LANGUAGE_CODE }}',
 
 selected_department: this.getItemFromSession("{{ id }}", 'department'),

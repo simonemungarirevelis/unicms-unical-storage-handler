@@ -341,7 +341,7 @@ function {{ id }}_get_form_paramenters(keyword=null, value=null) {
 {% settings_value "ALLOWED_CDS_JOINT_DEGREES" as allowed_joint_degrees %}
 
 {% settings_value "CMS_STORAGE_DEGREETYPES_API" as degreetypes_api %}
-{% settings_value "CMS_STORAGE_DEPARTMENTSFILTER_API" as departments_api %}
+{% settings_value "CMS_STORAGE_DEPARTMENTS_API" as departments_api %}
 {% settings_value "CMS_STORAGE_ACADEMICYEARS_API" as academicyears_api %}
 
 initial_academic_year: {{ id }}_get_param('academicyear') || '',
@@ -362,7 +362,7 @@ is_loading_departments: true,
 
 loader_source_degreetypes: '{{ degreetypes_api }}?lang={{ LANGUAGE_CODE }}&page_size=200',
 loader_source_academicyears: '{{ academicyears_api }}?lang={{ LANGUAGE_CODE }}',
-loader_source_departments: '{{ departments_api }}?lang={{ LANGUAGE_CODE }}',
+loader_source_departments: '{{ departments_api }}?lang={{ LANGUAGE_CODE }}&page_size=100',
 
 academic_years_filter: [],
 departments_filter: [],

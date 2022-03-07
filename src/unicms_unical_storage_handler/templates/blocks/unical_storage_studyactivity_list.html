@@ -402,7 +402,7 @@ function {{ id }}_get_form_paramenters(keyword=null, value=null) {
 
 {% get_current_language as LANGUAGE_CODE %}
 {% settings_value "CMS_STORAGE_ACADEMICYEARS_API" as academicyears_api %}
-{% settings_value "CMS_STORAGE_DEPARTMENTSFILTER_API" as departments_api %}
+{% settings_value "CMS_STORAGE_DEPARTMENTS_API" as departments_api %}
 {% settings_value "CMS_STORAGE_ACADEMICYEARS_API" as academicyears_api %}
 {% settings_value "CURRENT_YEAR" as current_year %}
 
@@ -425,7 +425,7 @@ is_loading_course_year: true,
 is_loading_departments: true,
 
 loader_source_academicyears: '{{ academicyears_api }}?lang={{ LANGUAGE_CODE }}',
-loader_source_departments: '{{ departments_api }}?lang={{ LANGUAGE_CODE }}',
+loader_source_departments: '{{ departments_api }}?lang={{ LANGUAGE_CODE }}&page_size=100',
 
 academic_years_filter: [],
 departments_filter: [],
