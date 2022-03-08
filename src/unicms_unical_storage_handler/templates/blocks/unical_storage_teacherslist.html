@@ -134,11 +134,18 @@
                                 [[ item.TeacherName ]]
                             </a>
                         </td>
+                        {% if mark_contract_teachers %}
                         <td v-if="contract_teacher_roles.includes(item.TeacherRole)">
                             {% trans "Contract teacher" %}
                         </td>
                         <td v-else>
-                            [[ item.TeacherRoleDescription ]]</td>
+                            [[ item.TeacherRoleDescription ]]
+                        </td>
+                        {% else %}
+                        <td>
+                            [[ item.TeacherRoleDescription ]]
+                        </td>
+                        {% endif %}
                         <td v-if="!item.TeacherSSDCod.includes('0000')">
                             [[ item.TeacherSSDCod ]] - [[ item.TeacherSSDDescription ]]
                         </td>

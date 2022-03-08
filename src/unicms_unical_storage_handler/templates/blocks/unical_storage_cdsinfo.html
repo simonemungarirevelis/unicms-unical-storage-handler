@@ -395,7 +395,7 @@
                     (just following)
                     {% endcomment %}
                     {% with teachers_api|add:"?regdid="|add:cdsid as teachers_url %}
-                    {% include "blocks/unical_storage_teacherslist_without_filters.html" with url=teachers_url uid=id|add:"_2" %}
+                    {% include "blocks/unical_storage_teacherslist_without_filters.html" with url=teachers_url uid=id|add:"_2" mark_contract_teachers=1 %}
                     {% endwith %}
                 </div>
             </div>
