@@ -53,7 +53,12 @@
                     <tr v-for="(value, name) in item" v-if="value && !fields_to_not_show.includes(name) && value != ''">
                         <td>[[ labels[name] ]]</td>
                         <td v-if="name == 'TeacherSSDDescription'">
-                            [[ item.TeacherSSDCod ]] - [[ item.TeacherSSDDescription ]]
+                            <span v-if="!item.TeacherSSDCod.includes('0000')">
+                                [[ item.TeacherSSDCod ]] - [[ item.TeacherSSDDescription ]]
+                            </span>
+                            <span v-else>
+                                -
+                            </span>
                         </td>
                         <td v-else-if="typeof value === 'object'">
                             <ul v-if="name == 'TeacherFunctions'">
