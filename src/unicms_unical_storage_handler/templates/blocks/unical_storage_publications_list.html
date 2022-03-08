@@ -54,6 +54,16 @@
                                         </div>
                                         <div class="col-12 col-lg-3 offset-lg-1">
                                             <div class="w-30 mt-5">
+                                                <div>
+                                                  <div class="form-check">
+                                                    <input id="{{ id }}_print_checkbox"
+                                                           type="checkbox"
+                                                           :checked="selected_year == 9999"
+                                                           v-on:change="{{ id }}.switchPrintingPublications($event)">
+                                                    <label for="{{ id }}_print_checkbox">{% trans "Only in print" %}</label>
+                                                  </div>
+                                                </div>
+                                                {% comment %}
                                                 <label>{% trans "Only in print" %}</label>
                                                 <div class="w-30 mt-5">
                                                     <div class="form-check d-inline">
@@ -65,6 +75,7 @@
                                                     <label for="{{ id }}_print_on">{% trans "Yes" %}</label>
                                                   </div>
                                                 </div>
+                                                {% endcomment %}
                                             </div>
                                         </div>
                                         <div class="col-sm">
@@ -171,7 +182,7 @@ function {{ id }}_get_form_paramenters(keyword=null, value=null) {
     let year = document.getElementById('{{ id }}_year_input')
     if (year && year.value) dict['year'] = year.value
 
-    if (document.getElementById('{{ id }}_print_on').checked)
+    if (document.getElementById('{{ id }}_print_checkbox').checked)
         dict['year'] = 9999
 
     // types
@@ -240,18 +251,18 @@ CallURL(url, initial=false) {
             })
     },
     yearSearch() {
-        document.getElementById('{{ id }}_print_off').checked = true
-        document.getElementById('{{ id }}_print_on').checked = false
+        document.getElementById('{{ id }}_print_checkbox').checked = false
     },
-    callPrintingPublications() {
-        document.getElementById('{{ id }}_year_input').value = ''
-        this.selected_year = 9999
-        this.search('year', '9999')
+    switchPrintingPublications(event) {
+        if(event.target.checked) {
+            document.getElementById('{{ id }}_year_input').value = ''
+            this.selected_year = 9999
+            this.search('year', '9999')
+        }else{
+            this.selected_year = this.initial_year
+            this.search()
+        }
     },
-    clearPrintingPublications() {
-        this.selected_year = this.initial_year
-        this.search()
-    }
 {% endblock extra_methods %}
 </script>
 
