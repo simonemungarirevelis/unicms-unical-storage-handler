@@ -189,12 +189,11 @@ function {{ id }}_get_form_paramenters(keyword=null, value=null) {
 {% endblock extra_scripts %}
 
 {% block extra_data %}
-{% settings_value "CURRENT_YEAR" as current_year %}
 
 selected_types: this.getItemFromSession("{{ id }}", 'type'),
 selected_search: this.getItemFromSession("{{ id }}", 'search'),
-initial_year: {{ id }}_get_param('year') || '{{ current_year }}',
-selected_year: this.getItemFromSession("{{ id }}", 'year') || {{ id }}_get_param('year') || '{{ current_year }}',
+initial_year: {{ id }}_get_param('year') || '{% now "Y" %}',
+selected_year: this.getItemFromSession("{{ id }}", 'year') || {{ id }}_get_param('year') || '{% now "Y" %}',
 
 is_loading_types: true,
 
