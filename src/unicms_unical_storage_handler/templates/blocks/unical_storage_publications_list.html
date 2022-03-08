@@ -214,8 +214,9 @@ types_filter: []
 CallURL(url, initial=false) {
     this.is_loading = true
     this.loader_source = url
-    if (!url.includes("year") & this.selected_year)
+    if (!url.includes("year") && this.selected_year){
         url = url + '&year=' + this.selected_year
+    }
     axios
         .get(url)
         .then(response => {
