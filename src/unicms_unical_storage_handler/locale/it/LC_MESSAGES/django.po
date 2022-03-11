@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-03-10 12:24+0100\n"
-"PO-Revision-Date: 2022-03-10 12:24+0100\n"
+"POT-Creation-Date: 2022-03-11 11:09+0100\n"
+"PO-Revision-Date: 2022-03-11 11:09+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: it\n"
@@ -177,12 +177,12 @@ msgid "Organization"
 msgstr "Organizzazione"
 
 #: templates/blocks/unical_storage_addressbook.html:36
-msgid "Search by surname"
-msgstr "Cerca per cognome"
+msgid "Surname"
+msgstr "Cognome"
 
 #: templates/blocks/unical_storage_addressbook.html:58
-msgid "Search by phone"
-msgstr "Cerca per numero di telefono"
+msgid "Phone number"
+msgstr "Numero di telefono"
 
 #: templates/blocks/unical_storage_addressbook.html:92
 #: templates/blocks/unical_storage_addressbook_v2.html:45
@@ -688,6 +688,12 @@ msgstr "Dettaglio della struttura"
 #: templates/storage_teachers_info.html:12
 msgid "Teacher detail"
 msgstr "Dettaglio docente"
+
+#~ msgid "Search by surname"
+#~ msgstr "Cerca per cognome"
+
+#~ msgid "Search by phone"
+#~ msgstr "Cerca per numero di telefono"
 
 #~ msgid "disbursed in"
 #~ msgstr "erogato nel"
