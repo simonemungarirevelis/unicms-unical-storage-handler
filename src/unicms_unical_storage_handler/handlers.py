@@ -208,6 +208,8 @@ class AddressbookListViewHandler(BaseStorageHandler):
             url_data['structure'] = ",".join(settings.ALLOWED_ADDRESSBOOK_STRUCTURE_ID)
         if settings.ALLOWED_STRUCTURE_TYPES:
             url_data['structuretypes'] = ",".join(settings.ALLOWED_STRUCTURE_TYPES)
+            # 000 = Non assegnato
+            url_data['structuretypes'] += ",000"
 
         params = urllib.parse.urlencode(url_data)
         self.data['url'] = f'{settings.CMS_STORAGE_ADDRESSBOOK_API}'
