@@ -292,9 +292,8 @@
                                                     <span v-else>
                                                         [[ nameProfileInstance ]]
                                                     </span> :
-                                                    <span style="white-space: pre-line;">
-                                                        [[ valueProfileInstance ]]
-                                                    </span>
+                                                    <span v-if="containsHTML(valueProfileInstance)" v-html="valueProfileInstance"></span>
+                                                    <span v-else style="white-space: pre-line;">[[ valueProfileInstance ]]</span>
                                                 </li>
                                             </ul>
                                         </li>
@@ -303,7 +302,8 @@
                                 <span v-else-if="typeof item[name] === 'array'">
                                     <ul>
                                         <li v-for="subvalue in item[name]">
-                                            [[ subvalue ]]
+                                            <span v-if="containsHTML(subvalue)" v-html="subvalue"></span>
+                                            <span v-else>[[ subvalue ]]</span>
                                         </li>
                                     </ul>
                                 </span>
@@ -313,7 +313,10 @@
                                         <a v-if="name != 'CdSSatisfactionSurvey' && name == 'CdSDoc'" v-bind:href="item[name]">
                                             [[ item[name] ]]
                                         </a>
-                                        <span v-else-if="name != 'CdSSatisfactionSurvey'">[[ item[name] ]]</span>
+                                        <span v-else-if="name != 'CdSSatisfactionSurvey'">
+                                            <span v-if="containsHTML(item[name])" v-html="item[name]"></span>
+                                            <span v-else>[[ item[name] ]]</span>
+                                        </span>
                                         {% else %}
                                         <a v-if="name == 'CdSSatisfactionSurvey'" v-bind:href="'{{ almalaurea_link }}' + item[name]">
                                             {{ almalaurea_link }}[[ item[name] ]]
@@ -321,7 +324,10 @@
                                         <a v-else-if="name == 'CdSDoc'" v-bind:href="item[name]">
                                             [[ item[name] ]]
                                         </a>
-                                        <span v-else>[[ item[name] ]]</span>
+                                        <span v-else>
+                                            <span v-if="containsHTML(item[name])" v-html="item[name]"></span>
+                                            <span v-else>[[ item[name] ]]</span>
+                                        </span>
                                         {% endif %}
                                     </span>
                                 </span>
@@ -603,6 +609,9 @@ var {{ id }} = new Vue({
         //this.CallURL(); called by studyPlans.CallCdS()
     },
     methods: {
+        containsHTML(s) {
+            return /<\/?[a-z][\s\S]*>/i.test(s)
+        },
         CallURL() {
             axios
                 .get(this.url)
