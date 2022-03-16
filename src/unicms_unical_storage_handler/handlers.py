@@ -142,6 +142,25 @@ class ActivityViewHandler(BaseStorageHandler):
         return (root, cdslist, cdsid, activities, leaf)
 
 
+class SingleActivityViewHandler(BaseStorageHandler):
+    template = "storage_activity.html"
+
+    def __init__(self, **kwargs):
+        super(SingleActivityViewHandler, self).__init__(**kwargs)
+        self.code = self.match_dict.get('code', '')
+
+    def as_view(self):
+        self.data['url'] = f'{settings.CMS_STORAGE_ACTIVITY_API}{self.code}/'
+        return super().as_view()
+
+    @property
+    def breadcrumbs(self):
+        root = (self.get_base_url, settings.CMS_STORAGE_ROOT_LABEL)
+        activities = ('#', settings.CMS_STORAGE_ACTIVITIES_LABEL)
+        leaf = ('#', self.code)
+        return (root, activities, leaf)
+
+
 class TeacherListViewHandler(BaseStorageHandler):
     template = "storage_teachers_list.html"
 
