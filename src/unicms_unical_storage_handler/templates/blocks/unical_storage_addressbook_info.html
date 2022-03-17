@@ -107,6 +107,7 @@
         data() {
             return {
                 item: {},
+                errors: {},
                 labels: {},
                 url: '{{ url }}?lang={{ LANGUAGE_CODE }}',
                 is_loading: true,
@@ -130,6 +131,12 @@
                         document.title = this.item.Name
                         {% endif %}
                     })
+                    .catch(error => {
+                        for (var key in error.response.data) {
+                            this.errors[key] = error.response.data[key]
+                        }
+                        this.is_loading = false
+                    });
             }
         }
     })
