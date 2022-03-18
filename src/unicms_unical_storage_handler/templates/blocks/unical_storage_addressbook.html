@@ -133,7 +133,7 @@
                                                             :value="item.StructureCod"
                                                             :selected="item.StructureCod == selected_structureid"
                                                             v-if="allowed_structure_id.length==0 || allowed_structure_id.includes(item.StructureCod)">
-                                                        [[ item.StructureName ]]
+                                                        [[ item.is_child ]][[ item.StructureName ]]
                                                     </option>
                                                 </select>
                                             </div>
@@ -426,7 +426,7 @@ fields_to_not_show: {{ fields_to_hide|safe }}
 {% block structure_call_method %}
 
 callStructures() {
-    let source = this.loader_source_structures
+    let source = this.loader_source_structures + '&depth=1'
     if (this.structure_type_filter_string)
         source += '&type='+this.structure_type_filter_string
 
@@ -436,7 +436,16 @@ callStructures() {
     axios
         .get(source)
         .then(response => {
-            this.structure_id_filter = response.data.results;
+            let structures_results = response.data.results;
+            structures_results.forEach((element) => {
+                this.structure_id_filter.push(element)
+                if(element.StructureChilds && element.StructureChilds.length > 0) {
+                    element.StructureChilds.forEach((child) => {
+                        child['is_child'] = "--  "
+                        this.structure_id_filter.push(child)
+                    })
+                }
+            });
             this.is_loading_structure_id = false
         })
 },
