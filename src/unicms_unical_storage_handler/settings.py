@@ -222,7 +222,8 @@ ADDRESSBOOK_INFO_NOT_SHOW = ['ID', 'Name', 'Role',
                              'RoleDescription', 'StructureTypeCOD',
                              'TeacherCVFull', 'TeacherCVShort',
                              'StructureCod', 'StructureTypeName',
-                             'StructureCod']
+                             'StructureCod', 'ProfileId', 'ProfileDescription',
+                             'ProfileShortDescription']
 TEACHER_INFO_NOT_SHOW = ['TeacherID', 'TeacherDepartmentID',
                          'TeacherLastName', 'TeacherFirstName',
                          'TeacherRole', 'TeacherRoleDescription',
