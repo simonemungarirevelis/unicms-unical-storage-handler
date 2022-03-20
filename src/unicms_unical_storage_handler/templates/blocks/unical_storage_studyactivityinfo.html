@@ -41,7 +41,7 @@
             <table class="table table-sm table-hover table-striped">
                 <tbody>
                     <tr v-for="(value, name) in item" v-if="value && !fields_to_not_show.includes(name) && value != ''">
-                        <td class="col-4">[[ labels[name] ]]</td>
+                        <td>[[ labels[name] ]]</td>
 
                         <td v-if="name == 'StudyActivityElearningLink'">
                             <a :href="item.StudyActivityElearningLink" target="_blank" rel="noopener noreferrer">
@@ -117,7 +117,7 @@
                             [[ item.StudyActivitySSDCod ]] - [[ item.StudyActivitySSD ]]
                         </td>
 
-                        <td v-else-if="typeof value === 'object'" class="col">
+                        <td v-else-if="typeof value === 'object'">
                             <ul v-for="(valueProfile, nameProfile) in value">
                                 <div v-if="typeof valueProfile === 'object'">
                                     <ul v-for="(valueProfileInstance, nameProfileInstance) in valueProfile">
@@ -143,14 +143,14 @@
                                 </li>
                             </ul>
                         </td>
-                        <td v-else-if="typeof value === 'array'" class="col">
+                        <td v-else-if="typeof value === 'array'">
                             <ul>
                                 <li v-for="subvalue in value">
                                     [[ subvalue ]]
                                 </li>
                             </ul>
                         </td>
-                        <td v-else class="col">
+                        <td v-else>
                             <a v-if="name === 'StudyActivityTeacherName'"
                                :href="'//{{ host }}/{{ cms_path_prefix }}{{ base_prefix }}/{{ teacher_prefix }}/' + [[ item.StudyActivityTeacherID ]] +'/'">
                                 [[ item[name] ]]
