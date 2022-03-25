@@ -5,5 +5,5 @@
   <h4 class="alert-heading">{% trans "Alert" %}</h4>
   <p>{% trans "Resource not found" %}</p>
   <hr>
-  <p class="mb-0">{{ url }}</p>
+  <p class="mb-0">{{ url|safe }}</p>
 </div>

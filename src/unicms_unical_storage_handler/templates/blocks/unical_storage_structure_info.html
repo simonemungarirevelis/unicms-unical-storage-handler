@@ -25,6 +25,8 @@
 {% settings_value "CMS_STORAGE_ADDRESSBOOK_API" as addressbook_api %}
 {% settings_value "CMS_STORAGE_STRUCTURE_API" as structures_api %}
 {% settings_value "CMS_STORAGE_LABORATORY_API" as laboratories_api %}
+{% settings_value "CMS_STORAGE_STRUCTUREFUNCTIONS_API" as functions_api %}
+{% settings_value "BREADCRUMB_LAST" as breadcrumb_last %}
 
 
 <div id="{{ id }}">
@@ -34,26 +36,30 @@
         :loader_source="loader_source">
     </loading-icon>
 
-    <div v-else>
+    <div v-else-if="Object.keys(item).length">
         <div class="row">
-            <div class="col-12 col-lg-2 d-flex">
-                <svg class="m-auto icon icon-xl icon-muted">
-                    <use xlink:href="{% static 'svg/sprite.svg' %}#it-pa"></use>
-                </svg>
-            </div>
-            <div class="col-12 col-lg-10 my-3 my-lg-0">
+            {% block structure_title %}
+            <div class="col-12 my-3 my-lg-0">
                 <h1 class="lighter">
                     [[ item.StructureName ]]
                 </h1>
             </div>
+            {% endblock structure_title %}
         </div>
         <hr class="my-4 bordeaux-unical-bg">
         <div class="table-responsive">
-            <table class="table table-sm">
+            <table class="table table-sm table-hover table-striped">
                 <tbody>
                     <tr v-for="(value, name) in item" v-if="value && !fields_to_not_show.includes(name) && value != ''">
                         <td>[[ labels[name] ]]</td>
-                        <td v-if="typeof value === 'object'">
+
+                        <td v-if="labels[name] == 'URL'">
+                            <a :href="[[ value ]]" target="_blank" rel="noopener noreferrer">
+                                [[ value ]]
+                            </a>
+                        </td>
+
+                        <td v-else-if="typeof value === 'object'">
                             <ul v-for="(valueProfile, nameProfile) in value">
                                 <div v-if="typeof valueProfile === 'object'">
                                     <ul v-for="(valueProfileInstance, nameProfileInstance) in valueProfile">
@@ -84,116 +90,103 @@
                         </td>
                         <td v-else>
                             <a v-if="name == 'StructureFatherName'" :href="'//{{ host }}/{{ cms_path_prefix }}{{ base_prefix }}/{{ structures_prefix }}/' + [[ item.StructureFatherId ]] +'/'">
-                                        [[ item.StructureFatherName ]]
-                                    </a>
+                                [[ item.StructureFatherName ]]
+                            </a>
                             <span v-else style="white-space: pre-line;">
                                 [[ value ]]
                             </span>
                         </td>
                     </tr>
+
+                    <!-- Manager -->
+                    <tr v-if="item.StructurePersonnelFunctions">
+                        <td>{% trans "Manager" %}</td>
+                        <td>
+                            <ul class="list-unstyled">
+                                <li v-for="subvalue in item.StructurePersonnelFunctions" v-if="subvalue.Name && subvalue.Name != '' && functions.includes(subvalue.FunctionCod)">
+                                    <a :href="'//{{ host }}/{{ cms_path_prefix }}{{ base_prefix }}/{{ addressbook_prefix }}/' + [[ subvalue.ID ]] +'/'">
+                                            [[ subvalue.Name ]]
+                                    </a>  - [[ subvalue.Function ]]
+                                </li>
+                            </ul>
+                        </td>
+                    </tr>
+                    <!-- End Manager -->
+
                 </tbody>
             </table>
         </div>
     </div>
-    <!-- Personnel Functions -->
-    <div id="{{ id }}_collapse-3-lft" class="collapse-div collapse-left-icon" role="tablist">
-        <div class="collapse-header" id="{{ id }}_heading-personnel-functions-lft">
-            <button data-toggle="collapse"
-                    data-target="#{{ id }}_collapse-personnel-functions-lft"
-                    aria-expanded="false"
-                    aria-controls="{{ id }}_collapse-personnel-functions-lft">
-                {% trans "Personnel Functions" %}
-            </button>
-        </div>
-        <div id="{{ id }}_collapse-personnel-functions-lft"
-             class="collapse"
-             role="tabpanel"
-             aria-labelledby="{{ id }}_heading-personnel-functions-lft">
-            <div class="mt-3">
-                <ul v-if="item.StructurePersonnelFunctions">
-                    <li v-for="subvalue in item.StructurePersonnelFunctions" v-if="subvalue.Name && subvalue.Name != ''">
-                        <a :href="'//{{ host }}/{{ cms_path_prefix }}{{ base_prefix }}/{{ addressbook_prefix }}/' + [[ subvalue.ID ]] +'/'">
-                                [[ subvalue.Name ]] - [[ subvalue.Function ]]
-                        </a>
-                    </li>
-                </ul>
-                <div v-else>
-                    {% trans "No items here" %}
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- Personnel -->
-<div id="{{ id }}_collapse-1-lft" class="collapse-div collapse-left-icon" role="tablist">
-        <div class="collapse-header" id="{{ id }}_heading-personnel-lft">
-            <button data-toggle="collapse"
-                    data-target="#{{ id }}_collapse-personnel-lft"
-                    aria-expanded="false"
-                    aria-controls="{{ id }}_collapse-personnel-lft">
-                {% trans "Personnel" %}
-            </button>
-        </div>
-        <div id="{{ id }}_collapse-personnel-lft"
-             class="collapse"
-             role="tabpanel"
-             aria-labelledby="{{ id }}_heading-personnel-lft">
-            <div class="mt-3">
-                {% with allowed_addressbook_roles|join:"," as allowed_address_book_roles_list %}
-                {% with allowed_structure_types|join:"," as allowed_structure_types_list %}
-                {% with addressbook_api|add:"?structuretree="|add:code|add:"&role="|add:allowed_address_book_roles_list|add:"&structuretypes="|add:allowed_structure_types_list as personnel_url %}
-                {% include "blocks/unical_storage_addressbook_without_structure_type_filter.html" with url=personnel_url structure_id=code uid=id|add:"_1" %}
-                {% endwith %}
-                {% endwith %}
-                {% endwith %}
-            </div>
-        </div>
-    </div>
-<!-- Child Structures -->
-        <div id="{{ id }}_collapse-2-lft" class="collapse-div collapse-left-icon" role="tablist">
-            <div class="collapse-header" id="{{ id }}_heading-childstructures-lft">
-                <button data-toggle="collapse"
-                        data-target="#{{ id }}_collapse-childstructures-lft"
-                        aria-expanded="false"
-                        aria-controls="{{ id }}_collapse-childstructures-lft">
-                    {% trans "Child Structures" %}
-                </button>
-            </div>
-            <div id="{{ id }}_collapse-childstructures-lft"
-                 class="collapse"
-                 role="tabpanel"
-                 aria-labelledby="{{ id }}_heading-childstructures-lft">
-                <div class="mt-3">
-                    {% with allowed_structure_types|join:"," as allowed_structure_types_list %}
-                    {% with structures_api|add:"?father="|add:code|add:"&type="|add:allowed_structure_types_list as child_structures_url %}
-                    {% include "blocks/unical_storage_structure_list.html" with url=child_structures_url uid=id|add:"_2" %}
-                    {% endwith %}
-                    {% endwith %}
-                </div>
-            </div>
-    </div>
-<!-- Laboratories -->
-<div id="{{ id }}_collapse-1-lft" class="collapse-div collapse-left-icon" role="tablist">
-        <div class="collapse-header" id="{{ id }}_heading-laboratories-lft">
-            <button data-toggle="collapse"
-                    data-target="#{{ id }}_collapse-laboratories-lft"
-                    aria-expanded="false"
-                    aria-controls="{{ id }}_collapse-laboratories-lft">
-                {% trans "Laboratories" %}
-            </button>
-        </div>
-        <div id="{{ id }}_collapse-laboratories-lft"
-             class="collapse"
-             role="tabpanel"
-             aria-labelledby="{{ id }}_heading-laboratories-lft">
-            <div class="mt-3">
-                {% with laboratories_api|add:"?department="|add:code as laboratories_url %}
-                {% include "blocks/unical_storage_laboratory_list_without_filters.html" with url=laboratories_url laboratories_id=code uid=id|add:"_3" %}
-                {% endwith %}
-            </div>
-        </div>
+    <div v-else>
+        {% include "includes/unical_storage_empty.html" with url=url %}
     </div>
 
+</div>
+
+
+{% block structure_organization %}
+<!-- Child Structures -->
+{% with allowed_structure_types|join:"," as allowed_structure_types_list %}
+{% with "&type="|add:allowed_structure_types_list as structure_types_filter %}
+
+{% with structures_api|add:"?father="|add:code as child_structures_url %}
+
+{% if allowed_structure_types_list %}
+    {% with child_structures_url|add:structure_types_filter as child_structures_url %}
+    {% include "blocks/collapse/unical_storage_collapse_structure_list_without_search.html" with url=child_structures_url uid=id|add:"_2" %}
+    {% endwith %}
+{% else %}
+    {% include "blocks/collapse/unical_storage_collapse_structure_list_without_search.html" with url=child_structures_url uid=id|add:"_2" %}
+{% endif %}
+
+
+{% block structure_personnel %}
+<!-- Personnel -->
+{% with allowed_addressbook_roles|join:"," as allowed_address_book_roles_list %}
+{% with allowed_structure_types|join:"," as allowed_structure_types_list %}
+
+{% with "&role="|add:allowed_address_book_roles_list as roles_filter %}
+{% with "&structuretypes="|add:allowed_structure_types_list as structure_types_filter %}
+
+{% with addressbook_api|add:"?structuretree="|add:code as personnel_url %}
+
+{% if allowed_address_book_roles_list and allowed_structure_types_list %}
+    {% with personnel_url|add:roles_filter|add:structure_types_filter as personnel_url %}
+    {% include "blocks/collapse/unical_storage_collapse_addressbook_without_structure_type_filter.html" with url=personnel_url uid=id|add:"_1" %}
+    {% endwith %}
+{% elif allowed_address_book_roles_list %}
+    {% with personnel_url|add:roles_filter as personnel_url %}
+    {% include "blocks/collapse/unical_storage_collapse_addressbook_without_structure_type_filter.html" with url=personnel_url uid=id|add:"_1" %}
+    {% endwith %}
+{% elif allowed_structure_types_list %}
+    {% with addressbook_api|add:structure_types_filter as personnel_url %}
+    {% include "blocks/collapse/unical_storage_collapse_addressbook_without_structure_type_filter.html" with url=personnel_url uid=id|add:"_1" %}
+    {% endwith %}
+{% else %}
+    {% include "blocks/collapse/unical_storage_collapse_addressbook_without_structure_type_filter.html" with url=personnel_url uid=id|add:"_1" %}
+{% endif %}
+
+{% endwith %}
+
+{% endwith %}
+{% endwith %}
+
+{% endwith %}
+{% endwith %}
+{% endblock structure_personnel %}
+
+{% endwith %}
+
+{% endwith %}
+{% endwith %}
+{% endblock structure_organization %}
+
+{% block structure_laboratories %}
+<!-- Laboratories -->
+{% with laboratories_api|add:"?department="|add:code as laboratories_url %}
+{% include "blocks/collapse/unical_storage_collapse_laboratory_list_without_filters.html" with url=laboratories_url laboratories_id=code uid=id|add:"_3" %}
+{% endwith %}
+{% endblock structure_laboratories %}
 
 <script>
     var {{ id }} = new Vue({
@@ -203,22 +196,40 @@
                 item: {},
                 labels: {},
                 url: '{{ url }}?lang={{ LANGUAGE_CODE }}',
+                functions_url: '{{ functions_api }}?lang={{ LANGUAGE_CODE }}&page_size=200',
+                functions: [],
                 is_loading: true,
                 loader_source: '{{ url }}',
                 fields_to_not_show: {{ fields_to_hide|safe }},
             }
         },
         mounted() {
-            this.CallURL();
+            this.callURL()
         },
         methods: {
-            CallURL() {
+            callURL() {
                 axios
                     .get(this.url)
                     .then(response => {
                         this.item = response.data.results;
                         this.labels = response.data.labels;
                         this.is_loading = false
+                        this.getPersonnelFunctions(this.item.StructureTypeCOD)
+                        {% if change_breadcrumb %}
+                        document.getElementsByClassName("{{ breadcrumb_last }}")[0].innerHTML = this.item.StructureName
+                        document.title = this.item.StructureName
+                        {% endif %}
+                    })
+            },
+            getPersonnelFunctions(cod) {
+                axios
+                    .get(this.functions_url)
+                    .then(response => {
+                        for(let func in response.data.results){
+                            if (response.data.results[func].StructureTypeCOD == cod){
+                                this.functions.push(response.data.results[func].Function)
+                            }
+                        }
                     })
             }
         }

@@ -1,6 +1,5 @@
 {% extends this_string_will_be_replaced %}
 
-
 {% load i18n %}
 {% load static %}
 
@@ -9,7 +8,7 @@
 
 
 <!-- SEO  -->
-{% block page_title %}{% trans "Teacher detail" %}{% endblock page_title %}
+{% block page_title %}{% trans "High Formation Master" %}{% endblock page_title %}
 
 {% block container %}
 {% breadcrumbs webpath=webpath leaf=handler %}
@@ -17,13 +16,12 @@
 <div class="container">
     <div class="col-12 py-5 bd-content">
         {% block centered_container %}
-
             <div class="container">
                 <div class="row">
                     <div class="col-12">
                         <div class="row">
                             <div class="col-12 col-lg-8">
-                                {% include "blocks/unical_storage_teacherinfo.html" with url=url uid="id_1" change_breadcrumb=1 %}
+                                {% include "blocks/unical_storage_high_formation_master_info.html" with url=url uid="id_1" change_breadcrumb=1 %}
                             </div>
                             <div class="col-12 col-lg-3 offset-md-1 mt-5 mt-md-0 d-none d-lg-block">
                                 {% include "includes/unical_storage_history_back.html" %}
@@ -37,4 +35,3 @@
 </div>
 
 {% endblock container %}
-

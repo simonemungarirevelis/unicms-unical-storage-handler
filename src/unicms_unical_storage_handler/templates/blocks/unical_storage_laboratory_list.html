@@ -11,39 +11,35 @@
 
 {% settings_value "CMS_PATH_PREFIX" as cms_path_prefix %}
 {% settings_value "CMS_STORAGE_BASE_PATH" as base_prefix %}
+{% settings_value "CMS_STORAGE_ROOT_API" as api_root %}
 {% settings_value "CMS_STORAGE_LABORATORY_VIEW_PREFIX_PATH" as laboratory_prefix %}
 {% settings_value "CMS_STORAGE_STRUCTURE_VIEW_PREFIX_PATH" as structures_prefix %}
 
-<div id="{{ id }}">
+{% block storage_block_top %}
+{% include "blocks/includes/unical_storage_check.html" %}
+{% endblock storage_block_top %}
 
-    <loading-icon
-        v-if="is_loading"
-        :loader_source="loader_source">
-    </loading-icon>
-
-    <div v-else-if="(initial_items && initial_items.length) || parameters">
         <div class="row">
             <div class="col-12">
                 <div class="card-wrapper card-space">
+                    {% block search %}
                     <div class="card card-bg no-after">
-                        <br>
                         <div class="card-body">
 
                             {% include "includes/unical_storage_search_input.html" with id=id %}
 
                             {% block filters %}
-                            <div class="form-group">
+                            <div class="form-group mb-0">
                                 <!-- Areas & Department -->
 
-                                <loading-icon
-                                    v-if="is_loading_areas"
-                                    :loader_source="loader_source_areas">
-                                </loading-icon>
-
-                                <div class="row" v-else>
+                                <div class="row">
 
                                     <div class="col-sm">
-                                        <div>
+                                        <loading-icon
+                                            v-if="is_loading_areas"
+                                            :loader_source="loader_source_areas">
+                                        </loading-icon>
+                                        <div v-else>
                                             <label for="{{ id }}_area_input">
                                                 {% trans "Area" %}
                                             </label>
@@ -64,13 +60,12 @@
                                         </div>
                                     </div>
 
-                                    <loading-icon
-                                        v-if="is_loading_departments"
-                                        :loader_source="loader_source_departments">
-                                    </loading-icon>
-
-                                    <div class="col-sm" v-else>
-                                        <div>
+                                    <div class="col-sm">
+                                        <loading-icon
+                                            v-if="is_loading_departments"
+                                            :loader_source="loader_source_departments">
+                                        </loading-icon>
+                                        <div v-else>
                                             <label for="{{ id }}_department_input">
                                                 {% trans "Department" %}
                                             </label>
@@ -91,15 +86,66 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div class="row">
+                                    {% block filter_infrastructure %}
+                                    <div class="col-sm">
+                                        <loading-icon
+                                            v-if="is_loading_infrastructures"
+                                            :loader_source="loader_source_infrastructures">
+                                        </loading-icon>
+                                        <div class="mt-5" v-else>
+                                            <label for="{{ id }}_infrastructure_input">
+                                                {% trans "Infastructure" %}
+                                            </label>
+                                            <select id="{{ id }}_infrastructure_input"
+                                                    class="form-control"
+                                                    name="{{ id }}_scope_input"
+                                                    title="{% trans 'Choose an option' %}"
+                                                    @change="{{ id }}.search()">
+                                                <option value="">- {% trans 'Clear all' %} -</option>
+                                                <option v-for="item in infrastructures"
+                                                        :value="item.InfrastructureId"
+                                                        :selected="item.InfrastructureId == selected_infrastructure">
+                                                    [[ item.InfrastructureDescription ]]
+                                                </option>
 
-                                <loading-icon
-                                    v-if="is_loading_erc1"
-                                    :loader_source="loader_source_erc1">
-                                </loading-icon>
+                                          </select>
+                                        </div>
+                                    </div>
+                                    {% endblock filter_infrastructure %}
 
-                                <div class="row" v-else>
-                                    <div class="col-12">
-                                        <div class="mt-5">
+                                    <div class="col-sm">
+                                        <loading-icon
+                                            v-if="is_loading_scopes"
+                                            :loader_source="loader_source_scopes">
+                                        </loading-icon>
+                                        <div class="mt-5" v-else>
+                                            <label for="{{ id }}_scope_input">
+                                                {% trans "Scopes" %}
+                                            </label>
+                                            <select id="{{ id }}_scope_input"
+                                                    class="form-control"
+                                                    name="{{ id }}_scope_input"
+                                                    title="{% trans 'Choose an option' %}"
+                                                    @change="{{ id }}.search()">
+                                                <option value="">- {% trans 'Clear all' %} -</option>
+                                                <option v-for="item in scopes"
+                                                        :value="item.ScopeID"
+                                                        :selected="item.ScopeID == selected_scope">
+                                                    [[ item.ScopeDescription ]]
+                                                </option>
+
+                                          </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm">
+                                        <loading-icon
+                                            v-if="is_loading_erc1"
+                                            :loader_source="loader_source_erc1">
+                                        </loading-icon>
+                                        <div class="mt-5" v-else>
                                             <label for="{{ id }}_erc1_input">
                                                 {% trans "ERC 1" %}
                                             </label>
@@ -123,69 +169,104 @@
                                           </select>
                                         </div>
                                     </div>
-
                                 </div>
                             </div>
                             {% endblock filters %}
                         </div>
                     </div>
+                    {% endblock search %}
                 </div>
             </div>
         </div>
 
         <list-panel v-bind:data="items" v-if="items.results" id="{{ id }}"></list-panel>
 
-        <div class="row mb-3" v-for="item in items.results" v-if="item.LaboratoryName != '' && item.LaboratoryName">
-            <div class="col-12">
-                <!--start card-->
-                <div class="card-wrapper pb-0">
-                    <div class="card no-after" style="border:1px solid #b71918">
-                        <div class="card-body">
-                            {% if teacher_id %}
-                            <span v-if="item.ScientificDirectorId == {{ teacher_id }}">
-                                {% trans "Responsabile" %}
-                            </span>
-                            {% endif %}
-                            <h4>
-                                <a class="no-color" :href="'//{{ host }}/{{ cms_path_prefix }}{{ base_prefix }}/{{ laboratory_prefix }}/' + [[ item.LaboratoryId ]] +'/'">
-                                    [[ item.LaboratoryName ]]
-                                </a>
-                            </h4>
-                            <div class="row">
-                                <div class="col-12 col-md-auto">
-                                    <small>
-                                        [[ labels['DepartmentName'] ]] >
-                                        <b>[[ item.DepartmentName ]]</b>
-                                    </small>
-                                </div>
-                                <div class="col-12 col-md-auto">
-                                    <small>
-                                        [[ labels['Area'] ]] >
-                                        <b>[[ item.Area ]]</b>
-                                    </small>
-                                </div>
-                                <div class="col-12 col-md-auto" v-if="item.Interdepartmental != 'NO'">
-                                    <small>
-                                        [[ labels['Interdepartmental'] ]] >
-                                        <b>[[ item.Interdepartmental ]]</b>
-                                    </small>
+        <loading-icon
+            v-if="is_loading"
+            :loader_source="loader_source">
+        </loading-icon>
+
+        <div v-else>
+            <div class="row mb-3" v-for="item in items.results" v-if="item.LaboratoryName != '' && item.LaboratoryName">
+                <div class="col-12">
+                    <!--start card-->
+                    <div class="card-wrapper pb-0">
+                        <div class="card no-after" style="border:1px solid #b71918">
+                            <div class="card-body p-3">
+                                <div class="row">
+                                    <div class="col-12 col-lg-2 mr-lg-3 mb-3 mb-lg-0" v-if="item.LaboratoryLogo">
+                                        <img :src="'{{ api_root }}'+item.LaboratoryLogo" class="w-100"/>
+                                    </div>
+                                    <div class="col">
+                                        <h5>
+                                            <a class="no-color" :href="'//{{ host }}/{{ cms_path_prefix }}{{ base_prefix }}/{{ laboratory_prefix }}/' + [[ item.LaboratoryId ]] +'/'">
+                                                <b>[[ item.LaboratoryName ]]</b>
+                                            </a>
+                                        </h5>
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <small>
+                                                    <b>[[ item.DepartmentName ]]</b>
+                                                </small>
+                                            </div>
+                                            <div class="col-12">
+                                                <small>
+                                                    [[ labels['Area'] ]] >
+                                                    <b>[[ item.Area ]]</b>
+                                                </small>
+                                            </div>
+                                            <div class="col-12">
+                                                <small>
+                                                    {% trans "Manager" %} >
+                                                    <b>[[ item.ScientificDirector ]]</b>
+                                                </small>
+                                            </div>
+                                            <div class="col-12" v-if="item.LaboratoryScopes.length">
+                                                <small>
+                                                    [[ labels['LaboratoryScopes'] ]] >
+                                                    <b v-for="(scope, index) in item.LaboratoryScopes">
+                                                        [[ scope.ScopeDescription ]]
+                                                        <span v-if="index < (item.LaboratoryScopes.length - 1)">,&nbsp;</span>
+                                                    </b>
+                                                </small>
+                                            </div>
+                                            <div class="col-12" v-if="item.InfrastructureName">
+                                                <small>
+                                                    [[ labels['InfrastructureName'] ]] >
+                                                    <b>
+                                                        [[ item.InfrastructureName ]]
+                                                    </b>
+                                                </small>
+                                            </div>
+                                            <div class="col-12" v-if="item.Interdepartmental != 'NO'">
+                                                <small>
+                                                    [[ labels['Interdepartmental'] ]] >
+                                                    <b>[[ item.Interdepartmental ]]</b>
+                                                </small>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+                    <!--end card-->
                 </div>
-                <!--end card-->
             </div>
+
         </div>
 
         <list-panel v-bind:data="items" v-if="items.results" id="{{ id }}"></list-panel>
     </div>
 
+{% block storage_block_bottom %}
     <div v-else>
         {% trans "No items here" %}
     </div>
 
 </div>
+{% endblock storage_block_bottom %}
+
 {% endblock content %}
 
 {% block extra_scripts %}
@@ -197,20 +278,32 @@ function {{ id }}_get_form_paramenters(keyword=null, value=null) {
     if (keyword)
         dict[keyword] = value
 
-
+    {% block laboratory_search_script %}
     // search
-    let search = document.getElementById('{{ id }}_search').value
-    if (search) dict['search'] = search
+    let search = document.getElementById('{{ id }}_search')
+    if (search && search.value) dict['search'] = search.value
 
-    {% block laboratory_filter_input %}
+    {% endblock laboratory_search_script %}
+
+    {% block laboratory_filter_script %}
 
         // area
-        let area = document.getElementById('{{ id }}_area_input').value
-        if (area) dict['area'] = area
+        let area = document.getElementById('{{ id }}_area_input')
+        if (area && area.value) dict['area'] = area.value
 
         // department
-        let department = document.getElementById('{{ id }}_department_input').value
-        if (department) dict['department'] = department
+        let department = document.getElementById('{{ id }}_department_input')
+        if (department && department.value) dict['department'] = department.value
+
+        // scope
+        let scope = document.getElementById('{{ id }}_scope_input')
+        if (scope && scope.value) dict['scope'] = scope.value
+
+        {% block filter_infrastructure_script %}
+        // infrastructure
+        let infrastructure = document.getElementById('{{ id }}_infrastructure_input')
+        if (infrastructure && infrastructure.value) dict['infrastructure'] = infrastructure.value
+        {% endblock filter_infrastructure_script %}
 
         // erc1
         let erc1 = document.getElementById('{{ id }}_erc1_input')
@@ -222,9 +315,9 @@ function {{ id }}_get_form_paramenters(keyword=null, value=null) {
             }
         }
         let erc1_values = erc1_selected.join(",")
-        if(erc1_values) dict['erc1'] = erc1_values
+        if(erc1_selected) dict['erc1'] = erc1_selected
 
-    {% endblock laboratory_filter_input %}
+    {% endblock laboratory_filter_script %}
 
     setItemInSession("{{ id }}", dict)
 
@@ -236,27 +329,38 @@ function {{ id }}_get_form_paramenters(keyword=null, value=null) {
 {% block extra_data %}
 
 {% get_current_language as LANGUAGE_CODE %}
-{% settings_value "CMS_STORAGE_DEPARTMENTSFILTER_API" as departmentsfilter_api %}
-{% settings_value "CMS_STORAGE_LABORATORIESAREAS_API" as laboratoriesareas_api %}
+{% settings_value "CMS_STORAGE_DEPARTMENTS_API" as departmentsfilter_api %}
+{% settings_value "CMS_STORAGE_LABORATORIES_AREAS_API" as laboratories_areas_api %}
+{% settings_value "CMS_STORAGE_LABORATORIES_SCOPES_API" as laboratories_scopes_api %}
+{% settings_value "CMS_STORAGE_INFRASTRUCTURES_API" as infrastructures_api %}
 {% settings_value "CMS_STORAGE_ERC1LIST_API" as erc1list_api %}
 
 search_dict: {},
 departments: [],
 areas: [],
+scopes: [],
+infrastructures: [],
 erc1_list: [],
 
 is_loading_departments: true,
 is_loading_areas: true,
 is_loading_erc1: true,
+is_loading_scopes: true,
+is_loading_infrastructures: true,
 
-loader_source_departments: '{{ departmentsfilter_api }}?lang={{ LANGUAGE_CODE }}',
-loader_source_areas: '{{ laboratoriesareas_api }}?lang={{ LANGUAGE_CODE }}',
+loader_source_departments: '{{ departmentsfilter_api }}?lang={{ LANGUAGE_CODE }}&page_size=100',
+loader_source_areas: '{{ laboratories_areas_api }}?lang={{ LANGUAGE_CODE }}',
 loader_source_erc1: '{{ erc1list_api }}?lang={{ LANGUAGE_CODE }}',
+loader_source_scopes: '{{ laboratories_scopes_api }}?lang={{ LANGUAGE_CODE }}',
+loader_source_infrastructures: '{{ infrastructures_api }}?lang={{ LANGUAGE_CODE }}',
 
 selected_area: this.getItemFromSession("{{ id }}", 'area'),
 selected_department: this.getItemFromSession("{{ id }}", 'department'),
 selected_search: this.getItemFromSession("{{ id }}", 'search'),
-selected_erc1: (this.getItemFromSession("{{ id }}", 'erc1') || "").split(",")
+
+selected_erc1: (this.getItemFromSession("{{ id }}", 'erc1') || ""),
+selected_scope: this.getItemFromSession("{{ id }}", 'scope'),
+selected_infrastructure: this.getItemFromSession("{{ id }}", 'infrastructure')
 
 {% endblock extra_data %}
 
@@ -266,6 +370,8 @@ selected_erc1: (this.getItemFromSession("{{ id }}", 'erc1') || "").split(",")
         this.callAreas();
         this.callDepartments();
         this.callERC1List();
+        this.callScopes();
+        this.callInfrastructures();
     {% endblock call_laboratory_on_mounted %}
 
 this.parameters = {{ id }}_encodeQueryData(this.getItemsFromSession("{{ id }}"))
@@ -280,6 +386,22 @@ this.parameters = {{ id }}_encodeQueryData(this.getItemsFromSession("{{ id }}"))
             .then(response => {
                 this.areas = response.data.results;
                 this.is_loading_areas = false
+            })
+    },
+    callScopes() {
+        axios
+            .get(this.loader_source_scopes)
+            .then(response => {
+                this.scopes = response.data.results;
+                this.is_loading_scopes = false
+            })
+    },
+    callInfrastructures() {
+        axios
+            .get(this.loader_source_infrastructures)
+            .then(response => {
+                this.infrastructures = response.data.results;
+                this.is_loading_infrastructures = false
             })
     },
     callDepartments() {

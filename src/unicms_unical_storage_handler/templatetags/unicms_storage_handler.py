@@ -17,13 +17,15 @@ ALLOWED_UNICMS_SITES = getattr(settings, 'ALLOWED_UNICMS_SITES',
 
 @register.simple_tag
 def clean_url(url):
-    return url[:url.find('?')]
+    if url.find('?'): url = url.split('?')[0]
+    if url[-1] == '/': return url[:-1]
+    return url
 
 
 @register.simple_tag
 def get_cdsid_from_url(url):
-    cleaned = url[:url.find('?')]
-    pieces = cleaned.split('/')
+    if url.find('?'): url = url.split('?')[0]
+    pieces = url.split('/')
     return list(filter(None, pieces))[-1]
 
 
@@ -33,8 +35,11 @@ def get_allowed_website(host):
     domain = domain_params[0]
     port = domain_params[1] if len(domain_params)==2 else None
     websites = []
-    websites = WebSite.objects.filter(pk__in=ALLOWED_UNICMS_SITES,
-                                      is_active=True)
+    if '*' in ALLOWED_UNICMS_SITES:
+        websites = WebSite.objects.filter(is_active=True)
+    else:
+        websites = WebSite.objects.filter(pk__in=ALLOWED_UNICMS_SITES,
+                                          is_active=True)
     current = websites.filter(domain=domain).first()
     active = current or websites.first()
     if port:

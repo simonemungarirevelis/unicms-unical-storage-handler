@@ -13,8 +13,9 @@
 {% settings_value "CMS_PATH_PREFIX" as cms_path_prefix %}
 {% settings_value "CMS_STORAGE_BASE_PATH" as base_prefix %}
 {% settings_value "CMS_STORAGE_THEACHER_VIEW_PREFIX_PATH" as teachers_prefix %}
-
+{% settings_value "CMS_STORAGE_STRUCTURE_VIEW_PREFIX_PATH" as structures_prefix %}
 {% settings_value "ADDRESSBOOK_INFO_NOT_SHOW" as fields_to_hide %}
+{% settings_value "BREADCRUMB_LAST" as breadcrumb_last %}
 
 
 <div id="{{ id }}">
@@ -42,12 +43,23 @@
         </div>
         <hr class="my-4 bordeaux-unical-bg">
         <div class="table-responsive">
-            <table class="table table-sm">
+            <table class="table table-sm table-hover table-striped">
                 <tbody>
                     <tr v-for="(value, name) in item" v-if="value && !fields_to_not_show.includes(name) && value != ''">
                         <td>[[ labels[name] ]]</td>
                         <td v-if="typeof value === 'object'">
-                            <ul>
+                            <ul v-if="name == 'PersonFunctions'">
+                                <li v-for="subvalue in value">
+                                    <span style="white-space: pre-line;">
+                                        [[ subvalue.TeacherRole]]
+                                    </span>
+                                    <br>
+                                    <a :href="'//{{ host }}/{{ cms_path_prefix }}{{ base_prefix }}/{{ structures_prefix }}/' + [[ subvalue.StructureCod ]] +'/'">
+                                        [[ subvalue.StructureName]]
+                                    </a>
+                                </li>
+                            </ul>
+                            <ul class="list-unstyled" v-else>
                                 <li v-for="v in value">
                                     <span style="white-space: pre-line;">
                                         [[ v ]]
@@ -56,7 +68,7 @@
                             </ul>
                         </td>
                         <td v-else-if="typeof value === 'array'">
-                            <ul>
+                            <ul class="list-unstyled">
                                 <li v-for="subvalue in value">
                                     [[ subvalue ]]
                                 </li>
@@ -67,6 +79,11 @@
                             <a v-if="item.Teacher == 1 && name == 'Teacher'"
                                :href="'//{{ host }}/{{ cms_path_prefix }}{{ base_prefix }}/{{ teachers_prefix }}/' + [[ item.ID ]] +'/'">
                                 {% trans "Link" %}
+                            </a>
+
+                            <a v-else-if="name == 'Structure'"
+                               :href="'//{{ host }}/{{ cms_path_prefix }}{{ base_prefix }}/{{ structures_prefix }}/' + [[ item.StructureCod ]] +'/'">
+                                [[ value ]]
                             </a>
 
                             <span v-else style="white-space: pre-line;">
@@ -90,6 +107,7 @@
         data() {
             return {
                 item: {},
+                errors: {},
                 labels: {},
                 url: '{{ url }}?lang={{ LANGUAGE_CODE }}',
                 is_loading: true,
@@ -108,7 +126,17 @@
                         this.item = response.data.results;
                         this.labels = response.data.labels;
                         this.is_loading = false
+                        {% if change_breadcrumb %}
+                        document.getElementsByClassName("{{ breadcrumb_last }}")[0].innerHTML = this.item.Name
+                        document.title = this.item.Name
+                        {% endif %}
                     })
+                    .catch(error => {
+                        for (var key in error.response.data) {
+                            this.errors[key] = error.response.data[key]
+                        }
+                        this.is_loading = false
+                    });
             }
         }
     })

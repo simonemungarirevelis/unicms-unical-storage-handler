@@ -53,6 +53,7 @@
                                     <button data-toggle="collapse"
                                             :data-target="'#collapse-{{ id }}-' + index + index2 +'-lft'"
                                             aria-expanded="false"
+                                            role="tab"
                                             :aria-controls="'collapse-{{ id }}-' + index + index2 +'-lft'">
                                     {% trans "Year" %}: [[ label ]]
                                     </button>
@@ -63,7 +64,7 @@
                                      :aria-labelledby="'heading-{{ id }}-' + index + index2 + '-lft'">
                                     <div class="collapse-body">
                                         <div class="it-list-wrapper">
-                                            <table class="table">
+                                            <table class="table table-hover table-striped">
                                               <thead>
                                                 <tr>
                                                   <th scope="col">[[ items.labels.StudyActivityName ]]</th>

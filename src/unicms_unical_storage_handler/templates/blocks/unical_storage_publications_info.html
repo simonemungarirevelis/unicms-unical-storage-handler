@@ -14,6 +14,7 @@
 {% settings_value "CMS_PATH_PREFIX" as cms_path_prefix %}
 {% settings_value "CMS_STORAGE_BASE_PATH" as base_prefix %}
 {% settings_value "CMS_STORAGE_ADDRESSBOOK_VIEW_PREFIX_PATH" as addressbook_prefix %}
+{% settings_value "BREADCRUMB_LAST" as breadcrumb_last %}
 
 <div id="{{ id }}">
 
@@ -22,10 +23,10 @@
         :loader_source="loader_source">
     </loading-icon>
 
-    <div v-else>
+    <div v-else-if="Object.keys(item).length">
 
         <div class="row">
-            <div class="col-12 col-lg-9 my-3 my-lg-0">
+            <div class="col-12 my-3 my-lg-0">
                 <h1 class="lighter">
                     [[ item.PublicationTitle ]]
                 </h1>
@@ -39,7 +40,7 @@
         </div>
         <hr class="my-4 bordeaux-unical-bg">
         <div class="table-responsive">
-            <table class="table table-sm">
+            <table class="table table-sm table-hover table-striped">
                 <tbody>
 
                     <tr v-if="item.Publication">
@@ -93,6 +94,9 @@
             </table>
         </div>
     </div>
+    <div v-else>
+        {% include "includes/unical_storage_empty.html" with url=url %}
+    </div>
 </div>
 <script>
     var {{ id }} = new Vue({
@@ -118,6 +122,10 @@
                         this.item = response.data.results;
                         this.labels = response.data.labels;
                         this.is_loading = false
+                        {% if change_breadcrumb %}
+                        document.getElementsByClassName("{{ breadcrumb_last }}")[0].innerHTML = this.item.PublicationTitle
+                        document.title = this.item.PublicationTitle
+                        {% endif %}
                     })
             }
         }

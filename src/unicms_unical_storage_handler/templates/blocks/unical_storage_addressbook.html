@@ -12,26 +12,67 @@
 {% settings_value "CMS_PATH_PREFIX" as cms_path_prefix %}
 {% settings_value "CMS_STORAGE_BASE_PATH" as base_prefix %}
 {% settings_value "CMS_STORAGE_ADDRESSBOOK_VIEW_PREFIX_PATH" as addressbook_prefix %}
+{% settings_value "CMS_STORAGE_THEACHER_VIEW_PREFIX_PATH" as teachers_prefix %}
+{% settings_value "CMS_STORAGE_STRUCTURE_VIEW_PREFIX_PATH" as structures_prefix %}
 
-<div id="{{ id }}">
-
-    <loading-icon
-        v-if="is_loading"
-        :loader_source="loader_source">
-    </loading-icon>
-
-    <div v-else-if="(initial_items && initial_items.length) || parameters">
+{% block storage_block_top %}
+{% include "blocks/includes/unical_storage_check.html" %}
+{% endblock storage_block_top %}
 
         <div class="row">
             <div class="col-12">
                 <div class="card-wrapper card-space">
                     <div class="card card-bg no-after">
-                        <br>
                         <div class="card-body">
 
-                            {% include "includes/unical_storage_search_input.html" with id=id %}
+                            <div class="row form-group">
+                                <div class="col-md">
+                                    <div class="input-group">
+                                        <label for="{{ id }}_search"></label>
+                                        <input type="text"
+                                               class="form-control"
+                                               id="{{ id }}_search"
+                                               name="{{ id }}_search"
+                                               placeholder="{% trans 'Surname' %}"
+                                               v-model="selected_search"
+                                               v-on:keyup.enter="{{ id }}.search({{ input_args }})">
+                                        <div class="input-group-append">
+                                            <div class="input-group-text">
+                                                <svg class="icon icon-sm icon-muted">
+                                                    <use xlink:href="{% static 'svg/sprite.svg' %}#it-search"></use>
+                                                </svg>
+                                            </div>
 
-                            <div class="form-group">
+                                            {% include "includes/unical_storage_search_button.html" with id=id %}
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md mt-3 mt-lg-0">
+                                    <div class="input-group">
+                                        <label for="{{ id }}_phone"></label>
+                                        <input type="text"
+                                               class="form-control"
+                                               id="{{ id }}_phone"
+                                               name="{{ id }}_phone"
+                                               placeholder="{% trans 'Phone number' %}"
+                                               v-model="selected_phone"
+                                               v-on:keyup.enter="{{ id }}.search({{ input_args }})">
+                                        <div class="input-group-append">
+                                            <div class="input-group-text">
+                                                <svg class="icon icon-sm icon-muted">
+                                                    <use xlink:href="{% static 'svg/sprite.svg' %}#it-search"></use>
+                                                </svg>
+                                            </div>
+
+                                            {% include "includes/unical_storage_search_button.html" with id=id %}
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group mb-0">
 
                                 <!-- Structure and Role -->
                                 <div class="row">
@@ -70,7 +111,7 @@
                                     </div>
                                     {% endblock structure_type_filter %}
 
-                                    <div class="col-sm">
+                                    <div class="col-sm" v-if="structure_id_filter.length">
 
                                         <loading-icon
                                             v-if="is_loading_structure_id"
@@ -92,7 +133,7 @@
                                                             :value="item.StructureCod"
                                                             :selected="item.StructureCod == selected_structureid"
                                                             v-if="allowed_structure_id.length==0 || allowed_structure_id.includes(item.StructureCod)">
-                                                        [[ item.StructureName ]]
+                                                        [[ item.is_child ]][[ item.StructureName ]]
                                                     </option>
                                                 </select>
                                             </div>
@@ -142,47 +183,126 @@
 
         <list-panel v-bind:data="items" v-if="items.results" id="{{ id }}"></list-panel>
 
-        <div class="row mb-3"
-             v-for="item in items.results">
-            <div class="col-12">
-                <!--start card-->
-                <div class="card-wrapper pb-0">
-                    <div class="card no-after" style="border:1px solid #b71918">
-                        <div class="card-body">
-                            <h4>
-                                <a class="no-color" :href="'//{{ host }}/{{ cms_path_prefix }}{{ base_prefix }}/{{ addressbook_prefix }}/' + [[ item.ID ]] +'/'">
-                                    [[ item.Name ]]
-                                </a>
-                            </h4>
-                            <div class="row">
-                                <div class="col-12 col-md-auto">
-                                    <small>
-                                        [[ labels['RoleDescription'] ]] >
-                                        <b>[[ item.RoleDescription ]]</b>
-                                    </small>
-                                </div>
-                                <div class="col-12 col-md-auto">
-                                    <small>
-                                        [[ labels['Structure'] ]] >
-                                        <b>[[ item.Structure ]]</b>
-                                    </small>
+        <loading-icon
+            v-if="is_loading"
+            :loader_source="loader_source">
+        </loading-icon>
+
+        <div v-else>
+            <div class="row" >
+
+                <div class="col-12 col-md-6 mb-3" v-for="item in items.results">
+                    <div class="card-wrapper pb-0">
+                        <div class="card no-after" style="border:1px solid #b71918">
+                            <div class="card-body p-3">
+                                <div class="row">
+                                    {% comment %}
+                                    <div class="col-2">
+                                        <svg class="icon icon-lg icon-muted">
+                                            <use xlink:href="{% static 'svg/sprite.svg' %}#it-user"></use>
+                                        </svg>
+                                    </div>
+                                    {% endcomment %}
+                                    <div class="col-12 align-left">
+                                        <small>
+                                            <a class="no-color" :href="'//{{ host }}/{{ cms_path_prefix }}{{ base_prefix }}/{{ addressbook_prefix }}/' + [[ item.ID ]] +'/'">
+                                                <b>[[ item.Name ]]</b>
+                                            </a>
+                                            {% block structure %}
+                                            <br>
+                                            <span>[[ item.Structure ]]</span>
+                                            {% endblock structure %}
+                                            {% block role %}
+                                            <br>
+                                            <span>[[ item.RoleDescription ]]</span>
+                                            {% endblock role %}
+
+                                            {% block location %}
+                                            {% comment %}
+                                            <div>
+                                                <span>
+                                                    <svg class="icon icon-sm icon-muted mr-2">
+                                                        <use xlink:href="{% static 'svg/sprite.svg' %}#it-map-marker-circle"></use>
+                                                    </svg>
+                                                    <a href="#">-</a>
+                                                </span>
+                                                <br>
+                                            </div>
+                                            {% endcomment %}
+                                            {% endblock location %}
+
+                                            <div v-for="office_email in item.OfficeReference">
+                                                <span>
+                                                    <svg class="icon icon-sm icon-muted mr-2">
+                                                        <use xlink:href="{% static 'svg/sprite.svg' %}#it-mail"></use>
+                                                    </svg>
+                                                    <a href="mailto: [[ office_email ]]">[[ office_email ]]</a>
+                                                </span>
+                                                <br>
+                                            </div>
+                                            <div v-for="email in item.Email">
+                                                <span>
+                                                    <svg class="icon icon-sm icon-muted mr-2">
+                                                        <use xlink:href="{% static 'svg/sprite.svg' %}#it-mail"></use>
+                                                    </svg>
+                                                    <a :href="'mailto:'+email">[[ email ]]</a>
+                                                </span>
+                                                <br>
+                                            </div>
+                                            {% block pec %}
+                                            <div v-for="pec in item.PEC">
+                                                <span>
+                                                    <svg class="icon icon-sm icon-muted mr-2">
+                                                        <use xlink:href="{% static 'svg/sprite.svg' %}#it-mail"></use>
+                                                    </svg>
+                                                    <a href="mailto: [[ pec ]]">[[ pec ]]</a>
+                                                </span>
+                                                <br>
+                                            </div>
+                                            {% endblock pec %}
+                                            <div v-for="teloffice in item.TelOffice">
+                                                <span>
+                                                    <svg class="icon icon-sm icon-muted mr-2">
+                                                        <use xlink:href="{% static 'svg/sprite.svg' %}#it-telephone"></use>
+                                                    </svg> [[ teloffice ]]
+                                                </span>
+                                                <br>
+                                            </div>
+                                            <div v-for="telceloffice in item.TelCelOffice">
+                                                <span>
+                                                    <svg class="icon icon-sm icon-muted mr-2">
+                                                        <use xlink:href="{% static 'svg/sprite.svg' %}#it-telephone"></use>
+                                                    </svg> [[ telceloffice ]]
+                                                </span>
+                                                <br>
+                                            </div>
+                                        </small>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <!--end card-->
+
+
+
+
+
+
             </div>
         </div>
 
         <list-panel v-bind:data="items" v-if="items.results" id="{{ id }}"></list-panel>
     </div>
 
+{% block storage_block_bottom %}
     <div v-else>
         {% trans "No items here" %}
     </div>
 
 </div>
+{% endblock storage_block_bottom %}
+
 {% endblock content %}
 
 {% block extra_scripts %}
@@ -195,23 +315,26 @@ function {{ id }}_get_form_paramenters(keyword=null, value=null) {
         dict[keyword] = value
 
     // search
-    let search = document.getElementById('{{ id }}_search').value
-    if (search) dict['search'] = search
+    let search = document.getElementById('{{ id }}_search')
+    if (search && search.value) dict['search'] = search.value
 
+    // search
+    let phone = document.getElementById('{{ id }}_phone')
+    if (phone && phone.value) dict['phone'] = phone.value
 
     // structure id
-    let structure_id = document.getElementById('{{ id }}_structure_input').value
-    if (structure_id) dict['structure'] = structure_id
+    let structure_id = document.getElementById('{{ id }}_structure_input')
+    if (structure_id && structure_id.value) dict['structuretree'] = structure_id.value
 
     {% block structure_filter_input %}
     // structure type
-    let structure_type = document.getElementById('{{ id }}_structure_type_input').value
-    if (structure_type) dict['structuretypes'] = structure_type
+    let structure_type = document.getElementById('{{ id }}_structure_type_input')
+    if (structure_type && structure_type.value) dict['structuretypes'] = structure_type.value
     {% endblock structure_filter_input %}
 
     // role
-    let role = document.getElementById('{{ id }}_role_input').value
-    if (role) dict['role'] = role
+    let role = document.getElementById('{{ id }}_role_input')
+    if (role && role.value) dict['role'] = role.value
 
     setItemInSession("{{ id }}", dict)
 
@@ -223,22 +346,25 @@ function {{ id }}_get_form_paramenters(keyword=null, value=null) {
 {% block extra_data %}
 
 {% get_current_language as LANGUAGE_CODE %}
-{% settings_value "CMS_STORAGE_STRUCTUREFILTER_API" as structuresfilter_api %}
+{% settings_value "CMS_STORAGE_STRUCTURE_API" as structuresfilter_api %}
 {% settings_value "CMS_STORAGE_STRUCTURETYPES_API" as structuretypes_api %}
 {% settings_value "CMS_STORAGE_ROLES_API" as roles_api %}
+{% settings_value "INITIAL_STRUCTURE_FATHER" as root_structure %}
+{% settings_value "ADDRESSBOOK_INFO_NOT_SHOW" as fields_to_hide %}
 
 search_dict: {},
 
-selected_structureid: this.getItemFromSession("{{ id }}", 'structure'),
+selected_structureid: this.getItemFromSession("{{ id }}", 'structuretree'),
 selected_structuretypes: this.getItemFromSession("{{ id }}", 'structuretypes'),
 selected_roles: this.getItemFromSession("{{ id }}", 'role'),
 selected_search: this.getItemFromSession("{{ id }}", 'search'),
+selected_phone: this.getItemFromSession("{{ id }}", 'phone'),
 
 is_loading_structure_id: true,
 is_loading_structure_type: true,
 is_loading_roles: true,
 
-loader_source_structures: '{{ structuresfilter_api }}?lang={{ LANGUAGE_CODE }}&father={{ structure_id }}',
+loader_source_structures: '{{ structuresfilter_api }}?lang={{ LANGUAGE_CODE }}&page_size=500',
 loader_source_structure_types: '{{ structuretypes_api }}?lang={{ LANGUAGE_CODE }}',
 loader_source_roles: '{{ roles_api }}?lang={{ LANGUAGE_CODE }}',
 
@@ -250,8 +376,10 @@ roles_filter: [],
 structure_id_filter: [],
 structure_type_filter: [],
 
-structure_type_filter_string: null
+structure_type_filter_string: '',
+structure_father_filter: new URL('{{ url }}').searchParams.get("structuretree") || '{{ root_structure }}',
 
+fields_to_not_show: {{ fields_to_hide|safe }}
 {% endblock extra_data %}
 
 {% block extra_mounted %}
@@ -266,8 +394,12 @@ structure_type_filter_string: null
         this.allowed_roles = get_roles_list
     }
 
+    if (params.get("father") != null)
+        this.structure_father_filter = params.get("father")
+
     this.structure_type_filter_string = params.get("structuretypes")
     let get_structure_types = params.get("structuretypes")
+
     if (get_structure_types != null){
         let get_structure_types_list = get_structure_types.split(',')
         this.allowed_structure_types = get_structure_types_list
@@ -280,7 +412,7 @@ structure_type_filter_string: null
     }
 
     {% block call_structure_on_mounted %}
-        this.callStructureId();
+        this.callStructures();
         this.callStructureTypes();
     {% endblock call_structure_on_mounted %}
 
@@ -292,11 +424,28 @@ structure_type_filter_string: null
 {% block extra_methods %}
 
 {% block structure_call_method %}
-callStructureId() {
+
+callStructures() {
+    let source = this.loader_source_structures + '&depth=1'
+    if (this.structure_type_filter_string)
+        source += '&type='+this.structure_type_filter_string
+
+    if(this.structure_father_filter)
+        source += '&father='+this.structure_father_filter
+
     axios
-        .get(this.loader_source_structures + '&type='+this.structure_type_filter_string)
+        .get(source)
         .then(response => {
-            this.structure_id_filter = response.data.results;
+            let structures_results = response.data.results;
+            structures_results.forEach((element) => {
+                this.structure_id_filter.push(element)
+                if(element.StructureChilds && element.StructureChilds.length > 0) {
+                    element.StructureChilds.forEach((child) => {
+                        child['is_child'] = "--  "
+                        this.structure_id_filter.push(child)
+                    })
+                }
+            });
             this.is_loading_structure_id = false
         })
 },

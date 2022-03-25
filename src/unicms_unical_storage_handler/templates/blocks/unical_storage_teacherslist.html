@@ -11,15 +11,12 @@
 {% settings_value "CMS_PATH_PREFIX" as cms_path_prefix %}
 {% settings_value "CMS_STORAGE_BASE_PATH" as base_prefix %}
 {% settings_value "CMS_STORAGE_THEACHER_VIEW_PREFIX_PATH" as teacher_prefix %}
+{% settings_value "CONTRACT_TEACHER_ROLES" as contract_teacher_roles %}
+
 
 <div id="{{ id }}">
 
-    <loading-icon
-        v-if="is_loading"
-        :loader_source="loader_source">
-    </loading-icon>
-
-    <div v-else-if="(initial_items && initial_items.length) || parameters">
+    <div v-if="(initial_items && initial_items.length) || parameters">
 
         {% block filters_teacherslist %}
 
@@ -27,17 +24,16 @@
             <div class="col-12">
                 <div class="card-wrapper card-space">
                     <div class="card card-bg no-after">
-                        <br>
                         <div class="card-body">
 
                             {% include "includes/unical_storage_search_input.html" with id=id %}
 
                             <!-- CdsId & DepartmentID & Role -->
-                            <div class="form-group">
+                            <div class="form-group mb-0">
                                 <div class="row">
                                     <div class="col-sm">
                                         <div>
-                                            <label for="{{ id }}_cdsid_input">
+                                            <label>
                                                 {% trans "Course of study" %}
                                             </label>
                                             <div class="w-40 mt-5 mx-2">
@@ -117,8 +113,13 @@
 
         <list-panel v-bind:data="items" v-if="items.results" id="{{ id }}"></list-panel>
 
-        <div class="table-responsive">
-            <table class="table table-sm">
+        <loading-icon
+            v-if="is_loading"
+            :loader_source="loader_source">
+        </loading-icon>
+
+        <div class="table-responsive" v-else>
+            <table class="table table-sm table-hover table-striped">
                 <thead>
                     <tr>
                         <th scope="col">[[ labels.TeacherName ]]</th>
@@ -133,8 +134,24 @@
                                 [[ item.TeacherName ]]
                             </a>
                         </td>
-                        <td>[[ item.TeacherRole ]]</td>
-                        <td>[[ item.TeacherSSDCod ]] - [[ item.TeacherSSDDescription ]]</td>
+                        {% if mark_contract_teachers %}
+                        <td v-if="contract_teacher_roles.includes(item.TeacherRole)">
+                            {% trans "Contract teacher" %}
+                        </td>
+                        <td v-else>
+                            [[ item.TeacherRoleDescription ]]
+                        </td>
+                        {% else %}
+                        <td>
+                            [[ item.TeacherRoleDescription ]]
+                        </td>
+                        {% endif %}
+                        <td v-if="!item.TeacherSSDCod.includes('0000')">
+                            [[ item.TeacherSSDCod ]] - [[ item.TeacherSSDDescription ]]
+                        </td>
+                        <td v-else>
+                            -
+                        </td>
                     </tr>
                 </tbody>
             </table>
@@ -160,20 +177,20 @@ function {{ id }}_get_form_paramenters(keyword=null, value=null) {
         dict[keyword] = value
 
     // search
-    let search = document.getElementById('{{ id }}_search').value
-    if (search) dict['search'] = search
+    let search = document.getElementById('{{ id }}_search')
+    if (search && search.value) dict['search'] = search.value
 
     // cds
-    let cdsid = document.getElementById('{{ id }}_cdsid_input').value
-    if (cdsid) dict['cds'] = cdsid
+    let cdsid = document.getElementById('{{ id }}_cdsid_input')
+    if (cdsid && cdsid.value) dict['cds'] = cdsid.value
 
     // role
-    let role = document.getElementById('{{ id }}_role_input').value
-    if (role) dict['role'] = role
+    let role = document.getElementById('{{ id }}_role_input')
+    if (role && role.value) dict['role'] = role.value
 
     // department
-    let department = document.getElementById('{{ id }}_department_input').value
-    if (department) dict['department'] = department
+    let department = document.getElementById('{{ id }}_department_input')
+    if (department && department.value) dict['department'] = department.value
 
     setItemInSession("{{ id }}", dict)
 
@@ -186,13 +203,16 @@ function {{ id }}_get_form_paramenters(keyword=null, value=null) {
 
 {% get_current_language as LANGUAGE_CODE %}
 
-{% settings_value "CMS_STORAGE_DEPARTMENTSFILTER_API" as departmentsfilter_api %}
+{% settings_value "CMS_STORAGE_DEPARTMENTS_API" as departmentsfilter_api %}
 {% settings_value "CMS_STORAGE_ROLES_API" as roles_api %}
+{% settings_value "CONTRACT_TEACHER_ROLES" as contract_teacher_roles %}
+
+contract_teacher_roles: {{ contract_teacher_roles|safe }},
 
 is_loading_departments: true,
 is_loading_roles: true,
 
-loader_source_departments: '{{ departmentsfilter_api }}?lang={{ LANGUAGE_CODE }}',
+loader_source_departments: '{{ departmentsfilter_api }}?lang={{ LANGUAGE_CODE }}&page_size=100',
 loader_source_roles: '{{ roles_api }}?lang={{ LANGUAGE_CODE }}',
 
 departments_filter: [],
@@ -224,6 +244,15 @@ this.callRoles();
 
 this.parameters = {{ id }}_encodeQueryData(this.getItemsFromSession("{{ id }}"))
 {% endblock extra_mounted %}
+
+{% comment %}
+CallURL is blank because the method is called by CdS studyplans template!
+{% endcomment %}
+{% block call_url %}
+    {% if teachers_full_page %}
+        {{ block.super }}
+    {% endif %}
+{% endblock call_url %}
 
 {% block extra_methods %}
 callDepartments() {

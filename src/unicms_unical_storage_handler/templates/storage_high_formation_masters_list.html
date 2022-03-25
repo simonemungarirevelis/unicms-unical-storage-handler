@@ -4,24 +4,24 @@
 {% load static %}
 
 <!-- load custom template tags -->
+{% load unicms_carousels %}
 {% load unicms_contexts %}
 
 <!-- SEO  -->
-{% block page_title %}{% trans "Training offer" %}{% endblock page_title %}
+{% block page_title %}High Formation Masters{% endblock page_title %}
 
 {% block container %}
 {% breadcrumbs webpath=webpath leaf=handler %}
 
 <div class="container">
     <div class="col-12 py-5 bd-content">
-        {% include "includes/unical_storage_api_buttons.html" %}
         {% block centered_container %}
-            <h1 class="lighter mb-4">{% trans "Training offer" %}</h1>
+            {% include "includes/unical_storage_api_buttons.html" %}
+            <h1 class="lighter mb-4">{% trans "High Formation Masters" %}</h1>
             <hr class="my-4 bordeaux-unical-bg">
-            {% include "blocks/unical_storage_cdslist.html" with url=url uid="id_1" %}
+            {% include "blocks/unical_storage_high_formation_masters_list.html" with url=url uid="id_1" %}
         {% endblock %}
     </div>
 </div>
 
 {% endblock container %}
-
