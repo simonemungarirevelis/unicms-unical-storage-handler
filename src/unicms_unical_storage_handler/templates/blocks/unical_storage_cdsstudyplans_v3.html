@@ -1,0 +1,274 @@
+{% extends "bases/unical_storage_list.html" %}
+
+{% load i18n %}
+{% load static %}
+{% load unicms_storage_handler %}
+{% load unicms_templates %}
+
+{% block content %}
+
+{% get_allowed_website request.get_host as host %}
+{% settings_value "CMS_PATH_PREFIX" as cms_path_prefix %}
+{% settings_value "CMS_STORAGE_BASE_PATH" as base_prefix %}
+{% settings_value "CMS_STORAGE_CDS_VIEW_PREFIX_PATH" as cds_prefix %}
+{% settings_value "CMS_STORAGE_ACTIVITY_VIEW_PREFIX_PATH" as activity_prefix %}
+
+
+<div id="{{ id }}">
+
+    <loading-icon
+        v-if="is_loading"
+        :loader_source="loader_source">
+    </loading-icon>
+
+    <div v-else-if="(initial_items && initial_items.length) || parameters">
+        <div v-if="items.results.length == 1">
+
+            <h5 class="mt-4 mb-3">{% trans "Teachings" %}</h5>
+
+            <div :id="'collapseActivitiesDiv{{ id }}-lft'"
+                 class="collapse-div collapse-left-icon"
+                 role="tablist">
+                <div v-for="(value, label, index) in items.results[0].StudyActivities">
+                    <div class="collapse-header"
+                         :id="'heading-{{ id }}-' + index + '-lft'">
+                        <button data-toggle="collapse"
+                                :data-target="'#collapse-{{ id }}-' + index +'-lft'"
+                                aria-expanded="false"
+                                role="tab"
+                                :aria-controls="'collapse-{{ id }}-' + index +'-lft'">
+                        [[ label ]] {% trans "year" %} ([[ academic_year + parseInt(label) - 1]]/[[ academic_year + parseInt(label)]])
+                        </button>
+                    </div>
+                    <div :id="'collapse-{{ id }}-' + index +'-lft'"
+                         class="collapse"
+                         role="tabpanel"
+                         :aria-labelledby="'heading-{{ id }}-' + index + '-lft'">
+                        <div class="collapse-body">
+                            <div class="it-list-wrapper">
+                                <div class="table-responsive">
+                                    <small>
+                                        <table class="table table-sm table-hover table-striped">
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col">[[ items.labels.StudyActivityName ]]</th>
+                                                    <th scope="col">[[ items.labels.StudyActivitySemester ]]</th>
+                                                    <th scope="col">[[ items.labels.StudyActivityECTS ]]</th>
+                                                    <th scope="col" v-if="interclass_degree_class && degree_class">
+                                                        [[ degree_class ]]
+                                                    </th>
+                                                    <th scope="col" v-else-if="degree_class"></th>
+                                                    <th scope="col" v-if="interclass_degree_class">
+                                                        [[ interclass_degree_class ]]
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr v-for="activity in value" v-if="!exclude_studyactivity_codes.includes(activity.StudyActivityCod)">
+                                                    <td>
+                                                        <a :href="'//{{ host }}/{{ cms_path_prefix }}{{ base_prefix }}/{{ cds_prefix }}/' + [[ activity.StudyActivityRegDidId ]] + '/{{ activity_prefix }}/' + [[ activity.StudyActivityID ]] +'/'">
+                                                            [[ activity.StudyActivityName ]]
+                                                            <span v-if="items.StudyActivityCompulsory == 1">*</span>
+                                                        </a>
+                                                    </td>
+                                                    <td>[[ activity.StudyActivitySemester ]]</td>
+                                                    <td>[[ activity.StudyActivityECTS ]]</td>
+                                                    <td v-if="degree_class">
+                                                        [[ activity.StudyActivityTeachingUnitType || "-" ]]
+                                                    </td>
+                                                    <td v-if="interclass_degree_class">
+                                                        [[ activity.StudyActivityInterclassTeachingUnitType || "-" ]]
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div v-else>
+            <h5 class="mt-4 mb-3">{% trans "Study paths" %}</h5>
+            <div :id="'studyPlanCollapseDiv{{ id }}-lft'"
+                 class="collapse-div collapse-left-icon"
+                 role="tablist">
+                <div v-for="(item, index) in items.results">
+                    <div class="collapse-header"
+                         :id="'studyPlanHeading-{{ id }}-' + index + '-lft'">
+                        <button data-toggle="collapse"
+                                :data-target="'#studyPlanCollapse-{{ id }}-' + index +'-lft'"
+                                aria-expanded="false"
+                                role="tab"
+                                :aria-controls="'studyPlanCollapse-{{ id }}-' + index +'-lft'">
+                            [[ item.StudyPlanName ]]
+                        </button>
+                    </div>
+                    <div :id="'studyPlanCollapse-{{ id }}-' + index +'-lft'"
+                         class="collapse"
+                         role="tabpanel"
+                         :aria-labelledby="'studyPlanHeading-{{ id }}-' + index + '-lft'">
+                        <div class="collapse-body">
+
+                            <div :id="'studyPlanCollapseInnerDiv{{ id }}-' + index + '-lft'"
+                                 class="collapse-div collapse-left-icon"
+                                 role="tablist">
+                                <div v-for="(value, label, index2) in item.StudyActivities">
+                                    <div class="collapse-header"
+                                         :id="'heading-{{ id }}-' + index + index2 + '-lft'">
+                                        <button data-toggle="collapse"
+                                                :data-target="'#collapse-{{ id }}-' + index + index2 +'-lft'"
+                                                aria-expanded="false"
+                                                role="tab"
+                                                :aria-controls="'collapse-{{ id }}-' + index + index2 +'-lft'">
+                                        [[ label ]] {% trans "year" %}  ([[ academic_year + parseInt(label) - 1]]/[[ academic_year + parseInt(label)]])
+                                        </button>
+                                    </div>
+                                    <div :id="'collapse-{{ id }}-' + index + index2 +'-lft'"
+                                         class="collapse"
+                                         role="tabpanel"
+                                         :aria-labelledby="'heading-{{ id }}-' + index + index2 + '-lft'">
+                                        <div class="collapse-body">
+                                            <div class="it-list-wrapper">
+                                                <div class="table-responsive">
+                                                    <small>
+                                                        <table class="table table-sm table-hover table-striped">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th scope="col">[[ items.labels.StudyActivityName ]]</th>
+                                                                    <th scope="col">[[ items.labels.StudyActivitySemester ]]</th>
+                                                                    <th scope="col">[[ items.labels.StudyActivityECTS ]]</th>
+                                                                    <th scope="col" v-if="interclass_degree_class && degree_class">
+                                                                        [[ degree_class ]]
+                                                                    </th>
+                                                                    <th scope="col" v-else-if="degree_class"></th>
+                                                                    <th scope="col" v-if="interclass_degree_class">
+                                                                        [[ interclass_degree_class ]]
+                                                                    </th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <tr v-for="activity in value" v-if="!exclude_studyactivity_codes.includes(activity.StudyActivityCod)">
+                                                                    <td>
+                                                                        <a :href="'//{{ host }}/{{ cms_path_prefix }}{{ base_prefix }}/{{ cds_prefix }}/' + [[ activity.StudyActivityRegDidId ]] + '/{{ activity_prefix }}/' + [[ activity.StudyActivityID ]] +'/'">
+                                                                            [[ activity.StudyActivityName ]]
+                                                                            <span v-if="items.StudyActivityCompulsory == 1">*</span>
+                                                                        </a>
+                                                                    </td>
+                                                                    <td>[[ activity.StudyActivitySemester ]]</td>
+                                                                    <td>[[ activity.StudyActivityECTS ]]</td>
+                                                                    <td v-if="degree_class">
+                                                                        [[ activity.StudyActivityTeachingUnitType || "-" ]]
+                                                                    </td>
+                                                                    <td v-if="interclass_degree_class">
+                                                                        [[ activity.StudyActivityInterclassTeachingUnitType || "-" ]]
+                                                                    </td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </small>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div v-else>
+        {% trans "No items here" %}
+    </div>
+
+</div>
+{% endblock content %}
+
+{% block component %}
+{% endblock component %}
+
+{% block extra_data %}
+{% settings_value "EXCLUDE_STUDY_ACTIVITIES_CODES" as exclude_studyactivity_codes %}
+
+exclude_studyactivity_codes: {{ exclude_studyactivity_codes|safe }},
+
+cds_cod: '',
+degree_class: '',
+interclass_degree_class: '',
+academic_year: ''
+{% endblock extra_data %}
+
+{% block method_callurl %}
+CallURL(url, initial=false) {
+    this.is_loading = true
+    this.loader_source = url
+    axios
+        .get(url)
+        .then(response => {
+            if(initial) this.initial_items = response.data.results;
+            this.items = response.data;
+            this.next_page = response.data.next;
+            this.previous_page = response.data.previous;
+            this.labels = response.data.labels;
+            this.is_loading = false;
+            this.CallCdS();
+        })
+},
+{% endblock method_callurl %}
+
+{% block extra_methods %}
+
+{% settings_value "CMS_STORAGE_CDS_API" as cds_api %}
+{% settings_value "CMS_STORAGE_TEACHER_API" as teachers_api %}
+{% settings_value "BREADCRUMB_LAST" as breadcrumb_last %}
+{% get_current_language as LANGUAGE_CODE %}
+
+CallCdS() {
+    axios
+        .get("{{cds_api}}"+this.items.results[0].RegDidId + "/?lang={{ LANGUAGE_CODE }}")
+        .then(response => {
+            this.degree_class = response.data.results.CourseClassCod
+            this.interclass_degree_class = response.data.results.CourseInterClassCod
+            this.academic_year = response.data.results.AcademicYear
+            this.cds_cod = response.data.results.CdSCod
+
+            {% if father_uid %}
+                {{father_uid}}.item = response.data.results;
+                {{father_uid}}.labels = response.data.labels;
+                {{father_uid}}.is_loading = false
+
+                {% if full_page %}
+                {{father_uid}}_contacts.item = response.data.results;
+                {{father_uid}}_contacts.labels = response.data.labels;
+                {% endif %}
+
+                {% if change_breadcrumb %}
+                document.getElementsByClassName("{{ breadcrumb_last }}")[0].innerHTML = response.data.results.CdSName
+                document.title = response.data.results.CdSName
+                {% endif %}
+            {% endif %}
+
+            {% if teacher_uid %}
+            axios
+                .get("{{teachers_api}}?lang={{ LANGUAGE_CODE }}&cds=" + this.cds_cod + "&year=" + this.academic_year)
+                .then(response => {
+                        {{teacher_uid}}.items = response.data;
+                        {{teacher_uid}}.next_page = response.data.next;
+                        {{teacher_uid}}.previous_page = response.data.previous;
+                        {{teacher_uid}}.labels = response.data.labels;
+                        {{teacher_uid}}.is_loading = false;
+                        document.getElementById("{{ father_uid }}_cds_year").innerHTML = this.academic_year + "/" + (this.academic_year+1)
+                });
+            {% endif %}
+
+        });
+}
+{% endblock extra_methods %}

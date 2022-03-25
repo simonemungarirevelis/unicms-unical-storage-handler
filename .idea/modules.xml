@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/../storage.portale/.idea/storage.portale.iml" filepath="$PROJECT_DIR$/../storage.portale/.idea/storage.portale.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../uniCMS/.idea/uniCMS.iml" filepath="$PROJECT_DIR$/../uniCMS/.idea/uniCMS.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/unicms-unical-storage-handler.iml" filepath="$PROJECT_DIR$/.idea/unicms-unical-storage-handler.iml" />
+    </modules>
+  </component>
+</project>
